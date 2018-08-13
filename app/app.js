@@ -22,7 +22,8 @@ import App from 'containers/App';
 
 // Load the favicon
 /* eslint-disable import/no-webpack-loader-syntax */
-import '!file-loader?name=[name].[ext]!./images/favicon.ico';
+import '!file-loader?name=[name].[ext]!./images/favicon-16x16.png';
+import '!file-loader?name=[name].[ext]!./images/favicon-32x32.png';
 /* eslint-enable import/no-webpack-loader-syntax */
 
 // Import CSS reset and Global Styles
