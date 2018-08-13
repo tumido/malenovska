@@ -10,8 +10,7 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 import { Switch, Route } from 'react-router-dom';
 
-import HomePage from 'containers/HomePage/Loadable';
-import FeaturePage from 'containers/FeaturePage/Loadable';
+import LandingPage from 'containers/LandingPage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import Header from 'components/Header';
 import Footer from 'components/Footer';
@@ -20,18 +19,17 @@ import './style.scss';
 const App = () => (
   <div className="app-wrapper">
     <Helmet
-      titleTemplate="%s - React.js Boilerplate"
-      defaultTitle="React.js Boilerplate"
+      titleTemplate="Malenovská 2018 - %s"
+      defaultTitle="Malenovská 2018"
     >
-      <meta name="description" content="A React.js Boilerplate application" />
+      <meta name="description" content="Malenovská je dřevárnou pro začátečníky i veterány" />
     </Helmet>
-    <Header />
+    <Route exact path={/^\/.+$/} component={Header} />
     <Switch>
-      <Route exact path="/" component={HomePage} />
-      <Route path="/features" component={FeaturePage} />
-      <Route path="" component={NotFoundPage} />
+      <Route exact path="/" component={LandingPage} />
+      <Route component={NotFoundPage} />
     </Switch>
-    <Footer />
+    <Route exact path={/^\/.+$/} component={Footer} />
   </div>
 );
 

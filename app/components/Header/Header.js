@@ -6,19 +6,31 @@ import './style.scss';
 class Header extends React.Component { // eslint-disable-line react/prefer-stateless-function
   render() {
     return (
-      <div className="header">
-        <a href="https://twitter.com/flexdinesh">
-          <img src={Banner} alt="react-redux-boilerplate - Logo" />
-        </a>
-        <div className="nav-bar">
+      <header>
+        <div className="logo">
           <Link className="router-link" to="/">
-            Home
+            <img src="" alt="Logo Zlišky" />
           </Link>
-          <Link className="router-link" to="/features">
-            Features
+          Malenovská
+        </div>
+        <div className="nav-bar">
+          <Link className="router-link" to="/news">
+            Zprávy z bojiště
+          </Link>
+          <Link className="router-link" to="/rules">
+            Pravidla střetu
+          </Link>
+          <Link className="router-link" to="/world">
+            Historie Mezihoří
+          </Link>
+          <Link className="router-link" to="/info">
+            Důležité informace
+          </Link>
+          <Link className="router-link" to="/registration">
+            Registrace
           </Link>
         </div>
-      </div>
+      </header>
     );
   }
 }
