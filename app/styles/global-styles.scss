@@ -9,8 +9,8 @@ body {
 body {
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   background:
-    linear-gradient(rgba(#000, .5), transparent),
-    linear-gradient(140deg, transparent 0%, transparent 32%, $orange 32%, $orange 95%, #000 95%, #000 100%),
+    // linear-gradient(rgba(#000, .5), transparent),
+    // linear-gradient(140deg, transparent 0%, transparent 32%, $orange 32%, $orange 95%, #000 95%, #000 100%),
     url("../images/background.jpg");
   background-attachment: fixed;
   background-position: center center;
@@ -18,8 +18,13 @@ body {
   background-size: cover;
 }
 
-body.fontLoaded {
+body.openSansLoaded {
   font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+body.amaticLoaded {
+  .title {
+      font-family: 'Amatic SC';
+  }
 }
 
 #app {

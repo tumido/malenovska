@@ -1,21 +1,31 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import './style.scss';
 import Logo from 'components/Logo';
 
 const LandingPage = () => (
-  <article>
+  <div className="landing-page">
     <Helmet>
       <title>Úvod</title>
       <meta name="description" content="Vyber si Malenovskou, která tě zajímá" />
     </Helmet>
-    <section className="logo">
-      <Logo />
-    </section>
-    <section>
-      Malenovská bude
-    </section>
-  </article>
+    <nav className="main">
+      <div className="panel">
+        <Link className="panel-content router-link title effect-lighter" to="/sarvatka/news">Šarvátka</Link>
+      </div>
+
+      <div className="panel logo-panel">
+        <div className="panel-content logo">
+          <Logo />
+        </div>
+      </div>
+
+      <div className="panel">
+        <Link className="panel-content router-link title effect-darker" to="/bitva/news">Bitva</Link>
+      </div>
+    </nav>
+  </div>
 );
 
 export default LandingPage;
