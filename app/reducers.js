@@ -4,6 +4,8 @@
 
 import { fromJS } from 'immutable';
 import { combineReducers } from 'redux-immutable';
+import { firebaseReducer } from 'react-redux-firebase';
+import { firestoreReducer } from 'redux-firestore'
 import { LOCATION_CHANGE } from 'react-router-redux';
 
 import globalReducer from 'containers/App/reducer';
@@ -43,6 +45,8 @@ export default function createReducer(injectedReducers) {
   return combineReducers({
     route: routeReducer,
     global: globalReducer,
+    firebase: firebaseReducer,
+    firestore: firestoreReducer,
     ...injectedReducers,
   });
 }

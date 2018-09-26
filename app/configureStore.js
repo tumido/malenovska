@@ -7,8 +7,29 @@ import { fromJS } from 'immutable';
 import { routerMiddleware } from 'react-router-redux';
 import createSagaMiddleware from 'redux-saga';
 import createReducer from './reducers';
+import { reactReduxFirebase } from 'react-redux-firebase';
+import { reduxFirestore } from 'redux-firestore';
+import firebase from 'firebase/app';
+import 'firebase/firestore';
 
 const sagaMiddleware = createSagaMiddleware();
+
+// Configure Firestore and Firebase
+const firebaseConfig = {
+  apiKey: "AIzaSyA2tOrkBzA0YcYT63KFtmtHFnwp6tAuuFI",
+  authDomain: "malenovska-305f8.firebaseapp.com",
+  databaseURL: "https://malenovska-305f8.firebaseio.com",
+  projectId: "malenovska-305f8",
+  storageBucket: "malenovska-305f8.appspot.com",
+  messagingSenderId: "189984929418"
+}
+const rrfConfig = {
+  userProfile: 'users',
+  useFirestoreForProfile: true
+}
+
+firebase.initializeApp(firebaseConfig);
+firebase.firestore();
 
 export default function configureStore(initialState = {}, history) {
   // Create the store with two middlewares
@@ -20,6 +41,8 @@ export default function configureStore(initialState = {}, history) {
   ];
 
   const enhancers = [
+    reactReduxFirebase(firebase, rrfConfig),
+    reduxFirestore(firebase),
     applyMiddleware(...middlewares),
   ];
 
