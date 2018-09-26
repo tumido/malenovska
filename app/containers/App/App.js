@@ -12,6 +12,7 @@ import { Switch, Route } from 'react-router-dom';
 
 import LandingPage from 'containers/LandingPage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
+import LegendsPage from 'containers/LegendsPage/Loadable';
 import Header from 'components/Header';
 import Footer from 'components/Footer';
 import './style.scss';
@@ -24,12 +25,13 @@ const App = () => (
     >
       <meta name="description" content="Malenovská je dřevárnou pro začátečníky i veterány" />
     </Helmet>
-    <Route exact path={/^\/.+$/} component={Header} />
+    <Route path="/bitva" component={Header} />
     <Switch>
       <Route exact path="/" component={LandingPage} />
+      <Route path="/bitva/news" component={LegendsPage} />
       <Route component={NotFoundPage} />
     </Switch>
-    <Route exact path={/^\/.+$/} component={Footer} />
+    <Route path="/bitva" component={Footer} />
   </div>
 );
 
