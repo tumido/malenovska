@@ -1,0 +1,9 @@
+.article {
+    margin: 0;
+    padding: 0;
+    margin-bottom: 3em;
+
+    &:last-of-type {
+        margin-bottom: 0;
+    }
+}
