@@ -3,7 +3,7 @@
  */
 
 import { fromJS } from 'immutable';
-import { combineReducers } from 'redux-immutable';
+import { combineReducers } from 'redux';
 import { firebaseReducer } from 'react-redux-firebase';
 import { firestoreReducer } from 'redux-firestore'
 import { LOCATION_CHANGE } from 'react-router-redux';

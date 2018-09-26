@@ -3,13 +3,14 @@
  */
 
 import { createStore, applyMiddleware, compose } from 'redux';
-import { fromJS } from 'immutable';
 import { routerMiddleware } from 'react-router-redux';
 import createSagaMiddleware from 'redux-saga';
 import createReducer from './reducers';
 import { reactReduxFirebase } from 'react-redux-firebase';
 import { reduxFirestore } from 'redux-firestore';
 import firebase from 'firebase/app';
+import 'firebase/auth';
+import 'firebase/database';
 import 'firebase/firestore';
 
 const sagaMiddleware = createSagaMiddleware();
@@ -29,7 +30,7 @@ const rrfConfig = {
 }
 
 firebase.initializeApp(firebaseConfig);
-firebase.firestore();
+firebase.firestore().settings({ timestampsInSnapshots: true });
 
 export default function configureStore(initialState = {}, history) {
   // Create the store with two middlewares
@@ -62,7 +63,7 @@ export default function configureStore(initialState = {}, history) {
 
   const store = createStore(
     createReducer(),
-    fromJS(initialState),
+    initialState,
     composeEnhancers(...enhancers)
   );
 
