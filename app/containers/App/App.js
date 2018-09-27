@@ -26,11 +26,13 @@ const App = () => (
       <meta name="description" content="Malenovská je dřevárnou pro začátečníky i veterány" />
     </Helmet>
     <Route path="/bitva" component={Header} />
-    <Switch>
-      <Route exact path="/" component={LandingPage} />
-      <Route path="/bitva/news" component={LegendsPage} />
-      <Route component={NotFoundPage} />
-    </Switch>
+    <div className="app-content">
+      <Switch>
+        <Route exact path="/" component={LandingPage} />
+        <Route path="/bitva/legends" component={LegendsPage} />
+        <Route component={NotFoundPage} />
+      </Switch>
+    </div>
     <Route path="/bitva" component={Footer} />
   </div>
 );

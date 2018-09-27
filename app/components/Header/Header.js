@@ -13,19 +13,19 @@ class Header extends React.Component { // eslint-disable-line react/prefer-state
           Malenovská
         </div>
         <div className="nav-bar">
-          <Link className="router-link" to="/news">
+          <Link className="router-link" to="/bitva/legends">
             Zprávy z bojiště
           </Link>
-          <Link className="router-link" to="/rules">
+          <Link className="router-link" to="/bitva/rules">
             Pravidla střetu
           </Link>
-          <Link className="router-link" to="/world">
+          <Link className="router-link" to="/bitva/world">
             Historie Mezihoří
           </Link>
-          <Link className="router-link" to="/info">
+          <Link className="router-link" to="/bitva/info">
             Důležité informace
           </Link>
-          <Link className="router-link" to="/registration">
+          <Link className="router-link" to="/bitva/registration">
             Registrace
           </Link>
         </div>
