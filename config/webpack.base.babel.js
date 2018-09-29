@@ -4,6 +4,9 @@
 
 const path = require('path');
 const webpack = require('webpack');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+
+var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 process.noDeprecation = true;
 
@@ -12,7 +15,7 @@ module.exports = (options) => ({
   entry: options.entry,
   output: Object.assign({ // Compile into js/build.js
     path: path.resolve(process.cwd(), 'build'),
-    publicPath: '/js/',
+    publicPath: '/',
   }, options.output), // Merge with env dependent settings
   module: {
     rules: [
@@ -28,13 +31,20 @@ module.exports = (options) => ({
         // Preprocess our own .scss files
         test: /\.scss$/,
         exclude: /node_modules/,
-        use: ['style-loader', 'css-loader', 'sass-loader'],
+        use: [
+          process.env.NODE_ENV == 'development' ? 'style-loader' : MiniCssExtractPlugin.loader,
+          'css-loader',
+          'sass-loader'
+        ],
       },
       {
         // Preprocess 3rd party .css files located in node_modules
         test: /\.css$/,
         include: /node_modules/,
-        use: ['style-loader', 'css-loader'],
+        use: [
+          process.env.NODE_ENV == 'development' ? 'style-loader' : MiniCssExtractPlugin.loader,
+          'css-loader'
+        ],
       },
       {
         test: /\.(eot|svg|otf|ttf|woff|woff2)$/,
@@ -98,6 +108,10 @@ module.exports = (options) => ({
       'process.env': {
         NODE_ENV: JSON.stringify(process.env.NODE_ENV)
       },
+    }),
+
+    new BundleAnalyzerPlugin({
+      analyzerMode: 'static'
     })
   ]),
   resolve: {
@@ -118,10 +132,17 @@ module.exports = (options) => ({
   target: 'web', // Make web variables accessible to webpack, e.g. window
   performance: options.performance || {},
   optimization: {
-    namedModules: true,
     splitChunks: {
-      name: 'vendor',
-      minChunks: 2
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendor',
+          chunks: 'all',
+        }
+      }
     }
+  },
+  stats: {
+    entrypoints: false
   }
 });

@@ -9,8 +9,6 @@ import createReducer from './reducers';
 import { reactReduxFirebase } from 'react-redux-firebase';
 import { reduxFirestore } from 'redux-firestore';
 import firebase from 'firebase/app';
-import 'firebase/auth';
-import 'firebase/database';
 import 'firebase/firestore';
 
 const sagaMiddleware = createSagaMiddleware();

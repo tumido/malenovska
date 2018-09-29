@@ -2,6 +2,7 @@
 const path = require('path');
 // const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = require('./webpack.base.babel')({
   mode: 'production',
@@ -17,6 +18,10 @@ module.exports = require('./webpack.base.babel')({
   },
 
   plugins: [
+    new MiniCssExtractPlugin({
+      filename: '[name].[chunkhash].css',
+      chunkFilename: '[name].[chunkhash].chunk.css',
+    }),
 
     // Minify and optimize the index.html
     new HtmlWebpackPlugin({
@@ -40,4 +45,5 @@ module.exports = require('./webpack.base.babel')({
   performance: {
     assetFilter: (assetFilename) => !(/(\.map$)|(^(main\.|favicon\.))/.test(assetFilename)),
   },
+
 });
