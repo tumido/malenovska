@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Logo from 'components/Logo';
 import './style.scss';
 
 class Header extends React.Component { // eslint-disable-line react/prefer-stateless-function
@@ -8,9 +9,8 @@ class Header extends React.Component { // eslint-disable-line react/prefer-state
       <header>
         <div className="logo">
           <Link className="router-link" to="/">
-            <img src="" alt="Logo Zlišky" />
+            <Logo />
           </Link>
-          Malenovská
         </div>
         <div className="nav-bar">
           <Link className="router-link" to="/bitva/legends">
@@ -19,9 +19,9 @@ class Header extends React.Component { // eslint-disable-line react/prefer-state
           <Link className="router-link" to="/bitva/rules">
             Pravidla střetu
           </Link>
-          <Link className="router-link" to="/bitva/world">
+          {/* <Link className="router-link" to="/bitva/world">
             Historie Mezihoří
-          </Link>
+          </Link> */}
           <Link className="router-link" to="/bitva/info">
             Důležité informace
           </Link>

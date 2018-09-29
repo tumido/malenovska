@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import ReactMarkdown from 'react-markdown';
 import './style.scss';
 
-const Article = ( {title, content} ) => {
+const Article = ( {title, content=""} ) => {
   return (
     <article className="article">
         <h1>{ title }</h1>
