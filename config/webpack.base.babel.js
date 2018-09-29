@@ -6,8 +6,6 @@ const path = require('path');
 const webpack = require('webpack');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
-var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-
 process.noDeprecation = true;
 
 module.exports = (options) => ({
@@ -108,10 +106,6 @@ module.exports = (options) => ({
       'process.env': {
         NODE_ENV: JSON.stringify(process.env.NODE_ENV)
       },
-    }),
-
-    new BundleAnalyzerPlugin({
-      analyzerMode: 'static'
     })
   ]),
   resolve: {

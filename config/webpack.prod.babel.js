@@ -3,6 +3,7 @@ const path = require('path');
 // const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = require('./webpack.base.babel')({
   mode: 'production',
@@ -40,6 +41,10 @@ module.exports = require('./webpack.base.babel')({
       },
       inject: true
     }),
+
+    new BundleAnalyzerPlugin({
+      analyzerMode: 'static'
+    })
   ],
 
   performance: {
