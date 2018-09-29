@@ -1,7 +1,16 @@
+@import "styles/variables";
+
 .article {
-    margin: 0;
-    padding: 0;
+    background-color: white;
+    border-radius: .2rem;
+    width: 1200px;
+    margin: 0 auto;
     margin-bottom: 3em;
+    padding: 1rem 5rem;
+
+    @media #{$small_screen} {
+        width: 100%
+    }
 
     &:last-of-type {
         margin-bottom: 0;

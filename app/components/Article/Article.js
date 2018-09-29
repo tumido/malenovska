@@ -1,16 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import ReactMarkdown from 'react-markdown';
 import './style.scss';
 
 const Article = ( {title, content} ) => {
-  const parList = Object.keys(content).map((i) =>
-    <p className="title" key={i}>{content[i]}</p>
-  )
-
   return (
     <article className="article">
-        <h1 className="title">{ title }</h1>
-        { parList }
+        <h1>{ title }</h1>
+        <ReactMarkdown source={content.replace(/\\n/g,'\n')} />
     </article>
   )
   };

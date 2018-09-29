@@ -5,12 +5,12 @@
  */
 
 import React from 'react';
+import Article from 'components/Article';
+import LoadingIndicator from 'components/LoadingIndicator';
 import './style.scss';
 
 export default function NotFound() {
   return (
-    <article>
-      <h1>Page not found.</h1>
-    </article>
+    <Article title="Stránka neexistuje" />
   );
 }
