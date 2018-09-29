@@ -13,6 +13,7 @@ import { Switch, Route } from 'react-router-dom';
 import LandingPage from 'containers/LandingPage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import LegendsPage from 'containers/LegendsPage/Loadable';
+import RulesPage from 'containers/RulesPage/Loadable';
 import Header from 'components/Header';
 import Footer from 'components/Footer';
 import './style.scss';
@@ -30,6 +31,7 @@ const App = () => (
       <Switch>
         <Route exact path="/" component={LandingPage} />
         <Route path="/bitva/legends" component={LegendsPage} />
+        <Route path="/bitva/rules" component={RulesPage} />
         <Route component={NotFoundPage} />
       </Switch>
     </div>

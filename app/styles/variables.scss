@@ -2,4 +2,6 @@ $orange: #f19202;
 $gray: #eee;
 $gray-faded: darken($gray, 40%);
 
-$small_screen: "screen and (max-width : 1200px)";
+$width-breakpoint: 1200px;
+$mobile: "screen and (max-width : #{$width-breakpoint})";
+$pc: "screen and (min-width : #{$width-breakpoint})";
