@@ -1,13 +1,18 @@
+@import 'styles/variables';
+
 footer {
   display: flex;
+  flex-direction: column;
   padding: 1rem 0;
+  align-items: center;
   justify-content: center;
+  color: $gray-faded;
 
   a {
-    color: #41addd;
+    color: $gray-faded;
 
     &:hover {
-      color: #6cc0e5;
+      color: $gray;
     }
   }
 }
