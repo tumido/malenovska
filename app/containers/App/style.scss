@@ -1,12 +1,13 @@
-.app-wrapper {
+#app-wrapper {
   margin: 0 auto;
   position: initial;
   display: flex;
   min-height: 100%;
   padding: 0;
   flex-direction: column;
-
-  .app-content {
-    flex: 1 1 100%;
-  }
 }
+#app-content {
+  flex: 1 1 100%;
+  padding-top: 102px;
+}
+

@@ -1,3 +1,5 @@
+@import "styles/variables";
+
 .loading-indicator {
   position: absolute;
   height: 100%;
@@ -16,7 +18,7 @@
     margin: 0 auto;
     border-radius: 50%;
     border: 3px solid transparent;
-    border-top-color: rgb(253, 38, 0);
+    border-top-color: nth($triplet, 1);
     animation: spin 2s linear infinite;
 
     &:before {
@@ -28,7 +30,7 @@
       bottom: 3px;
       border-radius: 50%;
       border: 3px solid transparent;
-      border-top-color: rgb(241, 238, 16);
+      border-top-color: nth($triplet, 2);
       animation: spin 3s linear infinite;
     }
 
@@ -41,7 +43,7 @@
       bottom: 9px;
       border-radius: 50%;
       border: 3px solid transparent;
-      border-top-color: rgb(255, 145, 0);
+      border-top-color: nth($triplet, 3);
       animation: spin 1.5s linear infinite;
     }
   }

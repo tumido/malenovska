@@ -1,6 +1,9 @@
 $orange: #f19202;
+$white: #fefefe;
 $gray: #eee;
 $gray-faded: darken($gray, 40%);
+$triplet: rgb(253, 38, 0), rgb(241, 238, 16), rgb(255, 145, 0);
+
 
 $width-breakpoint: 1200px;
 $mobile: "screen and (max-width : #{$width-breakpoint})";

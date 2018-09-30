@@ -5,17 +5,13 @@ body {
   height: 100%;
   width: 100%;
 }
+html {
+  width:100vw;
+  overflow-x:hidden;
+}
 
 body {
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  background:
-    // linear-gradient(rgba(#000, .5), transparent),
-    // linear-gradient(140deg, transparent 0%, transparent 32%, $orange 32%, $orange 95%, #000 95%, #000 100%),
-    url("../images/background.jpg");
-  background-attachment: fixed;
-  background-position: center center;
-  background-repeat: no-repeat;
-  background-size: cover;
 }
 
 body.openSansLoaded {
@@ -32,6 +28,11 @@ body.amaticLoaded {
   min-width: 100%;
   color: #000;
   display: initial;
+}
+#app-content {
+  background: url("../images/background.jpg") no-repeat center center fixed / cover;
+  min-height: 100%;
+  min-width: 100%;
 }
 
 p,

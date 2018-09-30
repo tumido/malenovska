@@ -19,7 +19,7 @@ import Footer from 'components/Footer';
 import './style.scss';
 
 const App = () => (
-  <div className="app-wrapper">
+  <div id="app-wrapper">
     <Helmet
       titleTemplate="Malenovská 2018 - %s"
       defaultTitle="Malenovská 2018"
@@ -27,15 +27,15 @@ const App = () => (
       <meta name="description" content="Malenovská je dřevárnou pro začátečníky i veterány" />
     </Helmet>
     <Route path="/bitva" component={Header} />
-    <div className="app-content">
+    <div id="app-content">
       <Switch>
         <Route exact path="/" component={LandingPage} />
         <Route path="/bitva/legends" component={LegendsPage} />
         <Route path="/bitva/rules" component={RulesPage} />
         <Route component={NotFoundPage} />
       </Switch>
-    </div>
     <Route path="/bitva" component={Footer} />
+    </div>
   </div>
 );
 

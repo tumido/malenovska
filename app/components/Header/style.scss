@@ -1,61 +1,82 @@
 @import "styles/variables";
 
-@media #{$pc} {
-  header {
-    display: flex;
-    .logo {
-      width: 10em;
-      height: 10em;
-      background-color: $gray;
-      margin: 1em 0 1em 1em;
-      padding: 1em;
-      border-radius: 50%;
-    }
-    .nav-bar {
-      text-align: center;
-      margin: 1em 0 1em -1em;
-      justify-content: center;
-      display: flex;
-      place-items: center;
+.bm-burger-button {
+  position: absolute;
+  width: 36px;
+  height: 30px;
+  left: 36px;
+  top: 36px;
+}
 
-      & .router-link {
-        padding: 0.25em 2em;
-        text-decoration: none;
-        border-radius: 4px;
-        user-select: none;
-        cursor: pointer;
-        font-family: 'Amatic SC';
-        font-weight: bold;
-        font-size: 2em;
-        border: 2px solid $gray;
-        color: $gray;
-        margin-right: 1em;
+.bm-burger-bars {
+  background: #fff;
+  border-radius: 2px;
+  height: 15%;
+  position: absolute;
+  left: 0; right: 0;
 
-        &:last-of-type {
-          color: $orange;
-          border: 2px solid $orange;
-        }
+  @for $i from 1 through 3 {
+    &:nth-of-type(#{$i}) {
+      top: calc(40% * #{$i - 1});
 
-        &:active, &:hover {
-          background: $gray;
-          border: 2px solid $gray;
-          color: #000;
-        }
+      .bm-burger-button:hover & {
+        background: nth($triplet, $i);
       }
     }
   }
 }
 
-@media #{$mobile} {
-  header {
-    height: 100%;
-    width: 0;
-    position: fixed;
-    z-index: 1;
-    top: 0;
-    left: 0;
-    background-color: #111;
-    overflow-x: hidden;
-    padding-top: 20px;
+.bm-cross-button {
+  height: 30px;
+  width: 36px;
+}
+
+/* Color/shape of close button cross */
+.bm-cross {
+  background: $white;
+}
+
+/* General sidebar styles */
+.bm-menu {
+  background: #000;
+  padding: 2.5em 1.5em 0;
+  font-size: 1.15em;
+}
+
+.bm-item-list a {
+  color: #b8b7ad;
+  padding: 0.8em;
+
+  &:hover {
+    color: $white;
   }
+}
+
+.bm-item {
+  display: inline-block;
+  text-decoration: none;
+  font-size: 1.3em;
+
+  .fas {
+    width: 1.2em;
+    text-align: center;
+    margin-right: 1em;
+  }
+}
+
+.bm-item--highlight {
+  color: nth($triplet, 1);
+}
+
+.bm-item__logo {
+  height: 200px;
+  width: 200px;
+  margin: 0 auto 1em auto;
+  background: $white;
+  border-radius: 50%;
+}
+
+/* Styling of overlay */
+.bm-overlay {
+  background: rgba(0, 0, 0, 0.4);
 }
