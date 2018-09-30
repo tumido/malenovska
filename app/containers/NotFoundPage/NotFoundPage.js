@@ -5,12 +5,16 @@
  */
 
 import React from 'react';
-import Article from 'components/Article';
-import LoadingIndicator from 'components/LoadingIndicator';
+import Logo from 'components/Logo';
 import './style.scss';
 
 export default function NotFound() {
   return (
-    <Article title="Stránka neexistuje" />
+    <section className="NotFoundPage">
+      <div className="logo">
+        <Logo />
+      </div>
+      <h1>Tak tato stránka tu fakt není. Zkus menu vlevo!</h1>
+    </section>
   );
 }

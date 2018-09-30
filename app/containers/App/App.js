@@ -14,6 +14,7 @@ import LandingPage from 'containers/LandingPage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import LegendsPage from 'containers/LegendsPage/Loadable';
 import RulesPage from 'containers/RulesPage/Loadable';
+import InfoPage from 'containers/InfoPage/Loadable';
 import Header from 'components/Header';
 import Footer from 'components/Footer';
 import './style.scss';
@@ -32,6 +33,7 @@ const App = () => (
         <Route exact path="/" component={LandingPage} />
         <Route path="/bitva/legends" component={LegendsPage} />
         <Route path="/bitva/rules" component={RulesPage} />
+        <Route path="/bitva/info" component={InfoPage} />
         <Route component={NotFoundPage} />
       </Switch>
     <Route path="/bitva" component={Footer} />

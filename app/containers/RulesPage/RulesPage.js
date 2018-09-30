@@ -4,6 +4,7 @@ import { compose } from 'redux';
 import { firestoreConnect, isLoaded, isEmpty } from 'react-redux-firebase';
 import LoadingIndicator from 'components/LoadingIndicator';
 import RulesBox from 'components/RulesBox';
+import Article from 'components/Article';
 import './style.scss';
 
 const Rules = ({ rules }) => {
@@ -24,7 +25,8 @@ const Rules = ({ rules }) => {
     )
   return (
     <div className="rulesPage">
-      {rulesList}
+      {/* {rulesList} */}
+      <Article title="Připravujeme" content="Nové pravidla jsme ještě nestihli přesunout na nové stránky. Během pár dní zde již budou..." />
     </div>
   );
 }
