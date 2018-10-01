@@ -5,7 +5,9 @@
 import { combineReducers } from 'redux';
 import { firebaseReducer } from 'react-redux-firebase';
 import { firestoreReducer } from 'redux-firestore';
-import {reducer as burgerMenu} from 'redux-burger-menu';
+import { reducer as burgerMenu } from 'redux-burger-menu';
+import { reducer as formReducer } from 'redux-form';
+
 import { LOCATION_CHANGE } from 'react-router-redux';
 
 import globalReducer from 'containers/App/reducer';
@@ -47,6 +49,7 @@ export default function createReducer(injectedReducers) {
     global: globalReducer,
     firebase: firebaseReducer,
     firestore: firestoreReducer,
+    form: formReducer,
     burgerMenu,
     ...injectedReducers,
   });

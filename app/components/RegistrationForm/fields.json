@@ -1,0 +1,43 @@
+[{
+    "name": "nickname",
+    "label": "Přezdívka",
+    "type": "text",
+    "placeholder": "Mirek",
+    "required": true
+  },
+  {
+    "name": "firstName",
+    "label": "Jméno",
+    "placeholder": "Mirek",
+    "type": "text",
+    "required": true
+  },
+  {
+    "name": "lastName",
+    "label": "Příjmení",
+    "placeholder": "Dušín",
+    "type": "text",
+    "required": true
+  },
+  {
+    "name": "email",
+    "label": "Email",
+    "placeholder": "mirek@rychlesipy.cz",
+    "type": "email",
+    "required": true
+  },
+  {
+    "name": "age",
+    "label": "Věk",
+    "placeholder": "Nestárnu",
+    "type": "number",
+    "required": true,
+    "min": 15
+  },
+  {
+    "name": "group",
+    "label": "Skupina",
+    "placeholder": "Rychlé Šípy",
+    "type": "text"
+  }
+]

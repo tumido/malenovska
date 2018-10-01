@@ -1,0 +1,13 @@
+@import 'styles/variables';
+
+.RegistrationPage {
+    display: flex;
+
+    @media #{$mobile} {
+        flex-direction: column;
+    }
+
+    section {
+        flex: 1 0 auto;
+    }
+}
