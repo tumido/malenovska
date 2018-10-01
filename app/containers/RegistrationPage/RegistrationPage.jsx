@@ -2,46 +2,75 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { firestoreConnect, isLoaded, isEmpty } from 'react-redux-firebase';
+import { change as changeFormFieldValue, formValueSelector } from 'redux-form';
 
-// import List from 'components/List';
-import ListItem from 'components/ListItem';
 import RegistrationForm from 'components/RegistrationForm';
+import LoadingIndicator from 'components/LoadingIndicator';
+import ReactMarkdown from 'react-markdown';
 
 import './style.scss';
 
-const RegistrationPage = ({ races }) => {
+const RegistrationPage = ({ races, firestore, participants, selectedRace, changeRace }) => {
   const submit = values => {
-    console.log(values);
+    firestore.runTransaction(t => {
+      values.raceRef = firestore.doc(`races/${values.race}`)
+      console.log(values);
+      t.add('participants', values);
+    })
+    .then(result => {
+      alert("Success")
+    })
+    .catch(err => {
+      alert("Failed")
+    })
   }
 
-  // const racesList = !isLoaded(races)
-  //   ? [<LoadingIndicator />]
-  //   : isEmpty(races)
-  //     ? []
-  //     : Object.keys(races).map(
-  //       (key, id) => (
-  //         <ListItem
-  //           key={key}
-  //           id={id}
-  //           item={races[key].name}
-  //         />
-  //       )
-  //     )
+  const racesNamesList = !isLoaded(races) || isEmpty(races)
+      ? <LoadingIndicator />
+      : Object.keys(races).map(
+        (key, id) => (
+          <a
+            key={key}
+            id={`race-${id}`}
+            onClick={() => changeRace(races[key].id)}
+            >
+            {races[key].name}
+          </a>
+        )
+      )
+
+  let localSelectedRace = isLoaded(races) && !isEmpty(races) ? races.filter(v => v.id == selectedRace)[0] : undefined
+  const racesDescription = !isLoaded(races) || isEmpty(races) || localSelectedRace === undefined
+    ? ""
+    : <ReactMarkdown source={ localSelectedRace.description.replace(/\\n/g,'\n') } />
+
   return (
     <div className="RegistrationPage">
-      <section>
-        RaceSelect
-      </section>
-      <section>
-        RaceDescription
-      </section>
-      <section>
+      <article>
+        {racesNamesList}
+      </article>
+      <article>
+        {racesDescription}
+      </article>
+      <article>
         <RegistrationForm onSubmit={submit} />
-      </section>
-      {/* <List component="ListItem" items={racesList} /> */}
+      </article>
     </div>
   )
 }
+
+const mapStateToProps = (state) => ({
+  races: state.firestore.ordered.races,
+  participants: state.firestore.data.participants,
+  selectedRace: formValueSelector('registration')(state, 'race'),
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  changeRace: (value) => {
+    console.log(value)
+    dispatch(changeFormFieldValue('registration', 'race', value))
+  }
+});
 
 export default compose(
   firestoreConnect([
@@ -55,8 +84,5 @@ export default compose(
       collection: 'participants'
     }
   ]),
-  connect((state) => ({
-    races: state.firestore.data.races,
-    participants: state.firestore.data.participants,
-  }))
+  connect(mapStateToProps, mapDispatchToProps)
 )(RegistrationPage);

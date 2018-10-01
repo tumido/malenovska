@@ -1,6 +1,8 @@
 import React from 'react'
 import { Field, reduxForm } from 'redux-form'
 import fields from './fields.json';
+import { connect } from 'react-redux';
+import { firestoreConnect } from 'react-redux-firebase';
 
 const RegForm = props => {
   const { handleSubmit } = props
@@ -22,4 +24,10 @@ const RegForm = props => {
   )
 }
 
-export default reduxForm({ form: 'registration' })(RegForm);
+const ReduxedForm = reduxForm({ form: 'registration' })(RegForm);
+
+const mapStateToProps = (state) => ({
+  initialValues: { race: "gcVBDoyCXoFWEYhRmwBn"} // FIXME!!
+})
+
+export default connect(mapStateToProps, null)(ReduxedForm);
