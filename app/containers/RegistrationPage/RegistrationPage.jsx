@@ -4,13 +4,16 @@ import { compose } from 'redux';
 import { firestoreConnect, isLoaded, isEmpty } from 'react-redux-firebase';
 import { change as changeFormFieldValue, formValueSelector } from 'redux-form';
 import pick from 'lodash/pick';
+import filter from 'lodash/filter';
+import find from 'lodash/find';
+import reduce from 'lodash/reduce';
+import get from 'lodash/get';
 
 import RegistrationForm from 'components/RegistrationForm';
 import LoadingIndicator from 'components/LoadingIndicator';
+import RaceDescription from 'components/RaceDescription';
 import List from 'components/List';
-import ListItem from 'components/ListItem';
-
-import ReactMarkdown from 'react-markdown';
+import RaceItem from 'components/RaceItem';
 
 import './style.scss';
 
@@ -18,7 +21,7 @@ const addParticipant = (firestore, values, counts, limit) => {
   let publicData = pick(values, ['nickname', 'firstName', 'lastName', 'group', 'race', 'raceRef']);
   let privateData = pick(values, ['age', 'email']);
 
-  if (counts[values.raceRef.id] >= limit) {
+  if (counts[values.raceRef.id].length >= limit) {
     alert("Tady uže je plno!");
     return;
   }
@@ -42,53 +45,39 @@ const addParticipant = (firestore, values, counts, limit) => {
 
 const RegistrationPage = ({ races, firestore, participants, selectedRace, changeRace }) => {
   const submit = values => {
-    let race = races.filter(v => v.name == values.race)[0];
+    let race = find(races, { 'name': values.race });
     values.raceRef = firestore.doc(`races/${race.id}`)
     addParticipant(firestore, values, participantsToRaceMap, race.limit);
   }
 
   const participantsToRaceMap = !isLoaded(races) || !isLoaded(participants)
   ? {}
-  : Object.assign(...Object.keys(races).map(
-    ([key, value]) => ({
-      [races[key].id]: Object.keys(participants).filter( k => participants[k] && participants[k].raceRef.id == races[key].id).length
-    })
-  ));
+  : reduce(races, function(obj, race) {
+      obj[race.id] = filter(participants, { 'raceRef': { 'id' : race.id } })
+      return obj;
+    }, {});
 
   const racesNamesList = !isLoaded(races) || isEmpty(races)
       ? []
       : Object.keys(races).map(
         (key) => (
-          <a
+          <RaceItem
             className={"custom-font " + (races[key].name === selectedRace ? "selectedRace" : "")}
             key={`race-${key}`}
             onClick={() => changeRace(races[key].name)}
-            >
-            {races[key].name} <span>({participantsToRaceMap[races[key].id]}/{races[key].limit})</span>
-          </a>
+            name={races[key].name}
+            count={get(participantsToRaceMap, `${races[key].id}.length`, 0)}
+            limit={races[key].limit}
+          />
         )
       )
 
-  let localSelectedRace = isLoaded(races) && !isEmpty(races) ? races.filter(v => v.name == selectedRace)[0] : undefined
-  const racesDescription = !isLoaded(races) || isEmpty(races) || localSelectedRace === undefined
-    ? <LoadingIndicator />
-    : (
-      <div>
-        <ReactMarkdown className="custom-font" source={ localSelectedRace.legend.replace(/\\n/g,'\n') } />
-        <hr />
-        <p className="custom-font">{ localSelectedRace.description }</p>
-      </div>
-    )
+  let localSelectedRace = isLoaded(races) && !isEmpty(races) ? find(races, { 'name': selectedRace }) : undefined
 
-
-  return (
+  return !isLoaded(races) || !isLoaded(participants) ?  <LoadingIndicator /> : (
     <div className="RegistrationPage">
-      <section className="raceList">
-        <List component={ListItem} items={racesNamesList} />
-      </section>
-      <section className="raceDesc">
-        {racesDescription}
-      </section>
+      <List component='section' items={racesNamesList} />
+      <RaceDescription component='section' race={localSelectedRace} />
       <section className="regForm">
         <RegistrationForm onSubmit={submit} />
       </section>

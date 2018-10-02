@@ -1,6 +1,13 @@
-.list-wrapper {
+@import 'styles/variables';
+@import 'styles/mixins';
+
+.List {
+  @include border-radius(("top-left", "bottom-left"));
+  width: 300px;
+  background: $black;
+  color: $nav;
   padding: 0;
   margin: 0;
-  width: 100%;
   list-style: none;
+
 }
