@@ -92,9 +92,10 @@ export default compose(
   firestoreConnect([
     {
       collection: 'races',
-      where: [
-        ['current', '==', true]
-      ]
+      // where: [
+      //   ['current', '==', true]
+      // ],
+      orderBy: 'priority'
     },
     {
       collection: 'participants'
