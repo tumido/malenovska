@@ -38,13 +38,13 @@
 
 /* General sidebar styles */
 .bm-menu {
-  background: #000;
+  background: $black;
   padding: 2.5em 1.5em 0;
   font-size: 1.15em;
 }
 
 .bm-item-list a {
-  color: #b8b7ad;
+  color: $nav;
   padding: 0.8em;
 
   &:hover {

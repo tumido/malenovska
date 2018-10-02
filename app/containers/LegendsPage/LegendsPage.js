@@ -23,7 +23,7 @@ const LegendsPage = ({ legends, firestore }) => {
         (key, id) => (
           <Article
             key={key}
-            id={id}
+            id={`article-${id}`}
             title={legends[key].title}
             content={legends[key].content}
           />

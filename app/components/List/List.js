@@ -9,7 +9,7 @@ const List = (props) => {
   // If we have items, render them
   if (props.items) {
     content = props.items.map((item) => (
-      <ComponentToRender key={`item-${item.id}`} item={item} />
+      <ComponentToRender key={`item-${item.key}`} item={item} />
     ));
   } else {
     // Otherwise render a single component
@@ -17,11 +17,9 @@ const List = (props) => {
   }
 
   return (
-    <div className="list-wrapper">
-      <ul>
-        {content}
-      </ul>
-    </div>
+    <ul className="list-wrapper">
+      {content}
+    </ul>
   );
 };
 

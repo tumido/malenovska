@@ -1,18 +1,17 @@
 @import "styles/variables";
+@import "styles/mixins";
 
 .article {
-    background-color: white;
-    border-radius: .2rem;
-    width: 1200px;
-    margin: 0 auto;
-    margin-bottom: 3rem;
-    padding: 1rem 5rem;
+  @include box;
+  width: 1200px;
+  margin-bottom: 3rem;
+  padding: 1rem 5rem;
 
-    @media #{$mobile} {
-        width: 100%
-    }
+  @media #{$mobile} {
+    width: 100%
+  }
 
-    &:last-of-type {
-        margin-bottom: 0;
-    }
+  &:last-of-type {
+    margin-bottom: 0;
+  }
 }

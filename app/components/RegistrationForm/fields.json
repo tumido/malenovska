@@ -42,6 +42,9 @@
   },
   {
     "name": "race",
-    "type": "hidden"
+    "label": "Vybraná strana (VLEVO)",
+    "placeholder": "Vyberu si vlevo",
+    "type": "text",
+    "disabled": true
   }
 ]

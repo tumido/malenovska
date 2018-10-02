@@ -1,4 +1,5 @@
 @import "variables";
+@import "mixins";
 
 html,
 body {
@@ -21,13 +22,11 @@ body.openSansLoaded {
 }
 body.amaticLoaded {
   h1, h2, h3, .title {
-      font-family: 'Amatic SC';
+    font-family: 'Amatic SC';
   }
 }
 
-
 p,
 label {
-  font-family: Georgia, Times, 'Times New Roman', serif;
   line-height: 1.5em;
 }

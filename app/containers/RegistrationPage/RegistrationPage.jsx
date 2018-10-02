@@ -6,55 +6,62 @@ import { change as changeFormFieldValue, formValueSelector } from 'redux-form';
 
 import RegistrationForm from 'components/RegistrationForm';
 import LoadingIndicator from 'components/LoadingIndicator';
+import List from 'components/List';
+import ListItem from 'components/ListItem';
+
 import ReactMarkdown from 'react-markdown';
 
 import './style.scss';
 
 const RegistrationPage = ({ races, firestore, participants, selectedRace, changeRace }) => {
   const submit = values => {
-    firestore.runTransaction(t => {
-      values.raceRef = firestore.doc(`races/${values.race}`)
-      console.log(values);
-      t.add('participants', values);
-    })
+    values.raceRef = firestore.doc(`races/${races.filter(v => v.name == values.race)[0].id}`)
+    console.log(values);
+    firestore.collection('participants').add(values)
     .then(result => {
-      alert("Success")
+      alert("Spolehlivě upsáno!")
     })
     .catch(err => {
-      alert("Failed")
+      alert("Něco se nepovedlo. Dejte nám vědět, prosím...")
     })
   }
 
   const racesNamesList = !isLoaded(races) || isEmpty(races)
-      ? <LoadingIndicator />
+      ? []
       : Object.keys(races).map(
         (key, id) => (
           <a
-            key={key}
-            id={`race-${id}`}
-            onClick={() => changeRace(races[key].id)}
+            className={"title " + (races[key].name === selectedRace ? "selectedRace" : "")}
+            key={`race-${key}`}
+            onClick={() => changeRace(races[key].name)}
             >
             {races[key].name}
           </a>
         )
       )
 
-  let localSelectedRace = isLoaded(races) && !isEmpty(races) ? races.filter(v => v.id == selectedRace)[0] : undefined
+  let localSelectedRace = isLoaded(races) && !isEmpty(races) ? races.filter(v => v.name == selectedRace)[0] : undefined
   const racesDescription = !isLoaded(races) || isEmpty(races) || localSelectedRace === undefined
-    ? ""
-    : <ReactMarkdown source={ localSelectedRace.description.replace(/\\n/g,'\n') } />
+    ? <LoadingIndicator />
+    : (
+      <div>
+        <ReactMarkdown className="legend" source={ localSelectedRace.legend.replace(/\\n/g,'\n') } />
+        <p><b>{ localSelectedRace.description }</b></p>
+      </div>
+    )
+
 
   return (
     <div className="RegistrationPage">
-      <article>
-        {racesNamesList}
-      </article>
-      <article>
+      <section className="raceList">
+        <List component={ListItem} items={racesNamesList} />
+      </section>
+      <section className="raceDesc">
         {racesDescription}
-      </article>
-      <article>
+      </section>
+      <section className="regForm">
         <RegistrationForm onSubmit={submit} />
-      </article>
+      </section>
     </div>
   )
 }
