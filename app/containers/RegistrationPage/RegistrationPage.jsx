@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { firestoreConnect, isLoaded, isEmpty } from 'react-redux-firebase';
 import { change as changeFormFieldValue, formValueSelector } from 'redux-form';
+import pick from 'lodash/pick';
 
 import RegistrationForm from 'components/RegistrationForm';
 import LoadingIndicator from 'components/LoadingIndicator';
@@ -13,17 +14,29 @@ import ReactMarkdown from 'react-markdown';
 
 import './style.scss';
 
+const addParticipant = (firestore, values) => {
+  let publicData = pick(values, ['nickname', 'firstName', 'lastName', 'group', 'race', 'raceRef']);
+  let privateData = pick(values, ['age', 'email']);
+
+  var batch = firestore.batch();
+  let participant = firestore.collection('participants').doc();
+  let participantPrivate = participant.collection('private').doc();
+  batch.set(participant, publicData);
+  batch.set(participantPrivate, privateData);
+
+  batch.commit().then(result => {
+    alert(`${values.race} tě přijímají do svých řad.\n\nSpolehlivě upsáno! 🍺`)
+  })
+  .catch(err => {
+    alert("Něco se nepovedlo. Dejte nám vědět, prosím...")
+  })
+}
+
+
 const RegistrationPage = ({ races, firestore, participants, selectedRace, changeRace }) => {
   const submit = values => {
     values.raceRef = firestore.doc(`races/${races.filter(v => v.name == values.race)[0].id}`)
-    console.log(values);
-    firestore.collection('participants').add(values)
-    .then(result => {
-      alert(`${values.race} tě přijímají do svých řad.\n\nSpolehlivě upsáno! 🍺`)
-    })
-    .catch(err => {
-      alert("Něco se nepovedlo. Dejte nám vědět, prosím...")
-    })
+    addParticipant(firestore, values);
   }
 
   const participantsToRaceMap = !isLoaded(races) || !isLoaded(participants)
@@ -33,7 +46,6 @@ const RegistrationPage = ({ races, firestore, participants, selectedRace, change
       [races[key].id]: Object.keys(participants).filter( k => participants[k] && participants[k].raceRef.id == races[key].id).length
     })
   ));
-  console.log(participantsToRaceMap)
 
   const racesNamesList = !isLoaded(races) || isEmpty(races)
       ? []
