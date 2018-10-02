@@ -33,7 +33,7 @@
     background: $black;
     color: $nav;
 
-    &:first-child a {
+    & li:first-child a {
       @include border-radius(("top-left"));
     }
 
