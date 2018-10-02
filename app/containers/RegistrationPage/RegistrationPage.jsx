@@ -19,7 +19,7 @@ const addParticipant = (firestore, values) => {
   let privateData = pick(values, ['age', 'email']);
 
   var batch = firestore.batch();
-  let participant = firestore.collection('participants').doc();
+  let participant = firestore.collection('participants').doc(`${values.firstName}-${values.lastName}-(${values.nickname})`);
   let participantPrivate = participant.collection('private').doc();
   batch.set(participant, publicData);
   batch.set(participantPrivate, privateData);
@@ -27,9 +27,11 @@ const addParticipant = (firestore, values) => {
   batch.commit().then(result => {
     alert(`${values.race} tě přijímají do svých řad.\n\nSpolehlivě upsáno! 🍺`)
   })
-  .catch(err => {
-    alert("Něco se nepovedlo. Dejte nám vědět, prosím...")
-  })
+  .catch(err => {(
+    err.code == "permission-denied"
+      ? alert("Tento účastík je již nejspíše registrován. Pokud jste však přesvědčeni o své pravdě, křičte!")
+      : alert("Něco se nepovedlo. Dejte nám vědět, prosím...")
+  )})
 }
 
 
