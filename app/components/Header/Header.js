@@ -21,16 +21,16 @@ const Header = props => {
       <Link onClick={() => {props.toggleMenu(false)}} to="/" className="bm-item__logo">
         <Logo />
       </Link>
-      <Link onClick={() => {props.toggleMenu(false)}} className="router-link title" to="/bitva/legends">
+      <Link onClick={() => {props.toggleMenu(false)}} className="router-link custom-font" to="/bitva/legends">
         <i className="fas fa-book-open"></i>Zprávy z bojiště
       </Link>
-      <Link onClick={() => {props.toggleMenu(false)}} className="router-link title" to="/bitva/rules">
+      <Link onClick={() => {props.toggleMenu(false)}} className="router-link custom-font" to="/bitva/rules">
         <i className="fas fa-balance-scale"></i> Pravidla střetu
       </Link>
-      <Link onClick={() => {props.toggleMenu(false)}} className="router-link title" to="/bitva/info">
+      <Link onClick={() => {props.toggleMenu(false)}} className="router-link custom-font" to="/bitva/info">
         <i className="fas fa-map-marker-alt"></i> Důležité informace
       </Link>
-      <Link onClick={() => {props.toggleMenu(false)}} className="router-link title bm-item--highlight" to="/bitva/registration">
+      <Link onClick={() => {props.toggleMenu(false)}} className="router-link custom-font bm-item--highlight" to="/bitva/registration">
         <i className="fas fa-address-card"></i>Registrace
       </Link>
     </Menu>

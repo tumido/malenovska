@@ -21,9 +21,11 @@
     box-shadow: -5px 0 2px -1px $white inset;
     margin: auto;
 
-    body.amaticLoaded & .legend {
-      font-family: 'Amatic SC';
-      font-size: 1.1em;
+    hr {
+      width: 80%;
+      height: 0;
+      border-radius: 50%;
+      border-top: 2px solid $black;
     }
   }
 

@@ -1,4 +1,5 @@
 @import 'styles/variables';
+@import 'styles/mixins';
 
 .RegForm {
   background: $black;
@@ -15,10 +16,6 @@
     font-size: 1.1em;
     padding-left: 1em;
     position: absolute;
-
-    body.amaticLoaded & {
-      font-family: 'Amatic SC';
-    }
   }
 
   input {
@@ -32,17 +29,15 @@
     margin: 3rem 1rem;
     text-align: center;
   }
+
   button {
     margin: auto;
     cursor: pointer;
     padding: 1rem 2rem;
     border: 2px solid $white;
     border-radius: .2rem;
+    font-size: 2em;
 
-    body.amaticLoaded & {
-      font-family: 'Amatic SC';
-      font-size: 2em;
-    }
 
     &:hover {
       background-color: $white;

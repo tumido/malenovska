@@ -5,7 +5,7 @@ import './style.scss';
 
 const Article = ( {title, content=""} ) => {
   return (
-    <article className="article">
+    <article className="article custom-font">
         <h1>{ title }</h1>
         <ReactMarkdown source={content.replace(/\\n/g,'\n')} />
     </article>

@@ -54,7 +54,7 @@ const RegistrationPage = ({ races, firestore, participants, selectedRace, change
       : Object.keys(races).map(
         (key) => (
           <a
-            className={"title " + (races[key].name === selectedRace ? "selectedRace" : "")}
+            className={"custom-font " + (races[key].name === selectedRace ? "selectedRace" : "")}
             key={`race-${key}`}
             onClick={() => changeRace(races[key].name)}
             >
@@ -68,8 +68,9 @@ const RegistrationPage = ({ races, firestore, participants, selectedRace, change
     ? <LoadingIndicator />
     : (
       <div>
-        <ReactMarkdown className="legend" source={ localSelectedRace.legend.replace(/\\n/g,'\n') } />
-        <p><b>{ localSelectedRace.description }</b></p>
+        <ReactMarkdown className="custom-font" source={ localSelectedRace.legend.replace(/\\n/g,'\n') } />
+        <hr />
+        <p className="custom-font">{ localSelectedRace.description }</p>
       </div>
     )
 

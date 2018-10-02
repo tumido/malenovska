@@ -14,14 +14,14 @@ const RegForm = props => {
         Object.keys(fields).map(
           (key, id) => (
             <div className="form-group" key={key}>
-              {fields[key].label ? <label htmlFor={fields[key].name}>{fields[key].label}</label> : ""}
+              {fields[key].label ? <label className="custom-font" htmlFor={fields[key].name}>{fields[key].label}</label> : ""}
               <Field component="input" {...fields[key]}/>
             </div>
           )
         )
       }
       <div className="button-wrapper">
-        <button type="submit">Upisuju se (podpis vpravo dole)</button>
+        <button type="submit" className="custom-font">Upisuju se (podpis vpravo dole)</button>
       </div>
     </form>
   )
