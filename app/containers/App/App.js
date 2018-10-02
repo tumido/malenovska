@@ -33,8 +33,8 @@ const App = () => (
       <Switch>
         <Route exact path="/" component={LandingPage} />
         <Route path="/bitva/legends" component={LegendsPage} />
-        <Route path="/bitva/rules" component={RulesPage} />
-        <Route path="/bitva/info" component={InfoPage} />
+        <Route path="/bitva/rules" component={RulesPage} disabled/>
+        <Route path="/bitva/info" component={InfoPage} disabled/>
         <Route path="/bitva/registration" component={RegistrationPage} />
         <Route component={NotFoundPage} />
       </Switch>

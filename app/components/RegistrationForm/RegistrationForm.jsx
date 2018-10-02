@@ -21,7 +21,7 @@ const RegForm = props => {
         )
       }
       <div className="button-wrapper">
-        <button type="submit">Stvrzuju a upisuji se</button>
+        <button type="submit">Upisuju se (podpis vpravo dole)</button>
       </div>
     </form>
   )

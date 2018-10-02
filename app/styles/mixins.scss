@@ -1,7 +1,13 @@
 @import 'variables';
 
 @mixin box {
+  @include border-radius(("top-left", "top-right", "bottom-left", "bottom-right"));
   background-color: $gray;
-  border-radius: .2rem;
   margin: 0 auto;
+}
+
+@mixin border-radius($seq) {
+  @each $side in $seq {
+    border-#{$side}-radius: .2rem;
+  }
 }

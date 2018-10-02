@@ -19,23 +19,32 @@ const RegistrationPage = ({ races, firestore, participants, selectedRace, change
     console.log(values);
     firestore.collection('participants').add(values)
     .then(result => {
-      alert("Spolehlivě upsáno!")
+      alert(`${values.race} tě přijímají do svých řad.\n\nSpolehlivě upsáno! 🍺`)
     })
     .catch(err => {
       alert("Něco se nepovedlo. Dejte nám vědět, prosím...")
     })
   }
 
+  const participantsToRaceMap = !isLoaded(races) || !isLoaded(participants)
+  ? {}
+  : Object.assign(...Object.keys(races).map(
+    ([key, value]) => ({
+      [races[key].id]: Object.keys(participants).filter( k => participants[k] && participants[k].raceRef.id == races[key].id).length
+    })
+  ));
+  console.log(participantsToRaceMap)
+
   const racesNamesList = !isLoaded(races) || isEmpty(races)
       ? []
       : Object.keys(races).map(
-        (key, id) => (
+        (key) => (
           <a
             className={"title " + (races[key].name === selectedRace ? "selectedRace" : "")}
             key={`race-${key}`}
             onClick={() => changeRace(races[key].name)}
             >
-            {races[key].name}
+            {races[key].name} <span>({participantsToRaceMap[races[key].id]}/{races[key].limit})</span>
           </a>
         )
       )

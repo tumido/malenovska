@@ -28,9 +28,14 @@
   }
 
   .raceList {
+    @include border-radius(("top-left", "bottom-left"));
     width: 300px;
     background: $black;
     color: $nav;
+
+    &:first-child a {
+      @include border-radius(("top-left"));
+    }
 
     a {
       width: 100%;
@@ -66,6 +71,11 @@
 
         border-left: 1.5em solid $gray-faded;
       }
+
+      span {
+        color: $white;
+        float: right;
+      }
     }
   }
 
@@ -73,6 +83,7 @@
     width: 500px;
     background: $black;
     color: $nav;
+    @include border-radius(("top-right", "bottom-right"));
   }
 
   margin: 0 3rem;
