@@ -121,18 +121,6 @@ module.exports = (options) => ({
   devtool: options.devtool,
   target: 'web', // Make web variables accessible to webpack, e.g. window
   performance: options.performance || {},
-  optimization: {
-    splitChunks: {
-      cacheGroups: {
-        vendor: {
-          test: /[\\/]node_modules[\\/]/,
-          name: 'vendor',
-          chunks: 'all',
-        }
-      }
-    }
-  },
-  stats: {
-    entrypoints: false
-  }
+  optimization: options.optimization,
+  stats: options.stats
 });

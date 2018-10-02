@@ -37,7 +37,7 @@ module.exports = require('./webpack.base.babel')({
 
   // Emit a source map for easier debugging
   // See https://webpack.js.org/configuration/devtool/#devtool
-  devtool: 'eval-source-map',
+  devtool: 'cheap-eval-source-map',
 
   performance: {
     hints: false
