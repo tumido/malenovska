@@ -1,8 +1,22 @@
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /{document=**} {
+    match /participants/{public} {
+      allow read, create;
+      allow update: if false;
+
+      match /private/{document=**} {
+    		allow read: if false;
+        allow write;
+      }
+    }
+    match /races/{document=**} {
       allow read;
-      allow write: if false;
+    }
+    match /rules/{document=**} {
+      allow read;
+    }
+    match /legends/{document=**} {
+      allow read;
     }
   }
 }
