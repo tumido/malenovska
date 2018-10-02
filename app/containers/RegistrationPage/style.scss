@@ -8,10 +8,11 @@
 
   @media #{$mobile} {
     flex-direction: column;
+    margin: 0;
   }
 
   .regForm {
-    width: 500px;
+    width: 400px;
     background: $black;
     color: $nav;
     @include border-radius(("top-right", "bottom-right"));

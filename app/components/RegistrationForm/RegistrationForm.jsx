@@ -21,7 +21,7 @@ const RegForm = props => {
         )
       }
       <div className="button-wrapper">
-        <button type="submit" className="custom-font">Upisuju se (podpis vpravo dole)</button>
+        <button type="submit" className="custom-font">Upisuju se</button>
       </div>
     </form>
   )

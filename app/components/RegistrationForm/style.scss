@@ -22,7 +22,13 @@
     text-align: center;
     width: 100%;
     font-size: 1.15em;
+    padding-top: .5em;
     line-height: 2em;
+  }
+  input[type=number]::-webkit-inner-spin-button,
+  input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
   }
 
   .button-wrapper {
