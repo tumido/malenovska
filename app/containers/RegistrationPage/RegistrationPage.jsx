@@ -14,9 +14,14 @@ import ReactMarkdown from 'react-markdown';
 
 import './style.scss';
 
-const addParticipant = (firestore, values) => {
+const addParticipant = (firestore, values, counts, limit) => {
   let publicData = pick(values, ['nickname', 'firstName', 'lastName', 'group', 'race', 'raceRef']);
   let privateData = pick(values, ['age', 'email']);
+
+  if (counts[values.raceRef.id] >= limit) {
+    alert("Tady uže je plno!");
+    return;
+  }
 
   var batch = firestore.batch();
   let participant = firestore.collection('participants').doc(`${values.firstName}-${values.lastName}-(${values.nickname})`);
@@ -37,8 +42,9 @@ const addParticipant = (firestore, values) => {
 
 const RegistrationPage = ({ races, firestore, participants, selectedRace, changeRace }) => {
   const submit = values => {
-    values.raceRef = firestore.doc(`races/${races.filter(v => v.name == values.race)[0].id}`)
-    addParticipant(firestore, values);
+    let race = races.filter(v => v.name == values.race)[0];
+    values.raceRef = firestore.doc(`races/${race.id}`)
+    addParticipant(firestore, values, participantsToRaceMap, race.limit);
   }
 
   const participantsToRaceMap = !isLoaded(races) || !isLoaded(participants)
