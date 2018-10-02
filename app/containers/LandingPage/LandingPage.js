@@ -12,7 +12,7 @@ const LandingPage = () => (
     </Helmet>
     <nav className="main">
       <div className="panel">
-       <span className="panel-content router-link title effect-lighter" title="Zde bude Šarvátka" to="/sarvatka/news">Šarvátka</span>
+       <span className="panel-content router-link custom-font effect-lighter" title="Zde bude Šarvátka" to="/sarvatka/news">Šarvátka</span>
         {/* <Link className="panel-content router-link title effect-lighter" to="/sarvatka/news">Šarvátka</Link> */}
       </div>
 
@@ -23,7 +23,7 @@ const LandingPage = () => (
       </div>
 
       <div className="panel">
-        <Link className="panel-content router-link title effect-darker" to="/bitva/legends">Bitva</Link>
+        <Link className="panel-content router-link custom-font effect-darker" to="/bitva/legends">Bitva</Link>
       </div>
     </nav>
   </div>

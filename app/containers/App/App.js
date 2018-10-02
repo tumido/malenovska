@@ -24,7 +24,7 @@ const App = () => (
   <div id="app-wrapper">
     <Helmet
       titleTemplate="Malenovská 2018 - %s"
-      defaultTitle="Malenovská 2018"
+      defaultTitle="Malenovská Pleskna 2018"
     >
       <meta name="description" content="Malenovská je dřevárnou pro začátečníky i veterány" />
     </Helmet>
