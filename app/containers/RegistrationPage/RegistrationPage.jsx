@@ -77,7 +77,7 @@ const RegistrationPage = ({ races, firestore, participants, selectedRace, change
   return !isLoaded(races) || !isLoaded(participants) ?  <LoadingIndicator /> : (
     <div className="RegistrationPage">
       <List component='section' items={racesNamesList} />
-      <RaceDescription race={localSelectedRace} />
+      <RaceDescription component='section' race={localSelectedRace} />
       <section className="regForm">
         <RegistrationForm onSubmit={submit} />
       </section>

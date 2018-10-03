@@ -8,8 +8,7 @@ const RaceDescription = ({race, component}) => {
   return (
     <ComponentToRender className="RaceDescription">
       <ReactMarkdown className="custom-font" source={ race.legend.replace(/\\n/g,'\n') } />
-      <hr />
-      <p className="custom-font">{ race.description }</p>
+      <p className="custom-font"><strong>{ race.description }</strong></p>
     </ComponentToRender>
   )
 };

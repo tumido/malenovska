@@ -2,7 +2,7 @@
 
 @mixin box {
   @include border-radius(("top-left", "top-right", "bottom-left", "bottom-right"));
-  background-color: $gray;
+  background-color: $white;
   margin: 0 auto;
 }
 

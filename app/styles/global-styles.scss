@@ -24,6 +24,10 @@ body.amaticLoaded {
   .custom-font {
     font-family: 'Amatic SC';
     letter-spacing: .025em;
+
+    strong {
+      text-shadow: 1px 0 0;
+    }
   }
 }
 

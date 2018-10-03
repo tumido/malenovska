@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { push as Menu } from 'react-burger-menu';
+import Menu from 'react-burger-menu/lib/menus/push';
 import {decorator as reduxBurgerMenu, action as toggleMenu} from 'redux-burger-menu';
 import Logo from 'components/Logo';
 import './style.scss';
