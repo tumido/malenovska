@@ -4,10 +4,6 @@ import { compose } from 'redux';
 import { firestoreConnect, isLoaded, isEmpty } from 'react-redux-firebase';
 import { change as changeFormFieldValue, formValueSelector } from 'redux-form';
 import pick from 'lodash/pick';
-import filter from 'lodash/filter';
-import find from 'lodash/find';
-import reduce from 'lodash/reduce';
-import get from 'lodash/get';
 
 import RegistrationForm from 'components/RegistrationForm';
 import LoadingIndicator from 'components/LoadingIndicator';
@@ -45,15 +41,15 @@ const addParticipant = (firestore, values, counts, limit) => {
 
 const RegistrationPage = ({ races, firestore, participants, selectedRace, changeRace }) => {
   const submit = values => {
-    let race = find(races, { 'name': values.race });
+    let race = races.filter(r => r.name == values.race)[0];
     values.raceRef = firestore.doc(`races/${race.id}`)
     addParticipant(firestore, values, participantsToRaceMap, race.limit);
   }
 
   const participantsToRaceMap = !isLoaded(races) || !isLoaded(participants)
   ? {}
-  : reduce(races, function(obj, race) {
-      obj[race.id] = filter(participants, { 'raceRef': { 'id' : race.id } })
+  : races.reduce((obj, race) => {
+      obj[race.id] = Object.values(participants).filter(p => p && p.raceRef && p.raceRef.id == race.id)
       return obj;
     }, {});
 
@@ -66,23 +62,24 @@ const RegistrationPage = ({ races, firestore, participants, selectedRace, change
             key={`race-${key}`}
             onClick={() => changeRace(races[key].name)}
             name={races[key].name}
-            count={get(participantsToRaceMap, `${races[key].id}.length`, 0)}
+            count={participantsToRaceMap && participantsToRaceMap[races[key].id] ? participantsToRaceMap[races[key].id].length : 0}
             limit={races[key].limit}
           />
         )
       )
 
-  let localSelectedRace = isLoaded(races) && !isEmpty(races) ? find(races, { 'name': selectedRace }) : undefined
+  let localSelectedRace = isLoaded(races) && !isEmpty(races) ? races.filter(r => r.name == selectedRace)[0] : undefined
 
-  return !isLoaded(races) || !isLoaded(participants) ?  <LoadingIndicator /> : (
-    <div className="RegistrationPage">
-      <List component='section' items={racesNamesList} />
-      <RaceDescription component='section' race={localSelectedRace} />
-      <section className="regForm">
-        <RegistrationForm onSubmit={submit} />
-      </section>
-    </div>
-  )
+  return !isLoaded(races) || !isLoaded(participants) ? <LoadingIndicator /> :
+    (
+      <div className="RegistrationPage">
+        <List component='section' items={racesNamesList} />
+        <RaceDescription component='section' race={localSelectedRace} />
+        <section className="regForm">
+          <RegistrationForm onSubmit={submit} />
+        </section>
+      </div>
+    )
 }
 
 const mapStateToProps = (state) => ({
@@ -93,7 +90,6 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   changeRace: (value) => {
-    console.log(value)
     dispatch(changeFormFieldValue('registration', 'race', value))
   }
 });

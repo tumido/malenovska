@@ -57,7 +57,8 @@ module.exports = require('./webpack.base.babel')({
         vendor: {
           test: /[\\/]node_modules[\\/]/,
           name: 'vendor',
-          chunks: 'all'
+          chunks: 'all',
+          minChunks: 2
         }
       }
     }
