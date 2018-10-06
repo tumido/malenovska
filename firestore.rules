@@ -18,5 +18,8 @@ service cloud.firestore {
     match /legends/{document=**} {
       allow read;
     }
+    match /information/{document=**} {
+      allow read;
+    }
   }
 }

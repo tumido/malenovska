@@ -12,7 +12,7 @@ const List = ({ component = 'ul', items}) => {
 };
 
 List.propTypes = {
-  component: PropTypes.string.isRequired || PropTypes.func.isRequired,
+  component: PropTypes.string || PropTypes.func,
   items: PropTypes.array,
 };
 

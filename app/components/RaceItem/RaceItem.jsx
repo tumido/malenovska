@@ -4,7 +4,7 @@ import './style.scss';
 
 const RaceItem = ({name, count, limit, onClick, className}) => (
   <a className={"RaceItem " + className} onClick={onClick}>
-    {name} <span>({count}/{limit})</span>
+    {name} <span className="right">({count}/{limit})</span>
   </a>
 );
 
