@@ -1,0 +1,27 @@
+@import 'styles/mixins';
+
+.Map {
+  @include box;
+  flex: 1;
+  padding: 2px;
+  min-height: 300px;
+
+  .inner-map {
+    height: 100%;
+    width: 100%;
+  }
+
+  .leaflet-marker-icon {
+    filter: drop-shadow(8px 8px 8px #000);
+  }
+
+  .leaflet-popup-content-wrapper {
+    @include border-radius(("top-left", "top-right", "bottom-left", "bottom-right"));
+  }
+
+  .leaflet-popup-content {
+    margin: 1rem;
+    font-size: 1.5rem;
+    width: 100%;
+  }
+}

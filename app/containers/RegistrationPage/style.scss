@@ -8,7 +8,6 @@
 
   @media #{$mobile} {
     flex-direction: column;
-    margin: 0;
   }
 
   .regForm {
@@ -17,6 +16,4 @@
     color: $nav;
     @include border-radius(("top-right", "bottom-right"));
   }
-
-  margin: 0 3rem;
 }

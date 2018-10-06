@@ -1,0 +1,21 @@
+@import 'styles/mixins';
+
+.InfoPage {
+  display: flex;
+  flex: 1 0 100%;
+
+  .info {
+    flex: 1;
+    vertical-align: center;
+
+    & > div {
+      @include border-radius(("top-left", "bottom-left"));
+      background: $black;
+      display: block;
+    }
+  }
+
+  .map {
+    flex: 2;
+  }
+}
