@@ -1,3 +1,5 @@
+@import 'styles/mixins';
+
 #app-wrapper {
   margin: 0 auto;
   padding: 0;
@@ -7,6 +9,12 @@
   display: flex;
   flex-direction: column;
   padding-top: 102px;
+  min-height: 100vh;
+
+  @media #{$pc} {
+    padding-left: 3rem;
+    padding-right: 3rem;
+  }
 }
 #app {
   height: 100%;
