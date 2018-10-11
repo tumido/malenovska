@@ -6,6 +6,7 @@
   width: 1200px;
   margin-bottom: 3rem;
   padding: 1rem 5rem;
+  position: relative;
 
   @media #{$mobile} {
     width: 100%
@@ -13,5 +14,15 @@
 
   &:last-of-type {
     margin-bottom: 0;
+  }
+}
+
+.self-link {
+  position: absolute;
+  right: 30px; top: 20px;
+  color: $nav;
+
+  &:hover {
+    color: $black;
   }
 }
