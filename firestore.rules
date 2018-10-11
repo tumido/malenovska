@@ -21,5 +21,8 @@ service cloud.firestore {
     match /information/{document=**} {
       allow read;
     }
+    match /rules/{document=**} {
+      allow read;
+    }
   }
 }
