@@ -14,7 +14,7 @@ import LoadingIndicator from 'components/LoadingIndicator';
 
 import './style.scss';
 
-const LegendsPage = ({ legends, firestore }) => {
+const LegendsPage = ({ legends, event }) => {
   const legendsList = !isLoaded(legends)
     ? <LoadingIndicator />
     : isEmpty(legends)
@@ -37,15 +37,19 @@ const LegendsPage = ({ legends, firestore }) => {
 }
 
 export default compose(
-  firestoreConnect([
+  connect((state) => ({
+    event: state.event
+  })),
+  firestoreConnect(({event}) => [
     {
-      collection: 'legends',
-      where: [
-        ['current', '==', true]
-      ]
+      collection: "legends",
+      doc: `${event.year}`,
+      subcollections: [{ collection: event.name }],
+      storeAs: 'curLegends'
+      // collection: "legends",
     }
   ]),
   connect((state) => ({
-    legends: state.firestore.data.legends,
+    legends: state.firestore.data.curLegends
   }))
 )(LegendsPage);

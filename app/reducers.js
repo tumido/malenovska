@@ -10,6 +10,7 @@ import { reducer as formReducer } from 'redux-form';
 
 import { LOCATION_CHANGE } from 'react-router-redux';
 
+import eventAppReducer from 'containers/EventApp/reducer';
 import globalReducer from 'containers/App/reducer';
 
 /*
@@ -50,6 +51,7 @@ export default function createReducer(injectedReducers) {
     firebase: firebaseReducer,
     firestore: firestoreReducer,
     form: formReducer,
+    event: eventAppReducer,
     burgerMenu,
     ...injectedReducers,
   });

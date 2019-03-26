@@ -47,6 +47,7 @@
   color: $nav;
   padding: 0.8em;
 
+  &.bm-item--highlight,
   &:hover {
     color: $white;
   }
@@ -62,10 +63,6 @@
     text-align: center;
     margin-right: 1em;
   }
-}
-
-.bm-item--highlight {
-  color: nth($triplet, 1);
 }
 
 .bm-item__logo {
