@@ -12,8 +12,7 @@ const LandingPage = () => (
     </Helmet>
     <nav className="main">
       <div className="panel">
-       <span className="panel-content router-link custom-font effect-lighter" title="Zde bude Šarvátka" to="/sarvatka/news">Šarvátka</span>
-        {/* <Link className="panel-content router-link title effect-lighter" to="/sarvatka/news">Šarvátka</Link> */}
+        <Link className="panel-content router-link custom-font effect-lighter" to="/sarvatka/legends">Šarvátka</Link>
       </div>
 
       <div className="panel logo-panel">

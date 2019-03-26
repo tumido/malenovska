@@ -20,26 +20,41 @@ import Header from 'components/Header';
 import Footer from 'components/Footer';
 import './style.scss';
 
-const App = () => (
-  <div id="app-wrapper">
+const EventRouter = ({ match }) => (
+  <div>
     <Helmet
-      titleTemplate="Malenovská 2018 - %s"
+      titleTemplate="Malenovská 2019 - %s"
       defaultTitle="Malenovská Pleskna 2018"
     >
       <meta name="description" content="Malenovská je dřevárnou pro začátečníky i veterány" />
     </Helmet>
-    <Route path="/bitva" component={Header} />
+    <Route component={Header} />
     <div id="app-content">
       <Switch>
-        <Route exact path="/" component={LandingPage} />
-        <Route path="/bitva/legends" component={LegendsPage} />
-        <Route path="/bitva/rules" component={RulesPage} disabled/>
-        <Route path="/bitva/info" component={InfoPage} disabled/>
-        <Route path="/bitva/registration" component={RegistrationPage} />
+        <Route path={match.url + "/legends"} component={LegendsPage} />
+        <Route path={match.url + "/rules"} component={RulesPage} />
+        <Route path={match.url + "/info"} component={InfoPage} />
+        <Route path={match.url + "/registration"} component={RegistrationPage} />
         <Route component={NotFoundPage} />
       </Switch>
-    <Route path="/bitva" component={Footer} />
+    <Route component={Footer} />
     </div>
+  </div>
+);
+
+const App = () => (
+  <div id="app-wrapper">
+    <Helmet
+      titleTemplate="Malenovská - %s"
+      defaultTitle="Malenovská Pleskna 2018"
+    >
+      <meta name="description" content="Malenovská je dřevárnou pro začátečníky i veterány" />
+    </Helmet>
+    <Switch>
+      <Route exact path="/" component={LandingPage} />
+      <Route path="/bitva" component={EventRouter} />
+      <Route path="/sarvatka" component={EventRouter} />
+    </Switch>
   </div>
 );
 

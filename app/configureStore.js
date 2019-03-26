@@ -28,7 +28,6 @@ const rrfConfig = {
 }
 
 firebase.initializeApp(firebaseConfig);
-firebase.firestore().settings({ timestampsInSnapshots: true });
 
 export default function configureStore(initialState = {}, history) {
   // Create the store with two middlewares
