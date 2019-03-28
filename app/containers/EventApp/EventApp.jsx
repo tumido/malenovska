@@ -9,6 +9,11 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { compose } from 'redux';
+import get from 'lodash/get';
+import { Helmet } from 'react-helmet';
+
+import { firestoreConnect, isLoaded, isEmpty } from 'react-redux-firebase';
 
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import LegendsPage from 'containers/LegendsPage/Loadable';
@@ -19,10 +24,13 @@ import Header from 'components/Header';
 import Footer from 'components/Footer';
 import { setEvent } from './actions';
 
-const EventApp = ({ match, setEvent }) => {
+const EventApp = ({ match, events, setEvent }) => {
   setEvent(match.url, 2019)
   return (
     <div>
+      {/* <Helmet>
+        <title>{event}</title>
+      </Helmet> */}
       <Route component={Header} />
       <div id="app-content">
         <Switch>
@@ -42,4 +50,11 @@ const mapDispatchToProps = (dispatch) => ({
   setEvent: (event, year) => { dispatch(setEvent(event, year)) }
 })
 
-export default connect(null, mapDispatchToProps)(EventApp)
+const mapStateToProps = (state) => ({
+  events: state.firestore.data.events,
+})
+
+export default compose(
+  firestoreConnect([{collection: 'events'}]),
+  connect(mapStateToProps, mapDispatchToProps),
+)(EventApp)

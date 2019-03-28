@@ -7,7 +7,6 @@ import Logo from 'components/Logo';
 const LandingPage = () => (
   <div className="landing-page">
     <Helmet>
-      <title>Úvod</title>
       <meta name="description" content="Vyber si Malenovskou, která tě zajímá" />
     </Helmet>
     <nav className="main">
