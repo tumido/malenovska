@@ -14,7 +14,6 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import FontFaceObserver from 'fontfaceobserver';
-// import { createBrowserHistory } from 'history';
 import 'sanitize.css/sanitize.css';
 import firebase from 'firebase/app'
 import 'firebase/firestore'
@@ -55,7 +54,6 @@ amaticObserver.load().then(() => {
 
 // Create redux store with history
 const initialState = {};
-// const history = createBrowserHistory();
 const store = configureStore(initialState);
 const MOUNT_NODE = document.getElementById('app');
 

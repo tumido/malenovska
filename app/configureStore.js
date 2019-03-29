@@ -3,15 +3,15 @@
  */
 
 import { createStore, applyMiddleware, compose } from 'redux'
-import createSagaMiddleware from 'redux-saga'
+// import createSagaMiddleware from 'redux-saga'
 import createReducer from './reducers'
 
 
-const sagaMiddleware = createSagaMiddleware()
+// const sagaMiddleware = createSagaMiddleware()
 
 export default function configureStore (initialState = {}) {
   const middlewares = [
-    sagaMiddleware,
+    // sagaMiddleware,
   ];
 
   const enhancers = [
@@ -25,9 +25,9 @@ export default function configureStore (initialState = {}) {
   );
 
   // Extensions
-  store.runSaga = sagaMiddleware.run
+  // store.runSaga = sagaMiddleware.run
   store.injectedReducers = {} // Reducer registry
-  store.injectedSagas = {}    // Saga registry
+  // store.injectedSagas = {}    // Saga registry
 
   // Make reducers hot reloadable, see http://mxs.is/googmo
   /* istanbul ignore next */

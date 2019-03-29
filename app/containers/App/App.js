@@ -11,7 +11,6 @@ import { Helmet } from 'react-helmet';
 import { Switch, Route } from 'react-router-dom';
 
 import LandingPage from 'containers/LandingPage/Loadable';
-import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import EventApp from 'containers/EventApp';
 import './style.scss';
 
