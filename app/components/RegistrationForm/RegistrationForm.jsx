@@ -29,8 +29,8 @@ const RegForm = props => {
 
 const ReduxedForm = reduxForm({ form: 'registration' })(RegForm);
 
-const mapStateToProps = (state) => ({
-  initialValues: { race: "Lidé"} // FIXME!!
+const mapStateToProps = (state, props) => ({
+  initialValues: { race: props.initialRace }
 })
 
 export default connect(mapStateToProps, null)(ReduxedForm);

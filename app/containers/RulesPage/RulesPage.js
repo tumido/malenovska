@@ -6,7 +6,7 @@ import LoadingIndicator from 'components/LoadingIndicator';
 import Article from 'components/Article';
 import './style.scss';
 
-const Rules = ({ rules }) => {
+const Rules = ({ rules, location }) => {
   const event = location.pathname.split('/', 2)[1]
 
   const rulesList = !isLoaded(rules)

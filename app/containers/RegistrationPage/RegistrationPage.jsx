@@ -39,44 +39,52 @@ const addParticipant = (firestore, values, counts, limit) => {
 }
 
 
-const RegistrationPage = ({ races, firestore, participants, selectedRace, changeRace }) => {
+const RegistrationPage = ({ races, firestore, participants, selectedRace, changeRace, location }) => {
   const submit = values => {
     let race = races.filter(r => r.name == values.race)[0];
     values.raceRef = firestore.doc(`races/${race.id}`)
     addParticipant(firestore, values, participantsToRaceMap, race.limit);
   }
 
+  const event = location.pathname.split('/', 2)[1]
+  const availableRaces = !isLoaded(races) ? [] : races.filter(r => r.event == event && r.current)
+  const initialRace = !isLoaded(races) ? undefined : availableRaces[0]
+
   const participantsToRaceMap = !isLoaded(races) || !isLoaded(participants)
   ? {}
-  : races.reduce((obj, race) => {
+  : availableRaces.reduce((obj, race) => {
       obj[race.id] = Object.values(participants).filter(p => p && p.raceRef && p.raceRef.id == race.id)
       return obj;
     }, {});
 
-  const racesNamesList = !isLoaded(races) || isEmpty(races)
+  const racesNamesList = !isLoaded(races) || availableRaces.length == 0
       ? []
-      : Object.keys(races).map(
-        (key) => (
+      : availableRaces.map(
+        elem => (
           <RaceItem
-            className={"custom-font " + (races[key].name === selectedRace ? "selectedRace" : "")}
-            key={`race-${key}`}
-            onClick={() => changeRace(races[key].name)}
-            name={races[key].name}
-            count={participantsToRaceMap && participantsToRaceMap[races[key].id] ? participantsToRaceMap[races[key].id].length : 0}
-            limit={races[key].limit}
+            className={"custom-font " + (elem.name === selectedRace ? "selectedRace" : "")}
+            key={`race-${elem.id}`}
+            onClick={() => changeRace(elem.name)}
+            name={elem.name}
+            count={participantsToRaceMap && participantsToRaceMap[elem.id] ? participantsToRaceMap[elem.id].length : 0}
+            limit={elem.limit}
           />
         )
       )
 
-  let localSelectedRace = isLoaded(races) && !isEmpty(races) ? races.filter(r => r.name == selectedRace)[0] : undefined
+  let localSelectedRace = isLoaded(races) && availableRaces.length > 0
+    ? availableRaces.filter(r => r.name == selectedRace)[0]
+    : undefined
 
   return !isLoaded(races) || !isLoaded(participants) ? <LoadingIndicator /> :
     (
       <div className="RegistrationPage">
         <List component='section' items={racesNamesList} />
-        <RaceDescription component='section' race={localSelectedRace} />
+        <section>
+          <RaceDescription component='article' race={localSelectedRace} />
+        </section>
         <section className="regForm">
-          <RegistrationForm onSubmit={submit} />
+          <RegistrationForm onSubmit={submit} initialRace={initialRace.name} />
         </section>
       </div>
     )
@@ -98,9 +106,7 @@ export default compose(
   firestoreConnect([
     {
       collection: 'races',
-      // where: [
-      //   ['current', '==', true]
-      // ],
+      where: ['current', '==', true],
       orderBy: 'priority'
     },
     {
