@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { firestoreConnect, isLoaded, isEmpty } from 'react-redux-firebase';
+import get from 'lodash/get'
 
 import LoadingIndicator from 'components/LoadingIndicator';
 import Map from 'components/Map';
@@ -12,7 +13,6 @@ import './style.scss';
 const InfoPage = ({info}) => {
   if (!isLoaded(info) || isEmpty(info)) return <LoadingIndicator />;
 
-  console.log(info.date)
   let date = info.date ? info.date.toDate() : undefined;
   const dateString = !date ? "" : date.toLocaleDateString('cs-CZ')
   const timeString = !date ? "" : date.getHours() + ":" + date.getMinutes();
@@ -50,11 +50,11 @@ export default compose(
   firestoreConnect([
     {
       collection: 'information',
-      doc: 'bitva',
-      storeAs: 'info'
+      doc: location.pathname.split('/', 2)[1],
+      storeAs: `info_${location.pathname.split('/', 2)[1]}`
     }
   ]),
-  connect((state) => ({
-    info: state.firestore.data['info'],
+  connect((state, props) => ({
+    info: get(state.firestore.data, `info_${props.location.pathname.split('/', 2)[1]}`),
   }))
 )(InfoPage);
