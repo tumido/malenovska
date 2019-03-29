@@ -1,11 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ReactMarkdown from 'react-markdown';
-import './style.scss';
 import trucate from 'lodash/truncate'
 import sample from 'lodash/sample'
 
-const Article = ( {title, content="", trucated, trucateSettings, ...props} ) => {
+import ArticleAddon from 'components/ArticleAddon'
+import './style.scss'
+
+const Article = ( {title, content="", trucated, trucateSettings, addonSettings, ...props} ) => {
   const selfLink = props.id
     ? <a href={`#${props.id}`} className="self-link"><i className="fas fa-link"></i></a>
     : ""
@@ -25,15 +27,16 @@ const Article = ( {title, content="", trucated, trucateSettings, ...props} ) => 
     : ""
     // {/* <h1>{sample(buttonTexts)}</h1> */}
 
-  const toggleContent = () => {
-    displayContent = content;
-  }
+  const toggleContent = () => { displayContent = content }
+
+  const addon = addonSettings ? <ArticleAddon {...addonSettings} /> : ''
 
   return (
-    <article className="article custom-font" {...props}>
+    <article className="article" {...props}>
+        { addon }
         { selfLink }
-        <h1>{ title }</h1>
-        <ReactMarkdown source={displayContent} />
+        <h1 className="custom-font">{ title }</h1>
+        <ReactMarkdown className="custom-font" source={displayContent} />
         { expandOverlay }
     </article>
   )
@@ -46,6 +49,10 @@ Article.propTypes = {
   trucateSettings: PropTypes.shape({
     'length': PropTypes.number,
     'separator': PropTypes.string,
+  }),
+  addonSettings: PropTypes.shape({
+    icon: PropTypes.string,
+    tooltip: PropTypes.string,
   })
 }
 

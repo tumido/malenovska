@@ -1,0 +1,36 @@
+@import 'styles/variables';
+
+.ArticleAddon {
+  position: absolute;
+  top: -4px; left: 0.5em;
+
+  .addon--container {
+    padding: 1em 0.5em 2em;
+    width: 1.5em;
+    background-color: $black;
+    font-size: 2em;
+    z-index: 0;
+    color: $white;
+    box-shadow: 4px 4px 5px 0px $gray-faded;
+    position: absolute;
+
+
+    &::before {
+      position: absolute;
+      content: '';
+      height: 0; width: 0;
+      border-style: solid;
+      box-shadow: inset 4px 4px 5px 0px $gray-faded;
+      bottom: -10px; left: -10px;
+      border-width: 0 calc(0.75em + 10px) calc(0.75em + 10px) calc(0.75em + 10px);
+      border-color: transparent transparent $white transparent;
+      z-index: 3;
+    }
+  }
+  // &::after {
+  //   top: 0; left: 0;
+  //   border-width: 6em 3em 0 0 ;
+  //   border-color: $orange transparent transparent transparent;
+  //   z-index: -2;
+  // }
+}

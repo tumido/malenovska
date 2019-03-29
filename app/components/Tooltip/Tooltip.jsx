@@ -3,16 +3,16 @@ import PropTypes from 'prop-types';
 
 import './style.scss';
 
-const Tooltip = ( {children} ) => {
-  return (
+const Tooltip = ( {children, text} ) => (
     <div className="Tooltip">
         { children }
+        <div className="tooltip--content">{ text }</div>
     </div>
-  )
-}
+)
 
-Tooltip.PropTypes = {
-  children: PropTypes.element.isRequired
+Tooltip.propTypes = {
+  children: PropTypes.element.isRequired,
+  text: PropTypes.string.isRequired
 }
 
 export default Tooltip;

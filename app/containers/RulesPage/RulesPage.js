@@ -25,6 +25,7 @@ const RulesPage = ({ rules, location }) => {
             id={`rule-${rule.id}`}
             title='' //{rule.title}
             content={rule.content}
+            addonSettings={ rule.event.length == 1 ? {tooltip: 'Tato sekce byla pro tento ročník změněna, či je rozdílná oproti malé/velké Malenovské' } : undefined }
           />
       )
     )

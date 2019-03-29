@@ -1,0 +1,23 @@
+@import 'styles/variables';
+
+.Tooltip {
+  .tooltip--content {
+    position: relative;
+    // display: inline-block;
+    top: 1.5em; left: 3em;
+    visibility: hidden;
+    width: auto;
+    background-color: rgba(0,0,0,0.8);
+    color: $white;
+    text-align: center;
+    padding: 1em;
+    font-size: 1rem;
+    border-radius: 2px;
+
+    z-index: 1;
+  }
+
+ &:hover .tooltip--content {
+    visibility: visible;
+  }
+}
