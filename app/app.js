@@ -17,7 +17,6 @@ import FontFaceObserver from 'fontfaceobserver';
 // import { createBrowserHistory } from 'history';
 import 'sanitize.css/sanitize.css';
 import firebase from 'firebase/app'
-import 'firebase/auth'
 import 'firebase/firestore'
 import { ReactReduxFirebaseProvider } from 'react-redux-firebase'
 import { createFirestoreInstance } from 'redux-firestore'

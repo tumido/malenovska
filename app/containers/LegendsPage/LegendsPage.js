@@ -8,10 +8,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { firestoreConnect, isLoaded, isEmpty } from 'react-redux-firebase';
+import get from 'lodash/get'
 
 import Article from 'components/Article';
 import LoadingIndicator from 'components/LoadingIndicator';
-import get from 'lodash/get'
 
 import './style.scss';
 
@@ -27,6 +27,10 @@ const LegendsPage = ({ legends }) => {
             id={`legend-${key}`}
             title={legends[key].title}
             content={legends[key].content}
+            // trucated={true}
+            // trucateSettings={{
+            //   'length': 300
+            // }}
           />
         )
       )
