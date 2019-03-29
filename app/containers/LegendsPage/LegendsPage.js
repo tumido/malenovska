@@ -8,18 +8,20 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { firestoreConnect, isLoaded, isEmpty } from 'react-redux-firebase';
+import PropTypes from 'prop-types';
 import get from 'lodash/get'
 
 import Article from 'components/Article';
 import LoadingIndicator from 'components/LoadingIndicator';
 
 import './style.scss';
+import { LegendPropType } from 'propTypes';
 
 const LegendsPage = ({ legends }) => {
   const legendsList = !isLoaded(legends)
     ? <LoadingIndicator />
     : isEmpty(legends)
-      ? <Article id="legend-not-found" title='Néni nic!' content='Bohužel nemáme co nabídnout'/>
+      ? <Article id="legend-not-found" title='Néni nic!' content='Bohužel, příběhy došly, vraťte se prosím později...'/>
       : Object.keys(legends).map(
         (key, id) => (
           <Article
@@ -39,6 +41,10 @@ const LegendsPage = ({ legends }) => {
       {legendsList}
     </div>
   )
+}
+
+LegendsPage.propTypes = {
+  legends: PropTypes.objectOf(LegendPropType)
 }
 
 export default compose(

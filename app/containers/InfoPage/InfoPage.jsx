@@ -9,6 +9,7 @@ import Map from 'components/Map';
 import List from 'components/List';
 
 import './style.scss';
+import { InfoPropType } from 'propTypes';
 
 const InfoPage = ({info}) => {
   if (!isLoaded(info) || isEmpty(info)) return <LoadingIndicator />;
@@ -17,8 +18,8 @@ const InfoPage = ({info}) => {
   const dateString = !date ? "" : date.toLocaleDateString('cs-CZ')
   const timeString = !date ? "" : date.getHours() + ":" + date.getMinutes();
 
-  const contacts = Object.values(info.contact).map(contact => (
-    <li>
+  const contacts = Object.entries(info.contact).map(([key, contact]) => (
+    <li key={`contact-${key}`}>
       <a href={contact.href}><i className={contact.icon}></i> {contact.label}</a>
     </li>
   ))
@@ -44,6 +45,10 @@ const InfoPage = ({info}) => {
       <Map className="map" markers={info.poi} />
     </div>
   )
+}
+
+InfoPage.propTypes = {
+  info: InfoPropType,
 }
 
 export default compose(

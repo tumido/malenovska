@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import './style.scss';
 
 const Logo = ( {color = "#000"} ) => (
@@ -21,5 +23,9 @@ const Logo = ( {color = "#000"} ) => (
         />
     </svg>
 );
+
+Logo.propTypes = {
+    color: PropTypes.string,
+}
 
 export default Logo;

@@ -8,6 +8,7 @@
 
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import LegendsPage from 'containers/LegendsPage/Loadable';
@@ -32,5 +33,9 @@ const EventApp = ({ match }) => (
     </div>
   </div>
 )
+
+EventApp.propTypes = {
+  match: PropTypes.object.isRequired,
+}
 
 export default EventApp

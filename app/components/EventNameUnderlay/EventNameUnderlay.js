@@ -1,6 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import './style.scss';
-import { header } from 'change-case';
 
 const EventNameUnderlay = ({title}) => (
   <header className="event-name-top custom-font">
@@ -8,6 +9,8 @@ const EventNameUnderlay = ({title}) => (
   </header>
 );
 
-
+EventNameUnderlay.propTypes = {
+  title: PropTypes.string
+}
 
 export default EventNameUnderlay;

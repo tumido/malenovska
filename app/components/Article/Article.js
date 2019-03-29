@@ -39,11 +39,14 @@ const Article = ( {title, content="", trucated, trucateSettings, ...props} ) => 
   )
   };
 
-Article.prototype = {
-  title: PropTypes.string,
+Article.propTypes = {
+  title: PropTypes.string.isRequired,
   content: PropTypes.string,
   trucated: PropTypes.bool,
-  trucateSettings: PropTypes.object
+  trucateSettings: PropTypes.shape({
+    'length': PropTypes.number,
+    'separator': PropTypes.string,
+  })
 }
 
 export default Article;

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { firestoreConnect, isLoaded, isEmpty } from 'react-redux-firebase';
 import { change as changeFormFieldValue, formValueSelector } from 'redux-form';
+import PropTypes from 'prop-types';
 import pick from 'lodash/pick';
 
 import RegistrationForm from 'components/RegistrationForm';
@@ -10,8 +11,11 @@ import LoadingIndicator from 'components/LoadingIndicator';
 import RaceDescription from 'components/RaceDescription';
 import List from 'components/List';
 import RaceItem from 'components/RaceItem';
+import NotFoundPage from 'containers/NotFoundPage'
+import get from 'lodash/get'
 
 import './style.scss';
+import { RacePropType, InfoPropType, ParticipantsPropType  } from 'propTypes';
 
 const addParticipant = (firestore, values, counts, limit) => {
   let publicData = pick(values, ['nickname', 'firstName', 'lastName', 'group', 'race', 'raceRef']);
@@ -39,15 +43,21 @@ const addParticipant = (firestore, values, counts, limit) => {
 }
 
 
-const RegistrationPage = ({ races, firestore, participants, selectedRace, changeRace, location }) => {
+const RegistrationPage = ({ races, firestore, participants, selectedRace, changeRace, location, info}) => {
   const submit = values => {
     let race = races.filter(r => r.name == values.race)[0];
     values.raceRef = firestore.doc(`races/${race.id}`)
     addParticipant(firestore, values, participantsToRaceMap, race.limit);
   }
-
   const event = location.pathname.split('/', 2)[1]
   const availableRaces = !isLoaded(races) ? [] : races.filter(r => r.event == event && r.current)
+
+  if (isLoaded(info) && !info.registration_open)
+    return <NotFoundPage text="Registrace není otevřena"/>
+
+  if (isLoaded(races) && availableRaces.length == 0 )
+    return <NotFoundPage text="Registrace není přístupná"/>
+
   const initialRace = !isLoaded(races) ? undefined : availableRaces[0]
 
   const participantsToRaceMap = !isLoaded(races) || !isLoaded(participants)
@@ -90,10 +100,21 @@ const RegistrationPage = ({ races, firestore, participants, selectedRace, change
     )
 }
 
-const mapStateToProps = (state) => ({
+RegistrationPage.propTypes = {
+  races: PropTypes.arrayOf(RacePropType),
+  firestore: PropTypes.object.isRequired,
+  participants: PropTypes.objectOf(ParticipantsPropType),
+  selectedRace: PropTypes.string,
+  changeRace: PropTypes.func.isRequired,
+  location: PropTypes.object.isRequired,
+  info: InfoPropType,
+}
+
+const mapStateToProps = (state, props) => ({
   races: state.firestore.ordered.races,
   participants: state.firestore.data.participants,
   selectedRace: formValueSelector('registration')(state, 'race'),
+  info: get(state.firestore.data, `info_${props.location.pathname.split('/', 2)[1]}`),
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -111,6 +132,11 @@ export default compose(
     },
     {
       collection: 'participants'
+    },
+    {
+      collection: 'information',
+      doc: location.pathname.split('/', 2)[1],
+      storeAs: `info_${location.pathname.split('/', 2)[1]}`
     }
   ]),
   connect(mapStateToProps, mapDispatchToProps)

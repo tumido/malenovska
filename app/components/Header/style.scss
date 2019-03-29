@@ -84,6 +84,7 @@
 
 .nav-wrapper {
   position: absolute;
+  z-index: 1;
   &::before {
     position: fixed;
     width: 300px;

@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import PropTypes from 'prop-types';
+import { RacePropType } from 'propTypes';
+
 import './style.scss';
 
 const RaceDescription = ({race, component}) => {
@@ -14,14 +16,15 @@ const RaceDescription = ({race, component}) => {
 };
 
 RaceDescription.propTypes = {
-  race: PropTypes.object.isRequired,
+  race: RacePropType,
   component: PropTypes.string.isRequired
 };
 
 RaceDescription.defaultProps = {
   race: {
     legend: "",
-    description: ""
+    description: "",
+    event: 'bitva'
   },
   component: 'div'
 }

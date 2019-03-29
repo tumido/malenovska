@@ -6,6 +6,7 @@ import { latLngBounds } from 'leaflet';
 import './style.scss';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
+import { MarkerPropType } from 'propTypes';
 
 delete L.Icon.Default.prototype._getIconUrl;
 
@@ -47,9 +48,8 @@ const Map = ( {markers, className} ) => {
   )
 }
 
-Map.prototype = {
-  position: PropTypes.array,
-  markers: PropTypes.array
+Map.propTypes = {
+  markers: PropTypes.arrayOf(MarkerPropType),
 }
 
 export default Map;

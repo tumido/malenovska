@@ -12,3 +12,7 @@ npm-debug.log
 
 # Logs
 yarn-error.log
+
+# Firestore service account
+malenovska-service-account.json
+firebase-export.json

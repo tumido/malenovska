@@ -6,15 +6,25 @@
 
 import React from 'react';
 import Logo from 'components/Logo';
+import PropTypes from 'prop-types';
+
 import './style.scss';
 
-export default function NotFound() {
+const NotFound = ({ text }) => {
+  const displayText = text || "Tak tato stránka tu fakt není. Zkus menu vlevo!"
+
   return (
     <section className="NotFoundPage custom-font">
       <div className="logo">
         <Logo />
       </div>
-      <h1>Tak tato stránka tu fakt není. Zkus menu vlevo!</h1>
+      <h1>{displayText}</h1>
     </section>
   );
 }
+
+NotFound.propTypes = {
+  text: PropTypes.string,
+}
+
+export default NotFound;

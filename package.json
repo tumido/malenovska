@@ -32,7 +32,8 @@
     "predeploy": "npm run build",
     "deploy": "firebase deploy --only hosting",
     "deploy:rules": "firebase deploy --only firestore:rules",
-    "gen": "yarn generact"
+    "gen": "generact",
+    "export": "firestore-export -a malenovska-service-account.json -p"
   },
   "dependencies": {
     "babel-polyfill": "6.26.0",
@@ -108,6 +109,7 @@
     "jest-cli": "^24.5.0",
     "lint-staged": "^8.1.5",
     "mini-css-extract-plugin": "^0.5.0",
+    "node-firestore-import-export": "^0.13.2",
     "node-plop": "^0.18.0",
     "node-sass": "^4.11.0",
     "null-loader": "0.1.1",
