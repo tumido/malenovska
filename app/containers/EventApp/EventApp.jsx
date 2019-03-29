@@ -10,7 +10,6 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import get from 'lodash/get';
 import { Helmet } from 'react-helmet';
 
 import { firestoreConnect, isLoaded, isEmpty } from 'react-redux-firebase';
@@ -22,15 +21,14 @@ import InfoPage from 'containers/InfoPage/Loadable';
 import RegistrationPage from 'containers/RegistrationPage/Loadable';
 import Header from 'components/Header';
 import Footer from 'components/Footer';
-import { setEvent } from './actions';
+import get from 'lodash/get'
 
-const EventApp = ({ match, events, setEvent }) => {
-  setEvent(match.url, 2019)
+const EventApp = ({ match, event }) => {
+  const title = !isLoaded(event) ? 'Načítám...' : event.title
+
   return (
     <div>
-      {/* <Helmet>
-        <title>{event}</title>
-      </Helmet> */}
+      <Helmet><title>{ title }</title></Helmet>
       <Route component={Header} />
       <div id="app-content">
         <Switch>
@@ -46,15 +44,13 @@ const EventApp = ({ match, events, setEvent }) => {
   )
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  setEvent: (event, year) => { dispatch(setEvent(event, year)) }
-})
-
-const mapStateToProps = (state) => ({
-  events: state.firestore.data.events,
+const mapStateToProps = (state, props) => ({
+  event: get(state.firestore.data, `events.${props.location.pathname.split("/")[1]}`),
 })
 
 export default compose(
-  firestoreConnect([{collection: 'events'}]),
-  connect(mapStateToProps, mapDispatchToProps),
+  firestoreConnect(({location: { pathname }}) => ([
+    `events${pathname.split("/",2).join("/")}`
+  ])),
+  connect(mapStateToProps),
 )(EventApp)

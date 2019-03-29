@@ -12,10 +12,15 @@ import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { ConnectedRouter } from 'react-router-redux';
+import { BrowserRouter } from 'react-router-dom';
 import FontFaceObserver from 'fontfaceobserver';
-import createHistory from 'history/createBrowserHistory';
+// import { createBrowserHistory } from 'history';
 import 'sanitize.css/sanitize.css';
+import firebase from 'firebase/app'
+import 'firebase/auth'
+import 'firebase/firestore'
+import { ReactReduxFirebaseProvider } from 'react-redux-firebase'
+import { createFirestoreInstance } from 'redux-firestore'
 
 // Import root app
 import App from 'containers/App';
@@ -51,17 +56,42 @@ amaticObserver.load().then(() => {
 
 // Create redux store with history
 const initialState = {};
-const history = createHistory();
-const store = configureStore(initialState, history);
+// const history = createBrowserHistory();
+const store = configureStore(initialState);
 const MOUNT_NODE = document.getElementById('app');
+
+// Configure Firestore and Firebase
+const firebaseConfig = {
+  apiKey: "AIzaSyA2tOrkBzA0YcYT63KFtmtHFnwp6tAuuFI",
+  authDomain: "malenovska-305f8.firebaseapp.com",
+  databaseURL: "https://malenovska-305f8.firebaseio.com",
+  projectId: "malenovska-305f8",
+  storageBucket: "malenovska-305f8.appspot.com",
+  messagingSenderId: "189984929418"
+}
+const rrfConfig = {
+  userProfile: 'users',
+  useFirestoreForProfile: true
+}
+
+const rrfProps = {
+  firebase,
+  config: rrfConfig,
+  dispatch: store.dispatch,
+  createFirestoreInstance
+}
+
+firebase.initializeApp(firebaseConfig)
 
 const render = () => {
   ReactDOM.render(
     <Provider store={store}>
       {/* <LanguageProvider messages={messages}> */}
-      <ConnectedRouter history={history}>
-        <App />
-      </ConnectedRouter>
+      <ReactReduxFirebaseProvider {...rrfProps}>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </ReactReduxFirebaseProvider>
       {/* </LanguageProvider> */}
     </Provider>,
     MOUNT_NODE
