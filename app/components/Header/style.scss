@@ -1,24 +1,11 @@
 @import "styles/variables";
 
 .bm-burger-button {
-  position: absolute;
+  position: fixed;
   width: 36px;
   height: 30px;
   left: 36px;
   top: 36px;
-  z-index: 0 !important;
-
-  &::before {
-    position: absolute;
-    width: 300px;
-    height: 400px;
-    top: -156px;
-    left: -236px;
-    transform: rotate(30deg);
-    background: $black;
-    content: '';
-    pointer-events: none;
-  }
 }
 
 .bm-burger-bars {
@@ -93,4 +80,18 @@
 
 .margin-top {
   margin-top: 2em;
+}
+
+.nav-wrapper {
+  position: absolute;
+  &::before {
+    position: fixed;
+    width: 300px;
+    height: 400px;
+    top: -150px;
+    left: -200px;
+    transform: rotate(30deg);
+    background: $black;
+    content: '';
+  }
 }

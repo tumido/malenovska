@@ -19,7 +19,6 @@ import './style.scss';
 const App = () => (
   <div id="app-wrapper">
     <Helmet
-      titleTemplate={`Malenovská ${ new Date().getFullYear()} - %s`}
       defaultTitle={`Malenovská ${ new Date().getFullYear()}`}
     >
       <meta name="description" content="Malenovská je dřevárnou pro začátečníky i veterány" />
