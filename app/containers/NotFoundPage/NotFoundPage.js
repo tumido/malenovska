@@ -10,7 +10,7 @@ import './style.scss';
 
 export default function NotFound() {
   return (
-    <section className="NotFoundPage">
+    <section className="NotFoundPage custom-font">
       <div className="logo">
         <Logo />
       </div>

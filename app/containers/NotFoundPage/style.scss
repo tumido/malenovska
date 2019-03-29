@@ -10,7 +10,12 @@
   text-align: center;
 
   .logo {
-    margin: 3rem;
+    padding: 0.8em;
     height: 200px;
+    width: 200px;
+    margin: 0 auto 1em auto;
+    background: $white;
+    border: 2px solid $black;
+    border-radius: 50%;
   }
 }

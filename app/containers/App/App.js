@@ -24,10 +24,9 @@ const App = () => (
       <meta name="description" content="Malenovská je dřevárnou pro začátečníky i veterány" />
     </Helmet>
     <Switch>
-      <Route exact path="/" component={LandingPage} />
       <Route path="/bitva" component={EventApp} />
       <Route path="/sarvatka" component={EventApp} />
-      <Route component={NotFoundPage} />
+      <Route component={LandingPage} />
     </Switch>
   </div>
 );

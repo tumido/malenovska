@@ -25,7 +25,6 @@ const Header = props => {
         <Menu
           isOpen={window.innerWidth > 768}
           noOverlay={true}
-          disableCloseOnEsc={true}
           pageWrapId={ "app-content" }
           outerContainerId={ "app-wrapper" }
           customBurgerIcon={
