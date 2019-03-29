@@ -7,17 +7,21 @@ import Article from 'components/Article';
 import './style.scss';
 
 const Rules = ({ rules }) => {
+  const event = location.pathname.split('/', 2)[1]
+
   const rulesList = !isLoaded(rules)
   ? <LoadingIndicator />
   : isEmpty(rules)
     ? ''
     : rules.map(rule => (
-        <Article
-          key={rule.id}
-          id={`rule-${rule.id}`}
-          // title={rule.title}
-          content={rule.content}
-        />
+        !rule.event.includes(event)
+        ? ''
+        : <Article
+            key={rule.id}
+            id={`rule-${rule.id}`}
+            // title={rule.title}
+            content={rule.content}
+          />
       )
     )
 
