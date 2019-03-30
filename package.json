@@ -32,6 +32,7 @@
     "predeploy": "npm run build",
     "deploy": "firebase deploy --only hosting",
     "deploy:rules": "firebase deploy --only firestore:rules",
+    "deploy_no_build": "firebase deploy --only hosting",
     "gen": "generact",
     "export": "firestore-export -a malenovska-service-account.json -p"
   },

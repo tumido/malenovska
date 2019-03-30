@@ -12,7 +12,7 @@ import { Switch, Route } from 'react-router-dom';
 
 import LandingPage from 'containers/LandingPage/Loadable';
 import EventApp from 'containers/EventApp';
-import './style.scss';
+import styles from './style.scss';
 
 
 const App = () => (
@@ -20,7 +20,7 @@ const App = () => (
     <Helmet
       defaultTitle={`Malenovská ${ new Date().getFullYear()}`}
     >
-      <meta name="description" content="Malenovská je dřevárnou pro začátečníky i veterány" />
+      <meta name="theme-color" content={styles.defaultThemeColor} />
     </Helmet>
     <Switch>
       <Route path="/bitva" component={EventApp} />
