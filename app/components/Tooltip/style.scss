@@ -2,26 +2,35 @@
 
 .Tooltip {
   .tooltip--content {
-    position: relative;
+    position: absolute;
     // display: inline-block;
     top: 1.5em; left: 3em;
     visibility: hidden;
-    width: auto;
+    // width: auto;
     background-color: rgba(0,0,0,0.8);
     color: $white;
     text-align: center;
     padding: 1em;
     font-size: 1rem;
     border-radius: 2px;
-
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
     z-index: 1;
 
     @media #{$mobile} {
-      display: none;
+      z-index: 0;
+      top: .5em;
+      width: calc(100% - 10em);
+      visibility: visible;
     }
   }
 
- &:hover .tooltip--content {
+  &:hover .tooltip--content {
     visibility: visible;
+
+    @media #{$mobile} {
+      white-space: initial;
+    }
   }
 }

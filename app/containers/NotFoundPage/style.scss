@@ -4,7 +4,9 @@
   background: $white;
   height: 80%;
   margin: auto auto;
-  width: $width-breakpoint;
+  @media #{$pc} {
+    width: $width-breakpoint;
+  }
   border-radius: .2rem;
   padding: 3em;
   text-align: center;

@@ -1,18 +1,26 @@
 @import 'styles/variables';
 
 .ArticleAddon {
-  position: absolute;
-  top: -4px; left: 0.5em;
+  @media #{$pc} {
+    position: absolute;
+    top: -4px; left: 0.5em;
+  }
 
   .addon--container {
-    padding: 1em 0.5em 2em;
-    width: 1.5em;
     background-color: $black;
     font-size: 2em;
     z-index: 0;
     color: $white;
-    box-shadow: 4px 4px 5px 0px $gray-faded;
-    position: absolute;
+    @media #{$pc} {
+      width: 1.5em;
+      padding: 1em 0.5em 2em;
+      box-shadow: 4px 4px 5px 0px $gray-faded;
+      position: absolute;
+    }
+    @media #{$mobile} {
+      margin: -1rem;
+      padding: .5em 1em;
+    }
 
     &::before {
       position: absolute;
@@ -24,6 +32,10 @@
       border-width: 0 calc(0.75em + 10px) calc(0.75em + 10px) calc(0.75em + 10px);
       border-color: transparent transparent $white transparent;
       z-index: 3;
+
+      @media #{$mobile} {
+        display: none;
+      }
     }
   }
   // &::after {

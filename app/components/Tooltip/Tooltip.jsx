@@ -5,7 +5,7 @@ import './style.scss';
 
 const Tooltip = ( {children, text} ) => (
     <div className="Tooltip">
-        { children }
+        <div className="tooltip--hoverarea">{ children }</div>
         <div className="tooltip--content">{ text }</div>
     </div>
 )
