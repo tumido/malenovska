@@ -18,6 +18,13 @@
     ],
     "headers": [
       {
+        "source": "**",
+        "headers": [ {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        } ]
+      },
+      {
         "source": "**/*.@(jpg|jpeg|gif|png|js|eot|otf|ttf|ttc|woff|font.css)",
         "headers": [
           {
@@ -25,8 +32,7 @@
           "value": "max-age=86400"
           }
         ]
-      },
-
-    ],
+      }
+    ]
   }
 }
