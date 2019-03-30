@@ -117,6 +117,9 @@ $section-rotate: 30;
   }
 
   .router-link {
+    @media #{$mobile} {
+      font-size: 10vh;
+    }
     font-size: 8rem;
     font-weight: 700;
     text-decoration: none;

@@ -55,11 +55,9 @@ export default compose(
   firestoreConnect([
     {
       collection: 'information',
-      doc: location.pathname.split('/', 2)[1],
-      storeAs: `info_${location.pathname.split('/', 2)[1]}`
     }
   ]),
   connect((state, props) => ({
-    info: get(state.firestore.data, `info_${props.location.pathname.split('/', 2)[1]}`),
+    info: get(state.firestore.data.information, props.location.pathname.split('/', 2)[1]),
   }))
 )(InfoPage);
