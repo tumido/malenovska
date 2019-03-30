@@ -3,7 +3,6 @@
 
 .List {
   @include border-radius(("top-left", "bottom-left"));
-  width: 300px;
   background: $black;
   color: $nav;
   padding: 0;

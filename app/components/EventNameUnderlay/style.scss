@@ -5,6 +5,10 @@
   right: 0;
   top: 0;
 
+  @media #{$mobile} {
+    display: none;
+  }
+
   &::before {
     position: absolute;
     content: '';

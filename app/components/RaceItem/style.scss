@@ -39,6 +39,10 @@
     border-width: 1.5em 0 1.5em 1.5em;
     border-style: solid;
     border-color: transparent transparent transparent $gray-faded;
+
+    @media #{$mobile} {
+      display: none;
+    }
   }
 
   span {
