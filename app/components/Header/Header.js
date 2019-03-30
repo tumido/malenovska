@@ -10,7 +10,7 @@ import get from 'lodash/get'
 import { firestoreConnect, isLoaded } from 'react-redux-firebase'
 
 import Logo from 'components/Logo';
-import EventNameUnderlay from 'components/EventNameUnderlay';
+import EventNameOverlay from 'components/EventNameOverlay';
 import { EventPropType } from 'propTypes';
 
 import './style.scss';
@@ -21,7 +21,7 @@ const Header = ({event, location, toggleMenu, ...props}) => {
   const title = !isLoaded(event) ? 'Načítám...' : `Malenovská ${event.title} ${event.year}`
 
   return (
-    <div className="nav-wrapper">
+    <div className="Header">
       <Helmet><title>{title}</title></Helmet>
       <Menu
         pageWrapId={ "app-content" }
@@ -52,7 +52,7 @@ const Header = ({event, location, toggleMenu, ...props}) => {
           <i className="fas fa-map-signs"></i>Úvodní stránka
         </NavLink>
       </Menu>
-      <EventNameUnderlay title={title}/>
+      <EventNameOverlay title={title}/>
     </div>
   )
 };

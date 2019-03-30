@@ -32,7 +32,7 @@ const Article = ( {title, content="", trucated, trucateSettings, addonSettings, 
   const addon = addonSettings ? <ArticleAddon {...addonSettings} /> : ''
 
   return (
-    <article className="article" {...props}>
+    <article className="Article" {...props}>
         { addon }
         { selfLink }
         <h1 className="custom-font">{ title }</h1>

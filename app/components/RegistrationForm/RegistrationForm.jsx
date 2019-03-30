@@ -6,8 +6,8 @@ import PropTypes from 'prop-types';
 import fields from './fields.json';
 import './style.scss';
 
-const RegForm = ({ handleSubmit }) => (
-  <form className="RegForm" onSubmit={handleSubmit}>
+const RegistrationForm = ({ handleSubmit }) => (
+  <form className="RegistrationForm" onSubmit={handleSubmit}>
     {
       Object.keys(fields).map(
         (key, id) => (
@@ -24,11 +24,11 @@ const RegForm = ({ handleSubmit }) => (
   </form>
 )
 
-RegForm.propTypes = {
+RegistrationForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
 }
 
-const ReduxedForm = reduxForm({ form: 'registration' })(RegForm);
+const ReduxedForm = reduxForm({ form: 'registration' })(RegistrationForm);
 
 const mapStateToProps = (state, props) => ({
   initialValues: { race: props.initialRace }

@@ -3,7 +3,7 @@ import React from 'react';
 import './style.scss';
 
 const Footer = () => (
-  <footer>
+  <footer className="Footer">
     <section>
       Zlišky <span role="img" area-label="heart-emoji">❤️</span> Malenovská
     </section>
