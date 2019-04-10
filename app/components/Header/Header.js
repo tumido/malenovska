@@ -18,7 +18,7 @@ import './style.scss';
 const Header = ({event, location, toggleMenu, ...props}) => {
   const base = location.pathname.split('/', 2).join('/')
   const close = () => {toggleMenu(false)}
-  const title = !isLoaded(event) ? 'Načítám...' : `Malenovská ${event.title} ${event.year}`
+  const title = !isLoaded(event) ? 'Načítám...' : `${event.title} ${event.year}`
 
   return (
     <div className="Header">

@@ -103,6 +103,22 @@ if (module.hot) {
     ReactDOM.unmountComponentAtNode(MOUNT_NODE);
     render();
   });
+
+  // Enable data persistance only if in devel mode
+  firebase.firestore().enablePersistence().catch(err => {
+    let reason = (c => {
+      switch(c) {
+        case 'failed-precondition':
+          return "Another tab active"
+        case 'unimplemented':
+          return "Missing support in your browser"
+        default:
+          return `Other: ${c}`
+      }
+    })(err.code)
+
+    console.log(`Unable to initialize offline storage, reason: ${reason}`)
+  })
 }
 
 render();

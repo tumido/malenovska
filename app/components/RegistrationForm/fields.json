@@ -32,7 +32,7 @@
     "placeholder": "Nestárnu",
     "type": "number",
     "required": true,
-    "min": 15
+    "min": 10
   },
   {
     "name": "group",

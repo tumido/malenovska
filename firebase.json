@@ -25,11 +25,20 @@
         } ]
       },
       {
-        "source": "**/*.@(jpg|jpeg|gif|png|js|eot|otf|ttf|ttc|woff|font.css|css)",
+        "source": "**/*.@(jpg|jpeg|gif|png|ico|eot|otf|ttf|ttc|woff|font.css)",
         "headers": [
           {
           "key": "Cache-Control",
-          "value": "max-age=86400"
+          "value": "max-age=86400, public"
+          }
+        ]
+      },
+      {
+        "source": "**/*.@(js|css)",
+        "headers": [
+          {
+          "key": "Cache-Control",
+          "value": "max-age=691200, public"
           }
         ]
       }
