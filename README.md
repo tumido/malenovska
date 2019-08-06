@@ -29,17 +29,18 @@ A React-Redux site with bindings to Google Firestore
 
 As usual
 
-```
-yarn
+```sh
+$ npm i
 ```
 
 ## Developer server
-```
-yarn start
+
+```sh
+$ npm start
 ```
 
 ## Deployment
 
-```
-yarn deploy
+```sh
+$ npm deploy
 ```

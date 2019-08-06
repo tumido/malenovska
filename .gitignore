@@ -10,9 +10,6 @@ stats.json
 npm-debug.log
 .idea
 
-# Logs
-yarn-error.log
-
 # Firestore service account
 malenovska-service-account.json
 firebase-export.json
