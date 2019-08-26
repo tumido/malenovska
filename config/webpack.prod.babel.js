@@ -7,24 +7,19 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 
 module.exports = require('./webpack.base.babel')({
   mode: 'production',
-  // In production, we skip all hot-reloading stuff
+  devtool: false,
   entry: [
     path.join(process.cwd(), 'app/app.js')
   ],
-
-  // Utilize long-term caching by adding content hashes (not compilation hashes) to compiled assets
   output: {
     filename: '[name].[chunkhash].js',
     chunkFilename: '[name].[chunkhash].chunk.js'
   },
-
   plugins: [
     new MiniCssExtractPlugin({
       filename: '[name].[chunkhash].css',
       chunkFilename: '[name].[chunkhash].chunk.css',
     }),
-
-    // Minify and optimize the index.html
     new HtmlWebpackPlugin({
       template: 'app/index.html',
       minify: {
@@ -41,24 +36,23 @@ module.exports = require('./webpack.base.babel')({
       },
       inject: true
     }),
-
     new BundleAnalyzerPlugin({
       analyzerMode: 'static'
     })
   ],
-
   performance: {
     assetFilter: (assetFilename) => !(/(\.map$)|(^(main\.|favicon\.))/.test(assetFilename)),
   },
-
   optimization: {
+    minimize: true,
+    usedExports: true,
     splitChunks: {
       cacheGroups: {
-        vendor: {
+        vendors: false,
+        commons: {
           test: /[\\/]node_modules[\\/]/,
           name: 'vendor',
-          chunks: 'all',
-          minChunks: 2
+          chunks: 'initial'
         }
       }
     }

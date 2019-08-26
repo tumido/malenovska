@@ -11,81 +11,32 @@ process.noDeprecation = true;
 module.exports = (options) => ({
   mode: options.mode,
   entry: options.entry,
-  output: Object.assign({ // Compile into js/build.js
+  output: Object.assign({
     path: path.resolve(process.cwd(), 'build'),
     publicPath: '/',
-  }, options.output), // Merge with env dependent settings
+  }, options.output),
   module: {
     rules: [
       {
-        test: /\.(js|jsx)$/, // Transform all .js files required somewhere with Babel
+        test: /\.(js|jsx)$/,
         exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-          options: options.babelQuery,
-        },
+        use: [{ loader: 'source-map-loader' }, { loader: 'babel-loader' }]
       },
       {
-        // Preprocess our own .scss files
-        test: /\.scss$/,
-        exclude: /node_modules/,
+        test: /\.s?[ac]ss$/,
         use: [
-          process.env.NODE_ENV == 'development' ? 'style-loader' : MiniCssExtractPlugin.loader,
-          'css-loader',
-          'sass-loader'
-        ],
-      },
-      {
-        // Preprocess 3rd party .css files located in node_modules
-        test: /\.css$/,
-        include: /node_modules/,
-        use: [
-          process.env.NODE_ENV == 'development' ? 'style-loader' : MiniCssExtractPlugin.loader,
-          'css-loader'
-        ],
-      },
-      {
-        test: /\.(eot|svg|otf|ttf|woff|woff2)$/,
-        use: 'file-loader',
-      },
-      {
-        test: /\.(jpg|png|gif)$/,
-        use: [
-          'file-loader',
+          MiniCssExtractPlugin.loader,
           {
-            loader: 'image-webpack-loader',
-            options: {
-              query: {
-                gifsicle: {
-                  interlaced: true
-                },
-                mozjpeg: {
-                  progressive: true
-                },
-                optipng: {
-                  optimizationLevel: 7
-                },
-                pngquant: {
-                  quality: '65-90',
-                  speed: 4
-                }
-              }
-            },
+            loader: 'css-loader'
           },
-        ],
+          {
+            loader: 'sass-loader'
+          }
+        ]
       },
       {
-        test: /\.html$/,
-        use: 'html-loader'
-      },
-      {
-        test: /\.(mp4|webm)$/,
-        use: {
-          loader: 'url-loader',
-          options: {
-            limit: 10000
-          },
-        },
+        test: /\.(eot|svg|otf|ttf|woff|woff2|jpg|png|gif)$/,
+        use: 'file-loader',
       },
     ],
   },
