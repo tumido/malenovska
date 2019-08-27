@@ -14,18 +14,17 @@ import LandingPage from 'containers/LandingPage/Loadable';
 import EventApp from 'containers/EventApp';
 import styles from './style.scss';
 
-
 const App = () => (
   <div id="app-wrapper">
     <Helmet
-      defaultTitle={`Malenovská ${ new Date().getFullYear()}`}
+      defaultTitle={ `Malenovská ${ new Date().getFullYear()}` }
     >
-      <meta name="theme-color" content={styles.defaultThemeColor} />
+      <meta name="theme-color" content={ styles.defaultThemeColor } />
     </Helmet>
     <Switch>
-      <Route path="/bitva" component={EventApp} />
-      <Route path="/sarvatka" component={EventApp} />
-      <Route component={LandingPage} />
+      <Route path="/bitva" component={ EventApp } />
+      <Route path="/sarvatka" component={ EventApp } />
+      <Route component={ LandingPage } />
     </Switch>
   </div>
 );

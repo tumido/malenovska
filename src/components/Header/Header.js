@@ -16,7 +16,8 @@ import { EventPropType } from 'propTypes';
 import './style.scss';
 
 const Header = ({event, location, toggleMenu, ...props}) => {
-  const base = location.pathname.split('/', 2).join('/')
+  console.log(event)
+  const base = !isLoaded(event) ? '' : event.id
   const close = () => {toggleMenu(false)}
   const title = !isLoaded(event) ? 'Načítám...' : `${event.title} ${event.year}`
 
@@ -72,8 +73,8 @@ Header.propTypes = {
 }
 
 export default compose(
-  firestoreConnect(({location: { pathname }}) => ([
-    `events${pathname.split("/",2).join("/")}`
+  firestoreConnect(() => ([
+    { collection: 'events'}
   ])),
   connect(mapStateToProps, mapDispatchToProps)
 )(reduxBurgerMenu(Header));
