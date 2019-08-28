@@ -17,22 +17,8 @@ body {
   background-size: cover;
 }
 
-body.openSansLoaded {
+body {
   font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-}
-body.amaticLoaded {
-  .custom-font {
-    font-family: 'Amatic SC';
-    letter-spacing: .025em;
-
-    strong, h1, h2 {
-      text-shadow: 1px 0 0;
-    }
-  }
-}
-
-.right {
-  float: right;
 }
 
 p,
@@ -49,4 +35,17 @@ h2 {
 input, button {
   background-color: transparent;
   color: inherit;
+}
+
+.custom-font {
+  font-family: 'Amatic SC';
+  letter-spacing: .025em;
+
+  strong, h1, h2 {
+    text-shadow: 1px 0 0;
+  }
+}
+
+.right {
+  float: right;
 }

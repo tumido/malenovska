@@ -1,13 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { compose } from 'redux'
+import { compose } from 'redux';
 import { NavLink } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import PropTypes from 'prop-types';
 import Menu from 'react-burger-menu/lib/menus/slide';
-import {decorator as reduxBurgerMenu, action as toggleMenu} from 'redux-burger-menu';
-import get from 'lodash/get'
-import { firestoreConnect, isLoaded } from 'react-redux-firebase'
+import { decorator as reduxBurgerMenu, action as toggleMenu } from 'redux-burger-menu';
 
 import Logo from 'components/Logo';
 import EventNameOverlay from 'components/EventNameOverlay';
@@ -15,66 +13,46 @@ import { EventPropType } from 'propTypes';
 
 import './style.scss';
 
-const Header = ({event, location, toggleMenu, ...props}) => {
-  console.log(event)
-  const base = !isLoaded(event) ? '' : event.id
-  const close = () => {toggleMenu(false)}
-  const title = !isLoaded(event) ? 'Načítám...' : `${event.title} ${event.year}`
+const Header = ({ event, toggleMenu, ...props }) => {
+  const close = () => {toggleMenu(false);};
 
   return (
     <div className="Header">
-      <Helmet><title>{title}</title></Helmet>
+      <Helmet><title>{event.name} {event.year}</title></Helmet>
       <Menu
-        pageWrapId={ "app-content" }
-        outerContainerId={ "app-wrapper" }
-        customBurgerIcon={
-          <span>
-            <span className="bm-burger-bars"></span><span className="bm-burger-bars"></span><span className="bm-burger-bars"></span>
-          </span>
-        }
-        {...props}
+        pageWrapId={ 'app-content' }
+        outerContainerId={ 'app-wrapper' }
+        { ...props }
       >
-        <NavLink onClick={close} to="/" className="bm-item__logo">
+        <NavLink onClick={ close } to="/" className="bm-item__logo">
           <Logo />
         </NavLink>
-        <NavLink onClick={close} className="router-link custom-font" to={base + "/legends"} activeClassName="bm-item--highlight">
+        <NavLink onClick={ close } className="router-link custom-font" to='legends' activeClassName="bm-item--highlight">
           <i className="fas fa-book-open"></i>Zprávy z bojiště
         </NavLink>
-        <NavLink onClick={close} className="router-link custom-font" to={base + "/rules"} activeClassName="bm-item--highlight">
+        <NavLink onClick={ close } className="router-link custom-font" to='rules' activeClassName="bm-item--highlight">
           <i className="fas fa-balance-scale"></i> Pravidla střetu
         </NavLink>
-        <NavLink onClick={close} className="router-link custom-font" to={base + "/info"} activeClassName="bm-item--highlight">
+        <NavLink onClick={ close } className="router-link custom-font" to='info' activeClassName="bm-item--highlight">
           <i className="fas fa-map-marker-alt"></i> Důležité informace
         </NavLink>
-        <NavLink onClick={close} className="router-link custom-font" to={base + "/registration"} activeClassName="bm-item--highlight">
+        <NavLink onClick={ close } className="router-link custom-font" to='registration' activeClassName="bm-item--highlight">
           <i className="fas fa-address-card"></i>Registrace
         </NavLink>
-        <NavLink onClick={close} className="router-link custom-font margin-top" to="/">
+        <NavLink onClick={ close } className="router-link custom-font margin-top" to="/">
           <i className="fas fa-map-signs"></i>Úvodní stránka
         </NavLink>
       </Menu>
-      <EventNameOverlay title={title}/>
+      <EventNameOverlay title={ event.name }/>
     </div>
-  )
+  );
 };
-
-const mapDispatchToProps = {
-  toggleMenu,
-}
-
-const mapStateToProps = (state, props) => ({
-  event: get(state.firestore.data, `events.${props.location.pathname.split("/")[1]}`),
-})
 
 Header.propTypes = {
   event: EventPropType,
-  location: PropTypes.object.isRequired,
   toggleMenu: PropTypes.func.isRequired
 }
 
 export default compose(
-  firestoreConnect(() => ([
-    { collection: 'events'}
-  ])),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(null, { toggleMenu })
 )(reduxBurgerMenu(Header));

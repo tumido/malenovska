@@ -10,7 +10,7 @@
   "author": "Tomas Coufal",
   "license": "MIT",
   "scripts": {
-    "build": "NODE_ENV=production webpack --config config/prod.webpack.config.js",
+    "build": "NODE_ENV=production webpack --config config/prod.webpack.config.js --progress",
     "start": "webpack-dev-server --config config/dev.webpack.config.js --progress --color",
     "prod": "NODE_ENV=production webpack-dev-server --config config/prod.webpack.config.js",
     "lint": "eslint --ignore-path .gitignore",
@@ -21,7 +21,6 @@
   },
   "dependencies": {
     "firebase": "^6.3.4",
-    "fontfaceobserver": "^2.1.0",
     "leaflet": "^1.5.1",
     "prop-types": "^15.6.2",
     "react": "^16.8.3",

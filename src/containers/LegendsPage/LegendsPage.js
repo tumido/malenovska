@@ -19,7 +19,7 @@ import { LegendPropType } from 'propTypes';
 
 const LegendsPage = ({ legends }) => {
   const legendsList = !isLoaded(legends)
-    ? <LoadingIndicator />
+    ? ''
     : isEmpty(legends)
       ? <Article id="legend-not-found" title='Néni nic!' content='Bohužel, příběhy došly, vraťte se prosím později...'/>
       : Object.keys(legends).map(
@@ -48,15 +48,15 @@ LegendsPage.propTypes = {
 }
 
 export default compose(
-  firestoreConnect(({location}) => [
+  firestoreConnect(({ event }) => [
     {
       collection: "legends",
-      where: ['event', '==', location.pathname.split('/', 2)[1]],
-      storeAs: `legends_${location.pathname.split('/', 2)[1]}`
+      // where: ['event', '==', location.pathname.split('/', 2)[1]],
+      // storeAs: `legends_${location.pathname.split('/', 2)[1]}`
       // collection: "legends",
     }
   ]),
   connect((state, props) => ({
-    legends: get(state.firestore.data, `legends_${props.location.pathname.split('/', 2)[1]}`)
+    legends: state.firestore.data.legends
   }))
 )(LegendsPage);
