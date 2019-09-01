@@ -1,12 +1,11 @@
-import { createStore } from 'redux';
+import { applyMiddleware, createStore } from 'redux';
 import createReducer from '../redux/reducers';
+import logger from 'redux-logger';
 
-const initialState = {};
-
-const configureStore = (initialState = {}) => {
+const configureStore = () => {
   const store = createStore(
     createReducer(),
-    initialState
+    applyMiddleware(logger)
   );
 
   store.injectedReducers = {};
@@ -21,4 +20,4 @@ const configureStore = (initialState = {}) => {
   return store;
 };
 
-export const store = configureStore(initialState);
+export const store = configureStore();
