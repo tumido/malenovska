@@ -11,7 +11,7 @@ export default (injectedReducers) => (
     firebase: firebaseReducer,
     firestore: firestoreReducer,
     form: formReducer,
-    events: eventsReducer,
+    event: eventsReducer,
     burgerMenu,
     ...injectedReducers
   })
