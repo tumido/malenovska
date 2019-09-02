@@ -6,9 +6,11 @@ import { ReactReduxFirebaseProvider } from 'react-redux-firebase';
 
 import { store } from './utilities/store';
 import { rrfProps, enableFirebasePersistence, initializeFirebase } from './utilities/firebase';
+import loadFonts from './utilities/fonts';
 import App from 'App';
 
 initializeFirebase();
+loadFonts();
 
 const render = () => {
   ReactDOM.render(
