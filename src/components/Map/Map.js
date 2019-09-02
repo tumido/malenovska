@@ -6,7 +6,7 @@ import { latLngBounds } from 'leaflet';
 import './style.scss';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
-import { MarkerPropType } from 'propTypes';
+import { MarkerPropType } from 'utilities/scheme';
 
 delete L.Icon.Default.prototype._getIconUrl;
 

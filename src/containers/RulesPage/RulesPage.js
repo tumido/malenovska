@@ -8,7 +8,7 @@ import LoadingIndicator from 'components/LoadingIndicator';
 import Article from 'components/Article';
 
 import './style.scss';
-import { RulesPropType } from 'propTypes';
+import { RulesPropType } from 'utilities/scheme';
 
 const RulesPage = ({ rules, location }) => {
   const event = location.pathname.split('/', 2)[1]

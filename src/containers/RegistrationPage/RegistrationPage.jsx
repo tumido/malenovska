@@ -15,7 +15,7 @@ import NotFoundPage from 'containers/NotFoundPage'
 import get from 'lodash/get'
 
 import './style.scss';
-import { RacePropType, InfoPropType, ParticipantsPropType  } from 'propTypes';
+import { RacePropType, InfoPropType, ParticipantsPropType  } from 'utilities/scheme';
 
 const addParticipant = (firestore, values, counts, limit) => {
   let publicData = pick(values, ['nickname', 'firstName', 'lastName', 'group', 'race', 'raceRef']);

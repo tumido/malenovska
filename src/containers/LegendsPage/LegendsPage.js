@@ -15,7 +15,7 @@ import Article from 'components/Article';
 import LoadingIndicator from 'components/LoadingIndicator';
 
 import './style.scss';
-import { LegendPropType } from 'propTypes';
+import { LegendPropType } from 'utilities/scheme';
 
 const LegendsPage = ({ legends }) => {
   const legendsList = !isLoaded(legends)

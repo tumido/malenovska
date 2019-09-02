@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import PropTypes from 'prop-types';
-import { RacePropType } from 'propTypes';
+import { RacePropType } from 'utilities/scheme';
 
 import './style.scss';
 

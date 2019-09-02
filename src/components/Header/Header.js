@@ -9,7 +9,7 @@ import { decorator as reduxBurgerMenu, action as toggleMenu } from 'redux-burger
 
 import Logo from 'components/Logo';
 import EventNameOverlay from 'components/EventNameOverlay';
-import { EventPropType } from 'propTypes';
+import { EventPropType } from 'utilities/scheme';
 
 import './style.scss';
 

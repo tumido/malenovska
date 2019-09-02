@@ -9,7 +9,7 @@ import Map from 'components/Map';
 import List from 'components/List';
 
 import './style.scss';
-import { InfoPropType } from 'propTypes';
+import { InfoPropType } from 'utilities/scheme';
 
 const InfoPage = ({info}) => {
   if (!isLoaded(info) || isEmpty(info)) return <LoadingIndicator />;
