@@ -1,6 +1,6 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
@@ -38,6 +38,7 @@ class BaseEvent extends React.Component {
       <div>
         <Header event={ event } />
         <Switch>
+          <Redirect from={ `/${event.id}` } to={ `/${event.id}/legends` } />
           <Route path={ `/${event.id}/legends` } component={ LegendsPage } />
           <Route path={ `/${event.id}/rules` } component={ RulesPage } />
           <Route path={ `/${event.id}/info` } component={ InfoPage } />
