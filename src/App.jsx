@@ -4,12 +4,9 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
-
 import { firestoreConnect, isLoaded } from 'react-redux-firebase';
-
-import { setEvent } from './redux/actions';
-
-import { CssBaseline, NoSsr } from '@material-ui/core';
+import { CssBaseline, NoSsr, makeStyles } from '@material-ui/core';
+import { ThemeProvider } from '@material-ui/styles';
 
 import LandingPage from 'containers/LandingPage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
@@ -21,42 +18,53 @@ import Header from 'components/Header';
 import Footer from 'components/Footer';
 import LoadingIndicator from 'components/LoadingIndicator';
 
-class BaseEvent extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
+import { setEvent } from './redux/actions';
+import { MalenovskaTheme } from './utilities/theme';
+
+const useStyles = makeStyles(theme => ({
+  root: {
+    display: 'flex',
+    backgroundColor: '#000'
+  },
+  content: {
+    flexGrow: 1,
   }
+}));
 
-  componentDidMount() {
-    this.props.setEvent(this.props.event.id);
-  };
+const BaseEvent = ({ event, allEvents, setEvent }) => {
+  React.useEffect(() => { setEvent(event.id); });
 
-  render() {
-    let { event } = this.props;
-
-    return (
-      <div>
-        <Header event={ event } />
+  const classes = useStyles();
+  return (
+    <div className={ classes.root }>
+      <Header event={ event } allEvents={ allEvents }/>
+      <div className={ classes.content }>
         <Switch>
-          <Redirect from={ `/${event.id}` } to={ `/${event.id}/legends` } />
-          <Route path={ `/${event.id}/legends` } component={ LegendsPage } />
+          <Route path={ `/${event.id}/legends` } render={ (props) => <LegendsPage { ...props } event={ event }/> } />
           <Route path={ `/${event.id}/rules` } component={ RulesPage } />
           <Route path={ `/${event.id}/info` } component={ InfoPage } />
           <Route path={ `/${event.id}/registration` } component={ RegistrationPage } />
+          <Redirect from={ `/${event.id}` } to={ `/${event.id}/legends` } />
           <Route component={ NotFoundPage } />
         </Switch>
         <Footer />
       </div>
-    );
-  };
-}
+    </div>
+  );
+};
 
 BaseEvent.propTypes = {
   event: PropTypes.object,
-  setEvent: PropTypes.func
+  setEvent: PropTypes.func,
+  allEvents: PropTypes.array
 };
 
-const Event = connect(null, { setEvent })(BaseEvent);
+const Event = connect(
+  state => ({
+    allEvents: state.firestore.ordered.events
+  }),
+  { setEvent }
+)(BaseEvent);
 
 const App = ({ events }) => {
   if (!isLoaded(events)) {
@@ -65,20 +73,22 @@ const App = ({ events }) => {
 
   return (
     <NoSsr>
-      <CssBaseline />
-      <Helmet defaultTitle={ `Malenovská ${ new Date().getFullYear()}` }>
-        <meta name="theme-color" content='#0e0a0a' />
-      </Helmet>
-      <Switch>
-        { isLoaded(events) && events.map((event) => (
-          <Route
-            key={ `route_${event.id}` }
-            path={ '/' + event.id }
-            render={ (props) => <Event { ...props } event={ event }/> }
-          />
-        ))}
-        <Route exact path='/' component={ LandingPage } />
-      </Switch>
+      <ThemeProvider theme={ MalenovskaTheme }>
+        <CssBaseline />
+        <Helmet defaultTitle={ `Malenovská ${ new Date().getFullYear()}` }>
+          <meta name="theme-color" content='#0e0a0a' />
+        </Helmet>
+        <Switch>
+          { isLoaded(events) && events.map((event) => (
+            <Route
+              key={ `route_${event.id}` }
+              path={ '/' + event.id }
+              render={ (props) => <Event { ...props } event={ event }/> }
+            />
+          ))}
+          <Route exact path='/' component={ LandingPage } />
+        </Switch>
+      </ThemeProvider>
     </NoSsr>
   );
 };
