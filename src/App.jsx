@@ -9,6 +9,8 @@ import { firestoreConnect, isLoaded } from 'react-redux-firebase';
 
 import { setEvent } from './redux/actions';
 
+import { CssBaseline, NoSsr } from '@material-ui/core';
+
 import LandingPage from 'containers/LandingPage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import LegendsPage from 'containers/LegendsPage/Loadable';
@@ -18,8 +20,6 @@ import RegistrationPage from 'containers/RegistrationPage/Loadable';
 import Header from 'components/Header';
 import Footer from 'components/Footer';
 import LoadingIndicator from 'components/LoadingIndicator';
-
-import { defaultThemeColor } from 'styles/theme.scss';
 
 class BaseEvent extends React.Component {
   constructor(props) {
@@ -64,9 +64,10 @@ const App = ({ events }) => {
   }
 
   return (
-    <div id="app-wrapper">
+    <NoSsr>
+      <CssBaseline />
       <Helmet defaultTitle={ `Malenovská ${ new Date().getFullYear()}` }>
-        <meta name="theme-color" content={ defaultThemeColor } />
+        <meta name="theme-color" content='#0e0a0a' />
       </Helmet>
       <Switch>
         { isLoaded(events) && events.map((event) => (
@@ -78,8 +79,8 @@ const App = ({ events }) => {
         ))}
         <Route exact path='/' component={ LandingPage } />
       </Switch>
-    </div>
-  )
+    </NoSsr>
+  );
 };
 
 App.propTypes = {
