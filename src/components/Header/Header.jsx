@@ -1,7 +1,4 @@
 import React from 'react';
-import clsx from 'clsx';
-// import { connect } from 'react-redux';
-// import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import { Link as RouterLink } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
@@ -16,13 +13,17 @@ const drawerWidth = 300;
 
 const useStyles = makeStyles(theme => ({
   drawer: {
-    [theme.breakpoints.up('sm')]: {
+    [theme.breakpoints.up('md')]: {
       width: drawerWidth,
       flexShrink: 0
     }
   },
   menuButton: {
     marginRight: theme.spacing(2)
+  },
+  drawerDivider: {
+    backgroundColor: theme.palette.primary.light,
+    margin: '20px 0'
   },
   drawerHeader: {
     display: 'flex',
@@ -39,8 +40,7 @@ const useStyles = makeStyles(theme => ({
   drawerSecondary: {
     color: grey[500]
   },
-  faIcon: {
-    width: '1.5em',
+  icon: {
     color: '#fff'
   }
 }));
@@ -64,43 +64,68 @@ const Header = ({ event, allEvents }) => {
   }
 
   const drawerItems = [
-    {
-      textPrimary: 'Zprávy z bojiště',
-      iconClassName: clsx(classes.faIcon, 'fas fa-book-open')
-    },
-    {
-      textPrimary: 'Pravidla',
-      iconClassName: clsx(classes.faIcon, 'fas fa-balance-scale')
-    },
-    {
-      textPrimary: 'Důležité informace',
-      iconClassName: clsx(classes.faIcon, 'fas fa-map-marker-alt')
-    },
-    {
-      textPrimary: 'Registrace',
-      iconClassName: clsx(classes.faIcon, 'fas fa-address-card')
-    },
-
+    [
+      {
+        textPrimary: 'Legendy a příběhy',
+        icon: 'speaker_notes',
+        href: 'legends'
+      },
+      {
+        textPrimary: 'Pravidla',
+        icon: 'gavel',
+        href: 'rules'
+      },
+      {
+        textPrimary: 'Svět',
+        icon: 'map'
+      },
+      {
+        textPrimary: 'Důležité informace',
+        icon: 'location_on',
+        href: 'info'
+      },
+      {
+        textPrimary: 'Kontakty',
+        icon: 'mail_outline'
+      }
+    ],
+    [
+      {
+        textPrimary: 'Nová registrace',
+        icon: 'person_add',
+        href: 'registration'
+      },
+      {
+        textPrimary: 'Účastníci',
+        icon: 'how_to_reg'
+      },
+    ]
   ]
 
   const drawer = (
     <React.Fragment>
       <div className={ classes.drawerHeader }>
-        <Hidden smUp>
+        <Hidden mdUp>
           <IconButton onClick={ handleDrawerToggle }>
-            <Icon>chevron_left</Icon>
+            <Icon className={ classes.faIcon }>chevron_left</Icon>
           </IconButton>
         </Hidden>
       </div>
-      <List>
-        { drawerItems.map((item, index) => (
-          <ListItem key={ `item_${index}` } button>
-            <ListItemIcon><Icon className={ item.iconClassName } /></ListItemIcon>
-            <ListItemText primary={ item.textPrimary } />
-          </ListItem>
-        )) }
-      </List>
-      <Divider />
+      { drawerItems.map((section, index) => (
+        <React.Fragment key={ `sec_${index}` }>
+          <List>
+            { section.map((item, index) => (
+              <Link key={ `item_${index}`  } component={ RouterLink } underline='none' color='inherit' to={ `/${event.id}/${item.href}` }>
+                <ListItem button>
+                  <ListItemIcon><Icon className={ classes.icon }>{ item.icon }</Icon></ListItemIcon>
+                  <ListItemText primary={ item.textPrimary } />
+                </ListItem>
+              </Link>
+            )) }
+          </List>
+          <Divider className={ classes.drawerDivider }/>
+        </React.Fragment>
+      )) }
       <List component="nav" aria-label="Device settings">
         <ListItem
           button
@@ -109,6 +134,7 @@ const Header = ({ event, allEvents }) => {
           aria-label="when device is locked"
           onClick={ handleMenuOpen }
         >
+          <ListItemIcon><Icon fontSize='large' className={ classes.icon }>dashboard</Icon></ListItemIcon>
           <ListItemText secondaryTypographyProps={ { className: classes.drawerSecondary } } primary="Událost" secondary={ event.name } />
         </ListItem>
       </List>
@@ -133,7 +159,7 @@ const Header = ({ event, allEvents }) => {
   return (
     <React.Fragment>
       <Helmet><title>{event.name} {event.year}</title></Helmet>
-      <Hidden smUp>
+      <Hidden mdUp>
         <AppBar position="fixed">
           <Toolbar>
             <IconButton
@@ -152,7 +178,7 @@ const Header = ({ event, allEvents }) => {
         </AppBar>
       </Hidden>
       <nav className={ classes.drawer }>
-        <Hidden smUp implementation="css">
+        <Hidden mdUp implementation="css">
           <Drawer
             variant='temporary'
             open={ drawerOpen }
@@ -163,7 +189,7 @@ const Header = ({ event, allEvents }) => {
             {drawer}
           </Drawer>
         </Hidden>
-        <Hidden xsDown implementation="css">
+        <Hidden smDown implementation="css">
           <Drawer classes={ { paper: classes.drawerPaper } } variant="permanent" open>
             { drawer }
           </Drawer>

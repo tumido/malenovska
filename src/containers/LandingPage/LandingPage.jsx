@@ -29,7 +29,6 @@ const styles = makeStyles({
     backgroundSize: 'cover'
   },
   logo: {
-    backgroundColor: 'rgba(0, 0, 0, .25)',
     color: '#fff'
   },
   eventList: {
