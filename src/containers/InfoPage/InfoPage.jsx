@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { firestoreConnect, isLoaded, isEmpty } from 'react-redux-firebase';
 import get from 'lodash/get'
 
-import LoadingIndicator from 'components/LoadingIndicator';
+import { Loading } from 'components';
 import Map from 'components/Map';
 import List from 'components/List';
 
@@ -12,7 +12,7 @@ import './style.scss';
 import { InfoPropType } from 'utilities/scheme';
 
 const InfoPage = ({info}) => {
-  if (!isLoaded(info) || isEmpty(info)) return <LoadingIndicator />;
+  if (!isLoaded(info) || isEmpty(info)) return <Loading />;
 
   let date = info.date ? info.date.toDate() : undefined;
   const dateString = !date ? "" : date.toLocaleDateString('cs-CZ')

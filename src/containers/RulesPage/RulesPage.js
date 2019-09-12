@@ -4,8 +4,7 @@ import { compose } from 'redux';
 import { firestoreConnect, isLoaded, isEmpty } from 'react-redux-firebase';
 import PropTypes from 'prop-types';
 
-import LoadingIndicator from 'components/LoadingIndicator';
-import Article from 'components/Article';
+import { Loading } from 'components';
 
 import './style.scss';
 import { RulesPropType } from 'utilities/scheme';
@@ -14,13 +13,13 @@ const RulesPage = ({ rules, location }) => {
   const event = location.pathname.split('/', 2)[1]
 
   const rulesList = !isLoaded(rules)
-  ? <LoadingIndicator />
+  ? <Loading />
   : isEmpty(rules)
     ? ''
     : rules.map(rule => (
         !rule.event.includes(event)
         ? ''
-        : <Article
+        : <div
             key={rule.id}
             id={`rule-${rule.id}`}
             title='' //{rule.title}

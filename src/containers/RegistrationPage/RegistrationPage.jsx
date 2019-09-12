@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import pick from 'lodash/pick';
 
 import RegistrationForm from 'components/RegistrationForm';
-import LoadingIndicator from 'components/LoadingIndicator';
+import { Loading } from 'components';
 import RaceDescription from 'components/RaceDescription';
 import List from 'components/List';
 import RaceItem from 'components/RaceItem';
@@ -86,7 +86,7 @@ const RegistrationPage = ({ races, firestore, participants, selectedRace, change
     ? availableRaces.filter(r => r.name == selectedRace)[0]
     : undefined
 
-  return !isLoaded(races) || !isLoaded(participants) ? <LoadingIndicator /> :
+  return !isLoaded(races) || !isLoaded(participants) ? <Loading /> :
     (
       <div className="RegistrationPage">
         <List component='section' items={racesNamesList} />

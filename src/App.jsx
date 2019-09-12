@@ -11,12 +11,11 @@ import { ThemeProvider } from '@material-ui/styles';
 import LandingPage from 'containers/LandingPage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import LegendsPage from 'containers/LegendsPage/Loadable';
+import LegendDetailPage from 'containers/LegendDetailPage/Loadable';
 import RulesPage from 'containers/RulesPage/Loadable';
 import InfoPage from 'containers/InfoPage/Loadable';
 import RegistrationPage from 'containers/RegistrationPage/Loadable';
-import Header from 'components/Header';
-import Footer from 'components/Footer';
-import LoadingIndicator from 'components/LoadingIndicator';
+import { Header, Footer, Loading } from 'components';
 
 import { setEvent } from './redux/actions';
 import { MalenovskaTheme } from './utilities/theme';
@@ -40,6 +39,7 @@ const BaseEvent = ({ event, allEvents, setEvent }) => {
       <Header event={ event } allEvents={ allEvents }/>
       <div className={ classes.content }>
         <Switch>
+          <Route path={ `/${event.id}/legends/:id` } render={ (props) => <LegendDetailPage { ...props } event={ event }/> } />
           <Route path={ `/${event.id}/legends` } render={ (props) => <LegendsPage { ...props } event={ event }/> } />
           <Route path={ `/${event.id}/rules` } component={ RulesPage } />
           <Route path={ `/${event.id}/info` } component={ InfoPage } />
@@ -68,7 +68,11 @@ const Event = connect(
 
 const App = ({ events }) => {
   if (!isLoaded(events)) {
-    return <LoadingIndicator />;
+    return (
+      <ThemeProvider theme={ MalenovskaTheme }>
+        <Loading />
+      </ThemeProvider>
+    );
   }
 
   return (

@@ -6,6 +6,9 @@ export const MalenovskaTheme = createMuiTheme({
     primary: {
       main: grey[900]
     },
-    secondary: deepOrange
+    secondary: deepOrange,
+    loading: [
+      'rgb(253, 38, 0)', 'rgb(241, 238, 16)', 'rgb(255, 145, 0)'
+    ]
   }
 });
