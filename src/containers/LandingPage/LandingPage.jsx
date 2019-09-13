@@ -9,7 +9,7 @@ import { firestoreConnect, isLoaded } from 'react-redux-firebase';
 import { Hidden, Grid, Typography, Card, CardActionArea, CardContent, Link, createMuiTheme } from '@material-ui/core';
 import { makeStyles, ThemeProvider } from '@material-ui/styles';
 
-import Logo from 'components/Logo';
+import { Logo } from 'components';
 import BgImage from '../../../assets/images/background.jpg';
 
 const theme = createMuiTheme({

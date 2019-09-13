@@ -5,8 +5,8 @@
  */
 
 import React from 'react';
-import Logo from 'components/Logo';
 import PropTypes from 'prop-types';
+import { Logo } from 'components';
 
 import './style.scss';
 
