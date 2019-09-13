@@ -6,14 +6,8 @@ import PropTypes from 'prop-types';
 import { Typography, makeStyles, Grid, Container, Chip, Hidden, Paper } from '@material-ui/core';
 
 import { ArticlePreview } from 'components';
-import BgImage from '../../../assets/images/background.jpg';
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    background: `linear-gradient(to bottom, transparent 80%, #000 100%), url(${BgImage}) top center no-repeat`,
-    padding: 20,
-    minHeight: '100vh'
-  },
   h1: {
     fontWeight: 600
   },
@@ -60,7 +54,7 @@ const LegendsPage = ({ legends, event }) => {
   ;
 
   return (
-    <div className={ classes.root }>
+    <Container>
       <Hidden xsDown>
         <Grid container direction="column" justify="center" alignItems="center" className={ classes.banner }>
           <Grid item>
@@ -80,7 +74,7 @@ const LegendsPage = ({ legends, event }) => {
         </Container>
         {/* <Typography gutterBottom variant='subtitle'></Typography> */}
       </Paper>
-    </div>
+    </Container>
   );
 };
 

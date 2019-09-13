@@ -42,3 +42,5 @@ export const enableFirebasePersistence = () => (
     console.log(`Unable to initialize offline storage, reason: ${reason}`);
   })
 );
+
+export const timestampToDateStr = timestamp => timestamp.toDate().toLocaleDateString('cs-CZ');
