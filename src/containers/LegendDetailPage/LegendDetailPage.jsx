@@ -5,9 +5,8 @@ import { Link } from 'react-router-dom';
 import { firestoreConnect, isLoaded } from 'react-redux-firebase';
 import PropTypes from 'prop-types';
 import { Typography, makeStyles, Paper, Container, Chip } from '@material-ui/core';
-import ReactMarkdown from 'react-markdown';
 
-import { Loading, ScrollTop } from 'components';
+import { Loading, ScrollTop, Markdown } from 'components';
 import { timestampToDateStr } from '../../utilities/firebase';
 
 const useStyles = makeStyles(theme => ({
@@ -39,9 +38,6 @@ const LegendDetailPage = ({ legend, event }) => {
 
   }
 
-  // FIX-ME: remove this preprocessing once admin is available
-  const content = legend.content.replace(/\\n/g,'\n');
-
   return (
     <React.Fragment>
       <Container fixed maxWidth="lg" className={ classes.root }>
@@ -50,7 +46,7 @@ const LegendDetailPage = ({ legend, event }) => {
             <Typography gutterBottom variant='h4' component='h1' id='top'>{ legend.title }</Typography>
             <Chip label={ event.name } variant='outlined' className={ classes.chip } to={ `/${event.id}` } component={ Link } clickable/>
             { legend.date && <Chip label={ timestampToDateStr(legend.date) } variant='outlined' className={ classes.chip }/> }
-            <ReactMarkdown source={ content }></ReactMarkdown>
+            <Markdown content={ legend.content } />
           </div>
         </Paper>
       </Container>
