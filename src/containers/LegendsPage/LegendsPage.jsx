@@ -90,7 +90,7 @@ export default compose(
       storeAs: `legends_${event.id}`
     }
   ]),
-  connect((state, ownProps) => ({
-    legends: state.firestore.ordered[`legends_${ownProps.event.id}`]
+  connect((state, { event }) => ({
+    legends: state.firestore.ordered[`legends_${event.id}`]
   }))
 )(LegendsPage);
