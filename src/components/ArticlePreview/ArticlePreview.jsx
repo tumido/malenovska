@@ -1,11 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ReactMarkdown from 'react-markdown';
 import { Link as RouterLink } from 'react-router-dom';
-import clsx from 'clsx';
-import { Grid, Typography, ButtonBase } from '@material-ui/core';
+import { Grid, Typography, ButtonBase, makeStyles } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab'
-import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
   root: {
