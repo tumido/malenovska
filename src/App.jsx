@@ -51,8 +51,7 @@ const BaseEvent = ({ event, allEvents, setEvent }) => {
           <Route path={ `/${event.id}/rules` } component={ RulesPage } />
           <Route path={ `/${event.id}/info` } component={ InfoPage } />
           <Route path={ `/${event.id}/registration` } component={ RegistrationPage } />
-          <Redirect from={ `/${event.id}` } to={ `/${event.id}/legends` } />
-          <Route component={ NotFoundPage } />
+          <Redirect exact from={ `/${event.id}` } to={ `/${event.id}/legends` } />
         </Switch>
         <Footer />
       </div>
@@ -79,7 +78,7 @@ const App = ({ events }) => {
   if (!isLoaded(events)) {
     return (
       <ThemeProvider theme={ MalenovskaTheme }>
-      <CssBaseline />
+        <CssBaseline />
         <div className={ classes.content }>
           <Loading />
         </div>
@@ -103,6 +102,7 @@ const App = ({ events }) => {
             />
           ))}
           <Route exact path='/' component={ LandingPage } />
+          <Route component={ NotFoundPage } />
         </Switch>
       </ThemeProvider>
     </NoSsr>
