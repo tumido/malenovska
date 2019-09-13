@@ -59,20 +59,21 @@ LegendDetailPage.propTypes = {
   legend: PropTypes.shape({
     title: PropTypes.string,
     content: PropTypes.string,
-    event: PropTypes.string
+    event: PropTypes.string,
+    date: PropTypes.object
   }),
   event: PropTypes.object.isRequired
 };
 
 export default compose(
-  firestoreConnect(({ match: { params: { id } } }) => [
+  firestoreConnect(({ match: { params: { id }}}) => [
     {
       collection: 'legends',
       doc: id,
       storeAs: 'legend'
     }
   ]),
-  connect(({ firestore }, { match: { params: { id } } }) => ({
+  connect(({ firestore }) => ({
     legend: firestore.ordered.legend && firestore.ordered.legend[0]
   }))
 )(LegendDetailPage);

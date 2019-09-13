@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import { Grid, Typography, makeStyles, Button } from '@material-ui/core';
 
 import { Logo } from 'components';
@@ -21,10 +20,8 @@ const styles = makeStyles({
   }
 });
 
-const NotFound = ({ text }) => {
+const NotFound = () => {
   const classes = styles();
-
-  const displayText = text || "Tak tato stránka tu fakt není. Zkus menu vlevo!"
 
   return (
     <Grid container spacing={ 2 } direction='column' justify='center' alignItems='center' className={ classes.root }>
@@ -39,14 +36,10 @@ const NotFound = ({ text }) => {
         <Typography gutterBottom variant='body1'>Tato stránka byla náhodou sežrána organizátory, či spálena gobliny.</Typography>
       </Grid>
       <Grid item>
-        <Button variant='contained' color='secondary' size='large' to='/' component={ Link }>Chci hlavní stránku</Button>
+        <Button variant='contained' color='secondary' size='large' to='/' component={ Link }>Chci na hlavní stránku</Button>
       </Grid>
     </Grid>
   );
-}
-
-NotFound.propTypes = {
-  text: PropTypes.string,
-}
+};
 
 export default NotFound;

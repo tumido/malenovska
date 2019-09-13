@@ -23,7 +23,7 @@ const useStyles = makeStyles(theme => ({
     }
   },
   contentContainer: {
-    paddingTop: '70px',
+    paddingTop: '70px'
   },
   card: {
     maxHeight: 300,
@@ -37,21 +37,21 @@ const useStyles = makeStyles(theme => ({
 const LegendsPage = ({ legends, event }) => {
   const classes = useStyles();
 
-  const legendsList = isLoaded(legends) ? legends.map(l => (
-    <Grid item xs={ 12 } key={ l.id }>
-      <ArticlePreview title={ l.title } date={ l.date } content={ l.content.replace(/\\n/, '\n') } href={ `/${event.id}/legends/${l.id}` }/>
-    </Grid>
-  )) : (
-    <React.Fragment>
-      <Grid item xs={ 12 }>
-        <ArticlePreview isLoading/>
+  const legendsList = isLoaded(legends)
+    ? legends.map(l => (
+      <Grid item xs={ 12 } key={ l.id }>
+        <ArticlePreview title={ l.title } date={ l.date } content={ l.content.replace(/\\n/, '\n') } href={ `/${event.id}/legends/${l.id}` }/>
       </Grid>
-      <Grid item xs={ 12 }>
-        <ArticlePreview isLoading/>
-      </Grid>
-    </React.Fragment>
-  )
-  ;
+    )) : (
+      <React.Fragment>
+        <Grid item xs={ 12 }>
+          <ArticlePreview isLoading/>
+        </Grid>
+        <Grid item xs={ 12 }>
+          <ArticlePreview isLoading/>
+        </Grid>
+      </React.Fragment>
+    );
 
   return (
     <Container>
@@ -72,7 +72,6 @@ const LegendsPage = ({ legends, event }) => {
             { legendsList }
           </Grid>
         </Container>
-        {/* <Typography gutterBottom variant='subtitle'></Typography> */}
       </Paper>
     </Container>
   );

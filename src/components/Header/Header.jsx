@@ -98,9 +98,9 @@ const Header = ({ event, allEvents }) => {
       {
         textPrimary: 'Účastníci',
         icon: 'how_to_reg'
-      },
+      }
     ]
-  ]
+  ];
 
   const drawer = (
     <React.Fragment>

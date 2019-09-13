@@ -48,10 +48,11 @@ const BaseEvent = ({ event, allEvents, setEvent }) => {
         <Switch>
           <Route path={ `/${event.id}/legends/:id` } render={ (props) => <LegendDetailPage { ...props } event={ event }/> } />
           <Route path={ `/${event.id}/legends` } render={ (props) => <LegendsPage { ...props } event={ event }/> } />
-          <Route path={ `/${event.id}/rules` } component={ RulesPage } />
+          <Route path={ `/${event.id}/rules` } render={ (props) => <RulesPage { ...props } event={ event }/> } />
           <Route path={ `/${event.id}/info` } component={ InfoPage } />
           <Route path={ `/${event.id}/registration` } component={ RegistrationPage } />
           <Redirect exact from={ `/${event.id}` } to={ `/${event.id}/legends` } />
+          <Redirect to='/not-found' />
         </Switch>
         <Footer />
       </div>

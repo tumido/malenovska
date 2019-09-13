@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link as RouterLink } from 'react-router-dom';
 import { Grid, Typography, ButtonBase, makeStyles } from '@material-ui/core';
-import { Skeleton } from '@material-ui/lab'
+import { Skeleton } from '@material-ui/lab';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles({
   root: {
     flexGrow: 1,
     textAlign: 'left',
@@ -15,10 +15,10 @@ const useStyles = makeStyles(theme => ({
     display: 'block',
     maxWidth: '100%',
     maxHeight: '100%'
-  },
-}));
+  }
+});
 
-const ArticlePreview = ({ title, date, subtitle, content, className, href, isLoading = false, ...props }) => {
+const ArticlePreview = ({ title, content, className, href, isLoading = false }) => {
   const classes = useStyles();
 
   if (isLoading) {
@@ -27,9 +27,9 @@ const ArticlePreview = ({ title, date, subtitle, content, className, href, isLoa
         <Grid item>
           <Skeleton variant="rect" height={ 100 } width={ 200 } className={ classes.img }/>
         </Grid>
-        <Grid item xs={12} sm container direction="column" alignItems='flex-start' justify='flex-start' spacing={2}>
+        <Grid item xs={ 12 } sm container direction="column" alignItems='flex-start' justify='flex-start' spacing={ 2 }>
           <Grid item>
-            <Skeleton variant="rect" height='2em' width={ 200 }className={ classes.img }/>
+            <Skeleton variant="rect" height='2em' width={ 200 } className={ classes.img }/>
           </Grid>
           <Grid item>
             <Skeleton variant="rect" height='1em' width={ 450 } className={ classes.img }/>
@@ -39,7 +39,7 @@ const ArticlePreview = ({ title, date, subtitle, content, className, href, isLoa
           </Grid>
         </Grid>
       </Grid>
-    )
+    );
   }
 
   return (
@@ -48,7 +48,7 @@ const ArticlePreview = ({ title, date, subtitle, content, className, href, isLoa
         <Grid item>
           <Skeleton variant="rect" height={ 100 } width={ 200 } className={ classes.img }/>
         </Grid>
-        <Grid item xs={12} sm container direction="column" alignItems='flex-start' justify='flex-start' spacing={2}>
+        <Grid item xs={ 12 } sm container direction="column" alignItems='flex-start' justify='flex-start' spacing={ 2 }>
           <Grid item>
             <Typography gutterBottom variant='h6'>{ title }</Typography>
           </Grid>
@@ -56,10 +56,6 @@ const ArticlePreview = ({ title, date, subtitle, content, className, href, isLoa
             <Typography gutterBottom variant='body1'>{ content.split('\n')[0] }</Typography>
           </Grid>
         </Grid>
-        {/* <Grid item xs={ 6 }> */}
-          {/* <Typography gutterBottom variant='subtitle'>{ date }</Typography> */}
-        {/* </Grid> */}
-        {/* <ReactMarkdown source={ content } /> */}
       </Grid>
     </ButtonBase>
   );
@@ -67,11 +63,10 @@ const ArticlePreview = ({ title, date, subtitle, content, className, href, isLoa
 
 ArticlePreview.propTypes = {
   title: PropTypes.string,
-  subtitle: PropTypes.string,
   content: PropTypes.string,
-  date: PropTypes.object,
   href: PropTypes.string,
-  isLoading: PropTypes.bool
+  isLoading: PropTypes.bool,
+  className: PropTypes.string
 };
 
 export default ArticlePreview;

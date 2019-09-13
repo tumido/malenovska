@@ -67,7 +67,7 @@ const Loading = () => {
     <div className={ classes.root }>
       <div className={ classes.spinner } />
     </div>
-  )
+  );
 };
 
 export default Loading;
