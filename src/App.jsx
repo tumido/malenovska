@@ -20,6 +20,8 @@ import { Header, Footer, Loading } from 'components';
 import { setEvent } from './redux/actions';
 import { MalenovskaTheme } from './utilities/theme';
 
+import BgImage from '../assets/images/background.jpg';
+
 const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
@@ -27,6 +29,11 @@ const useStyles = makeStyles(theme => ({
   },
   content: {
     flexGrow: 1,
+    background: `linear-gradient(to bottom, transparent 80%, #000 100%), url(${BgImage}) top center no-repeat`,
+    minHeight: '100vh',
+    [theme.breakpoints.down('sm')]: {
+      marginTop: '64px'
+    }
   }
 }));
 
@@ -67,10 +74,15 @@ const Event = connect(
 )(BaseEvent);
 
 const App = ({ events }) => {
+  const classes = useStyles();
+
   if (!isLoaded(events)) {
     return (
       <ThemeProvider theme={ MalenovskaTheme }>
-        <Loading />
+      <CssBaseline />
+        <div className={ classes.content }>
+          <Loading />
+        </div>
       </ThemeProvider>
     );
   }

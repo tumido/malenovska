@@ -11,7 +11,7 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: 'rgba(0,0,0, 0.8)',
     display: 'flex',
     alignItems: 'center',
-    zIndex: 100
+    zIndex: 1300
   },
   spinner: {
     display: 'block',
