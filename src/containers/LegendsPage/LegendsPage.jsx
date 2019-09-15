@@ -58,7 +58,7 @@ const LegendsPage = ({ legends, event }) => {
       <Hidden xsDown>
         <Grid container direction="column" justify="center" alignItems="center" className={ classes.banner }>
           <Grid item>
-            <Typography gutterBottom variant='h1' className={ classes.h1 }>{ event.name }.</Typography>
+            <Typography gutterBottom variant='h1' className={ classes.h1 }>{ event.name }</Typography>
             <Chip label={ event.type ? 'Bitva' : 'Šarvátka' } className={ classes.chip }/>
             <Chip label={ `${ event.type ? 'Podzim' : 'Jaro' } ${event.year}` } className={ classes.chip }/>
           </Grid>

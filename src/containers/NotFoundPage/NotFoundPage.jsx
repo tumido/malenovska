@@ -29,7 +29,6 @@ const NotFound = () => {
         <Typography gutterBottom variant='h1' className={ classes.h1 }>
           Nenalezen
           <Logo size='5rem' bgColor='#fff' fgColor='#000' />
-          .
         </Typography>
       </Grid>
       <Grid item>

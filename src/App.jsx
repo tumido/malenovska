@@ -28,11 +28,16 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: '#000'
   },
   content: {
+    display: 'flex',
+    flexDirection: 'column',
     flexGrow: 1,
     background: `linear-gradient(to bottom, transparent 80%, #000 100%), url(${BgImage}) top center no-repeat`,
     minHeight: '100vh',
     [theme.breakpoints.down('sm')]: {
       marginTop: '64px'
+    },
+    '& main': {
+      flexGrow: 1
     }
   }
 }));
@@ -45,15 +50,17 @@ const BaseEvent = ({ event, allEvents, setEvent }) => {
     <div className={ classes.root }>
       <Header event={ event } allEvents={ allEvents }/>
       <div className={ classes.content }>
-        <Switch>
-          <Route path={ `/${event.id}/legends/:id` } render={ (props) => <LegendDetailPage { ...props } event={ event }/> } />
-          <Route path={ `/${event.id}/legends` } render={ (props) => <LegendsPage { ...props } event={ event }/> } />
-          <Route path={ `/${event.id}/rules` } render={ (props) => <RulesPage { ...props } event={ event }/> } />
-          <Route path={ `/${event.id}/info` } component={ InfoPage } />
-          <Route path={ `/${event.id}/registration` } component={ RegistrationPage } />
-          <Redirect exact from={ `/${event.id}` } to={ `/${event.id}/legends` } />
-          <Redirect to='/not-found' />
-        </Switch>
+        <main>
+          <Switch>
+            <Route path={ `/${event.id}/legends/:id` } render={ (props) => <LegendDetailPage { ...props } event={ event }/> } />
+            <Route path={ `/${event.id}/legends` } render={ (props) => <LegendsPage { ...props } event={ event }/> } />
+            <Route path={ `/${event.id}/rules` } render={ (props) => <RulesPage { ...props } event={ event }/> } />
+            <Route path={ `/${event.id}/info` } render={ (props) => <InfoPage { ...props } event={ event }/> }  />
+            <Route path={ `/${event.id}/registration` } component={ RegistrationPage } />
+            <Redirect exact from={ `/${event.id}` } to={ `/${event.id}/legends` } />
+            <Redirect to='/not-found' />
+          </Switch>
+        </main>
         <Footer />
       </div>
     </div>

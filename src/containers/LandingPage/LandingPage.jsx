@@ -52,7 +52,7 @@ const LandingPage = ({ events }) => {
             <Typography gutterBottom variant="h1" className={ classes.h1 }>
               Malen
               <Logo size='5rem' bgColor={ theme.palette.text.primary } fgColor='#000' />
-              vská.
+              vská
             </Typography>
             <Typography variant="body1">Kdo zvítězí tentokrát? Vyber si tu bitvu, která tě zajíma.</Typography>
           </Grid>
