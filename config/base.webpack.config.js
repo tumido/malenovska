@@ -2,21 +2,13 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const config = require('./webpack.common.js');
 
 const webpackConfig = {
-  mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
   devtool: false,
-  optimization: {
-    minimize: process.env.NODE_ENV === 'production',
-    usedExports: true,
-    splitChunks: {
-      cacheGroups: {
-        vendors: false,
-        commons: {
-          test: /[\\/]node_modules[\\/]/,
-          name: 'vendor',
-          chunks: 'initial'
-        }
-      }
-    }
+  devServer: {
+    port: 3000,
+    hot: true,
+    host: '0.0.0.0',
+    historyApiFallback: true,
+    overlay: true
   },
   entry: {
     App: config.paths.entry

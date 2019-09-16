@@ -1,7 +1,7 @@
 import { createFirestoreInstance } from 'redux-firestore';
 import { store } from '../utilities/store';
-import firebase from 'firebase/app';
-import 'firebase/firestore';
+import { firebase } from '@firebase/app';
+import '@firebase/firestore';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyA2tOrkBzA0YcYT63KFtmtHFnwp6tAuuFI',

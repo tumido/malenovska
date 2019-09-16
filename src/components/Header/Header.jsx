@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link as RouterLink } from 'react-router-dom';
-import { Helmet } from 'react-helmet';
 import {
   AppBar, Hidden, Drawer, Toolbar, Typography, IconButton, Divider, List,
   ListItem, ListItemText, ListItemIcon, Menu, MenuItem, Link, makeStyles
@@ -158,7 +157,6 @@ const Header = ({ event, allEvents }) => {
 
   return (
     <React.Fragment>
-      <Helmet><title>{event.name} {event.year}</title></Helmet>
       <Hidden mdUp>
         <AppBar position="fixed">
           <Toolbar>

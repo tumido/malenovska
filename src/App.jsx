@@ -48,6 +48,7 @@ const BaseEvent = ({ event, allEvents, setEvent }) => {
   const classes = useStyles();
   return (
     <div className={ classes.root }>
+      <Helmet><title>{ `${event.name} ${event.year}` }</title></Helmet>
       <Header event={ event } allEvents={ allEvents }/>
       <div className={ classes.content }>
         <main>

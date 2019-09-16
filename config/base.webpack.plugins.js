@@ -36,8 +36,8 @@ plugins.push(LodashWebpackPlugin);
 
 // Writes final css to file
 const ExtractCssWebpackPlugin = new(require('mini-css-extract-plugin'))({
-  chunkFilename: 'css/[name].css',
-  filename: 'css/[name].css'
+  chunkFilename: 'css/[name].[hash].css',
+  filename: 'css/[name].[hash].css'
 });
 plugins.push(ExtractCssWebpackPlugin);
 
