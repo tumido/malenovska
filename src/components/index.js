@@ -7,6 +7,7 @@ import Logo from './Logo';
 import Map from './Map';
 import Markdown from './Markdown';
 import ScrollTop from './ScrollTop';
+import Wizard from './Wizard';
 
 export {
   ArticlePreview,
@@ -17,5 +18,6 @@ export {
   Logo,
   Map,
   Markdown,
-  ScrollTop
+  ScrollTop,
+  Wizard
 };
