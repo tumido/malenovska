@@ -1,5 +1,4 @@
 import { createFirestoreInstance } from 'redux-firestore';
-import { store } from '../utilities/store';
 import { firebase } from '@firebase/app';
 import '@firebase/firestore';
 
@@ -17,12 +16,12 @@ const rrfConfig = {
   useFirestoreForProfile: true
 };
 
-export const rrfProps = {
+export const rrfProps = (store) => ({
   firebase,
   config: rrfConfig,
   dispatch: store.dispatch,
   createFirestoreInstance
-};
+});
 
 export const initializeFirebase = () => firebase.initializeApp(firebaseConfig);
 
@@ -44,3 +43,6 @@ export const enableFirebasePersistence = () => (
 );
 
 export const timestampToDateStr = timestamp => timestamp.toDate().toLocaleDateString('cs-CZ');
+export const timestampToTimeStr = timestamp => timestamp.toDate().toLocaleTimeString(
+  [], { hour: '2-digit', minute: '2-digit', hour12: false }
+);

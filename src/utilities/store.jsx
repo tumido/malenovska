@@ -1,11 +1,20 @@
-import { applyMiddleware, createStore } from 'redux';
+import { applyMiddleware, createStore, compose } from 'redux';
 import createReducer from '../redux/reducers';
 import logger from 'redux-logger';
 
-const configureStore = () => {
+let middleware = []
+if (process.env.NODE_ENV !== 'production') {
+  middleware = [ ...middleware, logger ]
+}
+
+export const configureStore = () => {
+  const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
   const store = createStore(
     createReducer(),
-    applyMiddleware(logger)
+    composeEnhancers(
+      applyMiddleware(...middleware)
+    )
   );
 
   store.injectedReducers = {};
@@ -20,4 +29,4 @@ const configureStore = () => {
   return store;
 };
 
-export const store = configureStore();
+export default configureStore;

@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { ReactReduxFirebaseProvider } from 'react-redux-firebase';
 
-import { store } from './utilities/store';
+import { configureStore } from './utilities/store';
 import { rrfProps, enableFirebasePersistence, initializeFirebase } from './utilities/firebase';
 import loadFonts from './utilities/fonts';
 import App from 'App';
@@ -12,10 +12,12 @@ import App from 'App';
 initializeFirebase();
 loadFonts();
 
+const store = configureStore();
+
 const render = () => {
   ReactDOM.render(
     <Provider store={ store }>
-      <ReactReduxFirebaseProvider { ...rrfProps }>
+      <ReactReduxFirebaseProvider { ...rrfProps(store) }>
         <BrowserRouter>
           <App />
         </BrowserRouter>
