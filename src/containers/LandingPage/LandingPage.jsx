@@ -10,7 +10,7 @@ import { Hidden, Grid, Typography, Card, CardActionArea, CardContent, Link } fro
 import { createMuiTheme, makeStyles } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
 
-import { Logo } from 'components';
+import { Logo, EventAvailabilityChip } from 'components';
 import BgImage from '../../../assets/images/background.jpg';
 
 const theme = createMuiTheme({
@@ -19,7 +19,7 @@ const theme = createMuiTheme({
   }
 });
 
-const styles = makeStyles({
+const useStyles = makeStyles(theme => ({
   h1: {
     fontWeight: 600,
     fontSize: '9rem'
@@ -39,11 +39,23 @@ const styles = makeStyles({
   },
   event: {
     minWidth: '100%'
+  },
+  chip: {
+    float: 'right',
+    marginLeft: theme.spacing(1)
   }
-});
+}));
+
+const sortEvents = (a, b) => {
+  if (a.year < b.year) { return 1; }
+
+  if (a.year === b.year && a.type < b.type) { return 1; }
+
+  return -1;
+}
 
 const LandingPage = ({ events }) => {
-  const classes = styles();
+  const classes = useStyles();
 
   return (
     <ThemeProvider theme={ theme }>
@@ -59,7 +71,7 @@ const LandingPage = ({ events }) => {
           </Grid>
         </Hidden>
         <Grid item xs={ 12 } md={ 3 } container spacing={ 4 } direction="column" justify="center" alignItems="center" className={ classes.eventList }>
-          { isLoaded(events) && events.filter(({ display }) => display).map((event) => (
+          { isLoaded(events) && events.filter(({ display }) => display).sort(sortEvents).map((event) => (
             <Grid item key={ `item_${event.id}` } className={ classes.event }>
               <Link component={ RouterLink } underline='none' to={ event.id }>
                 <Card>
@@ -67,11 +79,12 @@ const LandingPage = ({ events }) => {
                     <CardContent>
                       <Typography gutterBottom variant="h5">
                         { event.name }
+                        <EventAvailabilityChip event={ event } className={ classes.chip }/>
                       </Typography>
                       <Typography gutterBottom variant="body2" color="textSecondary" component="p">
                         { event.type ? 'Bitva, podzim' : 'Šarvátka, jaro' } { event.year }
                       </Typography>
-                      <Typography variant="body2">
+                      <Typography gutterBottom variant="body2">
                         { event.description }
                       </Typography>
                     </CardContent>

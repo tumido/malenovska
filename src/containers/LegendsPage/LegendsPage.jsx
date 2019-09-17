@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import { Typography, Grid, Container, Chip, Hidden, Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
-import { ArticlePreview } from 'components';
+import { ArticlePreview, EventAvailabilityChip } from 'components';
 
 const useStyles = makeStyles(theme => ({
   h1: {
@@ -63,6 +63,7 @@ const LegendsPage = ({ legends, event }) => {
             <Typography gutterBottom variant='h1' className={ classes.h1 }>{ event.name }</Typography>
             <Chip label={ event.type ? 'Bitva' : 'Šarvátka' } className={ classes.chip }/>
             <Chip label={ `${ event.type ? 'Podzim' : 'Jaro' } ${event.year}` } className={ classes.chip }/>
+            <EventAvailabilityChip event={ event } className={ classes.chip }/>
           </Grid>
         </Grid>
       </Hidden>
