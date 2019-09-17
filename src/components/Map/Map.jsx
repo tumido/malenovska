@@ -5,7 +5,8 @@ import clsx from 'clsx';
 import { Map as LeafletMap, Marker, TileLayer } from 'react-leaflet';
 
 import { latLngBounds, divIcon } from 'leaflet';
-import { makeStyles, Grid, Icon } from '@material-ui/core';
+import { Grid, Icon } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 
 import 'leaflet/dist/leaflet.css';
 

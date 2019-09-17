@@ -38,6 +38,7 @@ export const enableFirebasePersistence = () => (
       }
     })(err.code);
 
+    /* eslint-disable no-console */
     console.log(`Unable to initialize offline storage, reason: ${reason}`);
   })
 );

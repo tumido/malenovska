@@ -3,7 +3,9 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { firestoreConnect, isLoaded } from 'react-redux-firebase';
 import PropTypes from 'prop-types';
-import { Typography, makeStyles, Grid, Container, Chip, Hidden, Paper } from '@material-ui/core';
+
+import { Typography, Grid, Container, Chip, Hidden, Paper } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 
 import { ArticlePreview } from 'components';
 

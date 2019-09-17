@@ -5,7 +5,8 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import { firestoreConnect, isLoaded } from 'react-redux-firebase';
-import { CssBaseline, NoSsr, makeStyles } from '@material-ui/core';
+import { CssBaseline, NoSsr } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
 
 import LandingPage from 'containers/LandingPage/Loadable';

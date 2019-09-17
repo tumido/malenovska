@@ -2,9 +2,9 @@ import { applyMiddleware, createStore, compose } from 'redux';
 import createReducer from '../redux/reducers';
 import logger from 'redux-logger';
 
-let middleware = []
+let middleware = [];
 if (process.env.NODE_ENV !== 'production') {
-  middleware = [ ...middleware, logger ]
+  middleware = [ ...middleware, logger ];
 }
 
 export const configureStore = () => {

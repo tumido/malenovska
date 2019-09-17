@@ -6,8 +6,9 @@ import PropTypes from 'prop-types';
 
 import { firestoreConnect, isLoaded } from 'react-redux-firebase';
 
-import { Hidden, Grid, Typography, Card, CardActionArea, CardContent, Link, createMuiTheme } from '@material-ui/core';
-import { makeStyles, ThemeProvider } from '@material-ui/styles';
+import { Hidden, Grid, Typography, Card, CardActionArea, CardContent, Link } from '@material-ui/core';
+import { createMuiTheme, makeStyles } from '@material-ui/core/styles';
+import { ThemeProvider } from '@material-ui/styles';
 
 import { Logo } from 'components';
 import BgImage from '../../../assets/images/background.jpg';

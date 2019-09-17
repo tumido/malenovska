@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Grid, Typography, makeStyles, Button } from '@material-ui/core';
+import { Grid, Typography, Button } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 
 import { Logo } from 'components';
 import BgImage from '../../../assets/images/background.jpg';

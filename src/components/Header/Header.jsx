@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { Link as RouterLink } from 'react-router-dom';
 import {
   AppBar, Hidden, Drawer, Toolbar, Typography, IconButton, Divider, List,
-  ListItem, ListItemText, ListItemIcon, Menu, MenuItem, Link, makeStyles
+  ListItem, ListItemText, ListItemIcon, Menu, MenuItem, Link, Icon
 } from '@material-ui/core';
-import Icon from '@material-ui/core/Icon';
+import { makeStyles } from '@material-ui/core/styles';
 import { grey } from '@material-ui/core/colors';
 
 const drawerWidth = 300;
