@@ -1,4 +1,5 @@
 import ArticlePreview from './ArticlePreview';
+import EventAvailabilityChip from './EventAvailabilityChip';
 import Footer from './Footer';
 import Header from './Header';
 import Loading from './Loading';
@@ -9,6 +10,7 @@ import ScrollTop from './ScrollTop';
 
 export {
   ArticlePreview,
+  EventAvailabilityChip,
   Footer,
   Header,
   Loading,
