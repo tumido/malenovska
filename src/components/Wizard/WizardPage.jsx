@@ -11,18 +11,17 @@ const WizardPageBase = ({ handleSubmit, children }) => (
 WizardPageBase.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   children: PropTypes.node
-}
+};
 
 const WizardPage = reduxForm({
   destroyOnUnmount: false,
   forceUnregisterOnUnmount: true
-  // validate
 })(WizardPageBase);
 
 WizardPage.propTypes = {
   form: PropTypes.string.isRequired,
   previousPage: PropTypes.func,
   onSubmit: PropTypes.func.isRequired
-}
+};
 
 export default WizardPage;
