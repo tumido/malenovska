@@ -2,8 +2,10 @@ import React from 'react';
 import { connect, useSelector } from 'react-redux';
 import { isLoaded, useFirestoreConnect } from 'react-redux-firebase';
 import PropTypes from 'prop-types';
-import { Container, Paper } from '@material-ui/core';
+
+import { Container, Paper, Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+
 import { Wizard } from 'components';
 import { RaceSelect, Readout } from './steps';
 import validate from './validate';
@@ -34,8 +36,28 @@ import validate from './validate';
 // }
 
 const useStyles = makeStyles(theme => ({
+  root: {
+    [theme.breakpoints.down('sm')]: {
+      padding: 0
+    }
+  },
+  paper: {
+    [theme.breakpoints.up('lg')]: {
+      marginTop: 40,
+    },
+    padding: '0 16px'
+  },
   stepper: {
     background: 'transparent'
+  },
+  buttons: {
+    margin: 20,
+    '& > *': {
+      margin: 20
+    }
+  },
+  buttonWrapper: {
+    alignSelf: 'center'
   }
 }));
 
@@ -57,32 +79,46 @@ const RegistrationPage = ({ event }) => {
     }
   ]);
   const races = useSelector(({ firestore }) => firestore.ordered.races);
+  const participants = useSelector(({ firestore }) => firestore.ordered.participants);
 
   const [ stepperEl, setStepperEl ] = React.useState(null);
   const handleStepperRef = React.useCallback(instance => setStepperEl(instance), [ setStepperEl ]);
 
+  const [ buttonsEl, setButtonsEl ] = React.useState(null);
+  const handleButtonsRef = React.useCallback(instance => setButtonsEl(instance), [ setButtonsEl ]);
+
   const handleSubmit = console.log;
 
-  if (!isLoaded(races)) {
-    return 'Loading';
-  }
-
   return (
-    <Container fixed>
-      <div ref={ handleStepperRef } />
-      <Paper>
-        <Wizard
-          onSubmit={ handleSubmit }
-          formName='registration'
-          stepperProps={ {
-            ref: stepperEl,
-            className: classes.stepper
-          } }
-          validate={ validate }
-        >
-          <RaceSelect races={ races }/>
-          <Readout races={ races }/>
-        </Wizard>
+    <Container className={ classes.root }>
+      <Paper className={ classes.paper }>
+        <Grid container direction='column' wrap='nowrap' spacing={ 2 } >
+          <Grid item ref={ handleStepperRef }/>
+          <Grid item>
+            <Wizard
+              isLoading={ !races || !participants }
+              onSubmit={ handleSubmit }
+              formName='registration'
+              stepperProps={ {
+                className: classes.stepper
+              } }
+              buttonsProps={ {
+                className: classes.buttons
+              } }
+              portals={ {
+                stepper: stepperEl,
+                buttons: buttonsEl
+              } }
+              validate={ validate }
+              classes={ classes }
+            >
+              <RaceSelect races={ races } participants={ participants }/>
+              <Readout races={ races } participants={ participants }/>
+              <Readout races={ races } participants={ participants }/>
+            </Wizard>
+          </Grid>
+          <Grid item className={ classes.buttonWrapper } ref={ handleButtonsRef }/>
+        </Grid>
       </Paper>
     </Container>
   );
