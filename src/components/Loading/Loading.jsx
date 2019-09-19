@@ -34,7 +34,7 @@ const useStyles = makeStyles(theme => ({
       borderRadius: '50%',
       border: '3px solid transparent',
       borderTopColor: theme.palette.loading[1],
-      animation: '$spin 2s linear infinite'
+      animation: '$spin 3s linear infinite'
     },
 
     '&:after': {
@@ -47,7 +47,7 @@ const useStyles = makeStyles(theme => ({
       borderRadius: '50%',
       border: '3px solid transparent',
       borderTopColor: theme.palette.loading[2],
-      animation: '$spin 2s linear infinite'
+      animation: '$spin 1.5s linear infinite'
     }
   },
   '@keyframes spin': {
