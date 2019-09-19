@@ -1,6 +1,7 @@
 import { createFirestoreInstance } from 'redux-firestore';
 import { firebase } from '@firebase/app';
 import '@firebase/firestore';
+import '@firebase/storage';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyA2tOrkBzA0YcYT63KFtmtHFnwp6tAuuFI',
@@ -23,10 +24,18 @@ export const rrfProps = (store) => ({
   createFirestoreInstance
 });
 
-export const initializeFirebase = () => firebase.initializeApp(firebaseConfig);
+export const initializeFirebase = () => {
+  firebase.initializeApp(firebaseConfig);
+  firebase.firestore();
+}
 
+/* eslint-disable no-console */
 export const enableFirebasePersistence = () => (
-  firebase.firestore().enablePersistence().catch(err => {
+  firebase.firestore().enablePersistence()
+  .then(() => {
+    console.log('Firestore offline access and persistance enabled.');
+  })
+  .catch(err => {
     let reason = (c => {
       switch (c) {
         case 'failed-precondition':
@@ -38,10 +47,10 @@ export const enableFirebasePersistence = () => (
       }
     })(err.code);
 
-    /* eslint-disable no-console */
     console.log(`Unable to initialize offline storage, reason: ${reason}`);
   })
 );
+/* eslint-enable no-console */
 
 export const timestampToDateStr = timestamp => timestamp.toDate().toLocaleDateString('cs-CZ');
 export const timestampToTimeStr = timestamp => timestamp.toDate().toLocaleTimeString(
