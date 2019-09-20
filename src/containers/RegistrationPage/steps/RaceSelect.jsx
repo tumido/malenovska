@@ -36,6 +36,7 @@ const renderField = ({ input, race, participants }) => {
         <CardActionArea
           onClick={ () => input.onChange(race.id) }
           className={ input.value === race.id ? classes.raised : classes.normal }
+          disabled={ participants.filter(p => p.race === race.id).length >= race.limit }
         >
           <input style={ { display: 'none' } } { ...input } value={ race.id } type='radio'/>
           <CardMedia
