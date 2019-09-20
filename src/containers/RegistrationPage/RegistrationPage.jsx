@@ -2,8 +2,8 @@ import React from 'react';
 import { compose } from 'redux';
 import { connect, useSelector } from 'react-redux';
 import { withRouter } from 'react-router';
-import { isLoaded, useFirestoreConnect } from 'react-redux-firebase';
 import PropTypes from 'prop-types';
+import { isLoaded, useFirestoreConnect } from 'react-redux-firebase';
 
 import { Container, Paper, Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -38,6 +38,8 @@ const useStyles = makeStyles(theme => ({
     alignSelf: 'center'
   }
 }));
+
+const formName = 'registration';
 
 const RegistrationPage = ({ event, registerNewParticipant, history }) => {
   const classes = useStyles();
@@ -79,7 +81,7 @@ const RegistrationPage = ({ event, registerNewParticipant, history }) => {
             <Wizard
               isLoading={ !isLoaded(races) || !isLoaded(participants) }
               onSubmit={ handleSubmit }
-              formName='registration'
+              formName={ formName }
               stepperProps={ {
                 className: classes.stepper,
                 names: [
@@ -111,7 +113,9 @@ const RegistrationPage = ({ event, registerNewParticipant, history }) => {
 };
 
 RegistrationPage.propTypes = {
-  event: PropTypes.string
+  event: PropTypes.string,
+  registerNewParticipant: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired
 };
 
 export default compose(
