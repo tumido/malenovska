@@ -36,7 +36,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const LegendsPage = ({ legends, event }) => {
+const List = ({ legends, event }) => {
   const classes = useStyles();
 
   const legendsList = isLoaded(legends)
@@ -80,7 +80,7 @@ const LegendsPage = ({ legends, event }) => {
   );
 };
 
-LegendsPage.propTypes = {
+List.propTypes = {
   legends: PropTypes.array,
   event: PropTypes.object
 };
@@ -96,4 +96,4 @@ export default compose(
   connect((state, { event }) => ({
     legends: state.firestore.ordered[`legends_${event.id}`]
   }))
-)(LegendsPage);
+)(List);

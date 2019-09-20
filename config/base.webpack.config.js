@@ -21,7 +21,10 @@ const webpackConfig = {
   },
   resolve: {
     modules: [ 'src', 'node_modules' ],
-    extensions: [ '.js', '.jsx', '.scss' ]
+    extensions: [ '.js', '.jsx', '.scss', '.jpg' ],
+    alias: {
+      assets: config.paths.assets
+    }
   },
   module: {
     rules: [{

@@ -29,7 +29,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const RulesPage = ({ rules, event }) => {
+const List = ({ rules, event }) => {
   const classes = useStyles();
 
   const rulesList = !isLoaded(rules)
@@ -77,7 +77,7 @@ const RulesPage = ({ rules, event }) => {
   );
 };
 
-RulesPage.propTypes = {
+List.propTypes = {
   event: PropTypes.object.isRequired,
   rules: PropTypes.array
 };
@@ -92,4 +92,4 @@ export default compose(
   connect(({ firestore }, { event }) => ({
     rules: firestore.ordered.rules && firestore.ordered.rules.filter(r => r.event && r.event.includes(event.id))
   }))
-)(RulesPage);
+)(List);

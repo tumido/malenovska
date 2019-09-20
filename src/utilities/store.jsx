@@ -1,5 +1,5 @@
 import { applyMiddleware, createStore, compose } from 'redux';
-import createReducer from '../redux/reducers';
+import createReducer from 'redux/reducers';
 import thunk from 'redux-thunk';
 import logger from 'redux-logger';
 import { getFirebase } from 'react-redux-firebase';
@@ -24,7 +24,7 @@ export const configureStore = () => {
   store.injectedReducers = {};
 
   if (module.hot) {
-    module.hot.accept('../redux/reducers', () => {
+    module.hot.accept('redux/reducers', () => {
       store.replaceReducer(createReducer(store.injectedReducers));
       store.dispatch({ type: '@@REDUCER_INJECTED' });
     });

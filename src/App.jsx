@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { Helmet } from 'react-helmet';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import { firestoreConnect, isLoaded } from 'react-redux-firebase';
+
 import { CssBaseline, NoSsr } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
@@ -12,19 +13,20 @@ import { ThemeProvider } from '@material-ui/styles';
 import 'whatwg-fetch';
 import smoothscroll from 'smoothscroll-polyfill';
 
-import LandingPage from 'containers/LandingPage/Loadable';
-import NotFoundPage from 'containers/NotFoundPage/Loadable';
-import LegendsPage from 'containers/LegendsPage/Loadable';
-import LegendDetailPage from 'containers/LegendDetailPage/Loadable';
-import RulesPage from 'containers/RulesPage/Loadable';
-import InfoPage from 'containers/InfoPage/Loadable';
-import RegistrationPage from 'containers/RegistrationPage/Loadable';
 import { Header, Footer, Loading } from 'components';
 
 import { setEvent } from './redux/actions/event-actions';
 import { MalenovskaTheme } from './utilities/theme';
 
-import BgImage from '../assets/images/background.jpg';
+import BgImage from 'assets/images/background.jpg';
+
+const NotFound = lazy(() => import('containers/NotFound'));
+const Landing = lazy(() => import('containers/public/Landing'));
+const LegendList = lazy(() => import('containers/public/Legend/List'));
+const LegendShow = lazy(() => import('containers/public/Legend/Show'));
+const Rules = lazy(() => import('containers/public/Rules'));
+const Info = lazy(() => import('containers/public/Info'));
+const RegistrationNew = lazy(() => import('containers/public/Registration'));
 
 smoothscroll.polyfill();
 
@@ -59,12 +61,12 @@ const BaseEvent = ({ event, allEvents, setEvent }) => {
       <div className={ classes.content }>
         <main>
           <Switch>
-            <Route path={ `/${event.id}/legends/:id` } render={ (props) => <LegendDetailPage { ...props } event={ event }/> } />
-            <Route path={ `/${event.id}/legends` } render={ (props) => <LegendsPage { ...props } event={ event }/> } />
-            <Route path={ `/${event.id}/rules` } render={ (props) => <RulesPage { ...props } event={ event }/> } />
-            <Route path={ `/${event.id}/info` } render={ (props) => <InfoPage { ...props } event={ event }/> }  />
-            <Route path={ `/${event.id}/registration/new` } component={ RegistrationPage } />
-            <Route path={ `/${event.id}/registration/list` } component={ RegistrationPage } />
+            <Route path={ `/${event.id}/legends/:id` } render={ (props) => <LegendShow { ...props } event={ event }/> } />
+            <Route path={ `/${event.id}/legends` } render={ (props) => <LegendList { ...props } event={ event }/> } />
+            <Route path={ `/${event.id}/rules` } render={ (props) => <Rules { ...props } event={ event }/> } />
+            <Route path={ `/${event.id}/info` } render={ (props) => <Info { ...props } event={ event }/> }  />
+            <Route path={ `/${event.id}/registration/new` } component={ RegistrationNew } />
+            <Route path={ `/${event.id}/registration/list` } component={ RegistrationNew } />
             <Redirect exact from={ `/${event.id}` } to={ `/${event.id}/legends` } />
             <Redirect to='/not-found' />
           </Switch>
@@ -109,17 +111,19 @@ const App = ({ events }) => {
         <Helmet defaultTitle={ `Malenovská ${ new Date().getFullYear()}` }>
           <meta name="theme-color" content='#0e0a0a' />
         </Helmet>
-        <Switch>
-          { isLoaded(events) && events.map((event) => (
-            <Route
-              key={ `route_${event.id}` }
-              path={ '/' + event.id }
-              render={ (props) => <Event { ...props } event={ event }/> }
-            />
-          ))}
-          <Route exact path='/' component={ LandingPage } />
-          <Route component={ NotFoundPage } />
-        </Switch>
+        <Suspense fallback={ <Loading /> }>
+          <Switch>
+            { isLoaded(events) && events.map((event) => (
+              <Route
+                key={ `route_${event.id}` }
+                path={ '/' + event.id }
+                render={ (props) => <Event { ...props } event={ event }/> }
+              />
+            ))}
+            <Route exact path='/' component={ Landing } />
+            <Route component={ NotFound } />
+          </Switch>
+        </Suspense>
       </ThemeProvider>
     </NoSsr>
   );

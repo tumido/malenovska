@@ -12,7 +12,6 @@ import { timestampToDateStr, timestampToTimeStr } from 'utilities/firebase';
 
 import { setCenter, resetCenter } from 'redux/actions/map-actions';
 
-
 const useStyles = makeStyles(theme => ({
   root: {
     width: '100%',
@@ -39,10 +38,9 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const InfoPage = ({ event, center, setCenter, resetCenter }) => {
+const Info = ({ event, center, setCenter, resetCenter }) => {
   const classes = useStyles();
 
-  console.log(event)
   // let date = info.date ? info.date.toDate() : undefined;
   // const dateString = !date ? "" : date.toLocaleDateString('cs-CZ')
   // const timeString = !date ? "" : date.getHours() + ":" + date.getMinutes();
@@ -126,7 +124,7 @@ const InfoPage = ({ event, center, setCenter, resetCenter }) => {
   )
 }
 
-InfoPage.propTypes = {
+Info.propTypes = {
   info: PropTypes.shape({
     poi: PropTypes.arrayOf(MarkerPropType)
   })
@@ -137,4 +135,4 @@ export default connect(
     center: state.map.center
   }),
   { setCenter, resetCenter }
-)(InfoPage);
+)(Info);

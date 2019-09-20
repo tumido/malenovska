@@ -11,7 +11,7 @@ import { createMuiTheme, makeStyles } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
 
 import { Logo, EventAvailabilityChip } from 'components';
-import BgImage from '../../../assets/images/background.jpg';
+import BgImage from 'assets/images/background.jpg';
 
 const theme = createMuiTheme({
   palette: {
@@ -52,9 +52,9 @@ const sortEvents = (a, b) => {
   if (a.year === b.year && a.type < b.type) { return 1; }
 
   return -1;
-}
+};
 
-const LandingPage = ({ events }) => {
+const Landing = ({ events }) => {
   const classes = useStyles();
 
   return (
@@ -99,7 +99,7 @@ const LandingPage = ({ events }) => {
   );
 };
 
-LandingPage.propTypes = {
+Landing.propTypes = {
   events: PropTypes.array
 };
 
@@ -110,4 +110,4 @@ export default compose(
   connect(state => ({
     events: state.firestore.ordered.events
   }))
-)(LandingPage);
+)(Landing);

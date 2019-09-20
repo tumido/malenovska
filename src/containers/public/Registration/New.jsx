@@ -11,7 +11,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Wizard } from 'components';
 import { RaceSelect, Readout, PersonalDetails } from './steps';
 import validate from './validate';
-import { registerNewParticipant  } from '../../redux/actions/participant-actions';
+import { registerNewParticipant  } from 'redux/actions/participant-actions';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -41,7 +41,7 @@ const useStyles = makeStyles(theme => ({
 
 const formName = 'registration';
 
-const RegistrationPage = ({ event, registerNewParticipant, history }) => {
+const New = ({ event, registerNewParticipant, history }) => {
   const classes = useStyles();
 
   useFirestoreConnect(() => [
@@ -112,7 +112,7 @@ const RegistrationPage = ({ event, registerNewParticipant, history }) => {
   );
 };
 
-RegistrationPage.propTypes = {
+New.propTypes = {
   event: PropTypes.string,
   registerNewParticipant: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired
@@ -124,4 +124,4 @@ export default compose(
     ({ event }) => ({ event: event.eventId }),
     { registerNewParticipant }
   )
-)(RegistrationPage);
+)(New);

@@ -8,7 +8,7 @@ import { Typography, Paper, Container, Chip } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { Loading, ScrollTop, Markdown } from 'components';
-import { timestampToDateStr } from '../../utilities/firebase';
+import { timestampToDateStr } from 'utilities/firebase';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -27,7 +27,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const LegendDetailPage = ({ legend, event }) => {
+const Show = ({ legend, event }) => {
   const classes = useStyles();
 
   if (!isLoaded(legend)) {
@@ -56,7 +56,7 @@ const LegendDetailPage = ({ legend, event }) => {
   );
 };
 
-LegendDetailPage.propTypes = {
+Show.propTypes = {
   legend: PropTypes.shape({
     title: PropTypes.string,
     content: PropTypes.string,
@@ -77,4 +77,4 @@ export default compose(
   connect(({ firestore }) => ({
     legend: firestore.ordered.legend && firestore.ordered.legend[0]
   }))
-)(LegendDetailPage);
+)(Show);
