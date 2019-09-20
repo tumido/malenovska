@@ -52,7 +52,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const BaseEvent = ({ event, allEvents, setEvent }) => {
-  React.useEffect(() => { setEvent(event.id); });
+  React.useEffect(() => { setEvent(event); });
 
   const classes = useStyles();
   return (
@@ -62,10 +62,10 @@ const BaseEvent = ({ event, allEvents, setEvent }) => {
       <div className={ classes.content }>
         <main>
           <Switch>
-            <Route path={ `/${event.id}/legends/:id` } render={ (props) => <LegendShow { ...props } event={ event }/> } />
-            <Route path={ `/${event.id}/legends` } render={ (props) => <LegendList { ...props } event={ event }/> } />
-            <Route path={ `/${event.id}/rules` } render={ (props) => <Rules { ...props } event={ event }/> } />
-            <Route path={ `/${event.id}/info` } render={ (props) => <Info { ...props } event={ event }/> }  />
+            <Route path={ `/${event.id}/legends/:id` } component={ LegendShow } />
+            <Route path={ `/${event.id}/legends` } component={ LegendList } />
+            <Route path={ `/${event.id}/rules` } component={ Rules } />
+            <Route path={ `/${event.id}/info` } component={ Info } />
             <Route path={ `/${event.id}/registration/new` } component={ RegistrationNew } />
             <Route path={ `/${event.id}/registration/list` } component={ RegistrationList } />
             <Redirect exact from={ `/${event.id}` } to={ `/${event.id}/legends` } />

@@ -1,8 +1,8 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { compose } from 'redux';
-import { firestoreConnect, isLoaded } from 'react-redux-firebase';
+import { connect, useSelector } from 'react-redux';
+import { isLoaded, useFirestoreConnect } from 'react-redux-firebase';
 import PropTypes from 'prop-types';
+
 import { Container, Paper, Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Skeleton } from '@material-ui/lab';
@@ -11,15 +11,12 @@ import { ScrollTop, Markdown } from 'components';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    marginTop: '20px'
+    marginTop: 20
   },
   content: {
-    padding: '20px 10px',
-    [theme.breakpoints.up('md')]: {
-      padding: '60px 10px'
-    },
-    margin: 'auto',
-    maxWidth: 750
+    [theme.breakpoints.up('lg')]: {
+      paddingTop: 40
+    }
   },
   chip: {
     margin: theme.spacing(1)
@@ -29,8 +26,18 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const List = ({ rules, event }) => {
+const List = ({ event }) => {
   const classes = useStyles();
+
+  useFirestoreConnect(() => [
+    {
+      collection: 'events',
+      doc: event.id,
+      subcollections: [{ collection: 'rules' }],
+      storeAs: 'rules'
+    }
+  ]);
+  const rules = useSelector(({ firestore }) => firestore.ordered.rules);
 
   const rulesList = !isLoaded(rules)
     ? (
@@ -62,14 +69,14 @@ const List = ({ rules, event }) => {
 
   return (
     <React.Fragment>
-      <Container fixed maxWidth="lg" className={ classes.root }>
-        <Paper>
-          <div className={ classes.content }>
-            <Typography gutterBottom variant='h4' component='h1' id='top'>Pravidla: { event.name } { event.year }</Typography>
+      <Container className={ classes.root }>
+        <Paper className={ classes.content }>
+          <Container maxWidth='md'>
+            <Typography gutterBottom variant='h4' component='h2' id='top'>Pravidla: { event.name } { event.year }</Typography>
             <Grid container spacing={ 4 }>
               { rulesList }
             </Grid>
-          </div>
+          </Container>
         </Paper>
       </Container>
       <ScrollTop anchor='#top' />
@@ -82,14 +89,4 @@ List.propTypes = {
   rules: PropTypes.array
 };
 
-export default compose(
-  firestoreConnect([
-    {
-      collection: 'rules',
-      orderBy: 'priority'
-    }
-  ]),
-  connect(({ firestore }, { event }) => ({
-    rules: firestore.ordered.rules && firestore.ordered.rules.filter(r => r.event && r.event.includes(event.id))
-  }))
-)(List);
+export default connect(({ event }) => ({ event }))(List);

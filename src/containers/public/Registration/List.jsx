@@ -73,13 +73,13 @@ const List = ({ event }) => {
   useFirestoreConnect(() => [
     {
       collection: 'events',
-      doc: event,
+      doc: event.id,
       subcollections: [{ collection: 'races' }],
       storeAs: 'races'
     },
     {
       collection: 'events',
-      doc: event,
+      doc: event.id,
       subcollections: [{ collection: 'participants' }],
       storeAs: 'participants'
     }
@@ -154,9 +154,7 @@ const List = ({ event }) => {
 };
 
 List.propTypes = {
-  event: PropTypes.string
+  event: PropTypes.object.isRequired
 };
 
-export default connect(
-  ({ event }) => ({ event: event.eventId })
-)(List);
+export default connect(({ event }) => ({ event }))(List);

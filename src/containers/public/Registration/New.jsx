@@ -47,13 +47,13 @@ const New = ({ event, registerNewParticipant, history }) => {
   useFirestoreConnect(() => [
     {
       collection: 'events',
-      doc: event,
+      doc: event.id,
       subcollections: [{ collection: 'races' }],
       storeAs: 'races'
     },
     {
       collection: 'events',
-      doc: event,
+      doc: event.id,
       subcollections: [{ collection: 'participants' }],
       storeAs: 'participants'
     }
@@ -68,7 +68,7 @@ const New = ({ event, registerNewParticipant, history }) => {
   const handleButtonsRef = React.useCallback(instance => setButtonsEl(instance), [ setButtonsEl ]);
 
   const handleSubmit = values => {
-    registerNewParticipant({ event, ...values });
+    registerNewParticipant({ event: event.id, ...values });
     history.push('./list');
   };
 
@@ -113,7 +113,7 @@ const New = ({ event, registerNewParticipant, history }) => {
 };
 
 New.propTypes = {
-  event: PropTypes.string,
+  event: PropTypes.object.isRequired,
   registerNewParticipant: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired
 };
@@ -121,7 +121,7 @@ New.propTypes = {
 export default compose(
   withRouter,
   connect(
-    ({ event }) => ({ event: event.eventId }),
+    ({ event }) => ({ event }),
     { registerNewParticipant }
   )
 )(New);

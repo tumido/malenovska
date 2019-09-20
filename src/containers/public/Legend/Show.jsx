@@ -1,8 +1,7 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { compose } from 'redux';
+import { connect, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { firestoreConnect, isLoaded } from 'react-redux-firebase';
+import { isLoaded, useFirestoreConnect } from 'react-redux-firebase';
 import PropTypes from 'prop-types';
 import { Typography, Paper, Container, Chip } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -27,8 +26,17 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Show = ({ legend, event }) => {
+const Show = ({ match: { params: { id }}, event }) => {
   const classes = useStyles();
+
+  useFirestoreConnect(() => ([
+    {
+      collection: 'legends',
+      doc: id,
+      storeAs: 'legend'
+    }
+  ]));
+  const legend = useSelector(({ firestore }) => firestore.ordered.legend && firestore.ordered.legend[0]);
 
   if (!isLoaded(legend)) {
     return <Loading />;
@@ -57,24 +65,12 @@ const Show = ({ legend, event }) => {
 };
 
 Show.propTypes = {
-  legend: PropTypes.shape({
-    title: PropTypes.string,
-    content: PropTypes.string,
-    event: PropTypes.string,
-    date: PropTypes.object
-  }),
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string.isRequired
+    }).isRequired
+  }).isRequired,
   event: PropTypes.object.isRequired
 };
 
-export default compose(
-  firestoreConnect(({ match: { params: { id }}}) => [
-    {
-      collection: 'legends',
-      doc: id,
-      storeAs: 'legend'
-    }
-  ]),
-  connect(({ firestore }) => ({
-    legend: firestore.ordered.legend && firestore.ordered.legend[0]
-  }))
-)(Show);
+export default connect(({ event }) => ({ event }))(Show);

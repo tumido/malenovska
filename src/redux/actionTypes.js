@@ -1,5 +1,5 @@
 export const EVENT = {
-  set: '@@event/ID_SET'
+  set: '@@event/CONTEXT_SET'
 };
 
 export const MAP = {

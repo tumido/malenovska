@@ -131,8 +131,9 @@ Info.propTypes = {
 }
 
 export default connect(
-  state => ({
-    center: state.map.center
+  ({ map, event }) => ({
+    center: map.center,
+    event
   }),
   { setCenter, resetCenter }
 )(Info);

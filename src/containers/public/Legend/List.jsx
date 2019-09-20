@@ -1,7 +1,6 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { compose } from 'redux';
-import { firestoreConnect, isLoaded } from 'react-redux-firebase';
+import { connect, useSelector } from 'react-redux';
+import { useFirestoreConnect, isLoaded } from 'react-redux-firebase';
 import PropTypes from 'prop-types';
 
 import { Typography, Grid, Container, Chip, Hidden, Paper } from '@material-ui/core';
@@ -36,8 +35,17 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const List = ({ legends, event }) => {
+const List = ({ event }) => {
   const classes = useStyles();
+
+  useFirestoreConnect(() => ([
+    {
+      collection: 'legends',
+      where: [ 'event', '==', event.id ],
+      storeAs: `legends_${event.id}`
+    }
+  ]));
+  const legends = useSelector(({ firestore }) => firestore.ordered[`legends_${event.id}`]);
 
   const legendsList = isLoaded(legends)
     ? legends.map(l => (
@@ -85,15 +93,4 @@ List.propTypes = {
   event: PropTypes.object
 };
 
-export default compose(
-  firestoreConnect(({ event }) => [
-    {
-      collection: 'legends',
-      where: [ 'event', '==', event.id ],
-      storeAs: `legends_${event.id}`
-    }
-  ]),
-  connect((state, { event }) => ({
-    legends: state.firestore.ordered[`legends_${event.id}`]
-  }))
-)(List);
+export default connect(({ event }) => ({ event }))(List);

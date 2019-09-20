@@ -1,13 +1,11 @@
 import { EVENT } from '../actionTypes';
 
-const initialState = {
-  eventId: undefined
-};
+const initialState = {};
 
 export default (state = initialState, action) => {
   switch (action.type) {
     case EVENT.set: {
-      return { ...state, eventId: action.eventId };
+      return { ...state, ...(action.event) };
     }
 
     default:
