@@ -15,8 +15,8 @@ import smoothscroll from 'smoothscroll-polyfill';
 
 import { Header, Footer, Loading } from 'components';
 
-import { setEvent } from './redux/actions/event-actions';
-import { MalenovskaTheme } from './utilities/theme';
+import { setEvent } from 'redux/actions/event-actions';
+import { theme } from 'utilities/theme';
 
 import BgImage from 'assets/images/background.jpg';
 
@@ -28,6 +28,7 @@ const Rules = lazy(() => import('containers/public/Rules'));
 const Info = lazy(() => import('containers/public/Info'));
 const RegistrationNew = lazy(() => import('containers/public/Registration/New'));
 const RegistrationList = lazy(() => import('containers/public/Registration/List'));
+const Contact = lazy(() => import('containers/public/Contact/List'));
 
 smoothscroll.polyfill();
 
@@ -66,6 +67,7 @@ const BaseEvent = ({ event, allEvents, setEvent }) => {
             <Route path={ `/${event.id}/legends` } component={ LegendList } />
             <Route path={ `/${event.id}/rules` } component={ Rules } />
             <Route path={ `/${event.id}/info` } component={ Info } />
+            <Route path={ `/${event.id}/contact` } component={ Contact } />
             <Route path={ `/${event.id}/registration/new` } component={ RegistrationNew } />
             <Route path={ `/${event.id}/registration/list` } component={ RegistrationList } />
             <Redirect exact from={ `/${event.id}` } to={ `/${event.id}/legends` } />
@@ -96,7 +98,7 @@ const App = ({ events }) => {
 
   if (!isLoaded(events)) {
     return (
-      <ThemeProvider theme={ MalenovskaTheme }>
+      <ThemeProvider theme={ theme }>
         <CssBaseline />
         <div className={ classes.content }>
           <Loading />
@@ -107,7 +109,7 @@ const App = ({ events }) => {
 
   return (
     <NoSsr>
-      <ThemeProvider theme={ MalenovskaTheme }>
+      <ThemeProvider theme={ theme }>
         <CssBaseline />
         <Helmet defaultTitle={ `Malenovská ${ new Date().getFullYear()}` }>
           <meta name="theme-color" content='#0e0a0a' />

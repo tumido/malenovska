@@ -7,17 +7,12 @@ import PropTypes from 'prop-types';
 import { firestoreConnect, isLoaded } from 'react-redux-firebase';
 
 import { Hidden, Grid, Typography, Card, CardActionArea, CardContent, Link } from '@material-ui/core';
-import { createMuiTheme, makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
+import { darkTheme } from 'utilities/theme';
 
 import { Logo, EventAvailabilityChip } from 'components';
 import BgImage from 'assets/images/background.jpg';
-
-const theme = createMuiTheme({
-  palette: {
-    type: 'dark'
-  }
-});
 
 const useStyles = makeStyles(theme => ({
   h1: {
@@ -58,13 +53,13 @@ const Landing = ({ events }) => {
   const classes = useStyles();
 
   return (
-    <ThemeProvider theme={ theme }>
+    <ThemeProvider theme={ darkTheme }>
       <Grid container justify="center" alignItems="stretch" className={ classes.root }>
         <Hidden xsDown>
           <Grid item xs={ 12 } md={ 9 } container direction="column" justify="center" alignItems="center" className={ classes.logo }>
             <Typography gutterBottom variant="h1" className={ classes.h1 }>
               Malen
-              <Logo size='5rem' bgColor={ theme.palette.text.primary } fgColor='#000' />
+              <Logo size='5rem' bgColor={ darkTheme.palette.text.primary } fgColor='#000' />
               vská
             </Typography>
             <Typography variant="body1">Kdo zvítězí tentokrát? Vyber si tu bitvu, která tě zajíma.</Typography>

@@ -1,12 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router';
 import { Link as RouterLink } from 'react-router-dom';
+
 import {
   AppBar, Hidden, Drawer, Toolbar, Typography, IconButton, Divider, List,
-  ListItem, ListItemText, ListItemIcon, Menu, MenuItem, Link, Icon
+  ListItem, ListItemText, ListItemIcon, Menu, MenuItem, Icon
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { grey } from '@material-ui/core/colors';
+
+import { ThemeProvider } from '@material-ui/styles';
+import { darkTheme } from 'utilities/theme';
 
 const drawerWidth = 300;
 
@@ -21,7 +26,6 @@ const useStyles = makeStyles(theme => ({
     marginRight: theme.spacing(2)
   },
   drawerDivider: {
-    backgroundColor: theme.palette.primary.light,
     margin: '20px 0'
   },
   drawerHeader: {
@@ -44,7 +48,10 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Header = ({ event, allEvents }) => {
+// eslint-disable-next-line react/display-name
+const AdapterLink = React.forwardRef((props, ref) => <RouterLink innerRef={ ref } { ...props } />);
+
+const Header = ({ event, allEvents, location: { pathname }}) => {
   const classes = useStyles();
 
   const [ drawerOpen, setDrawerOpen ] = React.useState(false);
@@ -85,14 +92,16 @@ const Header = ({ event, allEvents }) => {
       },
       {
         textPrimary: 'Kontakty',
-        icon: 'mail_outline'
+        icon: 'mail_outline',
+        href: 'contact'
       }
     ],
     [
       {
         textPrimary: 'Nová registrace',
         icon: 'person_add',
-        href: 'registration/new'
+        href: 'registration/new',
+        disabled: !event.registrationAvailable
       },
       {
         textPrimary: 'Účastníci',
@@ -103,7 +112,7 @@ const Header = ({ event, allEvents }) => {
   ];
 
   const drawer = (
-    <React.Fragment>
+    <ThemeProvider theme={ darkTheme }>
       <div className={ classes.drawerHeader }>
         <Hidden mdUp>
           <IconButton onClick={ handleDrawerToggle }>
@@ -115,12 +124,17 @@ const Header = ({ event, allEvents }) => {
         <React.Fragment key={ `sec_${index}` }>
           <List>
             { section.map((item, index) => (
-              <Link key={ `item_${index}`  } component={ RouterLink } underline='none' color='inherit' to={ `/${event.id}/${item.href}` }>
-                <ListItem button>
-                  <ListItemIcon><Icon className={ classes.icon }>{ item.icon }</Icon></ListItemIcon>
-                  <ListItemText primary={ item.textPrimary } />
-                </ListItem>
-              </Link>
+              <ListItem
+                key={ `item_${index}`  }
+                button
+                selected={ `/${event.id}/${item.href}` === pathname }
+                disabled={ !item.href || item.disabled }
+                to={ `/${event.id}/${item.href}` }
+                component={ AdapterLink }
+              >
+                <ListItemIcon><Icon className={ classes.icon }>{ item.icon }</Icon></ListItemIcon>
+                <ListItemText primary={ item.textPrimary } />
+              </ListItem>
             )) }
           </List>
           <Divider className={ classes.drawerDivider }/>
@@ -146,14 +160,17 @@ const Header = ({ event, allEvents }) => {
         onClose={ handleMenuClose }
       >
         { allEvents.map(option => (
-          <Link key={ option.id } component={ RouterLink } underline='none' color='inherit' to={ `/${option.id}` }>
-            <MenuItem selected={ option.id === event.id }>
-              {option.name}
-            </MenuItem>
-          </Link>
+          <MenuItem
+            key={ option.id }
+            selected={ option.id === event.id }
+            component={ AdapterLink }
+            to={ `/${option.id}` }
+          >
+            {option.name}
+          </MenuItem>
         )) }
       </Menu>
-    </React.Fragment>
+    </ThemeProvider>
   );
 
   return (
@@ -200,7 +217,10 @@ const Header = ({ event, allEvents }) => {
 
 Header.propTypes = {
   event: PropTypes.object,
-  allEvents: PropTypes.array
+  allEvents: PropTypes.array,
+  location: PropTypes.shape({
+    pathname: PropTypes.string.isRequired
+  }).isRequired
 };
 
-export default Header;
+export default withRouter(Header);

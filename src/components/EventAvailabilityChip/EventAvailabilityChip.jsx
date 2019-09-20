@@ -3,10 +3,11 @@ import PropTypes from 'prop-types';
 
 import { Chip, Icon, Avatar } from '@material-ui/core';
 
-const EventAvailabilityChip = ({ event, className }) => (
+const EventAvailabilityChip = ({ event, className, color = 'primary' }) => (
   (!event.times || event.times.date.toDate() < new Date()) ? (
     <Chip
       className={ className }
+      color={ color }
       label='Proběhlo'
       avatar={ <Avatar><Icon>hourglass_empty</Icon></Avatar> }
     />
@@ -14,7 +15,7 @@ const EventAvailabilityChip = ({ event, className }) => (
     <Chip
       className={ className }
       label='Nová akce'
-      color="primary"
+      color={ color === 'primary' ? 'secondary' : 'primary' }
       avatar={ <Avatar><Icon>favorite_border</Icon></Avatar> }
     />
   )
@@ -22,7 +23,8 @@ const EventAvailabilityChip = ({ event, className }) => (
 
 EventAvailabilityChip.propTypes = {
   event: PropTypes.object.isRequired,
-  className: PropTypes.string
-}
+  className: PropTypes.string,
+  color: PropTypes.oneOf([ 'primary', 'secondary' ])
+};
 
 export default EventAvailabilityChip;
