@@ -7,7 +7,6 @@ import {
 import { makeStyles } from '@material-ui/core/styles';
 
 import { Map } from 'components';
-import { MarkerPropType } from 'utilities/scheme';
 import { timestampToDateStr, timestampToTimeStr } from 'utilities/firebase';
 
 import { setCenter, resetCenter } from 'redux/actions/map-actions';
@@ -52,12 +51,12 @@ const Info = ({ event, center, setCenter, resetCenter }) => {
   // ))
 
   const timesToRender = [
-    ['Datum akce', timestampToDateStr(event.times.date)],
-    ['Začátek akce', timestampToTimeStr(event.times.start)],
-    ['Otevření registrace', timestampToTimeStr(event.times.registrationOpen)],
-    ['Uzavření registrace', timestampToTimeStr(event.times.registrationClose) ],
-    ['Konec akce', timestampToTimeStr(event.times.end)]
-  ]
+    [ 'Datum akce', timestampToDateStr(event.times.date) ],
+    [ 'Začátek akce', timestampToTimeStr(event.times.start) ],
+    [ 'Otevření registrace', timestampToTimeStr(event.times.registrationOpen) ],
+    [ 'Uzavření registrace', timestampToTimeStr(event.times.registrationClose) ],
+    [ 'Konec akce', timestampToTimeStr(event.times.end) ]
+  ];
 
   return (
     <Grid container spacing={ 2 } className={ classes.root }>
@@ -74,7 +73,7 @@ const Info = ({ event, center, setCenter, resetCenter }) => {
               <Table>
                 <TableBody>
                   { timesToRender.map((row, index) => (
-                    <TableRow hover key={ `row_${index}`}>
+                    <TableRow hover key={ `row_${index}` }>
                       <TableCell>{row[0]}</TableCell>
                       <TableCell align='right'>{row[1]}</TableCell>
                     </TableRow>
@@ -87,7 +86,7 @@ const Info = ({ event, center, setCenter, resetCenter }) => {
               <Table size="small">
                 <TableBody>
                   { event.poi.map((row, index) => (
-                    <TableRow hover key={ `row_${index}`} onClick={ () => { setCenter([ row.geo.latitude, row.geo.longitude ]); } }>
+                    <TableRow hover key={ `row_${index}` } onClick={ () => { setCenter([ row.geo.latitude, row.geo.longitude ]); } }>
                       <TableCell className={ classes.mapMarker } ><Icon className={ classes[`color${index % 3}`] }>location_on</Icon></TableCell>
                       <TableCell>{row.name} - {row.description}</TableCell>
                       <TableCell className={ classes.mapActions } align='right'>
@@ -121,14 +120,24 @@ const Info = ({ event, center, setCenter, resetCenter }) => {
         <p>Harmonogram: </p>
       </div> */}
     </Grid>
-  )
-}
+  );
+};
 
 Info.propTypes = {
-  info: PropTypes.shape({
-    poi: PropTypes.arrayOf(MarkerPropType)
-  })
-}
+  event: PropTypes.shape({
+    poi: PropTypes.arrayOf(PropTypes.shape({
+      geo: PropTypes.shape({
+        latitude: PropTypes.number.isRequired,
+        longitude: PropTypes.number.isRequired
+      }).isRequired,
+      name: PropTypes.string.isRequired,
+      description: PropTypes.string.isRequired
+    }).isRequired)
+  }).isRequired,
+  center: PropTypes.array,
+  setCenter: PropTypes.func.isRequired,
+  resetCenter: PropTypes.func.isRequired
+};
 
 export default connect(
   ({ map, event }) => ({
