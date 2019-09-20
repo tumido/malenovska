@@ -92,11 +92,12 @@ const Header = ({ event, allEvents }) => {
       {
         textPrimary: 'Nová registrace',
         icon: 'person_add',
-        href: 'registration'
+        href: 'registration/new'
       },
       {
         textPrimary: 'Účastníci',
-        icon: 'how_to_reg'
+        icon: 'how_to_reg',
+        href: 'registration/list'
       }
     ]
   ];

@@ -1,4 +1,4 @@
-import { MAP_CENTER } from '../actionTypes';
+import { MAP } from '../actionTypes';
 
 const initialState = {
   center: undefined
@@ -6,11 +6,11 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case MAP_CENTER.set: {
+    case MAP.set: {
       return { ...state, center: action.center };
     }
 
-    case MAP_CENTER.reset: {
+    case MAP.reset: {
       return { ...state, center: undefined };
     }
 

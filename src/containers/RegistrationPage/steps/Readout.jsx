@@ -32,7 +32,7 @@ const Readout = ({ races, selectedRace, participants }) => {
     <React.Fragment>
       <Typography gutterBottom variant='h5' component='h2'>
         { race.name }
-        <Chip label={ `${participants.filter(p => p.raceId === selectedRace).length} / ${race.limit}` } className={ classes.chip } />
+        <Chip label={ `${participants.filter(p => p.race === selectedRace).length} / ${race.limit}` } className={ classes.chip } />
       </Typography>
       <Typography gutterBottom variant='subtitle1'>
         Každá strana žije svůj příběh. Má svůj boj, svůj cíl...

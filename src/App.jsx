@@ -21,7 +21,7 @@ import InfoPage from 'containers/InfoPage/Loadable';
 import RegistrationPage from 'containers/RegistrationPage/Loadable';
 import { Header, Footer, Loading } from 'components';
 
-import { setEvent } from './redux/actions';
+import { setEvent } from './redux/actions/event-actions';
 import { MalenovskaTheme } from './utilities/theme';
 
 import BgImage from '../assets/images/background.jpg';
@@ -63,7 +63,8 @@ const BaseEvent = ({ event, allEvents, setEvent }) => {
             <Route path={ `/${event.id}/legends` } render={ (props) => <LegendsPage { ...props } event={ event }/> } />
             <Route path={ `/${event.id}/rules` } render={ (props) => <RulesPage { ...props } event={ event }/> } />
             <Route path={ `/${event.id}/info` } render={ (props) => <InfoPage { ...props } event={ event }/> }  />
-            <Route path={ `/${event.id}/registration` } component={ RegistrationPage } />
+            <Route path={ `/${event.id}/registration/new` } component={ RegistrationPage } />
+            <Route path={ `/${event.id}/registration/list` } component={ RegistrationPage } />
             <Redirect exact from={ `/${event.id}` } to={ `/${event.id}/legends` } />
             <Redirect to='/not-found' />
           </Switch>

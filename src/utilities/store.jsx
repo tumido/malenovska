@@ -1,8 +1,12 @@
 import { applyMiddleware, createStore, compose } from 'redux';
 import createReducer from '../redux/reducers';
+import thunk from 'redux-thunk';
 import logger from 'redux-logger';
+import { getFirebase } from 'react-redux-firebase';
 
-let middleware = [];
+let middleware = [
+  thunk.withExtraArgument(getFirebase)
+];
 if (process.env.NODE_ENV !== 'production') {
   middleware = [ ...middleware, logger ];
 }

@@ -1,4 +1,4 @@
-import { EVENT_CONTEXT_ID } from '../actionTypes';
+import { EVENT } from '../actionTypes';
 
 const initialState = {
   eventId: undefined
@@ -6,7 +6,7 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case EVENT_CONTEXT_ID.set: {
+    case EVENT.set: {
       return { ...state, eventId: action.eventId };
     }
 

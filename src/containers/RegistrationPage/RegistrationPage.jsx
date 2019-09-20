@@ -1,5 +1,7 @@
 import React from 'react';
+import { compose } from 'redux';
 import { connect, useSelector } from 'react-redux';
+import { withRouter } from 'react-router';
 import { isLoaded, useFirestoreConnect } from 'react-redux-firebase';
 import PropTypes from 'prop-types';
 
@@ -9,31 +11,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Wizard } from 'components';
 import { RaceSelect, Readout, PersonalDetails } from './steps';
 import validate from './validate';
-
-// const addParticipant = (firestore, values, counts, limit) => {
-//   let publicData = pick(values, ['nickname', 'firstName', 'lastName', 'group', 'race', 'raceRef']);
-//   let privateData = pick(values, ['age', 'email']);
-
-//   if (counts[values.raceRef.id].length >= limit) {
-//     alert("Tady uže je plno!");
-//     return;
-//   }
-
-//   var batch = firestore.batch();
-//   let participant = firestore.collection('participants').doc(`${values.firstName}-${values.lastName}-(${values.nickname})`);
-//   let participantPrivate = participant.collection('private').doc();
-//   batch.set(participant, publicData);
-//   batch.set(participantPrivate, privateData);
-
-//   batch.commit().then(result => {
-//     alert(`${values.race} tě přijímají do svých řad.\n\nSpolehlivě upsáno! 🍺`)
-//   })
-//   .catch(err => {(
-//     err.code == "permission-denied"
-//       ? alert("Tento účastík je již nejspíše registrován. Pokud jste však přesvědčeni o své pravdě, křičte!")
-//       : alert("Něco se nepovedlo. Dejte nám vědět, prosím...")
-//   )})
-// }
+import { registerNewParticipant  } from '../../redux/actions/participant-actions';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -61,7 +39,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const RegistrationPage = ({ event }) => {
+const RegistrationPage = ({ event, registerNewParticipant, history }) => {
   const classes = useStyles();
 
   useFirestoreConnect(() => [
@@ -87,7 +65,10 @@ const RegistrationPage = ({ event }) => {
   const [ buttonsEl, setButtonsEl ] = React.useState(null);
   const handleButtonsRef = React.useCallback(instance => setButtonsEl(instance), [ setButtonsEl ]);
 
-  const handleSubmit = console.log;
+  const handleSubmit = values => {
+    registerNewParticipant({ event, ...values });
+    history.push('./list');
+  };
 
   return (
     <Container className={ classes.root }>
@@ -133,6 +114,10 @@ RegistrationPage.propTypes = {
   event: PropTypes.string
 };
 
-export default connect(({ event }) => ({
-  event: event.eventId
-}))(RegistrationPage);
+export default compose(
+  withRouter,
+  connect(
+    ({ event }) => ({ event: event.eventId }),
+    { registerNewParticipant }
+  )
+)(RegistrationPage);

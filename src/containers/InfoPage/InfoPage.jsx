@@ -10,7 +10,7 @@ import { Map } from 'components';
 import { MarkerPropType } from 'utilities/scheme';
 import { timestampToDateStr, timestampToTimeStr } from 'utilities/firebase';
 
-import { setCenter, resetCenter } from 'redux/actions';
+import { setCenter, resetCenter } from 'redux/actions/map-actions';
 
 
 const useStyles = makeStyles(theme => ({

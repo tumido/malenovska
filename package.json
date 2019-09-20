@@ -42,6 +42,7 @@
     "redux-firestore": "^0.8.0",
     "redux-form": "^8.2.6",
     "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.3.0",
     "smoothscroll-polyfill": "^0.4.4",
     "webfontloader": "^1.6.28",
     "whatwg-fetch": "^3.0.0"

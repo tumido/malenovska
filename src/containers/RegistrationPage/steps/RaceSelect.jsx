@@ -45,7 +45,7 @@ const renderField = ({ input, race, participants }) => {
           />
           <CardContent>
             <Typography variant='h5' component='h2'>
-              {race.name} <Chip label={ `${participants.filter(p => p.raceId === race.id).length} / ${race.limit}` } className={ classes.chip } />
+              {race.name} <Chip label={ `${participants.filter(p => p.race === race.id).length} / ${race.limit}` } className={ classes.chip } />
             </Typography>
           </CardContent>
         </CardActionArea>
@@ -56,7 +56,7 @@ const renderField = ({ input, race, participants }) => {
 
 renderField.propTypes = {
   input: PropTypes.object.isRequired,
-  race: PropTypes.array.isRequired,
+  race: PropTypes.object.isRequired,
   participants: PropTypes.array.isRequired
 };
 
