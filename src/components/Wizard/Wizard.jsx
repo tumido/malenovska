@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Prompt } from 'react-router-dom';
 import { submit, isValid, isPristine, initialize } from 'redux-form';
 
 import { Stepper, MobileStepper, Step, StepLabel, Hidden, Button, Icon, Portal } from '@material-ui/core';
@@ -43,6 +42,14 @@ const Wizard = ({
   }
 
   const [ activeStep, setActiveStep ] = React.useState(0);
+  const [ firstLoad, setFirstLoad ] = React.useState(true);
+
+  React.useEffect(() => {
+    if (firstLoad) {
+      initialize(formName);
+      setFirstLoad(false);
+    }
+  });
 
   const handleNext = () => {
     setActiveStep(prev => prev + 1);
@@ -69,7 +76,6 @@ const Wizard = ({
 
   return (
     <React.Fragment>
-      <Prompt message={ () => initialize(formName) }/>  { /* Nasty fix. Clear wizard for on user leave. */ }
       <Hidden smDown>
         <Portal container={ portals.stepper } disablePortal={ !portals.stepper }>
           <Stepper
