@@ -9,6 +9,9 @@ import { CssBaseline, NoSsr } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
 
+import 'whatwg-fetch';
+import smoothscroll from 'smoothscroll-polyfill';
+
 import LandingPage from 'containers/LandingPage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import LegendsPage from 'containers/LegendsPage/Loadable';
@@ -22,6 +25,8 @@ import { setEvent } from './redux/actions';
 import { MalenovskaTheme } from './utilities/theme';
 
 import BgImage from '../assets/images/background.jpg';
+
+smoothscroll.polyfill();
 
 const useStyles = makeStyles(theme => ({
   root: {
