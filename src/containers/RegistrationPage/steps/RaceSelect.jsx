@@ -20,10 +20,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const renderField = ({
-  input, race, type, participants,
-  meta: { touched, error, warning }
-}) => {
+const renderField = ({ input, race, participants }) => {
   const classes = useStyles();
 
   const fileRef = useFirebase().storage().ref().child(`races/${race.id}`);
@@ -43,12 +40,12 @@ const renderField = ({
           <input style={ { display: 'none' } } { ...input } value={ race.id } type='radio'/>
           <CardMedia
             className={ classes.media }
-            image={ imageUrl || "''" }
+            image={ imageUrl || '\'\'' }
             title="Contemplative Reptile"
           />
           <CardContent>
             <Typography variant='h5' component='h2'>
-              {race.name} <Chip label={ `${participants.filter(p => p.raceId === race.id).length} / ${race.limit}` } className={classes.chip} />
+              {race.name} <Chip label={ `${participants.filter(p => p.raceId === race.id).length} / ${race.limit}` } className={ classes.chip } />
             </Typography>
           </CardContent>
         </CardActionArea>
@@ -57,26 +54,30 @@ const renderField = ({
   );
 };
 
-const RaceSelect = ({ races, participants }) => {
-  const classes = useStyles();
-
-  return (
-    <Grid container spacing={ 4 }>
-      <Grid item xs={ 12 }>
-        <Typography gutterBottom variant='h4' component='h2'>Vyber si stranu:</Typography>
-        <Typography gutterBottom variant='body1'>Jen za jednu stranu opravdu stojí bojovat. Jen jedna je ta správná. Která je to však pro tebe? Zvol moudře. Na výběr máš následující možnosti.</Typography>
-      </Grid>
-      { races.map(race =>
-        <Field
-          name='race'
-          component={ renderField }
-          key={ race.id }
-          race={ race }
-          participants={ participants }
-        />) }
-    </Grid>
-  );
+renderField.propTypes = {
+  input: PropTypes.object.isRequired,
+  race: PropTypes.array.isRequired,
+  participants: PropTypes.array.isRequired
 };
+
+const RaceSelect = ({ races, participants }) => (
+  <Grid container spacing={ 4 }>
+    <Grid item xs={ 12 }>
+      <Typography gutterBottom variant='h5' component='h2'>Vyber si stranu</Typography>
+      <Typography gutterBottom variant='body1'>
+        Jen za jednu stranu opravdu stojí bojovat. Jen jedna je ta správná. Která je to však pro tebe? Zvol moudře. Na výběr máš následující možnosti.
+      </Typography>
+    </Grid>
+    { races.map(race =>
+      <Field
+        name='race'
+        component={ renderField }
+        key={ race.id }
+        race={ race }
+        participants={ participants }
+      />) }
+  </Grid>
+);
 
 RaceSelect.propTypes = {
   races: PropTypes.array,

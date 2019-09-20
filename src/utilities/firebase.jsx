@@ -27,7 +27,7 @@ export const rrfProps = (store) => ({
 export const initializeFirebase = () => {
   firebase.initializeApp(firebaseConfig);
   firebase.firestore();
-}
+};
 
 /* eslint-disable no-console */
 export const enableFirebasePersistence = () => (

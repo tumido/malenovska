@@ -1,27 +1,31 @@
 const validate = values => {
   const errors = {};
   if (!values.race) {
-    errors.race = 'Required';
+    errors.race = true;
   }
 
   if (!values.firstName) {
-    errors.lastName = 'Required';
+    errors.firstName = true;
   }
 
   if (!values.lastName) {
-    errors.lastName = 'Required';
+    errors.lastName = true;
   }
 
   if (!values.email) {
-    errors.email = 'Required';
-  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-    errors.email = 'Invalid email address';
+    errors.email = true;
+  } else if (!/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$/i.test(values.email)) {
+    errors.email = 'Formát adresy neodpovídá';
   }
 
   if (!values.age) {
-    errors.age = 'Required';
-  } else if (values.age < 15) {
-    errors.email = 'Too young';
+    errors.age = true;
+  } else if (values.age < 10) {
+    errors.age = 'Málo';
+  }
+
+  if (!values.terms) {
+    errors.terms = true;
   }
 
   return errors;

@@ -30,7 +30,7 @@ const Readout = ({ races, selectedRace, participants }) => {
 
   return (
     <React.Fragment>
-      <Typography gutterBottom variant='h4' component='h2'>
+      <Typography gutterBottom variant='h5' component='h2'>
         { race.name }
         <Chip label={ `${participants.filter(p => p.raceId === selectedRace).length} / ${race.limit}` } className={ classes.chip } />
       </Typography>

@@ -7,7 +7,7 @@ import { Container, Paper, Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { Wizard } from 'components';
-import { RaceSelect, Readout } from './steps';
+import { RaceSelect, Readout, PersonalDetails } from './steps';
 import validate from './validate';
 
 // const addParticipant = (firestore, values, counts, limit) => {
@@ -43,7 +43,7 @@ const useStyles = makeStyles(theme => ({
   },
   paper: {
     [theme.breakpoints.up('lg')]: {
-      marginTop: 40,
+      marginTop: 40
     },
     padding: '0 16px'
   },
@@ -96,11 +96,16 @@ const RegistrationPage = ({ event }) => {
           <Grid item ref={ handleStepperRef }/>
           <Grid item>
             <Wizard
-              isLoading={ !races || !participants }
+              isLoading={ !isLoaded(races) || !isLoaded(participants) }
               onSubmit={ handleSubmit }
               formName='registration'
               stepperProps={ {
-                className: classes.stepper
+                className: classes.stepper,
+                names: [
+                  'Výběr strany',
+                  'Legenda',
+                  'Osobní údaje'
+                ]
               } }
               buttonsProps={ {
                 className: classes.buttons
@@ -114,7 +119,7 @@ const RegistrationPage = ({ event }) => {
             >
               <RaceSelect races={ races } participants={ participants }/>
               <Readout races={ races } participants={ participants }/>
-              <Readout races={ races } participants={ participants }/>
+              <PersonalDetails races={ races }/>
             </Wizard>
           </Grid>
           <Grid item className={ classes.buttonWrapper } ref={ handleButtonsRef }/>

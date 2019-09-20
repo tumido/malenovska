@@ -7,7 +7,7 @@ import { submit, isValid, isPristine } from 'redux-form';
 import { Skeleton } from '@material-ui/lab';
 
 const Wizard = ({
-  stepperProps = {},
+  stepperProps = { names: [] },
   mobileStepperProps = {},
   buttonsProps = {},
   children,
@@ -67,9 +67,9 @@ const Wizard = ({
             activeStep={ activeStep }
             { ...stepperProps }
           >
-            {steps.map(label => (
-              <Step key={ label }>
-                <StepLabel />
+            {steps.map((label, idx) => (
+              <Step key={ idx }>
+                <StepLabel>{ stepperProps.names[idx] }</StepLabel>
               </Step>
             ))}
           </Stepper>
@@ -126,7 +126,9 @@ const Wizard = ({
 };
 
 Wizard.propTypes = {
-  stepperProps: PropTypes.object,
+  stepperProps: PropTypes.shape({
+    names: PropTypes.array.isRequired
+  }),
   mobileStepperProps: PropTypes.object,
   buttonsProps: PropTypes.object,
   children: PropTypes.node,
