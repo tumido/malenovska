@@ -26,7 +26,8 @@ const LegendList = lazy(() => import('containers/public/Legend/List'));
 const LegendShow = lazy(() => import('containers/public/Legend/Show'));
 const Rules = lazy(() => import('containers/public/Rules'));
 const Info = lazy(() => import('containers/public/Info'));
-const RegistrationNew = lazy(() => import('containers/public/Registration'));
+const RegistrationNew = lazy(() => import('containers/public/Registration/New'));
+const RegistrationList = lazy(() => import('containers/public/Registration/List'));
 
 smoothscroll.polyfill();
 
@@ -66,7 +67,7 @@ const BaseEvent = ({ event, allEvents, setEvent }) => {
             <Route path={ `/${event.id}/rules` } render={ (props) => <Rules { ...props } event={ event }/> } />
             <Route path={ `/${event.id}/info` } render={ (props) => <Info { ...props } event={ event }/> }  />
             <Route path={ `/${event.id}/registration/new` } component={ RegistrationNew } />
-            <Route path={ `/${event.id}/registration/list` } component={ RegistrationNew } />
+            <Route path={ `/${event.id}/registration/list` } component={ RegistrationList } />
             <Redirect exact from={ `/${event.id}` } to={ `/${event.id}/legends` } />
             <Redirect to='/not-found' />
           </Switch>

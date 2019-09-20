@@ -1,5 +1,6 @@
 import ArticlePreview from './ArticlePreview';
 import EventAvailabilityChip from './EventAvailabilityChip';
+import EnhancedTableHead from './EnhancedTableHead';
 import Footer from './Footer';
 import Header from './Header';
 import Loading from './Loading';
@@ -12,6 +13,7 @@ import Wizard from './Wizard';
 export {
   ArticlePreview,
   EventAvailabilityChip,
+  EnhancedTableHead,
   Footer,
   Header,
   Loading,
