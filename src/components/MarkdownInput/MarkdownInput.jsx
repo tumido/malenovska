@@ -7,14 +7,19 @@ import { compiler } from 'markdown-to-jsx';
 
 import 'react-mde/lib/styles/css/react-mde-all.css';
 
-const MarkdownInputBase = ({source}) => {
+const MarkdownInputBase = ({ input: { value, onChange: handleChange }}) => {
   const [ activeTab, setActiveTab ] = React.useState('write');
-  const [ content, setContent ] = React.useState('');
+  const [ content, setContent ] = React.useState(value);
+
+  const handleContentChange = value => {
+    setContent(value);
+    handleChange(value);
+  };
 
   return (
     <FormControl fullWidth={ true } className='ra-input-mde'>
       <ReactMde
-        onChange={ setContent }
+        onChange={ handleContentChange }
         onTabChange={ setActiveTab }
         value={ content }
         generateMarkdownPreview={ markdown => Promise.resolve(compiler(markdown)) }
@@ -24,7 +29,10 @@ const MarkdownInputBase = ({source}) => {
 }
 
 MarkdownInputBase.propTypes = {
-  source: PropTypes.string,
+  input: PropTypes.shape({
+    value: PropTypes.string.isRequired,
+    onChange: PropTypes.func.isRequired
+  }).isRequired
 };
 
 const MarkdownInput = addField(MarkdownInputBase);

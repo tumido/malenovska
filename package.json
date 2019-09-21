@@ -31,6 +31,7 @@
     "leaflet": "^1.5.1",
     "markdown-to-jsx": "^6.10.3",
     "prop-types": "^15.6.2",
+    "ra-language-czech": "^2.0.0",
     "react": "^16.8.3",
     "react-admin-firebase": "^0.8.9",
     "react-dom": "^16.8.3",
