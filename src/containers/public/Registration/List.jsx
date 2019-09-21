@@ -42,10 +42,11 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const headers = [
+  { id: 'race', label: 'Strana' },
   { id: 'nickName', label: 'Přezdívka' },
   { id: 'firstName', label: 'Jméno' },
   { id: 'lastName', label: 'Příjmení' },
-  { id: 'race', label: 'Strana' }
+  { id: 'group', label: 'Skupina' }
 ];
 
 const List = ({ event }) => {
@@ -117,10 +118,11 @@ const List = ({ event }) => {
                 .map((row, index) => {
                   return (
                     <TableRow key={ index }>
+                      <TableCell>{ row.race }</TableCell>
                       <TableCell>{ row.nickName }</TableCell>
                       <TableCell>{ row.firstName }</TableCell>
                       <TableCell>{ row.lastName }</TableCell>
-                      <TableCell>{ row.race }</TableCell>
+                      <TableCell>{ row.group }</TableCell>
                     </TableRow>
                   );
                 })}

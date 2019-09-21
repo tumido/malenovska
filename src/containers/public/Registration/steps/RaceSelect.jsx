@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
 
 import { Card, CardActionArea, CardContent, Typography, CardMedia, Grid, Chip } from '@material-ui/core';
+import { Skeleton } from '@material-ui/lab';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { getURL } from 'redux/actions/storage-actions';
@@ -38,11 +39,15 @@ const renderFieldBase = ({ input, race, participants, getURL }) => {
           disabled={ participants.filter(p => p.race === race.id).length >= race.limit }
         >
           <input style={ { display: 'none' } } { ...input } value={ race.id } type='radio'/>
-          <CardMedia
-            className={ classes.media }
-            image={ imageUrl || '\'\'' }
-            title="Contemplative Reptile"
-          />
+          { !imageUrl ? (
+            <Skeleton variant="rect" className={ classes.media } />
+          ) : (
+            <CardMedia
+              className={ classes.media }
+              image={ imageUrl || '\'\'' }
+              title="Contemplative Reptile"
+            />
+          )}
           <CardContent>
             <Typography variant='h5' component='h2'>
               {race.name} <Chip label={ `${participants.filter(p => p.race === race.id).length} / ${race.limit}` } className={ classes.chip } />
@@ -57,7 +62,8 @@ const renderFieldBase = ({ input, race, participants, getURL }) => {
 renderFieldBase.propTypes = {
   input: PropTypes.object.isRequired,
   race: PropTypes.object.isRequired,
-  participants: PropTypes.array.isRequired
+  participants: PropTypes.array.isRequired,
+  getURL: PropTypes.func.isRequired
 };
 
 const renderField = connect(null, { getURL })(renderFieldBase);
