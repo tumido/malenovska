@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 import { Link as RouterLink } from 'react-router-dom';
+import clsx from 'clsx';
 
 import {
   AppBar, Hidden, Drawer, Toolbar, Typography, IconButton, Divider, List,
@@ -73,7 +74,7 @@ const Header = ({ event, allEvents, location: { pathname }}) => {
     [
       {
         textPrimary: 'Legendy a příběhy',
-        icon: 'speaker_notes',
+        icon: 'receipt',
         href: 'legends'
       },
       {
@@ -92,8 +93,12 @@ const Header = ({ event, allEvents, location: { pathname }}) => {
       },
       {
         textPrimary: 'Kontakty',
-        icon: 'mail_outline',
-        href: 'contact'
+        icon: 'mail_outline'
+      },
+      {
+        textPrimary: 'Galerie',
+        className: 'material-icons-outlined',
+        icon: 'collections_outline'
       }
     ],
     [
@@ -132,7 +137,7 @@ const Header = ({ event, allEvents, location: { pathname }}) => {
                 to={ `/${event.id}/${item.href}` }
                 component={ AdapterLink }
               >
-                <ListItemIcon><Icon className={ classes.icon }>{ item.icon }</Icon></ListItemIcon>
+                <ListItemIcon><Icon className={ clsx(`${classes.icon}, ${item.className}`) }>{ item.icon }</Icon></ListItemIcon>
                 <ListItemText primary={ item.textPrimary } />
               </ListItem>
             )) }
@@ -159,7 +164,7 @@ const Header = ({ event, allEvents, location: { pathname }}) => {
         open={ Boolean(menuOpen) }
         onClose={ handleMenuClose }
       >
-        { allEvents.map(option => (
+        { allEvents.filter(({ display }) => display).map(option => (
           <MenuItem
             key={ option.id }
             selected={ option.id === event.id }

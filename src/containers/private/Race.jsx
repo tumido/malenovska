@@ -2,14 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {
   Create, Edit, List,
-  SimpleForm, TextInput, ReferenceInput, SelectInput, FileInput, FileField, NumberInput, // Create, Edit
+  SimpleForm, TextInput, ReferenceInput, SelectInput, FileInput, FileField, NumberInput, FunctionField, // Create, Edit
   Datagrid, DateField, TextField, EditButton, DeleteButton // List
 } from 'react-admin';
+
+import { Icon } from '@material-ui/core';
 
 import MarkdownInput from 'components/MarkdownInput';
 
 const RaceTitle = ({ record }) => (
-  <span>Racea: { record ? `"${record.name}"` : '' }</span>
+  <span>Strana: { record ? `"${record.name}"` : '' }</span>
 );
 
 RaceTitle.propTypes = {
@@ -58,6 +60,7 @@ const RaceList = (props) => (
       <TextField label='Jméno' source="name" />
       <TextField label='Událost' source="event" />
       <TextField label='Limit' source="limit" />
+      <FunctionField label='Obrázek' source="image" render={ ({ image }) => <Icon>{ image ? 'check' : 'close' }</Icon> }/>
       <TextField label="Autor" source="createdby" />
       <DateField label="Vytvořeno" source="createdate" />
       <DateField label="Aktualizováno" source="lastupdate" />

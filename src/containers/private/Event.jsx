@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import {
   Create, Edit, List,
   SimpleForm, TextInput, BooleanInput, NumberInput, SelectInput, // Create
-  DisabledInput, // Edit
+  DisabledInput, FunctionField, // Edit
   Datagrid, DateField, SelectField, BooleanField, TextField, EditButton, DeleteButton, // List
   TabbedForm, FormTab, ReferenceManyField
 } from 'react-admin';
-import { Chip } from '@material-ui/core';
+import { Chip, Icon } from '@material-ui/core';
 
 import MarkdownInput from 'components/MarkdownInput';
 
@@ -65,7 +65,7 @@ const EventEdit = (props) => (
           <Datagrid>
             <TextField label='Název' source="name" />
             <TextField label='Limit' source="limit" />
-            <BooleanField label='Obrázek' source="image" />
+            <FunctionField label='Obrázek' source="image" render={ ({ image }) => <Icon>{ image ? 'check' : 'close' }</Icon> }/>
             <EditButton />
           </Datagrid>
         </ReferenceManyField>

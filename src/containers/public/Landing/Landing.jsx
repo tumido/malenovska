@@ -11,7 +11,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
 import { darkTheme } from 'utilities/theme';
 
-import { Logo, EventAvailabilityChip } from 'components';
+import { Logo, EventAvailabilityChip, Markdown } from 'components';
 import BgImage from 'assets/images/background.jpg';
 
 const useStyles = makeStyles(theme => ({
@@ -79,9 +79,7 @@ const Landing = ({ events }) => {
                       <Typography gutterBottom variant="body2" color="textSecondary" component="p">
                         { event.type ? 'Bitva, podzim' : 'Šarvátka, jaro' } { event.year }
                       </Typography>
-                      <Typography gutterBottom variant="body2">
-                        { event.description }
-                      </Typography>
+                      <Markdown content={ event.description } />
                     </CardContent>
                   </CardActionArea>
                 </Card>

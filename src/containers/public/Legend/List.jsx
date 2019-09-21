@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { Typography, Grid, Container, Chip, Hidden, Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
-import { ArticlePreview, EventAvailabilityChip } from 'components';
+import { ArticlePreview, EventAvailabilityChip, Markdown } from 'components';
 
 const useStyles = makeStyles(theme => ({
   h1: {
@@ -16,7 +16,7 @@ const useStyles = makeStyles(theme => ({
     paddingTop: '10vh',
     minHeight: '25vh',
     color: '#fff',
-    marginBottom: '10vh'
+    marginBottom: 20
   },
   contentGrid: {
     [theme.breakpoints.up('sm')]: {
@@ -24,7 +24,7 @@ const useStyles = makeStyles(theme => ({
     }
   },
   contentContainer: {
-    paddingTop: '70px'
+    paddingTop: 50
   },
   card: {
     maxHeight: 300,
@@ -66,12 +66,15 @@ const List = ({ event }) => {
   return (
     <Container>
       <Hidden xsDown>
-        <Grid container direction="column" justify="center" alignItems="center" className={ classes.banner }>
+        <Grid container direction="column" justify="center" spacing={ 2 } alignItems="center" className={ classes.banner }>
           <Grid item>
             <Typography gutterBottom variant='h1' className={ classes.h1 }>{ event.name }</Typography>
             <Chip label={ event.type ? 'Bitva' : 'Šarvátka' } className={ classes.chip }/>
             <Chip label={ `${ event.type ? 'Podzim' : 'Jaro' } ${event.year}` } className={ classes.chip }/>
             <EventAvailabilityChip event={ event } className={ classes.chip }/>
+          </Grid>
+          <Grid item>
+            <Markdown content={ event.description } />
           </Grid>
         </Grid>
       </Hidden>
