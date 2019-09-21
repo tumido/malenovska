@@ -5,6 +5,7 @@ import czechMessages from 'ra-language-czech';
 import admin from 'utilities/firebase_admin';
 import legend from './Legend';
 import event from './Event';
+import race from './Race';
 
 const messages = {
   cs: czechMessages
@@ -31,6 +32,13 @@ const Private = () => (
       // show={ legend.Show }
       create={ legend.Create }
       edit={ legend.Edit }
+    />
+    <Resource name='races'
+      options={ { label: 'Strany' } }
+      list={ race.List }
+      // show={ race.Show }
+      create={ race.Create }
+      edit={ race.Edit }
     />
   </Admin>
 );

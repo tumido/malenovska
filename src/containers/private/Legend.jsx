@@ -1,7 +1,7 @@
 import React from 'react';
 import {
   Create, Edit, List, Show,
-  SimpleForm, TextInput, FormDataConsumer, DateInput, ReferenceInput, SelectInput, DisabledInput, // Create, Edit
+  SimpleForm, TextInput, FormDataConsumer, DateInput, ReferenceInput, SelectInput, DisabledInput, LongTextInput, // Create, Edit
   Datagrid, DateField, TextField, EditButton, DeleteButton // List
 } from 'react-admin';
 
@@ -12,13 +12,14 @@ const LegendTitle = ({ record }) => (
 );
 
 const required = value => value ? undefined : 'Required';
+const maxLength = limit => value => value && value.length > limit ? undefined : 'Too long';
 
 const LegendCreate = (props) => (
   <Create { ...props }>
     <SimpleForm>
       <FormDataConsumer>
         {({ formData: { title }, ...rest }) =>
-          <DisabledInput label="ID" source="id" defaultValue={ title && title.replace(/ /, '_').toLowerCase() }  { ...rest } />
+          <DisabledInput label="ID" source="id" defaultValue={ title && title.replace(/ /g, '_').toLowerCase().replace(/\W/g, '') }  { ...rest } />
         }
       </FormDataConsumer>
       <TextInput label='Název' source="title" defaultValue='' validate={ required } />
@@ -26,6 +27,7 @@ const LegendCreate = (props) => (
       <ReferenceInput label="Událost" source="event" reference="events">
         <SelectInput optionText="name" />
       </ReferenceInput>
+      <LongTextInput label='Perex' source="perex" defaultValue='' validate={ [ required, maxLength(100) ] } fullWidth/>
       <MarkdownInput label='Obsah' source="content" validate={ required } />
     </SimpleForm>
   </Create>
@@ -37,8 +39,9 @@ const LegendEdit = (props) => (
       <DisabledInput label="ID" source="id" />
       <TextInput label='Název' source="title" validate={ required } />
       <ReferenceInput label="Událost" source="event" reference="events">
-        <SelectInput optionText="title" />
+        <SelectInput optionText="name" />
       </ReferenceInput>
+      <LongTextInput label='Perex' source="perex" defaultValue='' validate={ [ required, maxLength(100) ] } fullWidth/>
       <MarkdownInput label='Obsah' source="content" validate={ required } />
     </SimpleForm>
   </Edit>
