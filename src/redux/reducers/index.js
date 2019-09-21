@@ -6,6 +6,7 @@ import { reducer as formReducer } from 'redux-form';
 import eventReducer from './event';
 import mapReducer from './map';
 import patricipantReducer from './participant';
+import storageReducer from './storage';
 
 export default (injectedReducers) => (
   combineReducers({
@@ -15,6 +16,7 @@ export default (injectedReducers) => (
     event: eventReducer,
     map: mapReducer,
     participant: patricipantReducer,
+    storage: storageReducer,
     ...injectedReducers
   })
 );

@@ -1,9 +1,12 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
-import { useFirebase } from 'react-redux-firebase';
+
 import { Card, CardActionArea, CardContent, Typography, CardMedia, Grid, Chip } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+
+import { getURL } from 'redux/actions/storage-actions';
 
 const useStyles = makeStyles(theme => ({
   raised: {
@@ -20,15 +23,11 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const renderField = ({ input, race, participants }) => {
+const renderFieldBase = ({ input, race, participants, getURL }) => {
   const classes = useStyles();
 
-  const fileRef = useFirebase().storage().ref().child(`races/${race.id}`);
-
   const [ imageUrl, setImageUrl ] = React.useState(null);
-  fileRef.getDownloadURL()
-  .then(url => setImageUrl(url))
-  .catch(err => console.error('Missing image', err.message_)); // eslint-disable-line no-console
+  getURL(`races/${race.id}`).then(url => setImageUrl(url));
 
   return (
     <Grid item xs={ 12 } lg={ 6 }>
@@ -55,11 +54,13 @@ const renderField = ({ input, race, participants }) => {
   );
 };
 
-renderField.propTypes = {
+renderFieldBase.propTypes = {
   input: PropTypes.object.isRequired,
   race: PropTypes.object.isRequired,
   participants: PropTypes.array.isRequired
 };
+
+const renderField = connect(null, { getURL })(renderFieldBase);
 
 const RaceSelect = ({ races, participants }) => (
   <Grid container spacing={ 4 }>

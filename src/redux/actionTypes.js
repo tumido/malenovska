@@ -14,3 +14,10 @@ export const PARTICIPANT = {
     failed: '@@participant/ADD_FAILED'
   }
 };
+
+export const STORAGE = {
+  pendingUrl: '@@storage/FILE_URL_PENDING',
+  pending: '@@storage/FILE_PENDING',
+  success: '@@storage/FILE_SUCCESS',
+  failed: '@@storage/FILE_FAILED'
+};

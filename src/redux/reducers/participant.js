@@ -4,7 +4,9 @@ const initialState = {};
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case PARTICIPANT.add.set: {
+    case PARTICIPANT.add.pending:
+    case PARTICIPANT.add.success:
+    case PARTICIPANT.add.failed: {
       return { ...state, payload: action.payload };
     }
 

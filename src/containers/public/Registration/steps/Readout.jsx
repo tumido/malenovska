@@ -1,10 +1,15 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import { formValues } from 'redux-form';
 import { useFirebase } from 'react-redux-firebase';
+
 import { Typography, Chip } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 import { makeStyles } from '@material-ui/styles';
+
+import { getURL } from 'redux/actions/storage-actions';
 
 const useStyles = makeStyles(theme => ({
   image: {
@@ -17,16 +22,14 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Readout = ({ races, selectedRace, participants }) => {
+const Readout = ({ races, selectedRace, participants, getURL }) => {
   const classes = useStyles();
   const race = races.filter(({ id }) => id === selectedRace)[0];
 
   const fileRef = useFirebase().storage().ref().child(`races/${selectedRace}`);
 
   const [ imageUrl, setImageUrl ] = React.useState(null);
-  fileRef.getDownloadURL()
-  .then(url => setImageUrl(url))
-  .catch(err => console.error('Missing image', err.message_)); // eslint-disable-line no-console
+  getURL(`races/${race.id}`).then(url => setImageUrl(url));
 
   return (
     <React.Fragment>
@@ -51,4 +54,7 @@ Readout.propTypes = {
   participants: PropTypes.array.isRequired
 };
 
-export default formValues({ selectedRace: 'race' })(Readout);
+export default compose(
+  formValues({ selectedRace: 'race' }),
+  connect(null, { getURL })
+)(Readout);

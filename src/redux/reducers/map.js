@@ -1,8 +1,6 @@
 import { MAP } from '../actionTypes';
 
-const initialState = {
-  center: undefined
-};
+const initialState = {};
 
 export default (state = initialState, action) => {
   switch (action.type) {
