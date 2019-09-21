@@ -50,15 +50,15 @@ const List = ({ event }) => {
   const legendsList = isLoaded(legends)
     ? legends.map(l => (
       <Grid item xs={ 12 } key={ l.id }>
-        <ArticlePreview title={ l.title } date={ l.date } content={ l.content.replace(/\\n/, '\n') } href={ `/${event.id}/legends/${l.id}` }/>
+        <ArticlePreview article={ l } href={ `/${event.id}/legends/${l.id}` }/>
       </Grid>
     )) : (
       <React.Fragment>
         <Grid item xs={ 12 }>
-          <ArticlePreview isLoading/>
+          <ArticlePreview/>
         </Grid>
         <Grid item xs={ 12 }>
-          <ArticlePreview isLoading/>
+          <ArticlePreview/>
         </Grid>
       </React.Fragment>
     );

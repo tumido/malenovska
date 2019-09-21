@@ -19,10 +19,10 @@ const useStyles = makeStyles({
   }
 });
 
-const ArticlePreview = ({ title, content, className, href, isLoading = false }) => {
+const ArticlePreview = ({ article, className, href }) => {
   const classes = useStyles();
 
-  if (isLoading) {
+  if (!article) {
     return (
       <Grid container className={ classes.root } spacing={ 2 }>
         <Grid item>
@@ -43,6 +43,8 @@ const ArticlePreview = ({ title, content, className, href, isLoading = false }) 
     );
   }
 
+  const { title, content, perex } = article;
+
   return (
     <ButtonBase component={ RouterLink } to={ href } className={ classes.root }>
       <Grid container className={ className } spacing={ 2 }>
@@ -54,7 +56,7 @@ const ArticlePreview = ({ title, content, className, href, isLoading = false }) 
             <Typography gutterBottom variant='h6'>{ title }</Typography>
           </Grid>
           <Grid item>
-            <Typography gutterBottom variant='body1'>{ content.split('\n')[0] }</Typography>
+            <Typography gutterBottom variant='body1'>{ perex || content.split('\n')[0] }</Typography>
           </Grid>
         </Grid>
       </Grid>
@@ -63,11 +65,14 @@ const ArticlePreview = ({ title, content, className, href, isLoading = false }) 
 };
 
 ArticlePreview.propTypes = {
-  title: PropTypes.string,
-  content: PropTypes.string,
+  article: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    content: PropTypes.string.isRequired,
+    published_at: PropTypes.any,  // eslint-disable-line camelcase
+    perex: PropTypes.string
+  }),
   href: PropTypes.string,
-  isLoading: PropTypes.bool,
-  className: PropTypes.string
+  isLoading: PropTypes.bool
 };
 
 export default ArticlePreview;
