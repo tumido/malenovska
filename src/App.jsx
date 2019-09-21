@@ -17,7 +17,8 @@ import BgImage from 'assets/images/background.jpg';
 
 const NotFound = lazy(() => import('containers/NotFound'));
 const Landing = lazy(() => import('containers/public/Landing'));
-const Public = lazy(() => import('containers/public/Public'));
+const Public = lazy(() => import('containers/public'));
+const Private = lazy(() => import('containers/private'));
 
 smoothscroll.polyfill();
 
@@ -70,6 +71,7 @@ const App = () => {
                 render={ (props) => <Public { ...props } event={ event }/> }
               />
             ))}
+            <Route path='/admin' component={ Private } />
             <Route exact path='/' component={ Landing } />
             <Route component={ NotFound } />
           </Switch>

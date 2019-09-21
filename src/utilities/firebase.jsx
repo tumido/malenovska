@@ -3,7 +3,7 @@ import { firebase } from '@firebase/app';
 import '@firebase/firestore';
 import '@firebase/storage';
 
-const firebaseConfig = {
+export const firebaseConfig = {
   apiKey: 'AIzaSyA2tOrkBzA0YcYT63KFtmtHFnwp6tAuuFI',
   authDomain: 'malenovska-305f8.firebaseapp.com',
   databaseURL: 'https://malenovska-305f8.firebaseio.com',
