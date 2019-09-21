@@ -37,16 +37,11 @@ const overrides = {
   }
 };
 
-const Markdown = ({ content, options, ...props }) => {
-  // FIX-ME: remove this preprocessing once admin is available
-  content = content.replace(/\\n/g, '\n');
-
-  return (
-    <BaseMarkdown options={ { overrides, ...options } } { ...props }>
-      { content }
-    </BaseMarkdown>
-  );
-};
+const Markdown = ({ content = "", options, ...props }) => (
+  <BaseMarkdown options={ { overrides, ...options } } { ...props }>
+    { content }
+  </BaseMarkdown>
+);
 
 Markdown.propTypes = {
   content: PropTypes.string,

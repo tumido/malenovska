@@ -1,25 +1,32 @@
 import React from 'react';
 import {
   Create, Edit, List, Show,
-  SimpleForm, TextInput, DateInput, // Create
-  DisabledInput, // Edit
+  SimpleForm, TextInput, FormDataConsumer, DateInput, ReferenceInput, SelectInput, DisabledInput, // Create, Edit
   Datagrid, DateField, TextField, EditButton, DeleteButton // List
 } from 'react-admin';
 
 import MarkdownInput from 'components/MarkdownInput';
 
-const LegendTitle = ({ record }) => {
-  return <span>Legenda: {record ? `"${record.title}"` : ''}</span>;
-};
+const LegendTitle = ({ record }) => (
+  <span>Legenda: { record ? `"${record.title}"` : '' }</span>
+);
 
 const required = value => value ? undefined : 'Required';
 
 const LegendCreate = (props) => (
   <Create { ...props }>
     <SimpleForm>
-      <TextInput source="title" validate={ required }/>
-      <MarkdownInput source="content" />
+      <FormDataConsumer>
+        {({ formData: { title }, ...rest }) =>
+          <DisabledInput label="ID" source="id" defaultValue={ title && title.replace(/ /, '_').toLowerCase() }  { ...rest } />
+        }
+      </FormDataConsumer>
+      <TextInput label='Název' source="title" defaultValue='' validate={ required } />
       <DateInput label="Publication date" source="published_at" defaultValue={ new Date() } />
+      <ReferenceInput label="Událost" source="event" reference="events">
+        <SelectInput optionText="name" />
+      </ReferenceInput>
+      <MarkdownInput label='Obsah' source="content" validate={ required } />
     </SimpleForm>
   </Create>
 );
@@ -27,9 +34,12 @@ const LegendCreate = (props) => (
 const LegendEdit = (props) => (
   <Edit title={ <LegendTitle /> } { ...props }>
     <SimpleForm>
-      <DisabledInput label="Id" source="id" />
-      <TextInput source="title" validate={ required } />
-      <MarkdownInput source="content" validate={ required } />
+      <DisabledInput label="ID" source="id" />
+      <TextInput label='Název' source="title" validate={ required } />
+      <ReferenceInput label="Událost" source="event" reference="events">
+        <SelectInput optionText="title" />
+      </ReferenceInput>
+      <MarkdownInput label='Obsah' source="content" validate={ required } />
     </SimpleForm>
   </Edit>
 );

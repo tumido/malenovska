@@ -18,6 +18,7 @@ const Private = () => (
     customSagas={ [ admin.firebaseRealtime ] }
   >
     <Resource name='legends'
+      options={ { label: 'Legendy a příběhy' } }
       list={ legend.List }
       // show={ legend.Show }
       create={ legend.Create }
