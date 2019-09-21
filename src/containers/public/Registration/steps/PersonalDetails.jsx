@@ -147,7 +147,7 @@ const PersonalDetails = ({ races, selectedRace }) => {
           </Grid>
           <Grid item xs={ 12 } className={ classes.terms }>
             <Typography variant='body1'>
-              Pro přijetí výše uvedených údajů je třeba tvůj souhlas. Slibujeme, že s tvými údaji budeme nakládat pouze pro potřeby konání akce
+              Pro přijetí výše uvedených údajů je třeba tvůj souhlas. Slibujeme, že s&nbsp;tvými údaji budeme nakládat pouze pro potřeby konání akce
               a nebudeme je uchovávat déle, než je nezbytně nutné.
             </Typography>
             <Field

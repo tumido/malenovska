@@ -1,13 +1,9 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
 
 import { Card, CardActionArea, CardContent, Typography, CardMedia, Grid, Chip } from '@material-ui/core';
-import { Skeleton } from '@material-ui/lab';
 import { makeStyles } from '@material-ui/core/styles';
-
-import { getURL } from 'redux/actions/storage-actions';
 
 const useStyles = makeStyles(theme => ({
   raised: {
@@ -24,11 +20,8 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const renderFieldBase = ({ input, race, participants, getURL }) => {
+const renderField = ({ input, race, participants }) => {
   const classes = useStyles();
-
-  const [ imageUrl, setImageUrl ] = React.useState(null);
-  getURL(`races/${race.id}`).then(url => setImageUrl(url));
 
   return (
     <Grid item xs={ 12 } lg={ 6 }>
@@ -39,15 +32,11 @@ const renderFieldBase = ({ input, race, participants, getURL }) => {
           disabled={ participants.filter(p => p.race === race.id).length >= race.limit }
         >
           <input style={ { display: 'none' } } { ...input } value={ race.id } type='radio'/>
-          { !imageUrl ? (
-            <Skeleton variant="rect" className={ classes.media } />
-          ) : (
-            <CardMedia
-              className={ classes.media }
-              image={ imageUrl || '\'\'' }
-              title="Contemplative Reptile"
-            />
-          )}
+          <CardMedia
+            className={ classes.media }
+            image={ race.image && race.image.src }
+            title="Contemplative Reptile"
+          />
           <CardContent>
             <Typography variant='h5' component='h2'>
               {race.name} <Chip label={ `${participants.filter(p => p.race === race.id).length} / ${race.limit}` } className={ classes.chip } />
@@ -59,14 +48,11 @@ const renderFieldBase = ({ input, race, participants, getURL }) => {
   );
 };
 
-renderFieldBase.propTypes = {
+renderField.propTypes = {
   input: PropTypes.object.isRequired,
   race: PropTypes.object.isRequired,
-  participants: PropTypes.array.isRequired,
-  getURL: PropTypes.func.isRequired
+  participants: PropTypes.array.isRequired
 };
-
-const renderField = connect(null, { getURL })(renderFieldBase);
 
 const RaceSelect = ({ races, participants }) => (
   <Grid container spacing={ 4 }>

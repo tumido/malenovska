@@ -5,13 +5,13 @@ export const registerNewParticipant = ({
 }) => (dispatch, getState, getFirebase) => {
   dispatch({ type: PARTICIPANT.add.pending });
 
-  const personDataPublic = { firstName, nickName, lastName, race, group };
+  const personDataPublic = { firstName, nickName, lastName, race, group, event };
   const personDataPrivate = { age, email };
 
   const firestore = getFirebase().firestore();
   const batch = firestore.batch();
 
-  const personDoc = firestore.collection('participants').doc(`${event}/${firstName} "${nickName}" ${lastName}`);
+  const personDoc = firestore.collection('participants').doc(`${event}:${firstName}-${nickName}-${lastName}`);
 
   batch.set(personDoc, personDataPublic);
   batch.set(personDoc.collection('private').doc(), personDataPrivate);

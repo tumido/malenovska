@@ -1,49 +1,46 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import { formValues } from 'redux-form';
-import { useFirebase } from 'react-redux-firebase';
 
-import { Typography, Chip } from '@material-ui/core';
-import { Skeleton } from '@material-ui/lab';
+import { Typography, Chip, Container } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 
-import { getURL } from 'redux/actions/storage-actions';
+import { ScrollTop, Markdown } from 'components';
 
 const useStyles = makeStyles(theme => ({
   image: {
     height: 400,
     width: '100%',
-    objectFit: 'contain'
+    objectFit: 'cover'
   },
   chip: {
     margin: theme.spacing(1)
+  },
+  legend: {
+    [theme.breakpoints.up('md')]: {
+      marginTop: 40
+    }
   }
 }));
 
-const Readout = ({ races, selectedRace, participants, getURL }) => {
+const Readout = ({ races, selectedRace, participants }) => {
   const classes = useStyles();
   const race = races.filter(({ id }) => id === selectedRace)[0];
 
-  const fileRef = useFirebase().storage().ref().child(`races/${selectedRace}`);
-
-  const [ imageUrl, setImageUrl ] = React.useState(null);
-  getURL(`races/${race.id}`).then(url => setImageUrl(url));
-
   return (
     <React.Fragment>
-      <Typography gutterBottom variant='h5' component='h2'>
+      <Typography gutterBottom variant='h5' component='h2' id='top'>
         { race.name }
         <Chip label={ `${participants.filter(p => p.race === selectedRace).length} / ${race.limit}` } className={ classes.chip } />
       </Typography>
       <Typography gutterBottom variant='subtitle1'>
         Každá strana žije svůj příběh. Má svůj boj, svůj cíl...
       </Typography>
-      { imageUrl ? <img className={ classes.image } src={ imageUrl } /> : <Skeleton variant='rect' className={ classes.image } /> }
-      <Typography variant='body1'>
-        { race.legend }
-      </Typography>
+      <img className={ classes.image } src={ race.image && race.image.src } />
+      <Container maxWidth='md' className={ classes.legend }>
+        <Markdown content={ race.legend } />
+      </Container>
+      <ScrollTop anchor='#top' />
     </React.Fragment>
   );
 };
@@ -54,7 +51,4 @@ Readout.propTypes = {
   participants: PropTypes.array.isRequired
 };
 
-export default compose(
-  formValues({ selectedRace: 'race' }),
-  connect(null, { getURL })
-)(Readout);
+export default formValues({ selectedRace: 'race' })(Readout);
