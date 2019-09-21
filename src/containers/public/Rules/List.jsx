@@ -1,6 +1,5 @@
 import React from 'react';
-import { connect, useSelector } from 'react-redux';
-import { isLoaded, useFirestoreConnect } from 'react-redux-firebase';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { Container, Paper, Grid, Typography } from '@material-ui/core';
@@ -29,44 +28,6 @@ const useStyles = makeStyles(theme => ({
 const List = ({ event }) => {
   const classes = useStyles();
 
-  useFirestoreConnect(() => [
-    {
-      collection: 'events',
-      doc: event.id,
-      subcollections: [{ collection: 'rules' }],
-      storeAs: 'rules'
-    }
-  ]);
-  const rules = useSelector(({ firestore }) => firestore.ordered.rules);
-
-  const rulesList = !isLoaded(rules)
-    ? (
-      <React.Fragment>
-        <Grid item className={ classes.loading }>
-          <Skeleton height='3em' width='50%'/>
-          <Skeleton/>
-          <Skeleton/>
-          <Skeleton width='90%'/>
-          <Skeleton width='20%'/>
-          <Skeleton/>
-          <Skeleton width='90%'/>
-        </Grid>
-        <Grid item className={ classes.loading }>
-          <Skeleton height='3em' width='30%'/>
-          <Skeleton width='90%'/>
-          <Skeleton/>
-          <Skeleton height='2em' width='40%'/>
-          <Skeleton/>
-          <Skeleton width='90%'/>
-          <Skeleton/>
-        </Grid>
-      </React.Fragment>
-    ) : rules.map(rule => (
-      <Grid item key={ rule.id }>
-        <Markdown content={ rule.content } />
-      </Grid>
-    ));
-
   return (
     <React.Fragment>
       <Container className={ classes.root }>
@@ -74,7 +35,9 @@ const List = ({ event }) => {
           <Container maxWidth='md'>
             <Typography gutterBottom variant='h4' component='h2' id='top'>Pravidla: { event.name } { event.year }</Typography>
             <Grid container spacing={ 4 }>
-              { rulesList }
+              <Grid item>
+                <Markdown content={ event.rules } />
+              </Grid>
             </Grid>
           </Container>
         </Paper>

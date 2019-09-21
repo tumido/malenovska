@@ -73,21 +73,19 @@ const List = ({ event }) => {
 
   useFirestoreConnect(() => [
     {
-      collection: 'events',
-      doc: event.id,
-      subcollections: [{ collection: 'races' }],
-      storeAs: 'races'
+      collection: 'races',
+      where: ['event', '==', event.id],
+      storeAs: `${event.id}_races`
     },
     {
-      collection: 'events',
-      doc: event.id,
-      subcollections: [{ collection: 'participants' }],
-      storeAs: 'participants'
+      collection: 'participants',
+      where: ['event', '==', event.id],
+      storeAs: `${event.id}_participants`
     }
   ]);
 
-  const races = useSelector(({ firestore }) => firestore.ordered.races);
-  const participants = useSelector(({ firestore }) => firestore.ordered.participants);
+  const races = useSelector(({ firestore }) => firestore.ordered[`${event.id}_races`]);
+  const participants = useSelector(({ firestore }) => firestore.ordered[`${event.id}_participants`]);
 
   if (!isLoaded(participants) || !isLoaded(races)) {return 'loading';}
 

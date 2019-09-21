@@ -4,6 +4,7 @@ import czechMessages from 'ra-language-czech';
 
 import admin from 'utilities/firebase_admin';
 import legend from './Legend';
+import event from './Event';
 
 const messages = {
   cs: czechMessages
@@ -17,6 +18,13 @@ const Private = () => (
     authProvider={ admin.authProvider }
     customSagas={ [ admin.firebaseRealtime ] }
   >
+    <Resource name='events'
+      options={ { label: 'Události' } }
+      list={ event.List }
+      // show={ legend.Show }
+      create={ event.Create }
+      edit={ event.Edit }
+    />
     <Resource name='legends'
       options={ { label: 'Legendy a příběhy' } }
       list={ legend.List }

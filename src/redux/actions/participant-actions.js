@@ -11,7 +11,7 @@ export const registerNewParticipant = ({
   const firestore = getFirebase().firestore();
   const batch = firestore.batch();
 
-  const personDoc = firestore.collection('events').doc(event).collection('participants').doc(`${firstName} "${nickName}" ${lastName}`);
+  const personDoc = firestore.collection('participants').doc(`${event}/${firstName} "${nickName}" ${lastName}`);
 
   batch.set(personDoc, personDataPublic);
   batch.set(personDoc.collection('private').doc(), personDataPrivate);

@@ -2,11 +2,7 @@ import { FirebaseAuthProvider, FirebaseDataProvider, FirebaseRealTimeSaga } from
 import { firebaseConfig } from './firebase';
 import '@firebase/auth';
 
-const options = {
-  // Enable logging of react-admin-firebase
-  // logging: true;
-  // watch: ['legends', 'events'];
-};
+const options = {};
 
 /* eslint-disable new-cap */
 export const dataProvider = FirebaseDataProvider(firebaseConfig, options);
