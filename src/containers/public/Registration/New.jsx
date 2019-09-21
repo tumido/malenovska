@@ -47,12 +47,12 @@ const New = ({ event, registerNewParticipant, history }) => {
   useFirestoreConnect(() => [
     {
       collection: 'races',
-      where: ['event', '==', event.id],
+      where: [ 'event', '==', event.id ],
       storeAs: `${event.id}_races`
     },
     {
       collection: 'participants',
-      where: ['event', '==', event.id],
+      where: [ 'event', '==', event.id ],
       storeAs: `${event.id}_participants`
     }
   ]);

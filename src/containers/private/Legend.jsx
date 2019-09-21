@@ -1,6 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
-  Create, Edit, List, Show,
+  Create, Edit, List,
   SimpleForm, TextInput, FormDataConsumer, DateInput, ReferenceInput, SelectInput, DisabledInput, LongTextInput, // Create, Edit
   Datagrid, DateField, TextField, EditButton, DeleteButton // List
 } from 'react-admin';
@@ -10,6 +11,10 @@ import MarkdownInput from 'components/MarkdownInput';
 const LegendTitle = ({ record }) => (
   <span>Legenda: { record ? `"${record.title}"` : '' }</span>
 );
+
+LegendTitle.propTypes = {
+  record: PropTypes.object.isRequired
+};
 
 const required = value => value ? undefined : 'Required';
 const maxLength = limit => value => value && value.length > limit ? undefined : 'Too long';

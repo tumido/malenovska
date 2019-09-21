@@ -1,6 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
-  Create, Edit, List, Show,
+  Create, Edit, List,
   SimpleForm, TextInput, ReferenceInput, SelectInput, FileInput, FileField, NumberInput, // Create, Edit
   Datagrid, DateField, TextField, EditButton, DeleteButton // List
 } from 'react-admin';
@@ -10,6 +11,10 @@ import MarkdownInput from 'components/MarkdownInput';
 const RaceTitle = ({ record }) => (
   <span>Racea: { record ? `"${record.name}"` : '' }</span>
 );
+
+RaceTitle.propTypes = {
+  record: PropTypes.object.isRequired
+};
 
 const required = value => value ? undefined : 'Required';
 

@@ -1,10 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
-  Create, Edit, List, Show,
-  SimpleForm, TextInput, DateInput, BooleanInput, NumberInput, SelectInput, // Create
+  Create, Edit, List,
+  SimpleForm, TextInput, BooleanInput, NumberInput, SelectInput, // Create
   DisabledInput, // Edit
   Datagrid, DateField, SelectField, BooleanField, TextField, EditButton, DeleteButton, // List
-  TabbedForm, FormTab, ReferenceManyField, ArrayField
+  TabbedForm, FormTab, ReferenceManyField
 } from 'react-admin';
 import { Chip } from '@material-ui/core';
 
@@ -12,6 +13,10 @@ import MarkdownInput from 'components/MarkdownInput';
 
 const EventTitle = ({ record }) => {
   return <span>Událost: {record ? `"${record.name}"` : ''}</span>;
+};
+
+EventTitle.propTypes = {
+  record: PropTypes.object.isRequired
 };
 
 const required = value => value ? undefined : 'Required';
@@ -81,6 +86,10 @@ const EventEdit = (props) => (
 );
 
 const ChipField = ({ record }) => <Chip label={ record.name } />;
+
+ChipField.propTypes = {
+  record: PropTypes.object.isRequired
+};
 
 const EventList = (props) => (
   <List { ...props }>

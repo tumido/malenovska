@@ -30,7 +30,7 @@ const useStyles = makeStyles(theme => ({
 const Show = ({ match: { params: { id }}, event }) => {
   const classes = useStyles();
 
-  console.log(useSelector(({firebase}) => firebase));
+  console.log(useSelector(({ firebase }) => firebase));
 
   useFirestoreConnect(() => ([
     {
@@ -60,7 +60,7 @@ const Show = ({ match: { params: { id }}, event }) => {
   };
 
   if (!legend.length || legend[0].event !== event.id) {
-    return <Redirect to='/not-found' />
+    return <Redirect to='/not-found' />;
   }
 
   return (
