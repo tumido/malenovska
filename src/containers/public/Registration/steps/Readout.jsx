@@ -29,13 +29,15 @@ const Readout = ({ races, selectedRace, participants }) => {
 
   return (
     <React.Fragment>
-      <Typography gutterBottom variant='h5' component='h2' id='top'>
-        { race.name }
-        <Chip label={ `${participants.filter(p => p.race === selectedRace).length} / ${race.limit}` } className={ classes.chip } />
-      </Typography>
-      <Typography gutterBottom variant='subtitle1'>
-        Každá strana žije svůj příběh. Má svůj boj, svůj cíl...
-      </Typography>
+      <Container maxWidth='md'>
+        <Typography gutterBottom variant='h5' component='h2' id='top'>
+          { race.name }
+          <Chip label={ `${participants.filter(p => p.race === selectedRace).length} / ${race.limit}` } className={ classes.chip } />
+        </Typography>
+        <Typography gutterBottom variant='subtitle1'>
+          Každá strana žije svůj příběh. Má svůj boj, svůj cíl...
+        </Typography>
+      </Container>
       <img className={ classes.image } src={ race.image && race.image.src } />
       <Container maxWidth='md' className={ classes.legend }>
         <Markdown content={ race.legend } />

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
 
-import { Card, CardActionArea, CardContent, Typography, CardMedia, Grid, Chip } from '@material-ui/core';
+import { Card, CardActionArea, CardContent, Typography, CardMedia, Grid, Chip, Container } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Markdown } from 'components';
 
@@ -56,30 +56,32 @@ renderField.propTypes = {
 };
 
 const RaceSelect = ({ texts = {}, races, participants }) => (
-  <Grid container spacing={ 4 }>
-    <Grid item xs={ 12 }>
-      <Typography gutterBottom variant='h5' component='h2'>Vyber si stranu</Typography>
-      { texts.above ? (
-        <Markdown content={ texts.above } />
-      ) : (
-        <Typography gutterBottom variant='body1'>
-          Jen za jednu stranu opravdu stojí bojovat. Jen jedna je ta správná. Která je to však pro tebe? Zvol moudře.
-          Na výběr máš následující možnosti.
-        </Typography>
-      ) }
+  <Container>
+    <Grid container spacing={ 4 }>
+      <Grid item xs={ 12 }>
+        <Typography gutterBottom variant='h5' component='h2'>Vyber si stranu</Typography>
+        { texts.above ? (
+          <Markdown content={ texts.above } />
+        ) : (
+          <Typography gutterBottom variant='body1'>
+            Jen za jednu stranu opravdu stojí bojovat. Jen jedna je ta správná. Která je to však pro tebe? Zvol moudře.
+            Na výběr máš následující možnosti.
+          </Typography>
+        ) }
+      </Grid>
+      { races.map(race =>
+        <Field
+          name='race'
+          component={ renderField }
+          key={ race.id }
+          race={ race }
+          participants={ participants }
+        />) }
+      <Grid item xs={ 12 }>
+        <Markdown content={ texts.below } />
+      </Grid>
     </Grid>
-    { races.map(race =>
-      <Field
-        name='race'
-        component={ renderField }
-        key={ race.id }
-        race={ race }
-        participants={ participants }
-      />) }
-    <Grid item xs={ 12 }>
-      <Markdown content={ texts.below } />
-    </Grid>
-  </Grid>
+  </Container>
 );
 
 RaceSelect.propTypes = {
@@ -88,7 +90,7 @@ RaceSelect.propTypes = {
   texts: PropTypes.shape({
     above: PropTypes.string,
     below: PropTypes.string
-  }).isRequired,
+  }).isRequired
 };
 
 export default RaceSelect;

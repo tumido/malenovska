@@ -17,13 +17,10 @@ const useStyles = makeStyles(theme => ({
   root: {
     [theme.breakpoints.down('sm')]: {
       padding: 0
-    }
-  },
-  paper: {
-    [theme.breakpoints.up('lg')]: {
-      marginTop: 40
     },
-    padding: '0 16px'
+    [theme.breakpoints.up('sm')]: {
+      paddingTop: 20
+    }
   },
   stepper: {
     background: 'transparent'
@@ -73,7 +70,7 @@ const New = ({ event, registerNewParticipant, history }) => {
 
   return (
     <Container className={ classes.root }>
-      <Paper className={ classes.paper }>
+      <Paper>
         <Grid container direction='column' wrap='nowrap' spacing={ 2 } >
           <Grid item ref={ handleStepperRef }/>
           <Grid item>
