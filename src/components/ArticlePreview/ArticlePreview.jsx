@@ -16,6 +16,7 @@ const useStyles = makeStyles({
     display: 'block',
     maxWidth: '100%',
     maxHeight: '100%',
+    objectFit: 'cover',
     height: 100,
     width: 200
   }

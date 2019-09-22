@@ -65,7 +65,7 @@ const New = ({ event, registerNewParticipant, history }) => {
 
   const handleSubmit = values => {
     registerNewParticipant({ event: event.id, ...values });
-    history.push('./done');
+    history.push('./list');
   };
 
   return (

@@ -95,6 +95,16 @@ const EventEdit = (props) => (
           <FileField source="src" title="title" />
         </FileInput>
         <NumberInput label='Cena' source="price"/>
+      </FormTab>
+      <FormTab label="Kontakty">
+        <FileInput label="Foto organizátorů" source="contactImage">
+          <FileField source="src" title="title" />
+        </FileInput>
+        <MarkdownInput label='O organizátorech' source="contactText" />
+        <TextInput label='FB událost' source="contact.facebook"/>
+        <TextInput label='Larpová databáze' source="contact.larpovadatabaze"/>
+        <TextInput label='LARP.cz' source="contact.larpcz"/>
+        <TextInput label='E-mail' source="contact.email"/>
         {/* <DateTimeInput source='times.date' format={v => v.toDate()} parse={v => v.fromDate()}/> */}
       </FormTab>
     </TabbedForm>

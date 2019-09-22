@@ -85,7 +85,7 @@ const Show = ({ match: { params: { id }}, event }) => {
           { legend[0].image ? (
             <img className={ classes.image } src={ legend[0].image.src } />
           ) : (
-            <Skeleton variant="rect" height={ 400 } />
+            <Skeleton className={ classes.image } variant="rect" height={ 400 } />
           ) }
           <Container maxWidth='md'>
             <Markdown content={ legend[0].content } />
