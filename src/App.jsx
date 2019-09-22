@@ -15,8 +15,8 @@ import { Loading } from 'components';
 import { theme } from 'utilities/theme';
 import BgImage from 'assets/images/background.jpg';
 
-const NotFound = lazy(() => import('containers/NotFound'));
-const Landing = lazy(() => import('containers/public/Landing'));
+const NotFound = lazy(() => import('containers/shared/NotFound'));
+const Landing = lazy(() => import('containers/shared/Landing'));
 const Public = lazy(() => import('containers/public'));
 const Private = lazy(() => import('containers/private'));
 

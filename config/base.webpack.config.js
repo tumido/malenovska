@@ -10,9 +10,7 @@ const webpackConfig = {
     historyApiFallback: true,
     overlay: true
   },
-  entry: {
-    App: config.paths.entry
-  },
+  entry: config.paths.entry,
   output: {
     filename: 'js/[name].js',
     path: config.paths.public,
