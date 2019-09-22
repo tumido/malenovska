@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { Container, Paper, Grid, Typography } from '@material-ui/core';
+import { Container, Paper, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Skeleton } from '@material-ui/lab';
 
@@ -22,6 +22,13 @@ const useStyles = makeStyles(theme => ({
   },
   loading: {
     width: '100%'
+  },
+  image: {
+    height: 400,
+    width: '100%',
+    objectFit: 'cover',
+    marginTop: '2em',
+    marginBottom: '2em'
   }
 }));
 
@@ -34,11 +41,14 @@ const List = ({ event }) => {
         <Paper className={ classes.content }>
           <Container maxWidth='md'>
             <Typography gutterBottom variant='h4' component='h2' id='top'>Pravidla: { event.name } { event.year }</Typography>
-            <Grid container spacing={ 4 }>
-              <Grid item>
-                <Markdown content={ event.rules } />
-              </Grid>
-            </Grid>
+          </Container>
+          { event.rules_image ? (
+            <img className={ classes.image } src={ event.rules_image.src } />
+          ) : (
+            <Skeleton variant="rect" height={ 400 } />
+          ) }
+          <Container maxWidth='md'>
+            <Markdown content={ event.rules } />
           </Container>
         </Paper>
       </Container>

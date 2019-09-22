@@ -58,6 +58,9 @@ const EventEdit = (props) => (
       </FormTab>
       <FormTab label="Pravidla">
         <MarkdownInput addLabel={ false } source="rules" />
+        <FileInput label="Obrázek" source="rules_image">
+          <FileField source="src" title="title" />
+        </FileInput>
       </FormTab>
       <FormTab label="Strany">
         <ReferenceManyField reference='races' target='event' addLabel={ false }>
