@@ -2,9 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
 import { formValues } from 'redux-form';
+
 import { TextField, Checkbox, Typography, Grid, Container, FormControl, FormLabel, Icon } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { grey } from '@material-ui/core/colors';
+
+import { Markdown } from 'components';
 
 const useStyles = makeStyles({
   terms: {
@@ -17,6 +20,9 @@ const useStyles = makeStyles({
     '& input': {
       color: grey[800]
     }
+  },
+  verticalSpace: {
+    paddingTop: '1em'
   }
 });
 
@@ -73,7 +79,9 @@ const PersonalDetails = ({ races, selectedRace }) => {
   return (
     <React.Fragment>
       <Container maxWidth='sm'>
-        <Typography gutterBottom variant='h5' component='h2'>Osobní údaje</Typography>
+        <Typography gutterBottom variant='h5' component='h2'>Charakteristika strany</Typography>
+        <Markdown content={ race.requirements } />
+        <Typography className={ classes.verticalSpace } gutterBottom variant='h5' component='h2'>Osobní údaje</Typography>
         <Grid container justify='center' spacing={ 3 }>
           <Grid item xs={ 12 } sm={ 10 }>
             <Field

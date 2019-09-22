@@ -93,7 +93,8 @@ const Header = ({ event, allEvents, location: { pathname }}) => {
       },
       {
         textPrimary: 'Kontakty',
-        icon: 'mail_outline'
+        icon: 'mail_outline',
+        href: 'contacts'
       },
       {
         textPrimary: 'Galerie',

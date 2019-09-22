@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Chip, Icon, Avatar } from '@material-ui/core';
 
 const EventAvailabilityChip = ({ event, className, color = 'primary' }) => (
-  (!event.times || event.times.date.toDate() < new Date()) ? (
+  (!event.times || !event.times.date || event.times.date.toDate() < new Date()) ? (
     <Chip
       className={ className }
       color={ color }

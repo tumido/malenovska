@@ -68,7 +68,7 @@ const New = ({ event, registerNewParticipant, history }) => {
 
   const handleSubmit = values => {
     registerNewParticipant({ event: event.id, ...values });
-    history.push('./list');
+    history.push('./done');
   };
 
   return (
@@ -99,7 +99,14 @@ const New = ({ event, registerNewParticipant, history }) => {
               validate={ validate }
               classes={ classes }
             >
-              <RaceSelect races={ races } participants={ participants }/>
+              <RaceSelect
+                texts={ {
+                  above: event.registrationBeforeAbove,
+                  below: event.registrationBeforeBelow
+                } }
+                races={ races }
+                participants={ participants }
+              />
               <Readout races={ races } participants={ participants }/>
               <PersonalDetails races={ races }/>
             </Wizard>

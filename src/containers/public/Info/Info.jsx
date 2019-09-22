@@ -81,7 +81,7 @@ const Info = ({ event, center, setCenter }) => {
                 <TableRow>
                   <TableCell>Potvrzení pro mladší 18 let</TableCell>
                   <TableCell align='right' padding='none'>
-                    <IconButton target='_blank' href={ event.declaration }>
+                    <IconButton target='_blank' href={ event.declaration.src }>
                       <Icon>assignment</Icon>
                     </IconButton>
                   </TableCell>

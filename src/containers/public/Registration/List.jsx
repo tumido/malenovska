@@ -6,7 +6,7 @@ import { isLoaded, useFirestoreConnect } from 'react-redux-firebase';
 import { Container, Paper, Grid, Table, TableBody, TableRow, TableCell, TablePagination, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
-import { EnhancedTableHead } from 'components';
+import { EnhancedTableHead, Markdown } from 'components';
 import { stableSort, getSorting } from 'utilities/sorting';
 
 const useStyles = makeStyles(theme => ({
@@ -100,6 +100,7 @@ const List = ({ event }) => {
         <Grid container direction='column' wrap='nowrap' spacing={ 2 } >
           <Grid item>
             <Typography variant='h5' component='h2'>Přihlášení účastníci</Typography>
+            <Markdown content={ event.registrationList } />
           </Grid>
           <Grid item className={ classes.tableWrapper }>
             <Table className={ classes.table }>

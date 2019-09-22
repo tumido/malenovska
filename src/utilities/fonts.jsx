@@ -9,5 +9,9 @@ export default () => WebFont.load({
       'Material Icons',
       'Material Icons Outlined'
     ]
+  },
+  custom: {
+    families: ['Font Awesome\ 5 Icons:400,900', 'Font Awesome\ 5 Brands:400'],
+    urls: ['//use.fontawesome.com/releases/v5.11.1/css/all.css']
   }
 });

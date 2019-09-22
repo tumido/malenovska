@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import {
   Create, Edit, List,
   SimpleForm, TextInput, FormDataConsumer, DateInput, ReferenceInput, SelectInput, DisabledInput, LongTextInput, // Create, Edit
-  Datagrid, DateField, TextField, EditButton, DeleteButton // List
+  Datagrid, DateField, TextField, EditButton, DeleteButton, // List
+  maxLength, required // Validators
 } from 'react-admin';
 
 import MarkdownInput from 'components/MarkdownInput';
@@ -16,9 +17,6 @@ LegendTitle.propTypes = {
   record: PropTypes.object.isRequired
 };
 
-const required = value => value ? undefined : 'Required';
-const maxLength = limit => value => value && value.length > limit ? undefined : 'Too long';
-
 const LegendCreate = (props) => (
   <Create { ...props }>
     <SimpleForm>
@@ -27,13 +25,13 @@ const LegendCreate = (props) => (
           <DisabledInput label="ID" source="id" defaultValue={ title && title.replace(/ /g, '_').toLowerCase().replace(/\W/g, '') }  { ...rest } />
         }
       </FormDataConsumer>
-      <TextInput label='Název' source="title" defaultValue='' validate={ required } />
+      <TextInput label='Název' source="title" defaultValue='' validate={ required() } />
       <DateInput label="Publication date" source="published_at" defaultValue={ new Date() } />
       <ReferenceInput label="Událost" source="event" reference="events">
         <SelectInput optionText="name" />
       </ReferenceInput>
-      <LongTextInput label='Perex' source="perex" defaultValue='' validate={ [ required, maxLength(100) ] } fullWidth/>
-      <MarkdownInput label='Obsah' source="content" validate={ required } />
+      <LongTextInput label='Perex' source="perex" defaultValue='' validate={ [ required(), maxLength(100) ] } fullWidth/>
+      <MarkdownInput label='Obsah' source="content" validate={ required() } />
     </SimpleForm>
   </Create>
 );
@@ -42,12 +40,12 @@ const LegendEdit = (props) => (
   <Edit title={ <LegendTitle /> } { ...props }>
     <SimpleForm>
       <DisabledInput label="ID" source="id" />
-      <TextInput label='Název' source="title" validate={ required } />
+      <TextInput label='Název' source="title" validate={ required() } />
       <ReferenceInput label="Událost" source="event" reference="events">
         <SelectInput optionText="name" />
       </ReferenceInput>
-      <LongTextInput label='Perex' source="perex" defaultValue='' validate={ [ required, maxLength(100) ] } fullWidth/>
-      <MarkdownInput label='Obsah' source="content" validate={ required } />
+      <LongTextInput label='Perex' source="perex" defaultValue='' validate={ [ required(), maxLength(100) ] } fullWidth/>
+      <MarkdownInput label='Obsah' source="content" validate={ required() } />
     </SimpleForm>
   </Edit>
 );
