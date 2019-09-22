@@ -8,19 +8,14 @@ import { CssBaseline, NoSsr } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
 
-import 'whatwg-fetch';
-import smoothscroll from 'smoothscroll-polyfill';
-
 import { Loading } from 'components';
 import { theme } from 'utilities/theme';
 import BgImage from 'assets/images/background.jpg';
 
-const NotFound = lazy(() => import('containers/shared/NotFound'));
+const NotFound = lazy(() => import(/* webpackPrefetch: true */ 'containers/shared/NotFound'));
 const Landing = lazy(() => import('containers/shared/Landing'));
-const Public = lazy(() => import('containers/public'));
-const Private = lazy(() => import('containers/private'));
-
-smoothscroll.polyfill();
+const Public = lazy(() => import(/* webpackPreload: true */ 'containers/public'));
+const Private = lazy(() => import(/* webpackPrefetch: true */ 'containers/private'));
 
 const useStyles = makeStyles(theme => ({
   content: {

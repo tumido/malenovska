@@ -5,7 +5,6 @@ const webpackConfig = {
   devtool: false,
   devServer: {
     port: 3000,
-    hot: true,
     host: '0.0.0.0',
     historyApiFallback: true,
     overlay: true
@@ -21,7 +20,7 @@ const webpackConfig = {
     modules: [ 'src', 'node_modules' ],
     extensions: [ '.js', '.jsx', '.scss', '.jpg' ],
     alias: {
-      assets: config.paths.assets
+      assets: config.paths.assets,
     }
   },
   module: {

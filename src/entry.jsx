@@ -1,3 +1,6 @@
+import 'whatwg-fetch';
+import('smoothscroll-polyfill').then(() => smoothscroll.polyfill());
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
