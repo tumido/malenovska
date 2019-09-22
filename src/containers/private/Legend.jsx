@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {
   Create, Edit, List,
-  SimpleForm, TextInput, FormDataConsumer, DateInput, ReferenceInput, SelectInput, DisabledInput, LongTextInput, // Create, Edit
+  SimpleForm, TextInput, FormDataConsumer, DateInput, ReferenceInput, SelectInput, DisabledInput, LongTextInput,
+  FileField, FileInput, // Create, Edit
   Datagrid, DateField, TextField, EditButton, DeleteButton, // List
   maxLength, required // Validators
 } from 'react-admin';
@@ -30,8 +31,11 @@ const LegendCreate = (props) => (
       <ReferenceInput label="Událost" source="event" reference="events">
         <SelectInput optionText="name" />
       </ReferenceInput>
-      <LongTextInput label='Perex' source="perex" defaultValue='' validate={ [ required(), maxLength(100) ] } fullWidth/>
+      <LongTextInput label='Perex' source="perex" defaultValue='' validate={ [ required(), maxLength(200) ] } fullWidth/>
       <MarkdownInput label='Obsah' source="content" validate={ required() } />
+      <FileInput source="image" label="Obrázek">
+        <FileField source="src" title="title" />
+      </FileInput>
     </SimpleForm>
   </Create>
 );
@@ -44,8 +48,11 @@ const LegendEdit = (props) => (
       <ReferenceInput label="Událost" source="event" reference="events">
         <SelectInput optionText="name" />
       </ReferenceInput>
-      <LongTextInput label='Perex' source="perex" defaultValue='' validate={ [ required(), maxLength(100) ] } fullWidth/>
+      <LongTextInput label='Perex' source="perex" defaultValue='' validate={ [ required(), maxLength(200) ] } fullWidth/>
       <MarkdownInput label='Obsah' source="content" validate={ required() } />
+      <FileInput source="image" label="Obrázek">
+        <FileField source="src" title="title" />
+      </FileInput>
     </SimpleForm>
   </Edit>
 );

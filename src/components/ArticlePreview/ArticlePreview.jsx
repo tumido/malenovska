@@ -11,11 +11,13 @@ const useStyles = makeStyles({
     textAlign: 'left',
     width: '100%'
   },
-  img: {
+  image: {
     margin: 'auto',
     display: 'block',
     maxWidth: '100%',
-    maxHeight: '100%'
+    maxHeight: '100%',
+    height: 100,
+    width: 200
   }
 });
 
@@ -26,17 +28,17 @@ const ArticlePreview = ({ article, className, href }) => {
     return (
       <Grid container className={ classes.root } spacing={ 2 }>
         <Grid item>
-          <Skeleton variant="rect" height={ 100 } width={ 200 } className={ classes.img }/>
+          <Skeleton variant="rect" height={ 100 } width={ 200 } className={ classes.image }/>
         </Grid>
         <Grid item xs={ 12 } sm container direction="column" alignItems='flex-start' justify='flex-start' spacing={ 2 }>
           <Grid item>
-            <Skeleton variant="rect" height='2em' width={ 200 } className={ classes.img }/>
+            <Skeleton variant="rect" height='2em' width={ 200 }/>
           </Grid>
           <Grid item>
-            <Skeleton variant="rect" height='1em' width={ 450 } className={ classes.img }/>
+            <Skeleton variant="rect" height='1em' width={ 450 }/>
           </Grid>
           <Grid item>
-            <Skeleton variant="rect" height='1em' width={ 400 } className={ classes.img }/>
+            <Skeleton variant="rect" height='1em' width={ 400 }/>
           </Grid>
         </Grid>
       </Grid>
@@ -49,7 +51,11 @@ const ArticlePreview = ({ article, className, href }) => {
     <ButtonBase component={ RouterLink } to={ href } className={ classes.root }>
       <Grid container className={ className } spacing={ 2 }>
         <Grid item>
-          <Skeleton variant="rect" height={ 100 } width={ 200 } className={ classes.img }/>
+          { article.image ? (
+            <img className={ classes.image } src={ article.image.src } />
+          ) : (
+            <Skeleton variant="rect" className={ classes.image }/>
+          ) }
         </Grid>
         <Grid item xs={ 12 } sm container direction="column" alignItems='flex-start' justify='flex-start' spacing={ 2 }>
           <Grid item>
@@ -69,10 +75,15 @@ ArticlePreview.propTypes = {
     title: PropTypes.string.isRequired,
     content: PropTypes.string.isRequired,
     published_at: PropTypes.any,  // eslint-disable-line camelcase
-    perex: PropTypes.string
+    perex: PropTypes.string,
+    image: PropTypes.shape({
+      src: PropTypes.string.isRequired,
+      title: PropTypes.string.isRequired
+    })
   }),
   href: PropTypes.string,
-  isLoading: PropTypes.bool
+  isLoading: PropTypes.bool,
+  className: PropTypes.string
 };
 
 export default ArticlePreview;

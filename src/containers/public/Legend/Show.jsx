@@ -15,22 +15,27 @@ const useStyles = makeStyles(theme => ({
     marginTop: '20px'
   },
   content: {
-    padding: '20px 10px',
+    paddingTop: 20,
+    paddingBottom: 20,
     [theme.breakpoints.up('md')]: {
-      padding: '60px 10px'
-    },
-    margin: 'auto',
-    maxWidth: 750
+      paddingTop: 60,
+      paddingBottom: 60
+    }
   },
   chip: {
     margin: theme.spacing(1)
+  },
+  image: {
+    height: 400,
+    width: '100%',
+    objectFit: 'cover',
+    marginTop: '2em',
+    marginBottom: '2em'
   }
 }));
 
 const Show = ({ match: { params: { id }}, event }) => {
   const classes = useStyles();
-
-  console.log(useSelector(({ firebase }) => firebase));
 
   useFirestoreConnect(() => ([
     {
@@ -45,19 +50,24 @@ const Show = ({ match: { params: { id }}, event }) => {
     return (
       <React.Fragment>
         <Container fixed maxWidth="lg" className={ classes.root }>
-          <Paper>
-            <div className={ classes.content }>
-              <Skeleton type='rect' height={ 100 } />
+          <Paper className={ classes.content }>
+            <Container maxWidth='md'>
+              <Typography gutterBottom variant='h4' component='h1' id='top'>
+                <Skeleton type='text' width={ 400 } />
+              </Typography>
+            </Container>
+            <Skeleton className={ classes.image } type='rect' height={ 400 } />
+            <Container maxWidth='md'>
               <Skeleton type='text' height={ 24 } />
               <Skeleton type='text' />
               <Skeleton type='text' />
               <Skeleton type='text' />
-            </div>
+            </Container>
           </Paper>
         </Container>
       </React.Fragment>
     );
-  };
+  }; // eslint-disable-line padding-line-between-statements
 
   if (!legend.length || legend[0].event !== event.id) {
     return <Redirect to='/not-found' />;
@@ -66,13 +76,20 @@ const Show = ({ match: { params: { id }}, event }) => {
   return (
     <React.Fragment>
       <Container fixed maxWidth="lg" className={ classes.root }>
-        <Paper>
-          <div className={ classes.content }>
+        <Paper className={ classes.content }>
+          <Container maxWidth='md'>
             <Typography gutterBottom variant='h4' component='h1' id='top'>{ legend[0].title }</Typography>
             <Chip label={ event.name } variant='outlined' className={ classes.chip } to={ `/${event.id}` } component={ Link } clickable/>
-            { legend[0].date && <Chip label={ timestampToDateStr(legend[0].date) } variant='outlined' className={ classes.chip }/> }
+            { legend[0].published_at && <Chip label={ timestampToDateStr(legend[0].published_at) } variant='outlined' className={ classes.chip }/> }
+          </Container>
+          { legend[0].image ? (
+            <img className={ classes.image } src={ legend[0].image.src } />
+          ) : (
+            <Skeleton variant="rect" height={ 400 } />
+          ) }
+          <Container maxWidth='md'>
             <Markdown content={ legend[0].content } />
-          </div>
+          </Container>
         </Paper>
       </Container>
       <ScrollTop anchor='#top' />
