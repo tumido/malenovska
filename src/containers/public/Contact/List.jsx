@@ -88,6 +88,7 @@ const List = ({ event }) => {
             <Fab
               className={ clsx(`${classes.blue} ${classes.fab}`) }
               href={ event.contact && event.contact.facebook }
+              target='_blank'
             >
               <Icon className='fab fa-facebook-f'/>
             </Fab>
@@ -99,6 +100,7 @@ const List = ({ event }) => {
             <Fab
               className={ clsx(`${classes.green} ${classes.fab}`) }
               href={ event.contact && event.contact.larpovadatabaze }
+              target='_blank'
             >
               <Icon>today</Icon>
             </Fab>
@@ -110,6 +112,7 @@ const List = ({ event }) => {
             <Fab
               className={ clsx(`${classes.brown} ${classes.fab}`) }
               href={ event.contact && event.contact.larpcz }
+              target='_blank'
             >
               <Icon>event</Icon>
             </Fab>
@@ -121,6 +124,7 @@ const List = ({ event }) => {
             <Fab
               className={ clsx(`${classes.red} ${classes.fab}`) }
               href={ event.contact && event.contact.email }
+              target='_blank'
             >
               <Icon>mail</Icon>
             </Fab>
