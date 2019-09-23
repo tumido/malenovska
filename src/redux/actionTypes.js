@@ -15,9 +15,7 @@ export const PARTICIPANT = {
   }
 };
 
-export const STORAGE = {
-  pendingUrl: '@@storage/FILE_URL_PENDING',
-  pending: '@@storage/FILE_PENDING',
-  success: '@@storage/FILE_SUCCESS',
-  failed: '@@storage/FILE_FAILED'
+export const SNACKBAR = {
+  open: '@@notification/SNACKBAR_OPEN',
+  close: '@@notification/SNACKBAR_CLOSE'
 };
