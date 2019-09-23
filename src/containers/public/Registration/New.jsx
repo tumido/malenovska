@@ -65,7 +65,7 @@ const New = ({ event, registerNewParticipant, history }) => {
 
   const handleSubmit = values => {
     registerNewParticipant({ event: event.id, ...values });
-    history.push('./list');
+    history.push('./done', { isUnderage: (values.age < 18) });
   };
 
   return (
