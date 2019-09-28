@@ -13,14 +13,11 @@ const useStyles = makeStyles(theme => ({
   root: {
     [theme.breakpoints.down('sm')]: {
       padding: 0
-    }
+    },
+    paddingTop: 20
   },
   paper: {
-    [theme.breakpoints.up('lg')]: {
-      marginTop: 40,
-      paddingTop: 40
-    },
-    padding: '0 16px'
+    padding: 16
   },
   table: {
     minWidth: 750
@@ -99,7 +96,7 @@ const List = ({ event }) => {
       <Paper className={ classes.paper }>
         <Grid container direction='column' wrap='nowrap' spacing={ 2 } >
           <Grid item>
-            <Typography variant='h5' component='h2'>Přihlášení účastníci</Typography>
+            <Typography variant='h4' component='h2'>Přihlášení účastníci</Typography>
             <Markdown content={ event.registrationList } />
           </Grid>
           <Grid item className={ classes.tableWrapper }>

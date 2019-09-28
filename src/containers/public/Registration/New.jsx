@@ -18,9 +18,7 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.down('sm')]: {
       padding: 0
     },
-    [theme.breakpoints.up('sm')]: {
-      paddingTop: 20
-    }
+    paddingTop: 20
   },
   stepper: {
     background: 'transparent'

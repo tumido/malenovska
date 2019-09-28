@@ -14,11 +14,7 @@ const useStyles = makeStyles(theme => ({
     }
   },
   paper: {
-    [theme.breakpoints.up('lg')]: {
-      paddingTop: 40,
-      paddingBottom: 40
-    },
-    padding: '0 16px'
+    padding: '40px 16px'
   },
   h1: {
     fontWeight: 600
@@ -43,16 +39,18 @@ const List = ({ event, location: { state }}) => {
       </Grid>
       <Paper className={ classes.paper }>
         <Container maxWidth='md'>
-          <Typography gutterBottom variant='subtitle1'>
-            Registraci zpracujeme. Tvé jméno se co nevidět objeví v seznamu účastníků.
-          </Typography>
-          { state && state.isUnderage &&
-            <Typography paragraph color='secondary' variant='body1'>
-              Ještě ti nebylo 18 let a my nechceme být zodpovědní za žádná tvá zranění.
-              Nezapomeň si stáhnout, vyplnit a hlavně přinést podepsané potvrzení pro nezletilé.
-            </Typography>
-          }
           <Grid container justify="center" spacing={ 2 }>
+            <Grid item xs={ 12 }>
+              <Typography gutterBottom variant='subtitle1'>
+                Registraci zpracujeme. Tvé jméno se co nevidět objeví v seznamu účastníků.
+              </Typography>
+              { state && state.isUnderage &&
+                <Typography paragraph color='secondary' variant='body1'>
+                  Ještě ti nebylo 18 let a my nechceme být zodpovědní za žádná tvá zranění.
+                  Nezapomeň si stáhnout, vyplnit a hlavně přinést podepsané potvrzení pro nezletilé.
+                </Typography>
+              }
+            </Grid>
             <Grid item>
               <Button color='primary' variant='contained' size='large'>Zobrazit přihlášené účastníky</Button>
             </Grid>

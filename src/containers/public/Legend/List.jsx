@@ -9,6 +9,21 @@ import { makeStyles } from '@material-ui/core/styles';
 import { ArticlePreview, EventAvailabilityChip, Markdown } from 'components';
 
 const useStyles = makeStyles(theme => ({
+  root: {
+    [theme.breakpoints.down('xs')]: {
+      padding: 0
+    },
+    paddingTop: 20
+  },
+  paper: {
+    [theme.breakpoints.up('lg')]: {
+      marginTop: 40
+    },
+    [theme.breakpoints.up('sm')]: {
+      paddingTop: 40
+    },
+    padding: 16
+  },
   h1: {
     fontWeight: 600
   },
@@ -22,9 +37,6 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.up('sm')]: {
       padding: theme.spacing(4)
     }
-  },
-  contentContainer: {
-    paddingTop: 50
   },
   card: {
     maxHeight: 300,
@@ -64,7 +76,7 @@ const List = ({ event }) => {
     );
 
   return (
-    <Container>
+    <Container className={ classes.root }>
       <Hidden xsDown>
         <Grid container direction="column" justify="center" spacing={ 2 } alignItems="center" className={ classes.banner }>
           <Grid item>
@@ -78,8 +90,8 @@ const List = ({ event }) => {
           </Grid>
         </Grid>
       </Hidden>
-      <Paper>
-        <Container maxWidth="lg" className={ classes.contentContainer }>
+      <Paper className={ classes.paper }>
+        <Container maxWidth="lg">
           <Typography gutterBottom variant='h4'>Legendy a příběhy</Typography>
           <Typography gutterBottom variant='body1'>Letošním ročníkem vás provedou následující příběhy.</Typography>
           <Grid container spacing={ 4 } justify="center" alignItems='stretch' className={ classes.contentGrid }>

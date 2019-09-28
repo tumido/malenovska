@@ -22,7 +22,8 @@ const useStyles = makeStyles({
     }
   },
   verticalSpace: {
-    paddingTop: '1em'
+    paddingTop: '1em',
+    paddingBottom: '1em'
   }
 });
 
@@ -78,12 +79,12 @@ const PersonalDetails = ({ races, selectedRace }) => {
 
   return (
     <React.Fragment>
-      <Container maxWidth='sm'>
-        <Typography gutterBottom variant='h5' component='h2'>Charakteristika strany</Typography>
+      <Container maxWidth='md'>
+        <Typography gutterBottom variant='h4' component='h2'>Charakteristika strany</Typography>
         <Markdown content={ race.requirements } />
-        <Typography className={ classes.verticalSpace } gutterBottom variant='h5' component='h2'>Osobní údaje</Typography>
+        <Typography className={ classes.verticalSpace } variant='h5' component='h2'>Osobní údaje</Typography>
         <Grid container justify='center' spacing={ 3 }>
-          <Grid item xs={ 12 } sm={ 10 }>
+          <Grid item xs={ 12 } sm={ 4 }>
             <Field
               id='nickName'
               name='nickName'
@@ -92,18 +93,7 @@ const PersonalDetails = ({ races, selectedRace }) => {
               component={ renderTextField }
             />
           </Grid>
-          <Grid item xs={ 12 } sm={ 2 }>
-            <Field
-              id='age'
-              name='age'
-              label='Věk'
-              type='number'
-              InputProps={ { inputProps: { min: 10 }} }
-              required
-              component={ renderTextField }
-            />
-          </Grid>
-          <Grid item xs={ 12 } sm={ 6 }>
+          <Grid item xs={ 12 } sm={ 4 }>
             <Field
               id='firstName'
               name='firstName'
@@ -113,7 +103,7 @@ const PersonalDetails = ({ races, selectedRace }) => {
               component={ renderTextField }
             />
           </Grid>
-          <Grid item xs={ 12 } sm={ 6 }>
+          <Grid item xs={ 12 } sm={ 4 }>
             <Field
               id='lastName'
               name='lastName'
@@ -133,12 +123,23 @@ const PersonalDetails = ({ races, selectedRace }) => {
               component={ renderTextField }
             />
           </Grid>
-          <Grid item xs={ 12 }>
+          <Grid item xs={ 12 } sm={ 10 }>
             <Field
               id='group'
               name='group'
               label='Skupina'
               placeholder='Rychlé Šípy'
+              component={ renderTextField }
+            />
+          </Grid>
+          <Grid item xs={ 12 } sm={ 2 }>
+            <Field
+              id='age'
+              name='age'
+              label='Věk'
+              type='number'
+              InputProps={ { inputProps: { min: 10 }} }
+              required
               component={ renderTextField }
             />
           </Grid>

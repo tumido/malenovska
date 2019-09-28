@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 
-import { Container, Paper, Grid, Avatar, Fab, Icon, Typography, Chip, Card, CardMedia, CardContent, CardHeader, Table, TableBody, TableRow, TableCell, Button } from '@material-ui/core';
+import { Container, Paper, Grid, Fab, Icon, Typography } from '@material-ui/core';
 import { blue, green, brown, red } from '@material-ui/core/colors';
 import { makeStyles } from '@material-ui/core/styles';
 import { Skeleton } from '@material-ui/lab';
@@ -12,12 +12,17 @@ import { Markdown } from 'components';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    marginTop: 20
+    [theme.breakpoints.down('sm')]: {
+      padding: 0
+    },
+    paddingTop: 20
   },
-  content: {
-    [theme.breakpoints.up('lg')]: {
+  paper: {
+    [theme.breakpoints.up('md')]: {
       paddingTop: 40
-    }
+    },
+    paddingTop: 16,
+    paddingBottom: 16
   },
   media: {
     height: 200
@@ -71,7 +76,7 @@ const List = ({ event }) => {
 
   return (
     <Container className={ classes.root }>
-      <Paper className={ classes.content }>
+      <Paper className={ classes.paper }>
         <Container maxWidth='md'>
           <Typography gutterBottom variant='h4' component='h2' id='top'>Kontakty</Typography>
         </Container>
@@ -136,6 +141,21 @@ const List = ({ event }) => {
       </Paper>
     </Container>
   );
+};
+
+List.propTypes = {
+  event: PropTypes.shape({
+    contactImage: PropTypes.shape({
+      src: PropTypes.string.isRequired
+    }),
+    contactText: PropTypes.string.isRequired,
+    contact: PropTypes.shape({
+      facebook: PropTypes.string,
+      larpovadatabaze: PropTypes.string,
+      larpcz: PropTypes.string,
+      email: PropTypes.string
+    })
+  }).isRequired
 };
 
 export default connect(({ event }) => ({ event }))(List);

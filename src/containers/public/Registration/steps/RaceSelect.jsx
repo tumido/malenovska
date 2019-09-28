@@ -59,7 +59,7 @@ const RaceSelect = ({ texts = {}, races, participants }) => (
   <Container>
     <Grid container spacing={ 4 }>
       <Grid item xs={ 12 }>
-        <Typography gutterBottom variant='h5' component='h2'>Vyber si stranu</Typography>
+        <Typography gutterBottom variant='h4' component='h2'>Vyber si stranu</Typography>
         { texts.above ? (
           <Markdown content={ texts.above } />
         ) : (

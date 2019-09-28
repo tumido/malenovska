@@ -13,16 +13,17 @@ import { setCenter } from 'redux/actions/map-actions';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    width: '100%',
-    padding: theme.spacing(2)
+    [theme.breakpoints.down('sm')]: {
+      padding: 0
+    },
+    padding: 20
   },
   info: {
     [theme.breakpoints.up('sm')]: {
-      paddingTop: 40,
-      paddingBottom: 40
+      paddingLeft: 24,
+      paddingRight: 24
     },
-    paddingLeft: 24,
-    paddingRight: 24
+    padding: 16
   },
   map: {
     padding: theme.spacing(1),
@@ -70,8 +71,8 @@ const Info = ({ event, center, setCenter }) => {
       <Paper>
         <Grid container>
           <Grid item xs={ 12 } lg={ 3 } className={ classes.info }>
-            <Typography gutterBottom variant='h5' component='h2'>Informace</Typography>
-            <Typography gutterBottom className={ classes.heading } variant='h6'>K registraci</Typography>
+            <Typography gutterBottom variant='h4' component='h2'>Informace</Typography>
+            <Typography gutterBottom className={ classes.heading } variant='h5'>K registraci</Typography>
             <Table>
               <TableBody>
                 <TableRow>
@@ -88,7 +89,7 @@ const Info = ({ event, center, setCenter }) => {
                 </TableRow>
               </TableBody>
             </Table>
-            <Typography gutterBottom className={ classes.heading } variant='h6'>Do kalendáře</Typography>
+            <Typography gutterBottom className={ classes.heading } variant='h5'>Do kalendáře</Typography>
             <Table>
               <TableBody>
                 { timesToRender.map((row, index) => (
@@ -99,7 +100,7 @@ const Info = ({ event, center, setCenter }) => {
                 ))}
               </TableBody>
             </Table>
-            <Typography gutterBottom className={ classes.heading } variant='h6'>Do navigace</Typography>
+            <Typography gutterBottom className={ classes.heading } variant='h5'>Do navigace</Typography>
             <Table size='small' className={ classes.tableFixed }>
               <TableBody>
                 { event.poi.map((row, index) => (

@@ -17,7 +17,7 @@ const Landing = lazy(() => import('containers/shared/Landing'));
 const Public = lazy(() => import(/* webpackPreload: true */ 'containers/public'));
 const Private = lazy(() => import(/* webpackPrefetch: true */ 'containers/private'));
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
   content: {
     display: 'flex',
     flexDirection: 'column',
@@ -37,14 +37,12 @@ const ThemedLoading = () => {
         <Loading />
       </div>
     </ThemeProvider>
-  )
-}
+  );
+};
 
 const App = () => {
-  const classes = useStyles();
-
-  useFirestoreConnect(() => ([ { collection: 'events' } ]));
-  const events = useSelector(({ firestore }) => firestore.ordered.events );
+  useFirestoreConnect(() => ([{ collection: 'events' }]));
+  const events = useSelector(({ firestore }) => firestore.ordered.events);
 
   if (!isLoaded(events)) {
     return <ThemedLoading />;

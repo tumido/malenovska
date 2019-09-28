@@ -10,12 +10,17 @@ import { ScrollTop, Markdown } from 'components';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    marginTop: 20
+    [theme.breakpoints.down('sm')]: {
+      padding: 0
+    },
+    paddingTop: 20
   },
-  content: {
-    [theme.breakpoints.up('lg')]: {
+  paper: {
+    [theme.breakpoints.up('md')]: {
       paddingTop: 40
-    }
+    },
+    paddingTop: 16,
+    paddingBottom: 16
   },
   chip: {
     margin: theme.spacing(1)
@@ -38,7 +43,7 @@ const List = ({ event }) => {
   return (
     <React.Fragment>
       <Container className={ classes.root }>
-        <Paper className={ classes.content }>
+        <Paper className={ classes.paper }>
           <Container maxWidth='md'>
             <Typography gutterBottom variant='h4' component='h2' id='top'>Pravidla: { event.name } { event.year }</Typography>
           </Container>

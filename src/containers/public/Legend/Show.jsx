@@ -12,15 +12,20 @@ import { timestampToDateStr } from 'utilities/firebase';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    marginTop: '20px'
+    [theme.breakpoints.down('sm')]: {
+      padding: 0
+    },
+    paddingTop: 20
   },
-  content: {
-    paddingTop: 20,
-    paddingBottom: 20,
+  paper: {
+    [theme.breakpoints.up('lg')]: {
+      marginTop: 40
+    },
     [theme.breakpoints.up('md')]: {
-      paddingTop: 60,
-      paddingBottom: 60
-    }
+      paddingTop: 40
+    },
+    paddingTop: 16,
+    paddingBottom: 16
   },
   chip: {
     margin: theme.spacing(1)
@@ -48,24 +53,22 @@ const Show = ({ match: { params: { id }}, event }) => {
 
   if (!isLoaded(legend)) {
     return (
-      <React.Fragment>
-        <Container fixed maxWidth="lg" className={ classes.root }>
-          <Paper className={ classes.content }>
-            <Container maxWidth='md'>
-              <Typography gutterBottom variant='h4' component='h1' id='top'>
-                <Skeleton type='text' width={ 400 } />
-              </Typography>
-            </Container>
-            <Skeleton className={ classes.image } type='rect' height={ 400 } />
-            <Container maxWidth='md'>
-              <Skeleton type='text' height={ 24 } />
-              <Skeleton type='text' />
-              <Skeleton type='text' />
-              <Skeleton type='text' />
-            </Container>
-          </Paper>
-        </Container>
-      </React.Fragment>
+      <Container fixed maxWidth="lg" className={ classes.root }>
+        <Paper className={ classes.paper }>
+          <Container maxWidth='md'>
+            <Typography gutterBottom variant='h4' component='h1' id='top'>
+              <Skeleton type='text' width={ 400 } />
+            </Typography>
+          </Container>
+          <Skeleton className={ classes.image } type='rect' height={ 400 } />
+          <Container maxWidth='md'>
+            <Skeleton type='text' height={ 24 } />
+            <Skeleton type='text' />
+            <Skeleton type='text' />
+            <Skeleton type='text' />
+          </Container>
+        </Paper>
+      </Container>
     );
   }; // eslint-disable-line padding-line-between-statements
 
@@ -75,8 +78,8 @@ const Show = ({ match: { params: { id }}, event }) => {
 
   return (
     <React.Fragment>
-      <Container fixed maxWidth="lg" className={ classes.root }>
-        <Paper className={ classes.content }>
+      <Container maxWidth="lg" className={ classes.root }>
+        <Paper className={ classes.paper }>
           <Container maxWidth='md'>
             <Typography gutterBottom variant='h4' component='h1' id='top'>{ legend[0].title }</Typography>
             <Chip label={ event.name } variant='outlined' className={ classes.chip } to={ `/${event.id}` } component={ Link } clickable/>

@@ -28,7 +28,9 @@ const useStyles = makeStyles(theme => ({
     color: '#fff'
   },
   eventList: {
-    minHeight: '100vh',
+    [theme.breakpoints.up('md')]: {
+      minHeight: '100vh'
+    },
     backgroundColor: 'rgba(0, 0, 0, .75)',
     margin: 0
   },

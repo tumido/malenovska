@@ -11,15 +11,12 @@ const useStyles = makeStyles(theme => ({
   image: {
     height: 400,
     width: '100%',
-    objectFit: 'cover'
+    objectFit: 'cover',
+    marginTop: '2em',
+    marginBottom: '2em'
   },
   chip: {
     margin: theme.spacing(1)
-  },
-  legend: {
-    [theme.breakpoints.up('md')]: {
-      marginTop: 40
-    }
   }
 }));
 
@@ -30,16 +27,16 @@ const Readout = ({ races, selectedRace, participants }) => {
   return (
     <React.Fragment>
       <Container maxWidth='md'>
-        <Typography gutterBottom variant='h5' component='h2' id='top'>
+        <Typography gutterBottom variant='h4' component='h2' id='top'>
           { race.name }
           <Chip label={ `${participants.filter(p => p.race === selectedRace).length} / ${race.limit}` } className={ classes.chip } />
         </Typography>
-        <Typography gutterBottom variant='subtitle1'>
+        <Typography variant='subtitle1'>
           Každá strana žije svůj příběh. Má svůj boj, svůj cíl...
         </Typography>
       </Container>
       <img className={ classes.image } src={ race.image && race.image.src } />
-      <Container maxWidth='md' className={ classes.legend }>
+      <Container maxWidth='md'>
         <Markdown content={ race.legend } />
       </Container>
       <Hidden smDown>
