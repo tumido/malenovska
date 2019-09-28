@@ -2,8 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { reduxForm } from 'redux-form';
 
+import { ScrollRestoreOnMount } from 'components';
+
 const WizardPageBase = ({ handleSubmit, children }) => (
   <form onSubmit={ handleSubmit }>
+    <ScrollRestoreOnMount />
     { children }
   </form>
 );

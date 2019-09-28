@@ -8,7 +8,7 @@ import { SnackbarProvider } from 'notistack';
 
 import { makeStyles } from '@material-ui/core/styles';
 
-import { Header, Footer, Loading, Notifier } from 'components';
+import { Header, Footer, Loading, Notifier, ScrollRestore } from 'components';
 import { setEvent } from 'redux/actions/event-actions';
 
 import BgImage from 'assets/images/background.jpg';
@@ -58,30 +58,32 @@ const Public = ({ event, setEvent }) => {
   }
 
   return (
-    <SnackbarProvider>
-      <div className={ classes.root }>
-        <Helmet><title>{ `${event.name} ${event.year}` }</title></Helmet>
-        <Header event={ event } allEvents={ allEvents }/>
-        <div className={ classes.content }>
-          <main>
-            <Switch>
-              <Route path={ `/${event.id}/legends/:id` } component={ LegendShow } />
-              <Route path={ `/${event.id}/legends` } component={ LegendList } />
-              <Route path={ `/${event.id}/rules` } component={ Rules } />
-              <Route path={ `/${event.id}/info` } component={ Info } />
-              <Route path={ `/${event.id}/contacts` } component={ Contact } />
-              <Route path={ `/${event.id}/registration/new` } component={ RegistrationNew } />
-              <Route path={ `/${event.id}/registration/done` } component={ RegistrationDone } />
-              <Route path={ `/${event.id}/registration/list` } component={ RegistrationList } />
-              <Redirect exact from={ `/${event.id}` } to={ `/${event.id}/legends` } />
-              <Redirect to='/not-found' />
-            </Switch>
-          </main>
-          <Footer />
-          <Notifier />
+    <ScrollRestore>
+      <SnackbarProvider>
+        <div className={ classes.root }>
+          <Helmet><title>{ `${event.name} ${event.year}` }</title></Helmet>
+          <Header event={ event } allEvents={ allEvents }/>
+          <div className={ classes.content }>
+            <main>
+              <Switch>
+                <Route path={ `/${event.id}/legends/:id` } component={ LegendShow } />
+                <Route path={ `/${event.id}/legends` } component={ LegendList } />
+                <Route path={ `/${event.id}/rules` } component={ Rules } />
+                <Route path={ `/${event.id}/info` } component={ Info } />
+                <Route path={ `/${event.id}/contacts` } component={ Contact } />
+                <Route path={ `/${event.id}/registration/new` } component={ RegistrationNew } />
+                <Route path={ `/${event.id}/registration/done` } component={ RegistrationDone } />
+                <Route path={ `/${event.id}/registration/list` } component={ RegistrationList } />
+                <Redirect exact from={ `/${event.id}` } to={ `/${event.id}/legends` } />
+                <Redirect to='/not-found' />
+              </Switch>
+            </main>
+            <Footer />
+            <Notifier />
+          </div>
         </div>
-      </div>
-    </SnackbarProvider>
+      </SnackbarProvider>
+    </ScrollRestore>
   );
 };
 

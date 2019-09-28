@@ -8,6 +8,8 @@ import Logo from './Logo';
 import Map from './Map';
 import Markdown from './Markdown';
 import Notifier from './Notifier';
+import ScrollRestore from './ScrollRestore';
+import ScrollRestoreOnMount from './ScrollRestoreOnMount';
 import ScrollTop from './ScrollTop';
 import Wizard from './Wizard';
 
@@ -23,5 +25,7 @@ export {
   Markdown,
   Notifier,
   ScrollTop,
+  ScrollRestore,
+  ScrollRestoreOnMount,
   Wizard
 };
