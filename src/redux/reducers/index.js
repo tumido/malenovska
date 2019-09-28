@@ -6,7 +6,7 @@ import { reducer as form } from 'redux-form';
 import event from './event';
 import map from './map';
 import participant from './participant';
-import notification from './notification';
+import notify from './notify';
 
 export default (injectedReducers) => (
   combineReducers({
@@ -16,7 +16,7 @@ export default (injectedReducers) => (
     event,
     map,
     participant,
-    notification,
+    notify,
     ...injectedReducers
   })
 );

@@ -15,7 +15,8 @@ export const PARTICIPANT = {
   }
 };
 
-export const SNACKBAR = {
+export const NOTIFY = {
   open: '@@notification/SNACKBAR_OPEN',
-  close: '@@notification/SNACKBAR_CLOSE'
+  close: '@@notification/SNACKBAR_CLOSE',
+  remove: '@@notification/SNACKBAR_REMOVE'
 };

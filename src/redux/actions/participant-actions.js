@@ -1,9 +1,15 @@
 import { PARTICIPANT } from '../actionTypes';
+import { openNotification, closeNotification } from './notify-actions';
 
 export const registerNewParticipant = ({
   event, age, email, firstName, group = '', lastName, nickName = '',  race
 }) => (dispatch, getState, getFirebase) => {
   dispatch({ type: PARTICIPANT.add.pending });
+  dispatch(openNotification({
+    message: `Registruji: ${firstName} ${lastName}`,
+    id: 'reg_pending',
+    options: { action: 'spinner' }
+  }));
 
   const personDataPublic = { firstName, nickName, lastName, race, group, event };
   const personDataPrivate = { age, email };
@@ -20,13 +26,27 @@ export const registerNewParticipant = ({
   .then(
     () => {
       dispatch({ type: PARTICIPANT.add.success });
-      alert(`${race} tě přijímají do svých řad.\n\nSpolehlivě upsáno! 🍺`);
+      dispatch(closeNotification('reg_pending'));
+      dispatch(openNotification({
+        message: 'Registrace proběhla úspěšně',
+        options: {
+          action: 'close',
+          variant: 'success'
+        }
+      }));
     },
     ({ code }) => {
       dispatch({ type: PARTICIPANT.add.failed });
-      code === 'permission-denied'
-        ? alert('Tento účastík je již nejspíše registrován. Pokud jste však přesvědčeni o své pravdě, křičte!')
-        : alert('Něco se nepovedlo. Dejte nám vědět, prosím...');
+      dispatch(closeNotification('reg_pending'));
+      dispatch(openNotification({
+        message: code === 'permission-denied'
+          ? 'Tento účastík je již registrován'
+          : 'Něco se nepovedlo, kontaktujte nás prosím',
+        options: {
+          action: 'close',
+          variant: 'error'
+        }
+      }));
     }
   );
 };

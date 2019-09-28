@@ -7,6 +7,7 @@ import Loading from './Loading';
 import Logo from './Logo';
 import Map from './Map';
 import Markdown from './Markdown';
+import Notifier from './Notifier';
 import ScrollTop from './ScrollTop';
 import Wizard from './Wizard';
 
@@ -20,6 +21,7 @@ export {
   Logo,
   Map,
   Markdown,
+  Notifier,
   ScrollTop,
   Wizard
 };
