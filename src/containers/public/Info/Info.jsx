@@ -161,7 +161,9 @@ Info.propTypes = {
       registrationClose: PropTypes.any,
       end: PropTypes.any
     }).isRequired,
-    declaration: PropTypes.string,
+    declaration: PropTypes.shape({
+      src: PropTypes.string.isRequired
+    }).isRequired,
     price: PropTypes.number.isRequired
   }).isRequired,
   center: PropTypes.array,

@@ -1,5 +1,5 @@
 import 'whatwg-fetch';
-import('smoothscroll-polyfill').then(() => smoothscroll.polyfill());
+import('smoothscroll-polyfill').then(smoothscroll => smoothscroll.polyfill());
 
 import React from 'react';
 import ReactDOM from 'react-dom';

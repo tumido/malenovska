@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { formValues } from 'redux-form';
 
-import { Typography, Chip, Container } from '@material-ui/core';
+import { Typography, Chip, Container, Hidden } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 
 import { ScrollTop, Markdown } from 'components';
@@ -42,7 +42,9 @@ const Readout = ({ races, selectedRace, participants }) => {
       <Container maxWidth='md' className={ classes.legend }>
         <Markdown content={ race.legend } />
       </Container>
-      <ScrollTop anchor='#top' />
+      <Hidden smDown>
+        <ScrollTop anchor='#top' />
+      </Hidden>
     </React.Fragment>
   );
 };

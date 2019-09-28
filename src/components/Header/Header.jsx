@@ -62,13 +62,13 @@ const Header = ({ event, allEvents, location: { pathname }}) => {
     setDrawerOpen(!drawerOpen);
   };
 
-  function handleMenuOpen(event) {
+  const handleMenuOpen = (event) => {
     setMenuOpen(event.currentTarget);
-  }
+  };
 
-  function handleMenuClose() {
+  const handleMenuClose = () => {
     setMenuOpen(null);
-  }
+  };
 
   const drawerItems = [
     [
@@ -204,7 +204,7 @@ const Header = ({ event, allEvents, location: { pathname }}) => {
           <Drawer
             variant='temporary'
             open={ drawerOpen }
-            onClose={ handleDrawerToggle }
+            onClick={ handleDrawerToggle }
             classes={ { paper: classes.drawerPaper } }
             ModalProps={ { keepMounted: true /* Better open performance on mobile */ } }
           >
