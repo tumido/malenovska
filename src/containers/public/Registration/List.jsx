@@ -5,6 +5,7 @@ import { isLoaded, useFirestoreConnect } from 'react-redux-firebase';
 
 import { Container, Paper, Grid, Table, TableBody, TableRow, TableCell, TablePagination, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { Skeleton } from '@material-ui/lab';
 
 import { EnhancedTableHead, Markdown } from 'components';
 import { stableSort, getSorting } from 'utilities/sorting';
@@ -84,7 +85,34 @@ const List = ({ event }) => {
   const races = useSelector(({ firestore }) => firestore.ordered[`${event.id}_races`]);
   const participants = useSelector(({ firestore }) => firestore.ordered[`${event.id}_participants`]);
 
-  if (!isLoaded(participants) || !isLoaded(races)) {return 'loading';}
+  if (!isLoaded(participants) || !isLoaded(races)) {
+    return (
+      <Container className={ classes.root }>
+        <Paper className={ classes.paper }>
+          <Grid container direction='column' wrap='nowrap' spacing={ 2 } >
+            <Grid item>
+              <Typography variant='h4' component='h2'><Skeleton type='text' width={ 400 }/></Typography>
+            </Grid>
+            <Grid item className={ classes.tableWrapper }>
+              <Table className={ classes.table }>
+                <TableBody>
+                  { [ ...Array(10).keys() ].map(index =>
+                    <TableRow key={ index }>
+                      <TableCell><Skeleton type='text'/></TableCell>
+                      <TableCell><Skeleton type='text'/></TableCell>
+                      <TableCell><Skeleton type='text'/></TableCell>
+                      <TableCell><Skeleton type='text'/></TableCell>
+                      <TableCell><Skeleton type='text'/></TableCell>
+                    </TableRow>
+                  )}
+                </TableBody>
+              </Table>
+            </Grid>
+          </Grid>
+        </Paper>
+      </Container>
+    );
+  }
 
   const raceMapping = races.reduce((o, k) => ({ ...o, [k.id]: k.name }), {});
   const rows = participants.map(p => ({ ...p, race: raceMapping[p.race] }));
