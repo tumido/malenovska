@@ -28,6 +28,7 @@
     "@material-ui/lab": "^4.0.0-alpha.26",
     "@material-ui/styles": "^4.4.1",
     "clsx": "^1.0.4",
+    "core-js": "^3.2.1",
     "leaflet": "^1.5.1",
     "markdown-to-jsx": "^6.10.3",
     "notistack": "^0.9.2",

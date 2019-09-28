@@ -6,7 +6,7 @@ import clsx from 'clsx';
 
 import {
   AppBar, Hidden, Drawer, Toolbar, Typography, IconButton, Divider, List,
-  ListItem, ListItemText, ListItemIcon, Menu, MenuItem, Icon
+  ListItem, ListItemText, ListItemIcon, Menu, MenuItem, Icon, SwipeableDrawer
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { grey } from '@material-ui/core/colors';
@@ -49,6 +49,8 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
+const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent);
+
 // eslint-disable-next-line react/display-name
 const AdapterLink = React.forwardRef((props, ref) => <RouterLink innerRef={ ref } { ...props } />);
 
@@ -58,8 +60,12 @@ const Header = ({ event, allEvents, location: { pathname }}) => {
   const [ drawerOpen, setDrawerOpen ] = React.useState(false);
   const [ menuOpen, setMenuOpen ] = React.useState(null);
 
-  const handleDrawerToggle = () => {
-    setDrawerOpen(!drawerOpen);
+  const handleDrawerOpen = () => {
+    setDrawerOpen(true);
+  };
+
+  const handleDrawerClose = () => {
+    setDrawerOpen(false);
   };
 
   const handleMenuOpen = (event) => {
@@ -68,6 +74,7 @@ const Header = ({ event, allEvents, location: { pathname }}) => {
 
   const handleMenuClose = () => {
     setMenuOpen(null);
+    handleDrawerClose();
   };
 
   const drawerItems = [
@@ -121,32 +128,34 @@ const Header = ({ event, allEvents, location: { pathname }}) => {
     <ThemeProvider theme={ darkTheme }>
       <div className={ classes.drawerHeader }>
         <Hidden mdUp>
-          <IconButton onClick={ handleDrawerToggle }>
+          <IconButton onClick={ handleDrawerClose }>
             <Icon className={ classes.faIcon }>chevron_left</Icon>
           </IconButton>
         </Hidden>
       </div>
-      { drawerItems.map((section, index) => (
-        <React.Fragment key={ `sec_${index}` }>
-          <List>
-            { section.map((item, index) => (
-              <ListItem
-                key={ `item_${index}`  }
-                button
-                selected={ `/${event.id}/${item.href}` === pathname }
-                disabled={ !item.href || item.disabled }
-                to={ `/${event.id}/${item.href}` }
-                component={ AdapterLink }
-              >
-                <ListItemIcon><Icon className={ clsx(`${classes.icon}, ${item.className}`) }>{ item.icon }</Icon></ListItemIcon>
-                <ListItemText primary={ item.textPrimary } />
-              </ListItem>
-            )) }
-          </List>
-          <Divider className={ classes.drawerDivider }/>
-        </React.Fragment>
-      )) }
-      <List component="nav" aria-label="Device settings">
+      <div onClick={ handleDrawerClose }>
+        { drawerItems.map((section, index) => (
+          <React.Fragment key={ `sec_${index}` }>
+            <List>
+              { section.map((item, index) => (
+                <ListItem
+                  key={ `item_${index}`  }
+                  button
+                  selected={ `/${event.id}/${item.href}` === pathname }
+                  disabled={ !item.href || item.disabled }
+                  to={ `/${event.id}/${item.href}` }
+                  component={ AdapterLink }
+                >
+                  <ListItemIcon><Icon className={ clsx(`${classes.icon}, ${item.className}`) }>{ item.icon }</Icon></ListItemIcon>
+                  <ListItemText primary={ item.textPrimary } />
+                </ListItem>
+              )) }
+            </List>
+            <Divider className={ classes.drawerDivider }/>
+          </React.Fragment>
+        )) }
+      </div>
+      <List component="nav" aria-label="vyber udalosti">
         <ListItem
           button
           aria-haspopup="true"
@@ -163,7 +172,7 @@ const Header = ({ event, allEvents, location: { pathname }}) => {
         anchorEl={ menuOpen }
         keepMounted
         open={ Boolean(menuOpen) }
-        onClose={ handleMenuClose }
+        onClick={ handleMenuClose }
       >
         { allEvents.filter(({ display }) => display).map(option => (
           <MenuItem
@@ -188,7 +197,7 @@ const Header = ({ event, allEvents, location: { pathname }}) => {
               color="inherit"
               aria-label="open drawer"
               edge="start"
-              onClick={ handleDrawerToggle }
+              onClick={ handleDrawerOpen }
               className={ classes.menuButton }
             >
               <Icon>menu</Icon>
@@ -201,18 +210,26 @@ const Header = ({ event, allEvents, location: { pathname }}) => {
       </Hidden>
       <nav className={ classes.drawer }>
         <Hidden mdUp implementation="css">
-          <Drawer
+          <SwipeableDrawer
             variant='temporary'
+            disableBackdropTransition={ !iOS }
+            disableDiscovery={ iOS }
             open={ drawerOpen }
-            onClick={ handleDrawerToggle }
+            onOpen={ handleDrawerOpen }
+            onClose={ handleDrawerClose }
             classes={ { paper: classes.drawerPaper } }
             ModalProps={ { keepMounted: true /* Better open performance on mobile */ } }
           >
             {drawer}
-          </Drawer>
+          </SwipeableDrawer>
         </Hidden>
         <Hidden smDown implementation="css">
-          <Drawer classes={ { paper: classes.drawerPaper } } variant="permanent" open>
+          <Drawer
+            variant="permanent"
+            classes={ { paper: classes.drawerPaper } }
+            ModalProps={ { keepMounted: true /* Better open performance on mobile */ } }
+            open
+          >
             { drawer }
           </Drawer>
         </Hidden>

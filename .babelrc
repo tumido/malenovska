@@ -3,7 +3,12 @@
     [
       "@babel/preset-env",
       {
-        "modules": false
+        "modules": false,
+        "useBuiltIns": "entry",
+        "corejs": 3,
+        "targets": {
+          "browsers": "defaults"
+        }
       }
     ],
     "@babel/preset-react"

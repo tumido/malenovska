@@ -1,3 +1,4 @@
+// Polyfills
 import 'whatwg-fetch';
 import('smoothscroll-polyfill').then(smoothscroll => smoothscroll.polyfill());
 
