@@ -52,7 +52,7 @@ const List = ({ event, location: { state }}) => {
               }
             </Grid>
             <Grid item>
-              <Button color='primary' variant='contained' size='large'>Zobrazit přihlášené účastníky</Button>
+              <Button color='primary' variant='contained' size='large' href='./list'>Zobrazit přihlášené účastníky</Button>
             </Grid>
             <Grid item>
               <Button
