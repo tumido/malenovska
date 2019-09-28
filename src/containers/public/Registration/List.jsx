@@ -3,7 +3,7 @@ import { connect, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { isLoaded, useFirestoreConnect } from 'react-redux-firebase';
 
-import { Container, Paper, Grid, Table, TableBody, TableRow, TableCell, TablePagination, Typography } from '@material-ui/core';
+import { Container, Paper, Table, TableBody, TableRow, TableCell, TablePagination, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Skeleton } from '@material-ui/lab';
 
@@ -18,24 +18,25 @@ const useStyles = makeStyles(theme => ({
     paddingTop: 20
   },
   paper: {
+    [theme.breakpoints.up('md')]: {
+      paddingTop: 40
+    },
     padding: 16
   },
   table: {
-    minWidth: 750
+    whiteSpace: 'normal',
+    wordWrap: 'break-word'
+    // minWidth: 750
   },
-  tableWrapper: {
-    overflowX: 'auto'
-  },
-  visuallyHidden: {
-    border: 0,
-    clip: 'rect(0 0 0 0)',
-    height: 1,
-    margin: -1,
-    overflow: 'hidden',
+  // tableWrapper: {
+  //   overflowX: 'auto'
+  // },
+  text: {
+    [theme.breakpoints.up('md')]: {
+      padding: 16
+    },
     padding: 0,
-    position: 'absolute',
-    top: 20,
-    width: 1
+    paddingBottom: 16
   }
 }));
 
@@ -89,26 +90,22 @@ const List = ({ event }) => {
     return (
       <Container className={ classes.root }>
         <Paper className={ classes.paper }>
-          <Grid container direction='column' wrap='nowrap' spacing={ 2 } >
-            <Grid item>
-              <Typography variant='h4' component='h2'><Skeleton type='text' width={ 400 }/></Typography>
-            </Grid>
-            <Grid item className={ classes.tableWrapper }>
-              <Table className={ classes.table }>
-                <TableBody>
-                  { [ ...Array(10).keys() ].map(index =>
-                    <TableRow key={ index }>
-                      <TableCell><Skeleton type='text'/></TableCell>
-                      <TableCell><Skeleton type='text'/></TableCell>
-                      <TableCell><Skeleton type='text'/></TableCell>
-                      <TableCell><Skeleton type='text'/></TableCell>
-                      <TableCell><Skeleton type='text'/></TableCell>
-                    </TableRow>
-                  )}
-                </TableBody>
-              </Table>
-            </Grid>
-          </Grid>
+          <Container className={ classes.text }>
+            <Typography variant='h4' component='h2'><Skeleton type='text' width={ 400 }/></Typography>
+          </Container>
+          <Table className={ classes.table }>
+            <TableBody>
+              { [ ...Array(10).keys() ].map(index =>
+                <TableRow key={ index }>
+                  <TableCell><Skeleton type='text'/></TableCell>
+                  <TableCell><Skeleton type='text'/></TableCell>
+                  <TableCell><Skeleton type='text'/></TableCell>
+                  <TableCell><Skeleton type='text'/></TableCell>
+                  <TableCell><Skeleton type='text'/></TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
         </Paper>
       </Container>
     );
@@ -122,58 +119,53 @@ const List = ({ event }) => {
   return (
     <Container className={ classes.root }>
       <Paper className={ classes.paper }>
-        <Grid container direction='column' wrap='nowrap' spacing={ 2 } >
-          <Grid item>
-            <Typography variant='h4' component='h2'>Přihlášení účastníci</Typography>
-            <Markdown content={ event.registrationList } />
-          </Grid>
-          <Grid item className={ classes.tableWrapper }>
-            <Table className={ classes.table }>
-              <EnhancedTableHead
-                headers={ headers }
-                classes={ classes }
-                order={ order }
-                orderBy={ orderBy }
-                onRequestSort={ handleRequestSort }
-              />
-              <TableBody>
-                { stableSort(rows, getSorting(order, orderBy))
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row, index) => {
-                  return (
-                    <TableRow key={ index }>
-                      <TableCell>{ row.race }</TableCell>
-                      <TableCell>{ row.nickName }</TableCell>
-                      <TableCell>{ row.firstName }</TableCell>
-                      <TableCell>{ row.lastName }</TableCell>
-                      <TableCell>{ row.group }</TableCell>
-                    </TableRow>
-                  );
-                })}
-                {emptyRows > 0 && (
-                  <TableRow style={ { height: 49 * emptyRows } }>
-                    <TableCell colSpan={ 6 } />
-                  </TableRow>
-                )}
-              </TableBody>
-            </Table>
-            <TablePagination
-              rowsPerPageOptions={ [ 5, 10, 25 ] }
-              component="div"
-              count={ rows.length }
-              rowsPerPage={ rowsPerPage }
-              page={ page }
-              backIconButtonProps={ {
-                'aria-label': 'previous page'
-              } }
-              nextIconButtonProps={ {
-                'aria-label': 'next page'
-              } }
-              onChangePage={ handleChangePage }
-              onChangeRowsPerPage={ handleChangeRowsPerPage }
-            />
-          </Grid>
-        </Grid>
+        <Container className={ classes.text }>
+          <Typography variant='h4' component='h2'>Přihlášení účastníci</Typography>
+          <Markdown content={ event.registrationList } />
+        </Container>
+        <Table className={ classes.table }>
+          <EnhancedTableHead
+            headers={ headers }
+            order={ order }
+            orderBy={ orderBy }
+            onRequestSort={ handleRequestSort }
+          />
+          <TableBody>
+            { stableSort(rows, getSorting(order, orderBy))
+            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+            .map((row, index) => {
+              return (
+                <TableRow key={ index }>
+                  <TableCell>{ row.race }</TableCell>
+                  <TableCell>{ row.nickName }</TableCell>
+                  <TableCell>{ row.firstName }</TableCell>
+                  <TableCell>{ row.lastName }</TableCell>
+                  <TableCell>{ row.group }</TableCell>
+                </TableRow>
+              );
+            })}
+            {emptyRows > 0 && (
+              <TableRow style={ { height: 49 * emptyRows } }>
+                <TableCell colSpan={ 6 } />
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+        <TablePagination
+          rowsPerPageOptions={ [ 5, 10, 25 ] }
+          component="div"
+          count={ rows.length }
+          rowsPerPage={ rowsPerPage }
+          page={ page }
+          backIconButtonProps={ {
+            'aria-label': 'previous page'
+          } }
+          nextIconButtonProps={ {
+            'aria-label': 'next page'
+          } }
+          onChangePage={ handleChangePage }
+          onChangeRowsPerPage={ handleChangeRowsPerPage }
+        />
       </Paper>
     </Container>
   );
