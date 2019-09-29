@@ -10,7 +10,8 @@
   "author": "Tomas Coufal",
   "license": "MIT",
   "scripts": {
-    "build": "webpack -p --config config/prod.webpack.config.js --progress",
+    "build": "webpack -p --config config/prod.webpack.config.js --progress --profile --json > .bundle-stats.json",
+    "analyze": "webpack-bundle-analyzer .bundle-stats.json dist",
     "start": "webpack-dev-server --config config/dev.webpack.config.js --progress --color",
     "prod": "NODE_ENV=production webpack-dev-server --config config/prod.webpack.config.js --progress",
     "lint": "eslint --ignore-path .gitignore",
@@ -27,6 +28,7 @@
     "@material-ui/core": "^4.4.2",
     "@material-ui/lab": "^4.0.0-alpha.26",
     "@material-ui/styles": "^4.4.1",
+    "@material-ui/system": "^4.3.3",
     "clsx": "^1.0.4",
     "core-js": "^3.2.1",
     "leaflet": "^1.5.1",

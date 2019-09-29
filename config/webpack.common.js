@@ -3,7 +3,12 @@ const path = require('path');
 module.exports = {
   paths: {
     entry: {
-      main: path.resolve(__dirname, '../src/entry.jsx')
+      main: [
+        'core-js/modules/es.promise',
+        'core-js/modules/es.array.iterator',
+        path.resolve(__dirname, '../src/entry.jsx')
+      ],
+      admin: path.resolve(__dirname, '../src/containers/private')
     },
     public: path.resolve(__dirname, '../dist'),
     publicPath: '/',

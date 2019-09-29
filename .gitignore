@@ -4,6 +4,7 @@ dist
 node_modules
 stats.json
 .firebase
+.bundle-stats.json
 
 # Cruft
 .DS_Store

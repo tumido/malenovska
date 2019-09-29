@@ -26,11 +26,7 @@ const useStyles = makeStyles(theme => ({
   table: {
     whiteSpace: 'normal',
     wordWrap: 'break-word'
-    // minWidth: 750
   },
-  // tableWrapper: {
-  //   overflowX: 'auto'
-  // },
   text: {
     [theme.breakpoints.up('md')]: {
       padding: 16

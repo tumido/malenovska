@@ -45,7 +45,8 @@ export const registerNewParticipant = ({
         options: {
           action: 'close',
           variant: 'error'
-        }
+        },
+        persist: true
       }));
     }
   );
