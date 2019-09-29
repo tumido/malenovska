@@ -53,7 +53,8 @@ const useStyles = makeStyles(theme => ({
   },
   fab: {
     color: '#fff',
-    margin: '20px 40px'
+    margin: '20px 40px',
+    textAlign: 'center'
   },
   contactItem: {
     display: 'flex',

@@ -74,7 +74,7 @@
       "error",
       "always",
       {
-        "allowMultiline": false,
+        "allowMultiline": false
       },
       {
         "children": true
