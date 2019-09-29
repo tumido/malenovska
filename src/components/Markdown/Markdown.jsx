@@ -34,11 +34,25 @@ const overrides = {
       variant: 'body1',
       gutterBottom: true
     }
+  },
+  li: {
+    component: Typography,
+    props: {
+      variant: 'body1',
+      component: 'li'
+    }
   }
 };
 
-const Markdown = ({ content = "", options, ...props }) => (
-  <BaseMarkdown options={ { overrides, ...options } } { ...props }>
+const Markdown = ({ content = '', options, ...props }) => (
+  <BaseMarkdown
+    options={ {
+      overrides,
+      forceBlock: true,
+      ...options
+    } }
+    { ...props }
+  >
     { content }
   </BaseMarkdown>
 );
