@@ -8,6 +8,7 @@ const Logo = ({ fgColor = '#000', bgColor = '#fff', size }) => (
     viewBox="0 0 1000 1000"
     version="1.1"
     height={ size }
+    width={ size }
     style={ { objectFit: 'contain', fillRule: 'evenodd'  } }
   >
     <circle

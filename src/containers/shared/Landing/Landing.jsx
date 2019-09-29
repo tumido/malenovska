@@ -64,7 +64,7 @@ const Landing = ({ events }) => {
               <Logo size='5rem' bgColor={ darkTheme.palette.text.primary } fgColor='#000' />
               vská
             </Typography>
-            <Typography variant="body1">Kdo zvítězí tentokrát? Vyber si tu bitvu, která tě zajíma.</Typography>
+            <Typography variant="body1">Kdo zvítězí tentokrát? Vyber si tu bitvu, která tě zajímá.</Typography>
           </Grid>
         </Hidden>
         <Grid item xs={ 12 } md={ 3 } container spacing={ 4 } direction="column" justify="center" alignItems="center" className={ classes.eventList }>

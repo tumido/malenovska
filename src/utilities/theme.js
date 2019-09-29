@@ -6,7 +6,7 @@ const palette = {
   loading: [
     'rgb(253, 38, 0)', 'rgb(241, 238, 16)', 'rgb(255, 145, 0)'
   ]
-}
+};
 
 export const theme = createMuiTheme({
   palette: {
