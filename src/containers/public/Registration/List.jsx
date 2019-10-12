@@ -7,7 +7,7 @@ import { Container, Paper, Table, TableBody, TableRow, TableCell, TablePaginatio
 import { makeStyles } from '@material-ui/core/styles';
 import { Skeleton } from '@material-ui/lab';
 
-import { EnhancedTableHead, Markdown } from 'components';
+import { TableHead, Markdown, TableToolbar } from 'components';
 import { stableSort, getSorting } from 'utilities/sorting';
 
 const useStyles = makeStyles(theme => ({
@@ -43,6 +43,7 @@ const headers = [
   { id: 'lastName', label: 'Příjmení' },
   { id: 'group', label: 'Skupina' }
 ];
+const headerKeys = headers.reduce((acc, { id }) => [ ...acc, id ], []);
 
 const List = ({ event }) => {
   const classes = useStyles();
@@ -50,6 +51,7 @@ const List = ({ event }) => {
   const [ orderBy, setOrderBy ] = React.useState('race');
   const [ page, setPage ] = React.useState(0);
   const [ rowsPerPage, setRowsPerPage ] = React.useState(10);
+  const [ filter, setFilter ] = React.useState(false);
 
   const handleRequestSort = (event, property) => {
     const isDesc = orderBy === property && order === 'desc';
@@ -64,6 +66,10 @@ const List = ({ event }) => {
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
+  };
+
+  const handleSearch = (value) => {
+    setFilter(value.toLowerCase());
   };
 
   useFirestoreConnect(() => [
@@ -108,7 +114,15 @@ const List = ({ event }) => {
   }
 
   const raceMapping = races.reduce((o, k) => ({ ...o, [k.id]: k.name }), {});
-  const rows = participants.map(p => ({ ...p, race: raceMapping[p.race] }));
+  const rows = participants
+  .map(p => ({ ...p, race: raceMapping[p.race] }))
+  .filter(p => (
+    !filter ||
+    Object.entries(p).some(([ k, v ]) =>
+      headerKeys.includes(k) &&
+      v.toLowerCase().includes(filter)
+    )
+  ));
 
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
@@ -119,8 +133,11 @@ const List = ({ event }) => {
           <Typography variant='h4' component='h2'>Přihlášení účastníci</Typography>
           <Markdown content={ event.registrationList } />
         </Container>
+        <TableToolbar
+          onSearch={ handleSearch }
+        />
         <Table className={ classes.table }>
-          <EnhancedTableHead
+          <TableHead
             headers={ headers }
             order={ order }
             orderBy={ orderBy }

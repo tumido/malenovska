@@ -1,6 +1,5 @@
 import ArticlePreview from './ArticlePreview';
 import EventAvailabilityChip from './EventAvailabilityChip';
-import EnhancedTableHead from './EnhancedTableHead';
 import Footer from './Footer';
 import Header from './Header';
 import Loading from './Loading';
@@ -11,12 +10,14 @@ import Notifier from './Notifier';
 import ScrollRestore from './ScrollRestore';
 import ScrollRestoreOnMount from './ScrollRestoreOnMount';
 import ScrollTop from './ScrollTop';
+import TableHead from './TableHead';
+import TableSearch from './TableSearch';
+import TableToolbar from './TableToolbar';
 import Wizard from './Wizard';
 
 export {
   ArticlePreview,
   EventAvailabilityChip,
-  EnhancedTableHead,
   Footer,
   Header,
   Loading,
@@ -27,5 +28,8 @@ export {
   ScrollTop,
   ScrollRestore,
   ScrollRestoreOnMount,
+  TableHead,
+  TableSearch,
+  TableToolbar,
   Wizard
 };

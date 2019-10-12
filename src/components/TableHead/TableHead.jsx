@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { TableHead, TableRow, TableCell, TableSortLabel } from '@material-ui/core';
+import { TableHead as BaseTableHead, TableRow, TableCell, TableSortLabel } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(() => ({
@@ -18,14 +18,14 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-const EnhancedTableHead = ({ order, orderBy, onRequestSort, headers }) => {
+const TableHead = ({ order, orderBy, onRequestSort, headers }) => {
   const classes = useStyles();
   const createSortHandler = property => event => {
     onRequestSort(event, property);
   };
 
   return (
-    <TableHead>
+    <BaseTableHead>
       <TableRow>
         { headers.map((cell, idx) => (
           <TableCell
@@ -47,16 +47,15 @@ const EnhancedTableHead = ({ order, orderBy, onRequestSort, headers }) => {
           </TableCell>
         ))}
       </TableRow>
-    </TableHead>
+    </BaseTableHead>
   );
 };
 
-EnhancedTableHead.propTypes = {
-  classes: PropTypes.object.isRequired,
+TableHead.propTypes = {
   onRequestSort: PropTypes.func.isRequired,
   order: PropTypes.oneOf([ 'asc', 'desc' ]).isRequired,
   orderBy: PropTypes.string.isRequired,
   headers: PropTypes.array.isRequired
 };
 
-export default EnhancedTableHead;
+export default TableHead;
