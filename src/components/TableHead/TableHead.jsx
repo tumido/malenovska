@@ -15,6 +15,9 @@ const useStyles = makeStyles(() => ({
     position: 'absolute',
     top: 20,
     width: 1
+  },
+  icon: {
+    opacity: .25
   }
 }));
 
@@ -36,6 +39,7 @@ const TableHead = ({ order, orderBy, onRequestSort, headers }) => {
               active={ orderBy === cell.id }
               direction={ order }
               onClick={ createSortHandler(cell.id) }
+              classes={ { icon: classes.icon } }
             >
               {cell.label}
               {orderBy === cell.id ? (

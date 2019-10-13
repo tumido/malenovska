@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Toolbar } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -29,14 +28,14 @@ const TableToolbar = ({ onSearch }) => {
       </div>
       <div className={ classes.spacer } />
       <div className={ classes.right }>
-        <TableSearch onChange={ onSearch }/>
+        <TableSearch onSearch={ onSearch }/>
       </div>
     </Toolbar>
   );
 };
 
 TableToolbar.propTypes = {
-  onSearch: PropTypes.func
+  ...TableSearch.propTypes,
 };
 
 export default TableToolbar;

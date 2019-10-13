@@ -43,7 +43,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const TableSearch = ({ onChange = () => null }) => {
+const TableSearch = ({ onSearch = () => null }) => {
   const classes = useStyles();
   const [ value, setValue ] = React.useState('');
 
@@ -53,7 +53,7 @@ const TableSearch = ({ onChange = () => null }) => {
     }
   };
 
-  React.useEffect(() => onChange(value), [ value ]);
+  React.useEffect(() => onSearch(value), [ value ]);
 
   const handleChange = (event) => {
     setValue(event.target.value);
@@ -80,7 +80,7 @@ const TableSearch = ({ onChange = () => null }) => {
 };
 
 TableSearch.propTypes = {
-  onChange: PropTypes.func.isRequired
+  onSearch: PropTypes.func.isRequired
 };
 
 export default TableSearch;

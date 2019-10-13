@@ -33,6 +33,7 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1,
     background: `linear-gradient(to bottom, transparent 80%, #000 100%), url(${BgImage}) top center no-repeat`,
     minHeight: '100vh',
+    width: '100%',
     [theme.breakpoints.down('sm')]: {
       marginTop: '64px'
     },

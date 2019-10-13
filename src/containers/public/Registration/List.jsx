@@ -25,7 +25,11 @@ const useStyles = makeStyles(theme => ({
   },
   table: {
     whiteSpace: 'normal',
-    wordWrap: 'break-word'
+    wordWrap: 'break-word',
+    minWidth: 750
+  },
+  tableWrapper: {
+    overflowX: 'auto'
   },
   text: {
     [theme.breakpoints.up('md')]: {
@@ -45,13 +49,22 @@ const headers = [
 ];
 const headerKeys = headers.reduce((acc, { id }) => [ ...acc, id ], []);
 
+const filterBySearch = (participant, filter) => (
+  !filter ||
+  Object.entries(participant).some(
+    ([ k, v ]) =>
+      headerKeys.includes(k) &&
+      v.toLowerCase().includes(filter)
+  )
+);
+
 const List = ({ event }) => {
   const classes = useStyles();
   const [ order, setOrder ] = React.useState('asc');
   const [ orderBy, setOrderBy ] = React.useState('race');
   const [ page, setPage ] = React.useState(0);
   const [ rowsPerPage, setRowsPerPage ] = React.useState(10);
-  const [ filter, setFilter ] = React.useState(false);
+  const [ filterSearch, setFilterSearch ] = React.useState(false);
 
   const handleRequestSort = (event, property) => {
     const isDesc = orderBy === property && order === 'desc';
@@ -69,7 +82,7 @@ const List = ({ event }) => {
   };
 
   const handleSearch = (value) => {
-    setFilter(value.toLowerCase());
+    setFilterSearch(value.toLowerCase());
   };
 
   useFirestoreConnect(() => [
@@ -95,6 +108,7 @@ const List = ({ event }) => {
           <Container className={ classes.text }>
             <Typography variant='h4' component='h2'><Skeleton type='text' width={ 400 }/></Typography>
           </Container>
+          <div className={ classes.tableWrapper }>
           <Table className={ classes.table }>
             <TableBody>
               { [ ...Array(10).keys() ].map(index =>
@@ -108,6 +122,7 @@ const List = ({ event }) => {
               )}
             </TableBody>
           </Table>
+          </div>
         </Paper>
       </Container>
     );
@@ -116,13 +131,7 @@ const List = ({ event }) => {
   const raceMapping = races.reduce((o, k) => ({ ...o, [k.id]: k.name }), {});
   const rows = participants
   .map(p => ({ ...p, race: raceMapping[p.race] }))
-  .filter(p => (
-    !filter ||
-    Object.entries(p).some(([ k, v ]) =>
-      headerKeys.includes(k) &&
-      v.toLowerCase().includes(filter)
-    )
-  ));
+  .filter(p => filterBySearch(p, filterSearch));
 
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
@@ -136,6 +145,7 @@ const List = ({ event }) => {
         <TableToolbar
           onSearch={ handleSearch }
         />
+        <div className={ classes.tableWrapper }>
         <Table className={ classes.table }>
           <TableHead
             headers={ headers }
@@ -164,6 +174,7 @@ const List = ({ event }) => {
             )}
           </TableBody>
         </Table>
+        </div>
         <TablePagination
           rowsPerPageOptions={ [ 5, 10, 25 ] }
           component="div"
