@@ -50,7 +50,7 @@ const Public = ({ event, setEvent }) => {
   useFirestoreConnect(() => ([{ collection: 'events' }]));
   const allEvents = useSelector(({ firestore }) => firestore.ordered.events);
 
-  if (!isLoaded(allEvents)) {
+  if (!isLoaded(allEvents) || !event) {
     return (
       <div className={ classes.content }>
         <Loading />
@@ -58,12 +58,64 @@ const Public = ({ event, setEvent }) => {
     );
   }
 
+  const navigation = [
+    [
+      {
+        title: 'Legendy a příběhy',
+        icon: 'receipt',
+        href: 'legends'
+      },
+      {
+        title: 'Pravidla',
+        icon: 'gavel',
+        href: 'rules'
+      },
+      {
+        title: 'Svět',
+        icon: 'map'
+      },
+      {
+        title: 'Bojující strany',
+        icon: 'group',
+        href: 'races'
+      },
+      {
+        title: 'Důležité informace',
+        icon: 'location_on',
+        href: 'info'
+      },
+      {
+        title: 'Kontakty',
+        icon: 'mail_outline',
+        href: 'contacts'
+      },
+      {
+        title: 'Galerie',
+        className: 'material-icons-outlined',
+        icon: 'collections_outline'
+      }
+    ],
+    [
+      {
+        title: 'Nová registrace',
+        icon: 'person_add',
+        href: 'registration/new',
+        disabled: !event.registrationAvailable
+      },
+      {
+        title: 'Účastníci',
+        icon: 'how_to_reg',
+        href: 'registration/list'
+      }
+    ]
+  ];
+
   return (
     <ScrollRestore>
       <SnackbarProvider>
         <div className={ classes.root }>
           <Helmet><title>{ `${event.name} ${event.year}` }</title></Helmet>
-          <Header event={ event } allEvents={ allEvents }/>
+          <Header event={ event } allEvents={ allEvents } navigation={ navigation }/>
           <div className={ classes.content }>
             <main>
               <Switch>

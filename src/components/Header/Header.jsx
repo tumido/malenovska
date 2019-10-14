@@ -54,7 +54,7 @@ const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent);
 // eslint-disable-next-line react/display-name
 const AdapterLink = React.forwardRef((props, ref) => <RouterLink innerRef={ ref } { ...props } />);
 
-const Header = ({ event, allEvents, location: { pathname }}) => {
+const Header = ({ event, allEvents, navigation, location: { pathname }}) => {
   const classes = useStyles();
 
   const [ drawerOpen, setDrawerOpen ] = React.useState(false);
@@ -77,53 +77,6 @@ const Header = ({ event, allEvents, location: { pathname }}) => {
     handleDrawerClose();
   };
 
-  const drawerItems = [
-    [
-      {
-        textPrimary: 'Legendy a příběhy',
-        icon: 'receipt',
-        href: 'legends'
-      },
-      {
-        textPrimary: 'Pravidla',
-        icon: 'gavel',
-        href: 'rules'
-      },
-      {
-        textPrimary: 'Svět',
-        icon: 'map'
-      },
-      {
-        textPrimary: 'Důležité informace',
-        icon: 'location_on',
-        href: 'info'
-      },
-      {
-        textPrimary: 'Kontakty',
-        icon: 'mail_outline',
-        href: 'contacts'
-      },
-      {
-        textPrimary: 'Galerie',
-        className: 'material-icons-outlined',
-        icon: 'collections_outline'
-      }
-    ],
-    [
-      {
-        textPrimary: 'Nová registrace',
-        icon: 'person_add',
-        href: 'registration/new',
-        disabled: !event.registrationAvailable
-      },
-      {
-        textPrimary: 'Účastníci',
-        icon: 'how_to_reg',
-        href: 'registration/list'
-      }
-    ]
-  ];
-
   const drawer = (
     <ThemeProvider theme={ darkTheme }>
       <div className={ classes.drawerHeader }>
@@ -134,7 +87,7 @@ const Header = ({ event, allEvents, location: { pathname }}) => {
         </Hidden>
       </div>
       <div onClick={ handleDrawerClose }>
-        { drawerItems.map((section, index) => (
+        { navigation.map((section, index) => (
           <React.Fragment key={ `sec_${index}` }>
             <List>
               { section.map((item, index) => (
@@ -147,7 +100,7 @@ const Header = ({ event, allEvents, location: { pathname }}) => {
                   component={ AdapterLink }
                 >
                   <ListItemIcon><Icon className={ clsx(`${classes.icon}, ${item.className}`) }>{ item.icon }</Icon></ListItemIcon>
-                  <ListItemText primary={ item.textPrimary } />
+                  <ListItemText primary={ item.title } />
                 </ListItem>
               )) }
             </List>
@@ -241,6 +194,17 @@ const Header = ({ event, allEvents, location: { pathname }}) => {
 Header.propTypes = {
   event: PropTypes.object,
   allEvents: PropTypes.array,
+  navigation: PropTypes.arrayOf(
+    PropTypes.arrayOf(
+      PropTypes.shape({
+        title: PropTypes.string.isRequired,
+        href: PropTypes.string,
+        icon: PropTypes.string,
+        className: PropTypes.string,
+        disabled: PropTypes.bool
+      })
+    )
+  ).isRequired,
   location: PropTypes.shape({
     pathname: PropTypes.string.isRequired
   }).isRequired
