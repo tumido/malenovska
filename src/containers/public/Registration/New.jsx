@@ -5,21 +5,15 @@ import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 import { isLoaded, useFirestoreConnect } from 'react-redux-firebase';
 
-import { Container, Paper, Grid } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
-import { Wizard } from 'components';
+import { Article, Wizard } from 'components';
 import { RaceSelect, Readout, PersonalDetails } from './steps';
 import validate from './validate';
 import { registerNewParticipant  } from 'redux/actions/participant-actions';
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    [theme.breakpoints.down('sm')]: {
-      padding: 0
-    },
-    paddingTop: 20
-  },
+const useStyles = makeStyles(() => ({
   stepper: {
     background: 'transparent'
   },
@@ -67,49 +61,47 @@ const New = ({ event, registerNewParticipant, history }) => {
   };
 
   return (
-    <Container className={ classes.root }>
-      <Paper>
-        <Grid container direction='column' wrap='nowrap' spacing={ 2 } >
-          <Grid item ref={ handleStepperRef }/>
-          <Grid item>
-            <Wizard
-              isLoading={ !isLoaded(races) || !isLoaded(participants) }
-              onSubmit={ handleSubmit }
-              formName={ formName }
-              stepperProps={ {
-                className: classes.stepper,
-                names: [
-                  'Výběr strany',
-                  'Legenda',
-                  'Osobní údaje'
-                ]
+    <Article>
+      <Grid container direction='column' wrap='nowrap' spacing={ 2 } >
+        <Grid item ref={ handleStepperRef }/>
+        <Grid item>
+          <Wizard
+            isLoading={ !isLoaded(races) || !isLoaded(participants) }
+            onSubmit={ handleSubmit }
+            formName={ formName }
+            stepperProps={ {
+              className: classes.stepper,
+              names: [
+                'Výběr strany',
+                'Legenda',
+                'Osobní údaje'
+              ]
+            } }
+            buttonsProps={ {
+              className: classes.buttons
+            } }
+            portals={ {
+              stepper: stepperEl,
+              buttons: buttonsEl
+            } }
+            validate={ validate }
+            classes={ classes }
+          >
+            <RaceSelect
+              texts={ {
+                above: event.registrationBeforeAbove,
+                below: event.registrationBeforeBelow
               } }
-              buttonsProps={ {
-                className: classes.buttons
-              } }
-              portals={ {
-                stepper: stepperEl,
-                buttons: buttonsEl
-              } }
-              validate={ validate }
-              classes={ classes }
-            >
-              <RaceSelect
-                texts={ {
-                  above: event.registrationBeforeAbove,
-                  below: event.registrationBeforeBelow
-                } }
-                races={ races }
-                participants={ participants }
-              />
-              <Readout races={ races } participants={ participants }/>
-              <PersonalDetails races={ races }/>
-            </Wizard>
-          </Grid>
-          <Grid item className={ classes.buttonWrapper } ref={ handleButtonsRef }/>
+              races={ races }
+              participants={ participants }
+            />
+            <Readout races={ races } participants={ participants }/>
+            <PersonalDetails races={ races }/>
+          </Wizard>
         </Grid>
-      </Paper>
-    </Container>
+        <Grid item className={ classes.buttonWrapper } ref={ handleButtonsRef }/>
+      </Grid>
+    </Article>
   );
 };
 

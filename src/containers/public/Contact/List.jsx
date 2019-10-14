@@ -3,30 +3,13 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 
-import { Container, Paper, Grid, Fab, Icon, Typography } from '@material-ui/core';
+import { Grid, Fab, Icon, Typography } from '@material-ui/core';
 import { blue, green, brown, red } from '@material-ui/core/colors';
 import { makeStyles } from '@material-ui/core/styles';
-import { Skeleton } from '@material-ui/lab';
 
-import { Markdown } from 'components';
+import { Article, ArticleMedia, Markdown } from 'components';
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    [theme.breakpoints.down('sm')]: {
-      padding: 0
-    },
-    paddingTop: 20
-  },
-  paper: {
-    [theme.breakpoints.up('md')]: {
-      paddingTop: 40
-    },
-    paddingTop: 16,
-    paddingBottom: 16
-  },
-  media: {
-    height: 200
-  },
+const useStyles = makeStyles(() => ({
   blue: {
     backgroundColor: blue.A400,
     '&:hover': {
@@ -76,71 +59,61 @@ const List = ({ event }) => {
   const classes = useStyles();
 
   return (
-    <Container className={ classes.root }>
-      <Paper className={ classes.paper }>
-        <Container maxWidth='md'>
-          <Typography gutterBottom variant='h4' component='h2' id='top'>Kontakty</Typography>
-        </Container>
-        { event.contactImage ? (
-          <img className={ classes.image } src={ event.contactImage.src } />
-        ) : (
-          <Skeleton className={ classes.image } variant="rect" height={ 400 } />
-        ) }
-        <Container maxWidth='md'>
-          <Markdown content={ event.contactText } />
-        </Container>
-        <Grid container justify='center'>
-          <div className={ classes.contactItem }>
-            <Fab
-              className={ clsx(`${classes.blue} ${classes.fab}`) }
-              href={ event.contact && event.contact.facebook }
-              target='_blank'
-            >
-              <Icon className='fab fa-facebook-f'/>
-            </Fab>
-            <Typography variant='button' display='block'>
-              Událost na facebooku
-            </Typography>
-          </div>
-          <div className={ classes.contactItem }>
-            <Fab
-              className={ clsx(`${classes.green} ${classes.fab}`) }
-              href={ event.contact && event.contact.larpovadatabaze }
-              target='_blank'
-            >
-              <Icon>today</Icon>
-            </Fab>
-            <Typography variant='button' display='block'>
-              Larpová Databáze
-            </Typography>
-          </div>
-          <div className={ classes.contactItem }>
-            <Fab
-              className={ clsx(`${classes.brown} ${classes.fab}`) }
-              href={ event.contact && event.contact.larpcz }
-              target='_blank'
-            >
-              <Icon>event</Icon>
-            </Fab>
-            <Typography variant='button' display='block'>
-              LARP.cz
-            </Typography>
-          </div>
-          <div className={ classes.contactItem }>
-            <Fab
-              className={ clsx(`${classes.red} ${classes.fab}`) }
-              href={ event.contact && event.contact.email }
-              target='_blank'
-            >
-              <Icon>mail</Icon>
-            </Fab>
-            <Typography variant='button' display='block'>
-              E-mail
-            </Typography>
-          </div>
-        </Grid>
-      </Paper>
-    </Container>
+    <Article>
+      <Typography gutterBottom variant='h4' component='h2' id='top'>Kontakty</Typography>
+      <ArticleMedia src={ event.contactImage && event.contactImage.src } />
+      <Markdown content={ event.contactText } />
+      <Grid container justify='center'>
+        <div className={ classes.contactItem }>
+          <Fab
+            className={ clsx(`${classes.blue} ${classes.fab}`) }
+            href={ event.contact && event.contact.facebook }
+            target='_blank'
+          >
+            <Icon className='fab fa-facebook-f'/>
+          </Fab>
+          <Typography variant='button' display='block'>
+            Událost na facebooku
+          </Typography>
+        </div>
+        <div className={ classes.contactItem }>
+          <Fab
+            className={ clsx(`${classes.green} ${classes.fab}`) }
+            href={ event.contact && event.contact.larpovadatabaze }
+            target='_blank'
+          >
+            <Icon>today</Icon>
+          </Fab>
+          <Typography variant='button' display='block'>
+            Larpová Databáze
+          </Typography>
+        </div>
+        <div className={ classes.contactItem }>
+          <Fab
+            className={ clsx(`${classes.brown} ${classes.fab}`) }
+            href={ event.contact && event.contact.larpcz }
+            target='_blank'
+          >
+            <Icon>event</Icon>
+          </Fab>
+          <Typography variant='button' display='block'>
+            LARP.cz
+          </Typography>
+        </div>
+        <div className={ classes.contactItem }>
+          <Fab
+            className={ clsx(`${classes.red} ${classes.fab}`) }
+            href={ event.contact && event.contact.email }
+            target='_blank'
+          >
+            <Icon>mail</Icon>
+          </Fab>
+          <Typography variant='button' display='block'>
+            E-mail
+          </Typography>
+        </div>
+      </Grid>
+    </Article>
   );
 };
 

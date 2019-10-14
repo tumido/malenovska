@@ -4,8 +4,10 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 
-import { Container, Paper, Grid, Typography, Button } from '@material-ui/core';
+import { Container, Grid, Typography, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+
+import { Article } from 'components';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -31,44 +33,44 @@ const List = ({ event, location: { state }}) => {
   const classes = useStyles();
 
   return (
-    <Container>
-      <Grid container direction="column" justify="center" spacing={ 2 } alignItems="center" className={ classes.banner }>
-        <Grid item>
-          <Typography gutterBottom variant='h1' className={ classes.h1 }>Přihláška byla odeslána</Typography>
-        </Grid>
-      </Grid>
-      <Paper className={ classes.paper }>
-        <Container maxWidth='md'>
-          <Grid container justify="center" spacing={ 2 }>
-            <Grid item xs={ 12 }>
-              <Typography gutterBottom variant='subtitle1'>
-                Registraci zpracujeme. Tvé jméno se co nevidět objeví v seznamu účastníků.
-              </Typography>
-              { state && state.isUnderage &&
-                <Typography paragraph color='secondary' variant='body1'>
-                  Ještě ti nebylo 18 let a my nechceme být zodpovědní za žádná tvá zranění.
-                  Nezapomeň si stáhnout, vyplnit a hlavně přinést podepsané potvrzení pro nezletilé.
-                </Typography>
-              }
-            </Grid>
-            <Grid item>
-              <Button color='primary' variant='contained' size='large' href='./list'>Zobrazit přihlášené účastníky</Button>
-            </Grid>
-            <Grid item>
-              <Button
-                color='secondary'
-                variant='contained'
-                size='large'
-                target='_blank'
-                href={ event.declaration && event.declaration.src }
-              >
-                Potvrzení pro nezletilé
-              </Button>
-            </Grid>
+    <React.Fragment>
+      <Container>
+        <Grid container direction="column" justify="center" spacing={ 2 } alignItems="center" className={ classes.banner }>
+          <Grid item>
+            <Typography gutterBottom variant='h1' className={ classes.h1 }>Přihláška byla odeslána</Typography>
           </Grid>
-        </Container>
-      </Paper>
-    </Container>
+        </Grid>
+      </Container>
+      <Article>
+        <React.Fragment>
+          <Typography gutterBottom variant='subtitle1'>
+            Registraci zpracujeme. Tvé jméno se co nevidět objeví v seznamu účastníků.
+          </Typography>
+          { state && state.isUnderage &&
+            <Typography paragraph color='secondary' variant='body1'>
+              Ještě ti nebylo 18 let a my nechceme být zodpovědní za žádná tvá zranění.
+              Nezapomeň si stáhnout, vyplnit a hlavně přinést podepsané potvrzení pro nezletilé.
+            </Typography>
+          }
+        </React.Fragment>
+        <Grid container justify="center" spacing={ 2 }>
+          <Grid item>
+            <Button color='primary' variant='contained' size='large' href='./list'>Zobrazit přihlášené účastníky</Button>
+          </Grid>
+          <Grid item>
+            <Button
+              color='secondary'
+              variant='contained'
+              size='large'
+              target='_blank'
+              href={ event.declaration && event.declaration.src }
+            >
+              Potvrzení pro nezletilé
+            </Button>
+          </Grid>
+        </Grid>
+      </Article>
+    </React.Fragment>
   );
 };
 
