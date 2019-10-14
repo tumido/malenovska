@@ -17,10 +17,11 @@ const LegendList = lazy(() => import('containers/public/Legend/List'));
 const LegendShow = lazy(() => import('containers/public/Legend/Show'));
 const Rules = lazy(() => import('containers/public/Rules'));
 const Info = lazy(() => import('containers/public/Info'));
+const Contact = lazy(() => import('containers/public/Contact/List'));
+const Races = lazy(() => import('containers/public/Races'));
 const RegistrationNew = lazy(() => import('containers/public/Registration/New'));
 const RegistrationDone = lazy(() => import('containers/public/Registration/Done'));
 const RegistrationList = lazy(() => import('containers/public/Registration/List'));
-const Contact = lazy(() => import('containers/public/Contact/List'));
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -125,6 +126,7 @@ const Public = ({ event, setEvent }) => {
                 <Route path={ `/${event.id}/rules` } component={ Rules } />
                 <Route path={ `/${event.id}/info` } component={ Info } />
                 <Route path={ `/${event.id}/contacts` } component={ Contact } />
+                <Route path={ `/${event.id}/races` } component={ Races } />
                 <Route path={ `/${event.id}/registration/new` } component={ RegistrationNew } />
                 <Route path={ `/${event.id}/registration/done` } component={ RegistrationDone } />
                 <Route path={ `/${event.id}/registration/list` } component={ RegistrationList } />

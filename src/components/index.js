@@ -1,4 +1,5 @@
 import { Article, ArticleContent, ArticleMedia, ArticlePreview } from './Article';
+import ColorBadge from './ColorBadge';
 import EventAvailabilityChip from './EventAvailabilityChip';
 import Footer from './Footer';
 import Header from './Header';
@@ -20,6 +21,7 @@ export {
   ArticleContent,
   ArticleMedia,
   ArticlePreview,
+  ColorBadge,
   EventAvailabilityChip,
   Footer,
   Header,
