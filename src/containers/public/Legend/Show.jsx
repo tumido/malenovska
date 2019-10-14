@@ -30,7 +30,7 @@ const Show = ({ match: { params: { id }}, event }) => {
 
   if (!isLoaded(legend)) {
     return <Article isLoading={ true }/>;
-  }; // eslint-disable-line padding-line-between-statements
+  }
 
   if (!legend.length || legend[0].event !== event.id) {
     return <Redirect to='/not-found' />;

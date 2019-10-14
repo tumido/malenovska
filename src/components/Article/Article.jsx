@@ -14,20 +14,20 @@ const useStyles = makeStyles(theme => ({
     },
     paddingTop: 20
   },
-  paper: {
+  paper: ({ spacing }) => ({
     [theme.breakpoints.up('md')]: {
-      paddingTop: 40
+      paddingTop: theme.spacing(spacing * 2)
     },
-    paddingTop: 16,
-    paddingBottom: 16
-  }
+    paddingTop: theme.spacing(spacing),
+    paddingBottom: theme.spacing(spacing)
+  })
 }));
 
-const Article = ({ scrollTop = true, isLoading = false, children }) => {
-  const classes = useStyles();
+const Article = ({ scrollTop = true, isLoading = false, spacing = 2, children }) => {
+  const classes = useStyles({ spacing });
 
   return (
-    <React.Fragment>
+    <article>
       <Container className={ classes.root }>
         <Paper className={ classes.paper }>
           { !isLoading ? children : (
@@ -47,13 +47,14 @@ const Article = ({ scrollTop = true, isLoading = false, children }) => {
         </Paper>
       </Container>
       { scrollTop && <ScrollTop anchor='#top' /> }
-    </React.Fragment>
+    </article>
   );
 };
 
 Article.propTypes = {
   scrollTop: PropTypes.bool,
   isLoading: PropTypes.bool,
+  spacing: PropTypes.number,
   children: PropTypes.node
 };
 

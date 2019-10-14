@@ -25,10 +25,6 @@ const useStyles = makeStyles(theme => ({
     },
     padding: 16
   },
-  map: {
-    padding: theme.spacing(1),
-    height: '100%'
-  },
   heading: {
     marginTop: '1.7em'
   },

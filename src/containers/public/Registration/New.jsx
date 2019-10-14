@@ -61,7 +61,7 @@ const New = ({ event, registerNewParticipant, history }) => {
   };
 
   return (
-    <Article>
+    <Article spacing={ 0 }>
       <Grid container direction='column' wrap='nowrap' spacing={ 2 } >
         <Grid item ref={ handleStepperRef }/>
         <Grid item>
