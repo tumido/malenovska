@@ -4,13 +4,15 @@ import PropTypes from 'prop-types';
 
 import { Typography } from '@material-ui/core';
 
-import { Article, ArticleMedia, Markdown } from 'components';
+import { Article, ArticleContent, ArticleMedia, Markdown } from 'components';
 
 const List = ({ event }) => (
   <Article isLoading={ !event }>
-    <Typography gutterBottom variant='h4' component='h2' id='top'>Pravidla: { event.name } { event.year }</Typography>
+    <ArticleContent>
+      <Typography gutterBottom variant='h4' component='h2'>Pravidla: { event.name } { event.year }</Typography>
+    </ArticleContent>
     <ArticleMedia src={ event.rules_image && event.rules_image.src } />
-    <Markdown content={ event.rules } />
+    <ArticleContent><Markdown content={ event.rules } /></ArticleContent>
   </Article>
 );
 

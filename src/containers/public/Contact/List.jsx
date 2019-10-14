@@ -7,7 +7,7 @@ import { Grid, Fab, Icon, Typography } from '@material-ui/core';
 import { blue, green, brown, red } from '@material-ui/core/colors';
 import { makeStyles } from '@material-ui/core/styles';
 
-import { Article, ArticleMedia, Markdown } from 'components';
+import { Article, ArticleContent, ArticleMedia, Markdown } from 'components';
 
 const useStyles = makeStyles(() => ({
   blue: {
@@ -60,9 +60,9 @@ const List = ({ event }) => {
 
   return (
     <Article>
-      <Typography gutterBottom variant='h4' component='h2' id='top'>Kontakty</Typography>
+      <ArticleContent><Typography gutterBottom variant='h4' component='h2'>Kontakty</Typography></ArticleContent>
       <ArticleMedia src={ event.contactImage && event.contactImage.src } />
-      <Markdown content={ event.contactText } />
+      <ArticleContent><Markdown content={ event.contactText } /></ArticleContent>
       <Grid container justify='center'>
         <div className={ classes.contactItem }>
           <Fab

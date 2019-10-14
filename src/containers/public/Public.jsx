@@ -117,6 +117,7 @@ const Public = ({ event, setEvent }) => {
           <Helmet><title>{ `${event.name} ${event.year}` }</title></Helmet>
           <Header event={ event } allEvents={ allEvents } navigation={ navigation }/>
           <div className={ classes.content }>
+            <div id='top' />
             <main>
               <Switch>
                 <Route path={ `/${event.id}/legends/:id` } component={ LegendShow } />

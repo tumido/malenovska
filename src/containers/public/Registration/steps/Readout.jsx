@@ -2,19 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { formValues } from 'redux-form';
 
-import { Typography, Chip, Container, Hidden } from '@material-ui/core';
+import { Typography, Chip } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 
-import { ScrollTop, Markdown } from 'components';
+import { ArticleContent, ArticleMedia, Markdown } from 'components';
 
 const useStyles = makeStyles(theme => ({
-  image: {
-    height: 400,
-    width: '100%',
-    objectFit: 'cover',
-    marginTop: '2em',
-    marginBottom: '2em'
-  },
   chip: {
     margin: theme.spacing(1)
   }
@@ -26,22 +19,19 @@ const Readout = ({ races, selectedRace, participants }) => {
 
   return (
     <React.Fragment>
-      <Container maxWidth='md'>
-        <Typography gutterBottom variant='h4' component='h2' id='top'>
+      <ArticleContent>
+        <Typography gutterBottom variant='h4' component='h2'>
           { race.name }
           <Chip label={ `${participants.filter(p => p.race === selectedRace).length} / ${race.limit}` } className={ classes.chip } />
         </Typography>
         <Typography variant='subtitle1'>
           Každá strana žije svůj příběh. Má svůj boj, svůj cíl...
         </Typography>
-      </Container>
-      <img className={ classes.image } src={ race.image && race.image.src } />
-      <Container maxWidth='md'>
+      </ArticleContent>
+      <ArticleMedia src={ race.image && race.image.src } />
+      <ArticleContent>
         <Markdown content={ race.legend } />
-      </Container>
-      <Hidden smDown>
-        <ScrollTop anchor='#top' />
-      </Hidden>
+      </ArticleContent>
     </React.Fragment>
   );
 };

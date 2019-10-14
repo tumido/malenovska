@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import { Typography, Chip } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
-import { Article, ArticleMedia, Markdown } from 'components';
+import { Article, ArticleContent, ArticleMedia, Markdown } from 'components';
 import { timestampToDateStr } from 'utilities/firebase';
 
 const useStyles = makeStyles(theme => ({
@@ -38,13 +38,13 @@ const Show = ({ match: { params: { id }}, event }) => {
 
   return (
     <Article>
-      <React.Fragment>
-        <Typography gutterBottom variant='h4' component='h1' id='top'>{ legend[0].title }</Typography>
+      <ArticleContent>
+        <Typography gutterBottom variant='h4' component='h1'>{ legend[0].title }</Typography>
         <Chip label={ event.name } variant='outlined' className={ classes.chip } to={ `/${event.id}` } component={ Link } clickable/>
         { legend[0].published_at && <Chip label={ timestampToDateStr(legend[0].published_at) } variant='outlined' className={ classes.chip }/> }
-      </React.Fragment>
+      </ArticleContent>
       <ArticleMedia src={ legend[0].image && legend[0].image.src } />
-      <Markdown content={ legend[0].content } />
+      <ArticleContent><Markdown content={ legend[0].content } /></ArticleContent>
     </Article>
   );
 };

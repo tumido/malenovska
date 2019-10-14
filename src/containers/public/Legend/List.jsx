@@ -3,27 +3,12 @@ import { connect, useSelector } from 'react-redux';
 import { useFirestoreConnect, isLoaded } from 'react-redux-firebase';
 import PropTypes from 'prop-types';
 
-import { Typography, Grid, Container, Chip, Hidden, Paper } from '@material-ui/core';
+import { Typography, Grid, Container, Chip, Hidden } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
-import { ArticlePreview, EventAvailabilityChip, Markdown } from 'components';
+import { Article, ArticlePreview, EventAvailabilityChip, Markdown } from 'components';
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    [theme.breakpoints.down('xs')]: {
-      padding: 0
-    },
-    paddingTop: 20
-  },
-  paper: {
-    [theme.breakpoints.up('lg')]: {
-      marginTop: 40
-    },
-    [theme.breakpoints.up('sm')]: {
-      paddingTop: 40
-    },
-    padding: 16
-  },
   h1: {
     fontWeight: 600
   },
@@ -76,21 +61,23 @@ const List = ({ event }) => {
     );
 
   return (
-    <Container className={ classes.root }>
+    <React.Fragment>
       <Hidden xsDown>
-        <Grid container direction="column" justify="center" spacing={ 2 } alignItems="center" className={ classes.banner }>
-          <Grid item>
-            <Typography gutterBottom variant='h1' className={ classes.h1 }>{ event.name }</Typography>
-            <Chip label={ event.type ? 'Bitva' : 'Šarvátka' } className={ classes.chip }/>
-            <Chip label={ `${ event.type ? 'Podzim' : 'Jaro' } ${event.year}` } className={ classes.chip }/>
-            <EventAvailabilityChip event={ event } className={ classes.chip }/>
+        <Container>
+          <Grid container direction="column" justify="center" spacing={ 2 } alignItems="center" className={ classes.banner }>
+            <Grid item>
+              <Typography gutterBottom variant='h1' className={ classes.h1 }>{ event.name }</Typography>
+              <Chip label={ event.type ? 'Bitva' : 'Šarvátka' } className={ classes.chip }/>
+              <Chip label={ `${ event.type ? 'Podzim' : 'Jaro' } ${event.year}` } className={ classes.chip }/>
+              <EventAvailabilityChip event={ event } className={ classes.chip }/>
+            </Grid>
+            <Grid item>
+              <Markdown content={ event.description } />
+            </Grid>
           </Grid>
-          <Grid item>
-            <Markdown content={ event.description } />
-          </Grid>
-        </Grid>
+        </Container>
       </Hidden>
-      <Paper className={ classes.paper }>
+      <Article>
         <Container maxWidth="lg">
           <Typography gutterBottom variant='h4'>Legendy a příběhy</Typography>
           <Typography gutterBottom variant='body1'>Letošním ročníkem vás provedou následující příběhy.</Typography>
@@ -98,8 +85,8 @@ const List = ({ event }) => {
             { legendsList }
           </Grid>
         </Container>
-      </Paper>
-    </Container>
+      </Article>
+    </React.Fragment>
   );
 };
 

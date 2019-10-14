@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import { Container, Grid, Typography, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
-import { Article } from 'components';
+import { Article, ArticleContent } from 'components';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -42,7 +42,7 @@ const List = ({ event, location: { state }}) => {
         </Grid>
       </Container>
       <Article>
-        <React.Fragment>
+        <ArticleContent>
           <Typography gutterBottom variant='subtitle1'>
             Registraci zpracujeme. Tvé jméno se co nevidět objeví v seznamu účastníků.
           </Typography>
@@ -52,7 +52,7 @@ const List = ({ event, location: { state }}) => {
               Nezapomeň si stáhnout, vyplnit a hlavně přinést podepsané potvrzení pro nezletilé.
             </Typography>
           }
-        </React.Fragment>
+        </ArticleContent>
         <Grid container justify="center" spacing={ 2 }>
           <Grid item>
             <Button color='primary' variant='contained' size='large' href='./list'>Zobrazit přihlášené účastníky</Button>

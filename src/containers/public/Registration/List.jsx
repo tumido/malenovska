@@ -3,26 +3,14 @@ import { connect, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { isLoaded, useFirestoreConnect } from 'react-redux-firebase';
 
-import { Container, Paper, Table, TableBody, TableRow, TableCell, TablePagination, Typography } from '@material-ui/core';
+import { Container, Table, TableBody, TableRow, TableCell, TablePagination, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Skeleton } from '@material-ui/lab';
 
-import { TableHead, Markdown, TableToolbar } from 'components';
+import { Article, TableHead, Markdown, TableToolbar } from 'components';
 import { stableSort, getSorting } from 'utilities/sorting';
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    [theme.breakpoints.down('sm')]: {
-      padding: 0
-    },
-    paddingTop: 20
-  },
-  paper: {
-    [theme.breakpoints.up('md')]: {
-      paddingTop: 40
-    },
-    padding: 16
-  },
+const useStyles = makeStyles(() => ({
   table: {
     whiteSpace: 'normal',
     wordWrap: 'break-word',
@@ -30,13 +18,6 @@ const useStyles = makeStyles(theme => ({
   },
   tableWrapper: {
     overflowX: 'auto'
-  },
-  text: {
-    [theme.breakpoints.up('md')]: {
-      padding: 16
-    },
-    padding: 0,
-    paddingBottom: 16
   }
 }));
 
@@ -65,6 +46,7 @@ const List = ({ event }) => {
   const [ page, setPage ] = React.useState(0);
   const [ rowsPerPage, setRowsPerPage ] = React.useState(10);
   const [ filterSearch, setFilterSearch ] = React.useState(false);
+  const [ filterChips, setFilterChips ] = React.useState([]);
 
   const handleRequestSort = (event, property) => {
     const isDesc = orderBy === property && order === 'desc';
@@ -85,6 +67,14 @@ const List = ({ event }) => {
     setFilterSearch(value.toLowerCase());
   };
 
+  const handleFilterClick = (clickedFilter) => {
+    clickedFilter.enabled = true;
+    setFilterChips([
+      ...filterChips.filter(f => f.name !== clickedFilter.name),
+      clickedFilter
+    ]);
+  };
+
   useFirestoreConnect(() => [
     {
       collection: 'races',
@@ -103,12 +93,11 @@ const List = ({ event }) => {
 
   if (!isLoaded(participants) || !isLoaded(races)) {
     return (
-      <Container className={ classes.root }>
-        <Paper className={ classes.paper }>
-          <Container className={ classes.text }>
-            <Typography variant='h4' component='h2'><Skeleton type='text' width={ 400 }/></Typography>
-          </Container>
-          <div className={ classes.tableWrapper }>
+      <Article>
+        <Container>
+          <Typography variant='h4' component='h2'><Skeleton type='text' width={ 400 }/></Typography>
+        </Container>
+        <div className={ classes.tableWrapper }>
           <Table className={ classes.table }>
             <TableBody>
               { [ ...Array(10).keys() ].map(index =>
@@ -122,9 +111,8 @@ const List = ({ event }) => {
               )}
             </TableBody>
           </Table>
-          </div>
-        </Paper>
-      </Container>
+        </div>
+      </Article>
     );
   }
 
@@ -136,16 +124,17 @@ const List = ({ event }) => {
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
   return (
-    <Container className={ classes.root }>
-      <Paper className={ classes.paper }>
-        <Container className={ classes.text }>
-          <Typography variant='h4' component='h2'>Přihlášení účastníci</Typography>
-          <Markdown content={ event.registrationList } />
-        </Container>
-        <TableToolbar
-          onSearch={ handleSearch }
-        />
-        <div className={ classes.tableWrapper }>
+    <Article>
+      <Container>
+        <Typography variant='h4' component='h2'>Přihlášení účastníci</Typography>
+        <Markdown content={ event.registrationList } />
+      </Container>
+      <TableToolbar
+        onSearch={ handleSearch }
+        onFilterClick={ handleFilterClick }
+        filters={ filterChips }
+      />
+      <div className={ classes.tableWrapper }>
         <Table className={ classes.table }>
           <TableHead
             headers={ headers }
@@ -174,24 +163,23 @@ const List = ({ event }) => {
             )}
           </TableBody>
         </Table>
-        </div>
-        <TablePagination
-          rowsPerPageOptions={ [ 5, 10, 25 ] }
-          component="div"
-          count={ rows.length }
-          rowsPerPage={ rowsPerPage }
-          page={ page }
-          backIconButtonProps={ {
-            'aria-label': 'previous page'
-          } }
-          nextIconButtonProps={ {
-            'aria-label': 'next page'
-          } }
-          onChangePage={ handleChangePage }
-          onChangeRowsPerPage={ handleChangeRowsPerPage }
-        />
-      </Paper>
-    </Container>
+      </div>
+      <TablePagination
+        rowsPerPageOptions={ [ 5, 10, 25 ] }
+        component="div"
+        count={ rows.length }
+        rowsPerPage={ rowsPerPage }
+        page={ page }
+        backIconButtonProps={ {
+          'aria-label': 'previous page'
+        } }
+        nextIconButtonProps={ {
+          'aria-label': 'next page'
+        } }
+        onChangePage={ handleChangePage }
+        onChangeRowsPerPage={ handleChangeRowsPerPage }
+      />
+    </Article>
   );
 };
 
