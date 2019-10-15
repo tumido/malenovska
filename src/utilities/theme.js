@@ -1,5 +1,5 @@
 import { createMuiTheme } from '@material-ui/core/styles';
-import { deepOrange, grey } from '@material-ui/core/colors';
+import { deepOrange, grey, indigo } from '@material-ui/core/colors';
 
 const palette = {
   secondary: deepOrange,
@@ -24,5 +24,14 @@ export const darkTheme = createMuiTheme({
     },
     type: 'dark',
     ...palette
+  }
+});
+
+export const adminTheme = createMuiTheme({
+  palette: {
+    primary: indigo,
+    secondary: {
+      main: grey[900]
+    }
   }
 });
