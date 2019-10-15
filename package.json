@@ -37,6 +37,7 @@
     "prop-types": "^15.6.2",
     "ra-language-czech": "^2.0.0",
     "react": "^16.8.3",
+    "react-admin-color-input": "^1.0.8",
     "react-admin-firebase": "^0.8.9",
     "react-dom": "^16.8.3",
     "react-helmet": "5.2.1",
