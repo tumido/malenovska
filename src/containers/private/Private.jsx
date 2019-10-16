@@ -45,7 +45,7 @@ const Private = () => (
       options={ { label: 'Strany' } }
       icon={ Group }
       list={ race.List }
-      // show={ race.Show }
+      show={ race.Show }
       create={ race.Create }
       edit={ race.Edit }
     />
