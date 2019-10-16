@@ -27,7 +27,7 @@ const Private = () => (
       options={ { label: 'Události' } }
       icon={ Today }
       list={ event.List }
-      // show={ legend.Show }
+      show={ event.Show }
       create={ event.Create }
       edit={ event.Edit }
     />
@@ -36,7 +36,7 @@ const Private = () => (
       options={ { label: 'Legendy a příběhy' } }
       icon={ Receipt }
       list={ legend.List }
-      // show={ legend.Show }
+      show={ legend.Show }
       create={ legend.Create }
       edit={ legend.Edit }
     />
