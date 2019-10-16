@@ -8,10 +8,9 @@ import {
 } from 'react-admin';
 
 import MarkdownInput from 'components/MarkdownInput';
-import { EventTitle } from './shared';
 
 const Create = (props) => (
-  <CreateBase title={ <EventTitle /> } { ...props }>
+  <CreateBase title="Nová událost" { ...props }>
     <TabbedForm>
       <FormTab label="Obecné">
         <TextInput label="ID" source="id" />

@@ -26,28 +26,19 @@ const Private = () => (
       name='events'
       options={ { label: 'Události' } }
       icon={ Today }
-      list={ event.List }
-      show={ event.Show }
-      create={ event.Create }
-      edit={ event.Edit }
+      { ...event }
     />
     <Resource
       name='legends'
       options={ { label: 'Legendy a příběhy' } }
       icon={ Receipt }
-      list={ legend.List }
-      show={ legend.Show }
-      create={ legend.Create }
-      edit={ legend.Edit }
+      { ...legend }
     />
     <Resource
       name='races'
       options={ { label: 'Strany' } }
       icon={ Group }
-      list={ race.List }
-      show={ race.Show }
-      create={ race.Create }
-      edit={ race.Edit }
+      { ...race }
     />
     <Resource
       name='participants'

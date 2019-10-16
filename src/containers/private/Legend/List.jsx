@@ -4,7 +4,7 @@ import {
   Datagrid, Filter,
   ReferenceInput, SelectInput,
   DateField, TextField,
-  EditButton, DeleteButton
+  EditButton, ShowButton
 } from 'react-admin';
 
 const LegendFilter = (props) => (
@@ -16,15 +16,19 @@ const LegendFilter = (props) => (
 );
 
 const List = (props) => (
-  <ListBase title="Legendy a příběhy" { ...props } filters={ <LegendFilter /> }>
+  <ListBase
+    title="Legendy a příběhy"
+    filters={ <LegendFilter /> }
+    { ...props }
+  >
     <Datagrid>
       <TextField label='Název' source="title" />
       <TextField label='Událost' source="event" />
       <TextField label="Autor" source="createdby" />
       <DateField label="Vytvořeno" source="createdate" />
       <DateField label="Aktualizováno" source="lastupdate" />
-      <DeleteButton />
-      <EditButton basePath="/legends" />
+      <EditButton />
+      <ShowButton />
     </Datagrid>
   </ListBase>
 );

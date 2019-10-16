@@ -4,7 +4,7 @@ import {
   Datagrid, Filter,
   ReferenceInput, SelectInput,
   FunctionField, DateField, TextField, ReferenceField,
-  EditButton, DeleteButton
+  EditButton, ShowButton
 } from 'react-admin';
 import { ColorField } from 'react-admin-color-input';
 
@@ -19,7 +19,11 @@ const RaceFilter = (props) => (
 );
 
 const List = (props) => (
-  <ListBase title='Strany' { ...props } filters={ <RaceFilter /> }>
+  <ListBase
+    title='Strany'
+    filters={ <RaceFilter /> }
+    { ...props }
+  >
     <Datagrid>
       <TextField label='Jméno' source="name" />
       <ReferenceField label='Událost' source="event" reference='events'>
@@ -31,8 +35,8 @@ const List = (props) => (
       <TextField label="Autor" source="createdby" />
       <DateField label="Vytvořeno" source="createdate" />
       <DateField label="Aktualizováno" source="lastupdate" />
-      <DeleteButton />
-      <EditButton basePath="/races" />
+      <EditButton />
+      <ShowButton />
     </Datagrid>
   </ListBase>
 );

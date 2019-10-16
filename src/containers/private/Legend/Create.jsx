@@ -10,7 +10,7 @@ import {
 import MarkdownInput from 'components/MarkdownInput';
 
 const Create = (props) => (
-  <CreateBase { ...props }>
+  <CreateBase title="Nová legenda" { ...props }>
     <SimpleForm>
       <FormDataConsumer>
         {({ formData: { title }, ...rest }) =>

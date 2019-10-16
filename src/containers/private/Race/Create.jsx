@@ -11,7 +11,7 @@ import { ColorInput } from 'react-admin-color-input';
 import MarkdownInput from 'components/MarkdownInput';
 
 const Create = (props) => (
-  <CreateBase { ...props }>
+  <CreateBase title="Nová strana" { ...props }>
     <SimpleForm>
       <TextInput label='Název' source="name" validate={ required() } />
       <ReferenceInput label="Událost" source="event" reference="events">

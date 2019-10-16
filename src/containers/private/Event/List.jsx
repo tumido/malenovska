@@ -3,13 +3,13 @@ import {
   List as ListBase,
   Datagrid,
   DateField, SelectField, BooleanField, TextField,
-  EditButton, CloneButton
+  EditButton, ShowButton, CloneButton
 } from 'react-admin';
 
 import { ChipField } from './shared';
 
 const List = (props) => (
-  <ListBase  title='Události' { ...props }>
+  <ListBase title='Události' { ...props }>
     <Datagrid>
       <TextField label='Název' source="name" />
       <TextField label='Rok konání' source="year" />
@@ -24,7 +24,8 @@ const List = (props) => (
       <BooleanField label='Zobrazitelné' source="display" />
       <BooleanField label='Otevřená registrace' source="registrationAvailable" />
       <DateField label="Aktualizováno" source="lastupdate" />
-      <EditButton basePath="/events" />
+      <EditButton />
+      <ShowButton />
       <CloneButton />
     </Datagrid>
   </ListBase>
