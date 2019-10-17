@@ -20,7 +20,7 @@ export const registerNewParticipant = ({
   const personDoc = firestore.collection('participants').doc(`${event}:${firstName}-${nickName}-${lastName}`);
 
   batch.set(personDoc, personDataPublic);
-  batch.set(personDoc.collection('private').doc(), personDataPrivate);
+  batch.set(personDoc.collection('private').doc('_'), personDataPrivate);
 
   return batch.commit()
   .then(
