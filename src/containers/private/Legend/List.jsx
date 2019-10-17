@@ -3,7 +3,7 @@ import {
   List as ListBase,
   Datagrid, Filter,
   ReferenceInput, SelectInput,
-  DateField, TextField,
+  DateField, TextField, ReferenceField,
   EditButton, ShowButton
 } from 'react-admin';
 
@@ -23,7 +23,10 @@ const List = (props) => (
   >
     <Datagrid>
       <TextField label='Název' source="title" />
-      <TextField label='Událost' source="event" />
+      <ReferenceField label='Událost' source="event" reference='events'>
+        <TextField source='name' />
+      </ReferenceField>
+      <TextField label='Perex' source="perex" />
       <TextField label="Autor" source="createdby" />
       <DateField label="Vytvořeno" source="createdate" />
       <DateField label="Aktualizováno" source="lastupdate" />

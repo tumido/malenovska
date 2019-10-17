@@ -2,7 +2,7 @@ import React from 'react';
 import {
   Show as ShowBase,
   Datagrid, TabbedForm, FormTab,
-  FunctionField, FileField, ImageField, NumberField, TextField, BooleanField, SelectField, ReferenceManyField, ReferenceField,
+  FunctionField, FileField, ImageField, NumberField, TextField, BooleanField, SelectField, ReferenceManyField, ReferenceField, UrlField,
   EditButton,
   required
 } from 'react-admin';
@@ -71,10 +71,10 @@ const Show = (props) => (
       <FormTab label="Kontakty">
         <ImageField source="contactImage.src" title="title" />
         <MarkdownField label='O organizátorech' source="contactText" />
-        <TextField label='FB událost' source="contact.facebook"/>
-        <TextField label='Larpová databáze' source="contact.larpovadatabaze"/>
-        <TextField label='LARP.cz' source="contact.larpcz"/>
-        <TextField label='E-mail' source="contact.email"/>
+        <UrlField label='FB událost' source="contact.facebook"/>
+        <UrlField label='Larpová databáze' source="contact.larpovadatabaze"/>
+        <UrlField label='LARP.cz' source="contact.larpcz"/>
+        <UrlField label='E-mail' source="contact.email"/>
         {/* <DateTimeField source='times.date' format={v => v.toDate()} parse={v => v.fromDate()}/> */}
       </FormTab>
     </TabbedForm>

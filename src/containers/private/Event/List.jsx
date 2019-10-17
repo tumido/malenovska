@@ -25,8 +25,8 @@ const List = (props) => (
       <BooleanField label='Otevřená registrace' source="registrationAvailable" />
       <DateField label="Aktualizováno" source="lastupdate" />
       <EditButton />
+      <CloneButton label="Naklonovat"/>
       <ShowButton />
-      <CloneButton />
     </Datagrid>
   </ListBase>
 );
