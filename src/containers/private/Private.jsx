@@ -1,12 +1,13 @@
 import * as React from 'react';
 import { Admin, Resource, Login } from 'react-admin';
 import czechMessages from 'ra-language-czech';
-import { Today, Receipt, Group } from '@material-ui/icons';
+import { Today, Receipt, Group, Person } from '@material-ui/icons';
 
 import admin from 'utilities/firebase_admin';
 import legend from './Legend';
 import event from './Event';
 import race from './Race';
+import participant from './Participant';
 import { adminTheme } from 'utilities/theme';
 import BgImage from 'assets/images/background.jpg';
 
@@ -47,6 +48,9 @@ const Private = () => (
     />
     <Resource
       name='participants'
+      options={ { label: 'Účastníci' } }
+      icon={ Person }
+      { ...participant }
     />
   </Admin>
 );
