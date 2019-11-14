@@ -17,7 +17,7 @@ const LegendList = lazy(() => import('containers/public/Legend/List'));
 const LegendShow = lazy(() => import('containers/public/Legend/Show'));
 const Rules = lazy(() => import('containers/public/Rules'));
 const Info = lazy(() => import('containers/public/Info'));
-const Contact = lazy(() => import('containers/public/Contact/List'));
+const Contact = lazy(() => import('containers/public/Contact'));
 const Races = lazy(() => import('containers/public/Races'));
 const RegistrationNew = lazy(() => import('containers/public/Registration/New'));
 const RegistrationDone = lazy(() => import('containers/public/Registration/Done'));

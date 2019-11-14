@@ -51,7 +51,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Info = ({ event, center, setCenter }) => {
+const Show = ({ event, center, setCenter }) => {
   const classes = useStyles();
 
   const timesToRender = [
@@ -139,7 +139,7 @@ const Info = ({ event, center, setCenter }) => {
   );
 };
 
-Info.propTypes = {
+Show.propTypes = {
   event: PropTypes.shape({
     poi: PropTypes.arrayOf(
       PropTypes.shape({
@@ -173,4 +173,4 @@ export default connect(
     event
   }),
   { setCenter }
-)(Info);
+)(Show);

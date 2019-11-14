@@ -36,7 +36,7 @@ const renderField = ({ input, race, participants }) => {
           <CardMedia
             className={ classes.media }
             image={ race.image && race.image.src }
-            title="Contemplative Reptile"
+            title={ race.name }
           />
           <CardContent>
             <Typography variant='h5' component='h2'>
