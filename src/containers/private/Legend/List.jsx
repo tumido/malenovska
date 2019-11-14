@@ -1,24 +1,17 @@
 import React from 'react';
 import {
   List as ListBase,
-  Datagrid, Filter,
-  ReferenceInput, SelectInput,
+  Datagrid,
   DateField, TextField, ReferenceField,
   EditButton, ShowButton
 } from 'react-admin';
 
-const LegendFilter = (props) => (
-  <Filter { ...props }>
-    <ReferenceInput source='event' reference='events' label='Událost' alwaysOn>
-      <SelectInput source='name' optionText='name'/>
-    </ReferenceInput>
-  </Filter>
-);
+import { EventFilter } from '../shared';
 
 const List = (props) => (
   <ListBase
     title="Legendy a příběhy"
-    filters={ <LegendFilter /> }
+    filters={ <EventFilter /> }
     { ...props }
   >
     <Datagrid>

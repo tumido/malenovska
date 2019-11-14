@@ -1,8 +1,7 @@
 import React from 'react';
 import {
   List as ListBase,
-  Datagrid, Filter,
-  ReferenceInput, SelectInput,
+  Datagrid,
   FunctionField, DateField, TextField, ReferenceField,
   EditButton, ShowButton
 } from 'react-admin';
@@ -10,18 +9,12 @@ import { ColorField } from 'react-admin-color-input';
 
 import { Icon } from '@material-ui/core';
 
-const RaceFilter = (props) => (
-  <Filter { ...props }>
-    <ReferenceInput source='event' reference='events' label='Událost' alwaysOn>
-      <SelectInput source='name' optionText='name'/>
-    </ReferenceInput>
-  </Filter>
-);
+import { EventFilter } from '../shared';
 
 const List = (props) => (
   <ListBase
     title='Strany'
-    filters={ <RaceFilter /> }
+    filters={ <EventFilter /> }
     { ...props }
   >
     <Datagrid>
