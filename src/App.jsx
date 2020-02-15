@@ -15,7 +15,7 @@ import BgImage from 'assets/images/background.jpg';
 const NotFound = lazy(() => import(/* webpackPrefetch: true */ 'containers/shared/NotFound'));
 const Landing = lazy(() => import('containers/shared/Landing'));
 const Public = lazy(() => import(/* webpackPreload: true */ 'containers/public'));
-const Private = lazy(() => import(/* webpackPrefetch: true */ 'containers/private'));
+// const Private = lazy(() => import(/* webpackPrefetch: true */ 'containers/private'));
 
 const useStyles = makeStyles(() => ({
   content: {
@@ -64,7 +64,7 @@ const App = () => {
                 render={ (props) => <Public { ...props } event={ event }/> }
               />
             ))}
-            <Route path='/admin' component={ Private } />
+            {/* <Route path='/admin' component={ Private } /> */}
             <Route exact path='/' component={ Landing } />
             <Route component={ NotFound } />
           </Switch>
