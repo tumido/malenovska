@@ -11,7 +11,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Article, Wizard } from 'components';
 import { RaceSelect, Readout, PersonalDetails } from './steps';
 import validate from './validate';
-import { registerNewParticipant  } from 'redux/actions/participant-actions';
+import { registerNewParticipant  } from 'utilities/redux/actions/participant-actions';
 
 const useStyles = makeStyles(() => ({
   stepper: {

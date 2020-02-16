@@ -9,7 +9,7 @@ import { SnackbarProvider } from 'notistack';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { Header, Footer, Loading, Notifier, ScrollRestore } from 'components';
-import { setEvent } from 'redux/actions/event-actions';
+import { setEvent } from 'utilities/redux/actions/event-actions';
 
 import BgImage from 'assets/images/background.jpg';
 

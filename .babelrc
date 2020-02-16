@@ -4,8 +4,8 @@
       "@babel/preset-env",
       {
         "modules": false,
-        "useBuiltIns": "entry",
-        "corejs": 3,
+        "useBuiltIns": "usage",
+        "corejs": "3.6",
         "targets": {
           "browsers": "defaults"
         }
@@ -15,14 +15,7 @@
   ],
   "plugins": [
     [
-      "@babel/plugin-transform-runtime",
-      {
-        "corejs": 3
-      }
-    ],
-    "@babel/plugin-syntax-dynamic-import",
-    [
-      "import",
+      "babel-plugin-import",
       {
         "libraryName": "@material-ui/core",
         "libraryDirectory": "esm",

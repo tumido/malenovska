@@ -1,7 +1,6 @@
 // Polyfills
 import 'whatwg-fetch';
 import('smoothscroll-polyfill').then(smoothscroll => smoothscroll.polyfill());
-import 'core-js/stable';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -12,7 +11,7 @@ import { ReactReduxFirebaseProvider } from 'react-redux-firebase';
 import { configureStore } from './utilities/store';
 import { rrfProps, enableFirebasePersistence, initializeFirebase } from './utilities/firebase';
 import loadFonts from './utilities/fonts';
-import App from 'App';
+import App from './App';
 
 initializeFirebase();
 loadFonts();

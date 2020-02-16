@@ -15,3 +15,5 @@ npm-debug.log
 malenovska-service-account.json
 firebase-export.json
 assets/images/background_backup.jpg
+
+.cache
