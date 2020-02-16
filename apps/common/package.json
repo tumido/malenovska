@@ -1,0 +1,14 @@
+{
+  "name": "common",
+  "version": "1.0.0",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/tumido/malenovska-react.git"
+  },
+  "homepage": "https://tumido.github.io/malenovska-react",
+  "author": "Tomas Coufal",
+  "license": "MIT",
+  "dependencies": {
+    "cross-env": "^7.0.0"
+  }
+}
