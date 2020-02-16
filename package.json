@@ -13,5 +13,8 @@
   },
   "devDependencies": {
     "firebase-tools": "^7.13.0"
+  },
+  "resolutions": {
+    "**/firebase": "^7.8.1"
   }
 }
