@@ -17,3 +17,4 @@ firebase-export.json
 assets/images/background_backup.jpg
 
 .cache
+**/yarn-error.log

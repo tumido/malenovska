@@ -8,6 +8,9 @@
   "homepage": "https://tumido.github.io/malenovska-react",
   "author": "Tomas Coufal",
   "license": "MIT",
+  "scripts": {
+    "build": "true"
+  },
   "dependencies": {
     "cross-env": "^7.0.0"
   },
