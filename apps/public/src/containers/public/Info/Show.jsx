@@ -7,9 +7,9 @@ import {
 import { makeStyles } from '@material-ui/core/styles';
 
 import { Map } from 'components';
-import { timestampToDateStr, timestampToTimeStr } from 'common/utilities/firebase';
+import { timestampToDateStr, timestampToTimeStr } from '@malenovska/common/utilities/firebase';
 
-import { setCenter } from 'common/redux/actions/map-actions';
+import { setCenter } from '@malenovska/common/redux/actions/map-actions';
 
 const useStyles = makeStyles(theme => ({
   root: {

@@ -6,7 +6,7 @@ import { withSnackbar } from 'notistack';
 
 import { IconButton, Icon, CircularProgress } from '@material-ui/core';
 
-import { closeNotification, removeNotification } from 'common/redux/actions/notify-actions';
+import { closeNotification, removeNotification } from '@malenovska/common/redux/actions/notify-actions';
 
 const useStyles = makeStyles(theme => ({
   action: {

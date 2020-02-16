@@ -8,9 +8,9 @@ import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { ReactReduxFirebaseProvider } from 'react-redux-firebase';
 
-import { configureStore } from 'common/utilities/store';
-import { rrfProps, enableFirebasePersistence, initializeFirebase } from 'common/utilities/firebase';
-import loadFonts from 'common/utilities/fonts';
+import { configureStore } from '@malenovska/common/utilities/store';
+import { rrfProps, enableFirebasePersistence, initializeFirebase } from '@malenovska/common/utilities/firebase';
+import loadFonts from '@malenovska/common/utilities/fonts';
 import App from './App';
 
 initializeFirebase();

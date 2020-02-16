@@ -8,7 +8,7 @@ import { Typography, Chip } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { Article, ArticleContent, ArticleMedia, Markdown } from 'components';
-import { timestampToDateStr } from 'common/utilities/firebase';
+import { timestampToDateStr } from '@malenovska/common/utilities/firebase';
 
 const useStyles = makeStyles(theme => ({
   chip: {

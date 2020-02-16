@@ -3,13 +3,13 @@ import { Admin, Resource, Login } from 'react-admin';
 import czechMessages from 'ra-language-czech';
 import { Today, Receipt, Group, Person } from '@material-ui/icons';
 
-import admin from 'common/utilities/firebase_admin';
+import admin from '@malenovska/common/utilities/firebase_admin';
 import legend from './Legend';
 import event from './Event';
 import race from './Race';
 import participant from './Participant';
-import { adminTheme } from 'common/utilities/theme';
-import BgImage from 'common/assets/images/background.jpg';
+import { adminTheme } from '@malenovska/common/utilities/theme';
+import BgImage from '@malenovska/common/assets/images/background.jpg';
 
 const messages = {
   cs: czechMessages

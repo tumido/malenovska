@@ -9,9 +9,9 @@ import { SnackbarProvider } from 'notistack';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { Header, Footer, Loading, Notifier, ScrollRestore } from 'components';
-import { setEvent } from 'common/redux/actions/event-actions';
+import { setEvent } from '@malenovska/common/redux/actions/event-actions';
 
-import BgImage from 'common/assets/images/background.jpg';
+import BgImage from '@malenovska/common/assets/images/background.jpg';
 
 const LegendList = lazy(() => import('containers/public/Legend/List'));
 const LegendShow = lazy(() => import('containers/public/Legend/Show'));

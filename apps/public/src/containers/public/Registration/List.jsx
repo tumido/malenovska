@@ -8,7 +8,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Skeleton } from '@material-ui/lab';
 
 import { Article, TableHead, Markdown, TableToolbar } from 'components';
-import { stableSort, getSorting } from 'common/utilities/sorting';
+import { stableSort, getSorting } from '@malenovska/common/utilities/sorting';
 
 const useStyles = makeStyles(() => ({
   table: {

@@ -9,8 +9,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
 
 import { Loading } from 'components';
-import { theme } from 'common/utilities/theme';
-import BgImage from 'common/assets/images/background.jpg';
+import { theme } from '@malenovska/common/utilities/theme';
+import BgImage from '@malenovska/common/assets/images/background.jpg';
 
 const NotFound = lazy(() => import(/* webpackPrefetch: true */ 'containers/shared/NotFound'));
 const Landing = lazy(() => import('containers/shared/Landing'));

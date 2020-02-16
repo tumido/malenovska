@@ -1,4 +1,16 @@
 {
   "private": true,
-  "workspaces": ["apps/*"]
+  "workspaces": [
+    "apps/common",
+    "apps/public"
+  ],
+  "scripts": {
+    "predeploy": "yarn workspaces run build",
+    "deploy": "firebase deploy --only hosting",
+    "deploy:rules": "firebase deploy --only firestore:rules",
+    "export": "firestore-export -a malenovska-service-account.json -p"
+  },
+  "devDependencies": {
+    "firebase-tools": "^7.13.0"
+  }
 }
