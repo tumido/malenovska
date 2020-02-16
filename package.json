@@ -2,7 +2,8 @@
   "private": true,
   "workspaces": [
     "apps/common",
-    "apps/public"
+    "apps/public",
+    "apps/admin"
   ],
   "scripts": {
     "predeploy": "yarn workspaces run build",

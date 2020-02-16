@@ -13,15 +13,15 @@ import { setEvent } from '@malenovska/common/redux/actions/event-actions';
 
 import BgImage from '@malenovska/common/assets/images/background.jpg';
 
-const LegendList = lazy(() => import('containers/public/Legend/List'));
-const LegendShow = lazy(() => import('containers/public/Legend/Show'));
-const Rules = lazy(() => import('containers/public/Rules'));
-const Info = lazy(() => import('containers/public/Info'));
-const Contact = lazy(() => import('containers/public/Contact'));
-const Races = lazy(() => import('containers/public/Races'));
-const RegistrationNew = lazy(() => import('containers/public/Registration/New'));
-const RegistrationDone = lazy(() => import('containers/public/Registration/Done'));
-const RegistrationList = lazy(() => import('containers/public/Registration/List'));
+const LegendList = lazy(() => import('containers/Legend/List'));
+const LegendShow = lazy(() => import('containers/Legend/Show'));
+const Rules = lazy(() => import('containers/Rules'));
+const Info = lazy(() => import('containers/Info'));
+const Contact = lazy(() => import('containers/Contact'));
+const Races = lazy(() => import('containers/Races'));
+const RegistrationNew = lazy(() => import('containers/Registration/New'));
+const RegistrationDone = lazy(() => import('containers/Registration/Done'));
+const RegistrationList = lazy(() => import('containers/Registration/List'));
 
 const useStyles = makeStyles(theme => ({
   root: {

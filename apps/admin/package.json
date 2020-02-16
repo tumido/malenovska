@@ -1,0 +1,39 @@
+{
+  "name": "@malenovska/admin",
+  "version": "1.1.0",
+  "description": "Malenovska.cz - admin interface",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/tumido/malenovska-react.git"
+  },
+  "homepage": "https://tumido.github.io/malenovska-react",
+  "author": "Tomas Coufal",
+  "license": "MIT",
+  "scripts": {
+    "build": "true",
+    "start": "parcel src/index.html",
+    "lint": "eslint"
+  },
+  "alias": {
+    "components": "./src/components",
+    "containers": "./src/containers"
+  },
+  "dependencies": {
+    "@malenovska/common": "1.0.0",
+    "cross-env": "^7.0.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.8.4",
+    "@babel/preset-env": "^7.8.4",
+    "@babel/preset-react": "^7.8.3",
+    "babel-eslint": "^10.0.3",
+    "babel-plugin-import": "^1.13.0",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.2",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.10.0",
+    "eslint-plugin-react": "^7.18.3",
+    "parcel-bundler": "^1.12.4",
+    "parcel-plugin-bundle-visualiser": "^1.2.0"
+  }
+}

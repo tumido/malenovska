@@ -12,10 +12,9 @@ import { Loading } from 'components';
 import { theme } from '@malenovska/common/utilities/theme';
 import BgImage from '@malenovska/common/assets/images/background.jpg';
 
-const NotFound = lazy(() => import(/* webpackPrefetch: true */ 'containers/shared/NotFound'));
-const Landing = lazy(() => import('containers/shared/Landing'));
-const Public = lazy(() => import(/* webpackPreload: true */ 'containers/public'));
-// const Private = lazy(() => import(/* webpackPrefetch: true */ 'containers/private'));
+const NotFound = lazy(() => import('containers/NotFound'));
+const Landing = lazy(() => import('containers/Landing'));
+const Public = lazy(() => import('containers/Public'));
 
 const useStyles = makeStyles(() => ({
   content: {
@@ -64,7 +63,6 @@ const App = () => {
                 render={ (props) => <Public { ...props } event={ event }/> }
               />
             ))}
-            {/* <Route path='/admin' component={ Private } /> */}
             <Route exact path='/' component={ Landing } />
             <Route component={ NotFound } />
           </Switch>
