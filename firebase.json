@@ -3,45 +3,94 @@
     "rules": "firestore.rules",
     "indexes": "firestore.indexes.json"
   },
-  "hosting": {
-    "public": "dist",
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
-    ],
-    "rewrites": [
-      {
-        "source": "**",
-        "destination": "/index.html"
-      }
-    ],
-    "headers": [
-      {
-        "source": "**",
-        "headers": [ {
-          "key": "Access-Control-Allow-Origin",
-          "value": "*"
-        } ]
-      },
-      {
-        "source": "**/*.@(jpg|jpeg|gif|png|ico|eot|otf|ttf|ttc|woff|font.css)",
-        "headers": [
-          {
-          "key": "Cache-Control",
-          "value": "max-age=86400, public"
-          }
-        ]
-      },
-      {
-        "source": "**/*.@(js|css)",
-        "headers": [
-          {
-          "key": "Cache-Control",
-          "value": "max-age=691200, public"
-          }
-        ]
-      }
-    ]
-  }
+  "hosting": [
+    {
+      "target": "public",
+      "public": "apps/public/dist",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
+      ],
+      "headers": [
+        {
+          "source": "**",
+          "headers": [
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            }
+          ]
+        },
+        {
+          "source": "**/*.@(jpg|jpeg|gif|png|ico|eot|otf|ttf|ttc|woff|font.css)",
+          "headers": [
+            {
+              "key": "Cache-Control",
+              "value": "max-age=86400, public"
+            }
+          ]
+        },
+        {
+          "source": "**/*.@(js|css)",
+          "headers": [
+            {
+              "key": "Cache-Control",
+              "value": "max-age=691200, public"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "target": "admin",
+      "public": "apps/admin/dist",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
+      ],
+      "headers": [
+        {
+          "source": "**",
+          "headers": [
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            }
+          ]
+        },
+        {
+          "source": "**/*.@(jpg|jpeg|gif|png|ico|eot|otf|ttf|ttc|woff|font.css)",
+          "headers": [
+            {
+              "key": "Cache-Control",
+              "value": "max-age=86400, public"
+            }
+          ]
+        },
+        {
+          "source": "**/*.@(js|css)",
+          "headers": [
+            {
+              "key": "Cache-Control",
+              "value": "max-age=691200, public"
+            }
+          ]
+        }
+      ]
+    }
+  ]
 }

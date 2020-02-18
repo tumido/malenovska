@@ -1,5 +1,17 @@
 {
   "projects": {
     "default": "malenovska-305f8"
+  },
+  "targets": {
+    "malenovska-305f8": {
+      "hosting": {
+        "public": [
+          "malenovska-305f8"
+        ],
+        "admin": [
+          "admin-malenovska-305f8"
+        ]
+      }
+    }
   }
 }
