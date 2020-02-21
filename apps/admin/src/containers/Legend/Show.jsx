@@ -8,20 +8,26 @@ import {
 import MarkdownField from 'components/MarkdownField';
 
 import { LegendTitle } from './shared';
+import { useStyles } from '../shared';
 
-const Show = (props) => (
-  <ShowBase title={ <LegendTitle /> } { ...props }>
-    <SimpleForm>
-      <TextField label="ID" source="id" />
-      <TextField label='Název' source="title" />
-      <ReferenceField label="Událost" source="event" reference="events">
-        <TextField source="name" />
-      </ReferenceField>
-      <TextField label='Perex' source="perex" defaultValue='' fullWidth/>
-      <MarkdownField label='Obsah' source="content" />
-      <ImageField source="image.src" label="Obrázek" />
-    </SimpleForm>
-  </ShowBase>
-);
+
+const Show = (props) => {
+  const classes = useStyles();
+
+  return (
+    <ShowBase title={<LegendTitle />} {...props}>
+      <SimpleForm>
+        <TextField label="ID" source="id" formClassName={classes.inlineBlock} />
+        <TextField label='Název' source="title" formClassName={classes.inlineBlock} />
+        <ReferenceField label="Událost" source="event" reference="events" formClassName={classes.inlineBlock}>
+          <TextField source="name" />
+        </ReferenceField>
+        <TextField label='Perex' source="perex" defaultValue='' fullWidth />
+        <MarkdownField label='Obsah' source="content" />
+        <ImageField source="image.src" label="Obrázek" />
+      </SimpleForm>
+    </ShowBase>
+  )
+};
 
 export default Show;
