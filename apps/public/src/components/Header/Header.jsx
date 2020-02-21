@@ -10,9 +10,9 @@ import {
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { grey } from '@material-ui/core/colors';
-
 import { ThemeProvider } from '@material-ui/styles';
-import { darkTheme } from '@malenovska/common/utilities/theme';
+
+import { darkTheme } from '../../utilities/theme';
 
 const drawerWidth = 300;
 

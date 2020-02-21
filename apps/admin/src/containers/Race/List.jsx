@@ -7,7 +7,7 @@ import {
 } from 'react-admin';
 import { ColorField } from 'react-admin-color-input';
 
-import { Icon } from '@material-ui/core';
+import Icon from '@material-ui/core/Icon';
 
 import { EventFilter } from '../shared';
 

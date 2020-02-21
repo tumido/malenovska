@@ -9,10 +9,10 @@ import { firestoreConnect, isLoaded } from 'react-redux-firebase';
 import { Hidden, Grid, Typography, Card, CardActionArea, CardContent, Link } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
-import { darkTheme } from '@malenovska/common/utilities/theme';
-
-import { Logo, EventAvailabilityChip, Markdown } from 'components';
 import BgImage from '@malenovska/common/assets/images/background.jpg';
+
+import { darkTheme } from '../../utilities/theme';
+import { Logo, EventAvailabilityChip, Markdown } from 'components';
 
 const useStyles = makeStyles(theme => ({
   h1: {

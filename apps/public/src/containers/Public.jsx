@@ -7,11 +7,10 @@ import { useFirestoreConnect, isLoaded } from 'react-redux-firebase';
 import { SnackbarProvider } from 'notistack';
 
 import { makeStyles } from '@material-ui/core/styles';
+import BgImage from '@malenovska/common/assets/images/background.jpg';
 
 import { Header, Footer, Loading, Notifier, ScrollRestore } from 'components';
-import { setEvent } from '@malenovska/common/redux/actions/event-actions';
-
-import BgImage from '@malenovska/common/assets/images/background.jpg';
+import { setEvent } from '../redux/actions/event-actions';
 
 const LegendList = lazy(() => import('containers/Legend/List'));
 const LegendShow = lazy(() => import('containers/Legend/Show'));

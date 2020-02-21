@@ -17,6 +17,7 @@
     [
       "@babel/plugin-transform-runtime",
       {
+        "useESModules": true,
         "corejs": 3
       }
     ],
@@ -32,20 +33,11 @@
     [
       "babel-plugin-import",
       {
-        "libraryName": "@material-ui/styles",
+        "libraryName": "@material-ui/icons",
         "libraryDirectory": "esm",
         "camel2DashComponentName": false
       },
-      "styles"
-    ],
-    [
-      "babel-plugin-import",
-      {
-        "libraryName": "@material-ui/lab",
-        "libraryDirectory": "esm",
-        "camel2DashComponentName": false
-      },
-      "lab"
+      "icons"
     ]
   ]
 }

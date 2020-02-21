@@ -8,7 +8,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Skeleton } from '@material-ui/lab';
 
 import { Article, TableHead, Markdown, TableToolbar } from 'components';
-import { stableSort, getSorting } from '@malenovska/common/utilities/sorting';
+import { stableSort, getSorting } from '../../utilities/sorting';
 
 const useStyles = makeStyles(() => ({
   table: {
@@ -170,12 +170,6 @@ const List = ({ event }) => {
         count={ rows.length }
         rowsPerPage={ rowsPerPage }
         page={ page }
-        backIconButtonProps={ {
-          'aria-label': 'previous page'
-        } }
-        nextIconButtonProps={ {
-          'aria-label': 'next page'
-        } }
         onChangePage={ handleChangePage }
         onChangeRowsPerPage={ handleChangeRowsPerPage }
       />

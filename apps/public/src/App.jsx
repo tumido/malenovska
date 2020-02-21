@@ -8,9 +8,10 @@ import { CssBaseline, NoSsr } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
 
-import { Loading } from 'components';
-import { theme } from '@malenovska/common/utilities/theme';
 import BgImage from '@malenovska/common/assets/images/background.jpg';
+
+import { Loading } from 'components';
+import { theme } from './utilities/theme';
 
 const NotFound = lazy(() => import('containers/NotFound'));
 const Landing = lazy(() => import('containers/Landing'));

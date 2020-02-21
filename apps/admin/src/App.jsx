@@ -1,13 +1,14 @@
 import * as React from 'react';
 import { Admin, Resource, Login } from 'react-admin';
-import { FirebaseAuthProvider, FirebaseDataProvider, FirebaseRealTimeSaga } from 'react-admin-firebase';
-import czechMessages from 'ra-language-czech';
+import { FirebaseAuthProvider, FirebaseDataProvider } from 'react-admin-firebase';
+import polyglotI18nProvider from 'ra-i18n-polyglot';
 
 import { Today, Receipt, Group, Person } from '@material-ui/icons';
 
 import '@firebase/auth';
 
-import { adminTheme } from '@malenovska/common/utilities/theme';
+import { adminTheme } from './utilities/theme';
+import { czechMessages } from './utilities/i18n';
 import BgImage from '@malenovska/common/assets/images/background.jpg';
 import { firebaseConfig } from '@malenovska/common/utilities/firebase';
 
@@ -21,21 +22,16 @@ const options = {};
 
 const dataProvider = FirebaseDataProvider(firebaseConfig, options);
 const authProvider = FirebaseAuthProvider(firebaseConfig, options);
-const firebaseRealtime = FirebaseRealTimeSaga(dataProvider, options);
-
-const messages = {
-  cs: czechMessages
-};
+const i18nProvider = polyglotI18nProvider(() => czechMessages, 'cs');
 
 const LoginPage = () => <Login backgroundImage={ BgImage } />;
 
 const Private = () => (
   <Admin
     locale='cs'
-    i18nProvider={ locale => messages[locale] }
+    i18nProvider={ i18nProvider }
     dataProvider={ dataProvider }
     authProvider={ authProvider }
-    customSagas={ [ firebaseRealtime ] }
     theme={ adminTheme }
     loginPage={ LoginPage }
     title="Malenovská"

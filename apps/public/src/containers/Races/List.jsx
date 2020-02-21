@@ -8,7 +8,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
 
 import { Article, ArticleContent, ArticleMedia, ColorBadge, Markdown } from 'components';
-import { darkTheme } from '@malenovska/common/utilities/theme';
+import { darkTheme } from '../../utilities/theme';
 
 const useStyles = makeStyles(theme => ({
   tabPanel: {
