@@ -10,6 +10,8 @@ import {
 import { unparse as convertToCSV } from 'papaparse/papaparse.min';
 import firebase from 'firebase/app';
 
+import { getAge } from './shared';
+
 const LegendFilter = (props) => (
   <Filter { ...props }>
     <ReferenceInput source='event' reference='events' label='Událost' alwaysOn>
@@ -25,12 +27,6 @@ const LegendFilter = (props) => (
   </Filter>
 );
 
-const getAge = async (firestore, participant) =>
-  await firestore
-  .doc(`participants/${participant.id}`)
-  .collection('private')
-  .get()
-  .then(p => p.docs[0].data().age);
 
 const getData = async (participants, races) => {
   const firestore = firebase.app().firestore();
