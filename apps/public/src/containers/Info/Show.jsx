@@ -54,11 +54,11 @@ const Show = ({ event, center, setCenter }) => {
   const classes = useStyles();
 
   const timesToRender = [
-    [ 'Datum akce', timestampToDateStr(event.times.date) ],
-    [ 'Začátek akce', timestampToTimeStr(event.times.start) ],
-    [ 'Otevření registrace', timestampToTimeStr(event.times.registrationOpen) ],
-    [ 'Uzavření registrace', timestampToTimeStr(event.times.registrationClose) ],
-    [ 'Konec akce', timestampToTimeStr(event.times.end) ]
+    [ 'Datum akce', timestampToDateStr(event.date) ],
+    [ 'Začátek akce', timestampToTimeStr(event.onsiteStart) ],
+    [ 'Otevření registrace', timestampToTimeStr(event.onsiteRegistrationOpen) ],
+    [ 'Uzavření registrace', timestampToTimeStr(event.onsiteRegistrationClose) ],
+    [ 'Konec akce', timestampToTimeStr(event.onsiteEnd) ]
   ];
 
   return (
@@ -150,13 +150,11 @@ Show.propTypes = {
         description: PropTypes.string.isRequired
       }).isRequired
     ),
-    times: PropTypes.shape({
-      date: PropTypes.any,
-      start: PropTypes.any,
-      registrationOpen: PropTypes.any,
-      registrationClose: PropTypes.any,
-      end: PropTypes.any
-    }).isRequired,
+    date: PropTypes.instanceOf(Date),
+    onsiteStart: PropTypes.instanceOf(Date),
+    onsiteRegistrationOpen: PropTypes.instanceOf(Date),
+    onsiteRegistrationClose: PropTypes.instanceOf(Date),
+    onsiteEnd: PropTypes.instanceOf(Date),
     declaration: PropTypes.shape({
       src: PropTypes.string.isRequired
     }).isRequired,
