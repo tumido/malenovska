@@ -8,7 +8,7 @@ export const EventTitle = ({ record }) => {
 };
 
 EventTitle.propTypes = {
-  record: PropTypes.object.isRequired
+  record: PropTypes.object
 };
 
 export const ChipField = ({ record }) => <Chip label={ record.name } />;

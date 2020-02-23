@@ -7,6 +7,7 @@ export const czechMessages = {
           bulk_actions: '%{smart_count} vybráno',
           cancel: 'Zrušit',
           clone: 'Klonovat',
+          clear_input_value: 'Smazat hodnotu',
           create: 'Vytvořit',
           delete: 'Smazat',
           edit: 'Upravit',

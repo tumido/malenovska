@@ -1,4 +1,5 @@
 import MarkdownField from './MarkdownField';
 import MarkdownInput from './MarkdownInput';
+import TimeField from './TimeField';
 
-export default { MarkdownField, MarkdownInput };
+export { MarkdownField, MarkdownInput, TimeField };

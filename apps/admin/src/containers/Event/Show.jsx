@@ -2,14 +2,13 @@ import React from 'react';
 import {
   Show as ShowBase,
   Datagrid, TabbedForm, FormTab,
-  FunctionField, FileField, ImageField, NumberField, TextField, BooleanField, SelectField, ReferenceManyField, ReferenceField, UrlField,
-  EditButton,
-  required
+  FunctionField, FileField, ImageField, NumberField, TextField, BooleanField, SelectField, ReferenceManyField, ReferenceField, UrlField, DateField,
+  EditButton
 } from 'react-admin';
 import { ColorField } from 'react-admin-color-input';
 import { Icon } from '@material-ui/core';
 
-import MarkdownField from 'components/MarkdownField';
+import { MarkdownField, TimeField } from 'components';
 import { EventTitle } from './shared';
 import { useStyles } from '../shared';
 
@@ -23,21 +22,22 @@ const Show = (props) => {
           <TextField label="ID" source="id" formClassName={classes.inlineBlock} />
           <TextField label='Název' source="name" formClassName={classes.inlineBlock} />
           <TextField label='Rok konání' source="year" formClassName={classes.inlineBlock} />
+          <DateField label="Datum konání" source='date' formClassName={classes.inlineBlock} />
           <SelectField label='Tag' source="type" formClassName={classes.inlineBlock}
             choices={[
               { id: true, name: 'Bitva' },
               { id: false, name: 'Šarvátka' }
             ]}
           />
-          <BooleanField label='Zobrazitelné' source="display" formClassName={classes.inlineBlock} />
+          <BooleanField label='Zobrazitelné' source="display" />
           <MarkdownField label='Titulek' source="description" />
         </FormTab>
         <FormTab label="Pravidla">
-          <MarkdownField addLabel={false} source="rules" />
+          <MarkdownField label="" source="rules" />
           <ImageField source="rules_image.src" title="title" />
         </FormTab>
         <FormTab label="Strany">
-          <ReferenceManyField reference='races' target='event' addLabel={false} fullWidth>
+          <ReferenceManyField reference='races' target='event' label="" fullWidth>
             <Datagrid>
               <TextField label='Název' source="name" />
               <TextField label='Limit' source="limit" />
@@ -48,7 +48,7 @@ const Show = (props) => {
           </ReferenceManyField>
         </FormTab>
         <FormTab label="Účastníci">
-          <ReferenceManyField reference='participants' target='event' addLabel={false} fullWidth>
+          <ReferenceManyField reference='participants' target='event' label="" fullWidth>
             <Datagrid>
               <TextField source="nickName" label="Přezdívka" />
               <TextField source="firstName" label="Jméno" />
@@ -78,7 +78,16 @@ const Show = (props) => {
           <UrlField label='E-mail' source="contact.email" formClassName={classes.inlineBlock} />
           <ImageField source="contactImage.src" title="title" />
           <MarkdownField label='O organizátorech' source="contactText" />
-          {/* <DateTimeField source='times.date' format={v => v.toDate()} parse={v => v.fromDate()}/> */}
+        </FormTab>
+        <FormTab label="Harmonogram">
+          <TimeField label="Začátek akce" source='onsiteStart' formClassName={classes.inlineBlock} />
+          <TimeField label="Konec akce" source='onsiteEnd' formClassName={classes.inlineBlock} />
+          <br />
+          <TimeField label="Otevření registrace na místě" source='onsiteRegistrationOpen' formClassName={classes.inlineBlock} />
+          <TimeField label="Uzavření registrace na místě" source='onsiteRegistrationClose' formClassName={classes.inlineBlock} />
+          <TimeField label="Seznámení s pravidly" source='onsiteRules' formClassName={classes.inlineBlock} />
+          <TimeField label="První quest" source='onsiteQuestStart' formClassName={classes.inlineBlock} />
+          <TimeField label="Závěrečná bitva" source='onsiteLastQuest' formClassName={classes.inlineBlock} />
         </FormTab>
       </TabbedForm>
     </ShowBase>

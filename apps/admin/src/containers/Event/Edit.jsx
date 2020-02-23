@@ -8,11 +8,13 @@ import {
   required
 } from 'react-admin';
 import { ColorField } from 'react-admin-color-input';
+import { DateInput, KeyboardTimeInput } from 'react-admin-date-inputs';
 import { Icon } from '@material-ui/core';
 
 import MarkdownInput from 'components/MarkdownInput';
 import { EventTitle } from './shared';
 import { useStyles } from '../shared';
+
 
 const Edit = (props) => {
   const classes = useStyles();
@@ -23,24 +25,25 @@ const Edit = (props) => {
         <FormTab label="Obecné">
           <TextInput label="ID" source="id" disabled formClassName={classes.inlineBlock} />
           <TextInput label='Název' source="name" validate={required()} formClassName={classes.inlineBlock} />
-          <NumberInput label='Rok konání' source="year" formClassName={classes.inlineBlock} />
+          <NumberInput label='Rok' source="year" formClassName={classes.inlineBlock} />
+          <DateInput label="Datum konání" source='date' formClassName={classes.inlineBlock} />
           <SelectInput label='Tag' source="type" formClassName={classes.inlineBlock}
             choices={[
               { id: true, name: 'Bitva' },
               { id: false, name: 'Šarvátka' }
             ]}
           />
-          <BooleanInput label='Zobrazitelné' source="display" formClassName={classes.inlineBlock} />
+          <BooleanInput label='Zobrazitelné' source="display"/>
           <MarkdownInput label='Titulek' source="description" />
         </FormTab>
         <FormTab label="Pravidla">
-          <MarkdownInput addLabel={false} source="rules" />
+          <MarkdownInput label="" source="rules" />
           <ImageInput label="Obrázek" source="rules_image">
             <ImageField source="src" title="title" />
           </ImageInput>
         </FormTab>
         <FormTab label="Strany">
-          <ReferenceManyField reference='races' target='event' addLabel={false} fullWidth>
+          <ReferenceManyField reference='races' target='event' fullWidth>
             <Datagrid>
               <TextField label='Název' source="name" />
               <TextField label='Limit' source="limit" />
@@ -51,7 +54,7 @@ const Edit = (props) => {
           </ReferenceManyField>
         </FormTab>
         <FormTab label="Účastníci">
-          <ReferenceManyField reference='participants' target='event' addLabel={false} fullWidth>
+          <ReferenceManyField reference='participants' target='event' fullWidth>
             <Datagrid>
               <TextField source="nickName" label="Přezdívka" />
               <TextField source="firstName" label="Jméno" />
@@ -85,7 +88,16 @@ const Edit = (props) => {
             <ImageField source="src" title="title" />
           </ImageInput>
           <MarkdownInput label='O organizátorech' source="contactText" />
-          {/* <DateTimeInput source='times.date' format={v => v.toDate()} parse={v => v.fromDate()}/> */}
+        </FormTab>
+        <FormTab label="Harmonogram">
+          <KeyboardTimeInput label="Začátek akce" source='onsiteStart' options={{ampm: false}} formClassName={classes.inlineBlock}/>
+          <KeyboardTimeInput label="Konec akce" source='onsiteEnd' options={{ampm: false}} formClassName={classes.inlineBlock}/>
+          <br />
+          <KeyboardTimeInput label="Otevření registrace na místě" source='onsiteRegistrationOpen' options={{ampm: false}} formClassName={classes.inlineBlock}/>
+          <KeyboardTimeInput label="Uzavření registrace na místě" source='onsiteRegistrationClose' options={{ampm: false}} formClassName={classes.inlineBlock}/>
+          <KeyboardTimeInput label="Seznámení s pravidly" source='onsiteRules' options={{ampm: false}} formClassName={classes.inlineBlock}/>
+          <KeyboardTimeInput label="První quest" source='onsiteQuestStart' options={{ampm: false}} formClassName={classes.inlineBlock}/>
+          <KeyboardTimeInput label="Závěrečná bitva" source='onsiteLastQuest' options={{ampm: false}} formClassName={classes.inlineBlock}/>
         </FormTab>
       </TabbedForm>
     </EditBase>
