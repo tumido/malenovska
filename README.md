@@ -21,26 +21,45 @@
 
 # Malenovska React site
 
-Based on [React-Redux Minimal boilerplate](https://github.com/flexdinesh/react-redux-boilerplate/).
-
 A React-Redux site with bindings to Google Firestore
 
-## Setup
+## Developer Setup
 
-As usual
+Since we are deploying multiple applications, this repo is organized as a monorepo using Yarn Workspaces.
+
+1. Install [Yarn](https://yarnpkg.com/)
+2. Install local dependencies
+
+    ```sh
+    yarn install
+    ```
+
+Each application lives in their own folder in `apps/`:
+
+- `public` - The public facing site
+- `admin` - Internal website administration
+- `common` - Shared code and assets library
+
+To manage application locally use:
 
 ```sh
-$ npm i
+# Let's use the public app for example:
+
+# Start a devel server with hotplugging
+yarn workspace @malenovska/public start
+
+# Build dist
+yarn workspace @malenovska/public build
+
+# Perform build and then start the prod server
+yarn workspace @malenovska/public start:prod
+
+# Deploy single application
+yarn workspace @malenovska/public deploy
 ```
 
-## Developer server
+If you desire to build and deploy all the applications at once, use:
 
 ```sh
-$ npm start
-```
-
-## Deployment
-
-```sh
-$ npm deploy
+yarn deploy
 ```
