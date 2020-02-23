@@ -58,8 +58,12 @@ yarn workspace @malenovska/public start:prod
 yarn workspace @malenovska/public deploy
 ```
 
-If you desire to build and deploy all the applications at once, use:
+If you desire manage all the applications at once, use:
 
 ```sh
+# Build and deploy
 yarn deploy
+
+# Start dev servers in parallel
+yarn start
 ```

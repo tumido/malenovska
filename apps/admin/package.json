@@ -13,8 +13,7 @@
     "build": "parcel build src/index.html --no-source-maps",
     "deploy": "firebase deploy --only hosting:admin",
     "start": "parcel src/index.html",
-    "prestart:prod": "yarn run build",
-    "start:prod": "firebase serve --only hosting:admin",
+    "start:prod": "yarn run build && firebase serve --only hosting:admin",
     "lint": "eslint"
   },
   "alias": {
@@ -52,7 +51,6 @@
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.10.0",
     "eslint-plugin-react": "^7.18.3",
-    "gh-pages": "^2.2.0",
     "parcel-bundler": "^1.12.4",
     "parcel-plugin-bundle-visualiser": "^1.2.0"
   },
