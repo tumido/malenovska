@@ -58,6 +58,9 @@ const Public = ({ event, setEvent }) => {
     );
   }
 
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+
   const navigation = [
     [
       {
@@ -105,7 +108,8 @@ const Public = ({ event, setEvent }) => {
       {
         title: 'Účastníci',
         icon: 'how_to_reg',
-        href: 'registration/list'
+        href: 'registration/list',
+        disabled: event.date.toDate() < tomorrow
       }
     ]
   ];
@@ -114,8 +118,8 @@ const Public = ({ event, setEvent }) => {
     <ScrollRestore>
       <SnackbarProvider>
         <div className={ classes.root }>
-          <Helmet><title>{ `${event.name} ${event.year}` }</title></Helmet>
-          <Header event={ event } allEvents={ allEvents } navigation={ navigation }/>
+          <Helmet><title>{`${event.name} ${event.year}`}</title></Helmet>
+          <Header event={ event } allEvents={ allEvents } navigation={ navigation } />
           <div className={ classes.content }>
             <div id='top' />
             <main>
