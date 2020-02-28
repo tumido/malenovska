@@ -43,16 +43,43 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const sortEvents = (a, b) => {
-  if (a.year < b.year) { return 1; }
+const EventItem = ({ event }) => {
+  const classes = useStyles();
 
-  if (a.year === b.year && a.type < b.type) { return 1; }
+  return (
+    <Grid item key={ `item_${event.id}` } className={ classes.event }>
+      <Link component={ RouterLink } underline='none' to={ event.id }>
+        <Card>
+          <CardActionArea>
+            <CardContent>
+              <Typography gutterBottom variant="h5">
+                { event.name }
+              </Typography>
+              <Typography gutterBottom variant="body2" color="textSecondary" component="p">
+                { event.type ? 'Bitva, podzim' : 'Šarvátka, jaro' } { event.year }
+              </Typography>
+              <Markdown content={ event.description } />
+            </CardContent>
+          </CardActionArea>
+        </Card>
+      </Link>
+    </Grid>
+  );
+};
 
-  return -1;
+EventItem.propTypes = {
+  event: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    type: PropTypes.bool.isRequired,
+    description: PropTypes.string.isRequired,
+    year: PropTypes.string.isRequired,
+  }).isRequired
 };
 
 const Landing = ({ events }) => {
   const classes = useStyles();
+  const today = new Date();
 
   return (
     <ThemeProvider theme={ darkTheme }>
@@ -68,26 +95,15 @@ const Landing = ({ events }) => {
           </Grid>
         </Hidden>
         <Grid item xs={ 12 } md={ 3 } container spacing={ 4 } direction="column" justify="center" alignItems="center" className={ classes.eventList }>
-          { isLoaded(events) && events.filter(({ display }) => display).sort(sortEvents).map((event) => (
-            <Grid item key={ `item_${event.id}` } className={ classes.event }>
-              <Link component={ RouterLink } underline='none' to={ event.id }>
-                <Card>
-                  <CardActionArea>
-                    <CardContent>
-                      <Typography gutterBottom variant="h5">
-                        { event.name }
-                        <EventAvailabilityChip event={ event } className={ classes.chip }/>
-                      </Typography>
-                      <Typography gutterBottom variant="body2" color="textSecondary" component="p">
-                        { event.type ? 'Bitva, podzim' : 'Šarvátka, jaro' } { event.year }
-                      </Typography>
-                      <Markdown content={ event.description } />
-                    </CardContent>
-                  </CardActionArea>
-                </Card>
-              </Link>
-            </Grid>
-          ))}
+          { isLoaded(events) && events
+          .filter(({ date }) => date.toDate && date.toDate() >= today)
+          .sort((a, b) => a.date < b.date ? 1 : -1)
+          .map((event) => <EventItem key={ event.id } event={ event } />)}
+          <Typography variant="overline" color="textSecondary">Již proběhlo</Typography>
+          { isLoaded(events) && events
+          .filter(({ date }) => date.toDate && date.toDate() < today)
+          .sort((a, b) => a.date < b.date ? 1 : -1)
+          .map((event) => <EventItem key={ event.id } event={ event } />)}
         </Grid>
       </Grid>
     </ThemeProvider>
@@ -100,7 +116,10 @@ Landing.propTypes = {
 
 export default compose(
   firestoreConnect(() => ([
-    { collection: 'events' }
+    {
+      collection: 'events',
+      where: ['display', '==', true]
+    }
   ])),
   connect(state => ({
     events: state.firestore.ordered.events
