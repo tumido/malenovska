@@ -43,7 +43,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const EventItem = ({ event }) => {
+const EventItem = ({ event, showChip = false }) => {
   const classes = useStyles();
 
   return (
@@ -54,6 +54,7 @@ const EventItem = ({ event }) => {
             <CardContent>
               <Typography gutterBottom variant="h5">
                 { event.name }
+                { showChip && <EventAvailabilityChip event={ event } className={ classes.chip }/> }
               </Typography>
               <Typography gutterBottom variant="body2" color="textSecondary" component="p">
                 { event.type ? 'Bitva, podzim' : 'Šarvátka, jaro' } { event.year }
@@ -73,8 +74,9 @@ EventItem.propTypes = {
     name: PropTypes.string.isRequired,
     type: PropTypes.bool.isRequired,
     description: PropTypes.string.isRequired,
-    year: PropTypes.string.isRequired,
-  }).isRequired
+    year: PropTypes.number.isRequired,
+  }).isRequired,
+  showChip: PropTypes.bool,
 };
 
 const Landing = ({ events }) => {
@@ -96,12 +98,12 @@ const Landing = ({ events }) => {
         </Hidden>
         <Grid item xs={ 12 } md={ 3 } container spacing={ 4 } direction="column" justify="center" alignItems="center" className={ classes.eventList }>
           { isLoaded(events) && events
-          .filter(({ date }) => date.toDate && date.toDate() >= today)
+          .filter(({ date }) => date && date.toDate && date.toDate() >= today)
           .sort((a, b) => a.date < b.date ? 1 : -1)
-          .map((event) => <EventItem key={ event.id } event={ event } />)}
+          .map((event) => <EventItem key={ event.id } event={ event } showChip={ true }/>)}
           <Typography variant="overline" color="textSecondary">Již proběhlo</Typography>
           { isLoaded(events) && events
-          .filter(({ date }) => date.toDate && date.toDate() < today)
+          .filter(({ date }) => date && date.toDate && date.toDate() < today)
           .sort((a, b) => a.date < b.date ? 1 : -1)
           .map((event) => <EventItem key={ event.id } event={ event } />)}
         </Grid>
