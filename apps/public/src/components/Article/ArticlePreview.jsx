@@ -1,73 +1,58 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link as RouterLink } from 'react-router-dom';
-import { Grid, Typography, ButtonBase } from '@material-ui/core';
+import { Card, CardActionArea, CardMedia, CardContent, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Skeleton } from '@material-ui/lab';
 
 const useStyles = makeStyles({
-  root: {
-    flexGrow: 1,
-    textAlign: 'left',
-    width: '100%'
-  },
-  image: {
-    margin: 'auto',
-    display: 'block',
-    maxWidth: '100%',
-    maxHeight: '100%',
-    objectFit: 'cover',
-    height: 100,
-    width: 200
+  media: {
+    height: 200
   }
 });
 
-const ArticlePreview = ({ article, className, href }) => {
+const ArticlePreview = ({ article, href }) => {
   const classes = useStyles();
 
   if (!article) {
     return (
-      <Grid container className={ classes.root } spacing={ 2 }>
-        <Grid item>
-          <Skeleton variant="rect" height={ 100 } width={ 200 } className={ classes.image }/>
-        </Grid>
-        <Grid item xs={ 12 } sm container direction="column" alignItems='flex-start' justify='flex-start' spacing={ 2 }>
-          <Grid item>
-            <Skeleton variant="rect" height='2em' width={ 200 }/>
-          </Grid>
-          <Grid item>
-            <Skeleton variant="rect" height='1em' width={ 450 }/>
-          </Grid>
-          <Grid item>
-            <Skeleton variant="rect" height='1em' width={ 400 }/>
-          </Grid>
-        </Grid>
-      </Grid>
+      <Card>
+        <CardActionArea>
+          <Skeleton variant="rect" height={ 200 }/>
+          <CardContent className={ classes.text }>
+            <Typography gutterBottom variant="h5" component="h2">
+              <Skeleton variant="text" width={ 200 }/>
+            </Typography>
+            <Typography variant="body2" color="textSecondary" component="p">
+              <Skeleton variant="text" />
+              <Skeleton variant="text" />
+              <Skeleton variant="text" width={ 30 }/>
+            </Typography>
+          </CardContent>
+        </CardActionArea>
+      </Card>
     );
   }
 
   const { title, content, perex } = article;
 
   return (
-    <ButtonBase component={ RouterLink } to={ href } className={ classes.root }>
-      <Grid container className={ className } spacing={ 2 }>
-        <Grid item>
-          { article.image ? (
-            <img className={ classes.image } src={ article.image.src } />
-          ) : (
-            <Skeleton variant="rect" className={ classes.image }/>
-          ) }
-        </Grid>
-        <Grid item xs={ 12 } sm container direction="column" alignItems='flex-start' justify='flex-start' spacing={ 2 }>
-          <Grid item>
-            <Typography gutterBottom variant='h6'>{ title }</Typography>
-          </Grid>
-          <Grid item>
-            <Typography gutterBottom variant='body1'>{ perex || content.split('\n')[0] }</Typography>
-          </Grid>
-        </Grid>
-      </Grid>
-    </ButtonBase>
+    <Card>
+      <CardActionArea component={ RouterLink } to={ href }>
+        <CardMedia
+          className={ classes.media }
+          image={ article.image.src }
+        />
+        <CardContent className={ classes.text }>
+          <Typography gutterBottom variant="h5" component="h2">
+            { title }
+          </Typography>
+          <Typography variant="body2" color="textSecondary" component="p">
+            { perex || content.split('\n')[0] }
+          </Typography>
+        </CardContent>
+      </CardActionArea>
+    </Card>
   );
 };
 
@@ -83,8 +68,7 @@ ArticlePreview.propTypes = {
     })
   }),
   href: PropTypes.string,
-  isLoading: PropTypes.bool,
-  className: PropTypes.string
+  isLoading: PropTypes.bool
 };
 
 export default ArticlePreview;

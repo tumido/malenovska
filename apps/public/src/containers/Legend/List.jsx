@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect, useSelector } from 'react-redux';
-import { useFirestoreConnect, isLoaded } from 'react-redux-firebase';
+import { useFirestoreConnect, isLoaded, isEmpty } from 'react-redux-firebase';
 import PropTypes from 'prop-types';
 
 import { Typography, Grid, Container, Chip, Hidden } from '@material-ui/core';
@@ -46,15 +46,18 @@ const List = ({ event }) => {
 
   const legendsList = isLoaded(legends)
     ? legends.map(l => (
-      <Grid item xs={ 12 } key={ l.id }>
+      <Grid item container xs={ 12 } sm={ 6 } lg={ 4 } key={ l.id }>
         <ArticlePreview article={ l } href={ `/${event.id}/legends/${l.id}` }/>
       </Grid>
     )) : (
       <React.Fragment>
-        <Grid item xs={ 12 }>
+        <Grid item xs={ 12 } sm={ 6 } lg={ 4 }>
           <ArticlePreview/>
         </Grid>
-        <Grid item xs={ 12 }>
+        <Grid item xs={ 12 } sm={ 6 } lg={ 4 }>
+          <ArticlePreview/>
+        </Grid>
+        <Grid item xs={ 12 } sm={ 6 } lg={ 4 }>
           <ArticlePreview/>
         </Grid>
       </React.Fragment>
@@ -77,15 +80,9 @@ const List = ({ event }) => {
           </Grid>
         </Container>
       </Hidden>
-      <Article>
-        <Container maxWidth="lg">
-          <Typography gutterBottom variant='h4'>Legendy a příběhy</Typography>
-          <Typography gutterBottom variant='body1'>Letošním ročníkem vás provedou následující příběhy.</Typography>
-          <Grid container spacing={ 4 } justify="center" alignItems='stretch' className={ classes.contentGrid }>
-            { legendsList }
-          </Grid>
-        </Container>
-      </Article>
+      <Container maxWidth="lg">
+        { !isEmpty(legendsList) && <Grid container spacing={ 2 } justify="center" alignItems='stretch' className={ classes.contentGrid }>{ legendsList }</Grid>}
+      </Container>
     </React.Fragment>
   );
 };
