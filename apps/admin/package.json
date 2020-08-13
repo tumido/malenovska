@@ -35,6 +35,7 @@
     "react-admin-date-inputs": "WiXSL/react-admin-date-inputs#mui-pickers-v3",
     "react-admin-firebase": "^3.0.0",
     "react-dom": "^16.0.0",
+    "react-helmet": "^6.1.0",
     "react-mde": "^8.0.2",
     "react-redux": "^7.1.3",
     "react-router-dom": "^5.1.2"

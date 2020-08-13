@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Admin, Resource, Login } from 'react-admin';
 import { FirebaseAuthProvider, FirebaseDataProvider } from 'react-admin-firebase';
 import polyglotI18nProvider from 'ra-i18n-polyglot';
+import { Helmet } from 'react-helmet';
 
 import { Today, Receipt, Group, Person } from '@material-ui/icons';
 
@@ -10,6 +11,7 @@ import '@firebase/auth';
 import { adminTheme } from './utilities/theme';
 import { czechMessages } from './utilities/i18n';
 import BgImage from '@malenovska/common/assets/images/background.jpg';
+import Favicon from '@malenovska/common/assets/images/favicon-32x32.png';
 import { firebaseConfig } from '@malenovska/common/utilities/firebase';
 
 import legend from 'containers/Legend';
@@ -26,41 +28,47 @@ const i18nProvider = polyglotI18nProvider(() => czechMessages, 'cs');
 
 const LoginPage = () => <Login backgroundImage={ BgImage } />;
 
-const Private = () => (
-  <Admin
+const App = () => (
+  <React.Fragment>
+    <Helmet defaultTitle="🛡️ Malenovská Strojovna" > 
+      <meta name="theme-color" content='#0e0a0a' />
+      <link rel="shortcut icon" href={ Favicon } />
+    </Helmet>
+    <Admin
     locale='cs'
     i18nProvider={ i18nProvider }
     dataProvider={ dataProvider }
     authProvider={ authProvider }
     theme={ adminTheme }
     loginPage={ LoginPage }
-    title="Malenovská"
-  >
-    <Resource
-      name='events'
-      options={ { label: 'Události' } }
-      icon={ Today }
-      { ...event }
-    />
-    <Resource
-      name='legends'
-      options={ { label: 'Legendy a příběhy' } }
-      icon={ Receipt }
-      { ...legend }
-    />
-    <Resource
-      name='races'
-      options={ { label: 'Strany' } }
-      icon={ Group }
-      { ...race }
-    />
-    <Resource
-      name='participants'
-      options={ { label: 'Účastníci' } }
-      icon={ Person }
-      { ...participant }
-    />
-  </Admin>
+    title="Malenovská Strojovna"
+    >
+      <Resource
+        name='events'
+        options={ { label: 'Události' } }
+        icon={ Today }
+        { ...event }
+      />
+      <Resource
+        name='legends'
+        options={ { label: 'Legendy a příběhy' } }
+        icon={ Receipt }
+        { ...legend }
+      />
+      <Resource
+        name='races'
+        options={ { label: 'Strany' } }
+        icon={ Group }
+        { ...race }
+      />
+      <Resource
+        name='participants'
+        options={ { label: 'Účastníci' } }
+        icon={ Person }
+        { ...participant }
+      />
+    </Admin>
+  </React.Fragment>
 );
 
-export default Private;
+export default App;

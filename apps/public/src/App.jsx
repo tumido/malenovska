@@ -9,6 +9,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
 
 import BgImage from '@malenovska/common/assets/images/background.jpg';
+import Favicon from '@malenovska/common/assets/images/favicon-32x32.png';
 
 import { Loading } from 'components';
 import { theme } from './utilities/theme';
@@ -54,6 +55,7 @@ const App = () => {
         <CssBaseline />
         <Helmet defaultTitle={ `Malenovská ${ new Date().getFullYear()}` }>
           <meta name="theme-color" content='#0e0a0a' />
+          <link rel="shortcut icon" href={ Favicon } />
         </Helmet>
         <Suspense fallback={ <ThemedLoading /> }>
           <Switch>
