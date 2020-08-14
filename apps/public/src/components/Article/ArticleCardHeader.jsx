@@ -6,7 +6,7 @@ import { Skeleton } from '@material-ui/lab';
 
 const useStyles = makeStyles(theme => ({
   image: {
-    height: 400
+    height: ({ height = 400 }) => height
   },
   relative: {
     position: 'relative'
@@ -19,32 +19,34 @@ const useStyles = makeStyles(theme => ({
     backdropFilter: 'blur(4px)',
     color: '#fff',
     padding: theme.spacing(2),
-    paddingTop: theme.spacing(4)
+    paddingTop: theme.spacing(3)
   }
 }));
 
-const ArticleHeader = ({ image, title }) => {
-  const styles = useStyles();
+const ArticleCardHeader = ({ image, title, height, titleVariant = 'h4' }) => {
+  const styles = useStyles({ height });
 
   if (!title) {
-    return <Typography variant='h4' component='h1'><Skeleton variant='text' width="30%"/></Typography>;
+    return <Typography variant={ titleVariant } component='h2'><Skeleton variant='text' width="30%"/></Typography>;
   }
 
   if (!image) {
-    return <Typography variant='h4' component='h1'>{ title }</Typography>;
+    return <Typography variant={ titleVariant } component='h2'>{ title }</Typography>;
   }
 
   return (
     <Box className={ styles.relative }>
       <CardMedia className={ styles.image } image={ image } />
-      <Typography className={ styles.title } variant='h4' component='h1'>{ title }</Typography>
+      <Typography className={ styles.title } variant={ titleVariant } component='h2'>{ title }</Typography>
     </Box>
   );
 };
 
-ArticleHeader.propTypes = {
+ArticleCardHeader.propTypes = {
   image: PropTypes.string,
-  title: PropTypes.string.isRequired
+  title: PropTypes.string,
+  height: PropTypes.number,
+  titleVariant: PropTypes.string
 };
 
-export default ArticleHeader;
+export default ArticleCardHeader;

@@ -4,16 +4,16 @@ import { Link, Redirect } from 'react-router-dom';
 import { isLoaded, useFirestoreConnect } from 'react-redux-firebase';
 import PropTypes from 'prop-types';
 
-import { Typography, Chip, Box, CardMedia, CardContent, Container, Card, Grid, IconButton, CardActions } from '@material-ui/core';
+import { Chip, Box, CardContent, IconButton, CardActions } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { ShareOutlined, FavoriteOutlined } from '@material-ui/icons';
+import { ShareOutlined } from '@material-ui/icons';
 
 import { Markdown, Article, ArticleCardHeader } from 'components';
 import { timestampToDateStr } from '../../utilities/firebase';
 import { ShareDialog } from '../../components';
 
 const useStyles = makeStyles(theme => ({
-  chip: {
+  margin: {
     margin: theme.spacing(1)
   },
   image: {
@@ -59,23 +59,25 @@ const Show = ({ match: { params: { id }}, event }) => {
   return (
     <Article>
       <ArticleCardHeader image={ legend[0].image && legend[0].image.src } title={ legend[0].title } />
-      <Chip
-        label={ event.name }
-        variant='outlined'
-        className={ classes.chip }
-        to={ `/${event.id}` }
-        component={ Link }
-        clickable
-      />
-      { legend[0].published_at && (
-        <Chip
-          label={ timestampToDateStr(legend[0].published_at) }
-          variant='outlined'
-          className={ classes.chip }
-        />
-      )}
       <CardContent>
-        <Markdown content={ legend[0].content } />
+        <Chip
+          label={ event.name }
+          variant='outlined'
+          className={ classes.margin }
+          to={ `/${event.id}` }
+          component={ Link }
+          clickable
+        />
+        { legend[0].published_at && (
+          <Chip
+            label={ timestampToDateStr(legend[0].published_at) }
+            variant='outlined'
+            className={ classes.margin }
+          />
+        )}
+        <Box className={ classes.margin }>
+          <Markdown content={ legend[0].content } />
+        </Box>
       </CardContent>
       <CardActions>
         {/* <IconButton aria-label="add to favorites">

@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { Typography, Grid, Container, Chip, Hidden } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
-import { ArticlePreview, EventAvailabilityChip, Markdown } from 'components';
+import { SmallArticleCard, EventAvailabilityChip, Markdown } from 'components';
 
 const useStyles = makeStyles(theme => ({
   h1: {
@@ -47,18 +47,18 @@ const List = ({ event }) => {
   const legendsList = isLoaded(legends)
     ? legends.map(l => (
       <Grid item container xs={ 12 } sm={ 6 } lg={ 4 } key={ l.id }>
-        <ArticlePreview title={ l.title } perex={ l.perex } image={ l.image } href={ `/${event.id}/legends/${l.id}` }/>
+        <SmallArticleCard title={ l.title } body={ l.perex } image={ l.image } href={ `/${event.id}/legends/${l.id}` }/>
       </Grid>
     )) : (
       <React.Fragment>
         <Grid item container xs={ 12 } sm={ 6 } lg={ 4 }>
-          <ArticlePreview/>
+          <SmallArticleCard/>
         </Grid>
         <Grid item container xs={ 12 } sm={ 6 } lg={ 4 }>
-          <ArticlePreview/>
+          <SmallArticleCard/>
         </Grid>
         <Grid item container xs={ 12 } sm={ 6 } lg={ 4 }>
-          <ArticlePreview/>
+          <SmallArticleCard/>
         </Grid>
       </React.Fragment>
     );
@@ -81,7 +81,17 @@ const List = ({ event }) => {
         </Container>
       </Hidden>
       <Container maxWidth="lg">
-        { !isEmpty(legendsList) && <Grid container spacing={ 2 } justify="center" alignItems='stretch' className={ classes.contentGrid }>{ legendsList }</Grid>}
+        { !isEmpty(legendsList)
+          && (
+            <Grid
+              container
+              spacing={ 2 }
+              justify="center"
+              alignItems='stretch'
+              className={ classes.contentGrid }>
+              { legendsList }
+            </Grid>
+          )}
       </Container>
     </React.Fragment>
   );
