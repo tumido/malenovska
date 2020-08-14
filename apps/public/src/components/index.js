@@ -1,5 +1,4 @@
 import { Article, ArticleCardHeader, SmallArticleCard } from './Article';
-import ColorBadge from './ColorBadge';
 import EventAvailabilityChip from './EventAvailabilityChip';
 import Footer from './Footer';
 import Header from './Header';
@@ -20,7 +19,6 @@ import Wizard from './Wizard';
 export {
   Article,
   ArticleCardHeader,
-  ColorBadge,
   EventAvailabilityChip,
   Footer,
   Header,

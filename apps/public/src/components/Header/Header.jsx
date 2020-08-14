@@ -94,7 +94,7 @@ const Header = ({ event, allEvents, navigation, location: { pathname }}) => {
                 <ListItem
                   key={ `item_${index}`  }
                   button
-                  selected={ `/${event.id}/${item.href}` === pathname }
+                  selected={ pathname.startsWith(`/${event.id}/${item.href}`) }
                   disabled={ !item.href || item.disabled }
                   to={ `/${event.id}/${item.href}` }
                   component={ AdapterLink }

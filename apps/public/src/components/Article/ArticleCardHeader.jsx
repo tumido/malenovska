@@ -44,7 +44,7 @@ const ArticleCardHeader = ({ image, title, height, titleVariant = 'h4' }) => {
 
 ArticleCardHeader.propTypes = {
   image: PropTypes.string,
-  title: PropTypes.string,
+  title: PropTypes.oneOfType([ PropTypes.string, PropTypes.node ]),
   height: PropTypes.number,
   titleVariant: PropTypes.string
 };

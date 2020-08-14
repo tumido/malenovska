@@ -17,7 +17,8 @@ const LegendShow = lazy(() => import('containers/Legend/Show'));
 const Rules = lazy(() => import('containers/Rules'));
 const Info = lazy(() => import('containers/Info'));
 const Contact = lazy(() => import('containers/Contact'));
-const Races = lazy(() => import('containers/Races'));
+const RaceList = lazy(() => import('containers/Race/List'));
+const RaceShow = lazy(() => import('containers/Race/Show'));
 const RegistrationNew = lazy(() => import('containers/Registration/New'));
 const RegistrationDone = lazy(() => import('containers/Registration/Done'));
 const RegistrationList = lazy(() => import('containers/Registration/List'));
@@ -37,6 +38,7 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.down('sm')]: {
       marginTop: '64px'
     },
+    paddingTop: 20,
     '& main': {
       flexGrow: 1
     }
@@ -129,7 +131,8 @@ const Public = ({ event, setEvent }) => {
                 <Route path={ `/${event.id}/rules` } component={ Rules } />
                 <Route path={ `/${event.id}/info` } component={ Info } />
                 <Route path={ `/${event.id}/contacts` } component={ Contact } />
-                <Route path={ `/${event.id}/races` } component={ Races } />
+                <Route path={ `/${event.id}/races/:id` } component={ RaceShow } />
+                <Route path={ `/${event.id}/races` } component={ RaceList } />
                 <Route path={ `/${event.id}/registration/new` } component={ RegistrationNew } />
                 <Route path={ `/${event.id}/registration/done` } component={ RegistrationDone } />
                 <Route path={ `/${event.id}/registration/list` } component={ RegistrationList } />
