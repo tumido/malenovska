@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
 import { formValues } from 'redux-form';
 
-import { TextField, Checkbox, Typography, Grid, FormControl, FormLabel, Icon } from '@material-ui/core';
+import { TextField, Checkbox, Typography, Grid, FormControl, FormLabel, Icon, CardContent } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { grey } from '@material-ui/core/colors';
 
-import { ArticleContent, Markdown } from 'components';
+import { Markdown } from 'components';
 
 const useStyles = makeStyles({
   terms: {
@@ -79,7 +79,7 @@ const PersonalDetails = ({ races, selectedRace }) => {
 
   return (
     <React.Fragment>
-      <ArticleContent>
+      <CardContent>
         <Typography gutterBottom variant='h4' component='h2'>Charakteristika strany</Typography>
         <Markdown content={ race.requirements } />
         <Typography className={ classes.verticalSpace } variant='h5' component='h2'>Osobní údaje</Typography>
@@ -170,7 +170,7 @@ const PersonalDetails = ({ races, selectedRace }) => {
             />
           </Grid>
         </Grid>
-      </ArticleContent>
+      </CardContent>
     </React.Fragment>
   );
 };
