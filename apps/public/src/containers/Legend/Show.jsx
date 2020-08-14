@@ -8,7 +8,7 @@ import { Typography, Chip, Box, CardMedia, CardContent, Container, Card, Grid, I
 import { makeStyles } from '@material-ui/core/styles';
 import { ShareOutlined, FavoriteOutlined } from '@material-ui/icons';
 
-import { Article, ArticleContent, ArticleMedia, Markdown } from 'components';
+import { Markdown, Article, ArticleCardHeader } from 'components';
 import { timestampToDateStr } from '../../utilities/firebase';
 import { ShareDialog } from '../../components';
 
@@ -49,7 +49,7 @@ const Show = ({ match: { params: { id }}, event }) => {
   const legend = useSelector(({ firestore }) => firestore.ordered[id]);
 
   if (!isLoaded(legend)) {
-    return <Article isLoading={ true }/>;
+    return <Article />;
   }
 
   if (!legend.length || legend[0].event !== event.id) {
@@ -57,48 +57,41 @@ const Show = ({ match: { params: { id }}, event }) => {
   }
 
   return (
-    <Container maxWidth='md'>
-      <Grid container spacing={ 2 }>
-        <Card>
-          <Box className={ classes.relative }>
-            <CardMedia className={ classes.image } image={ legend[0].image && legend[0].image.src } />
-            <Typography className={ classes.title } variant='h4' component='h1'>{ legend[0].title }</Typography>
-          </Box>
-          <Chip
-            label={ event.name }
-            variant='outlined'
-            className={ classes.chip }
-            to={ `/${event.id}` }
-            component={ Link }
-            clickable
-          />
-          { legend[0].published_at && (
-            <Chip
-              label={ timestampToDateStr(legend[0].published_at) }
-              variant='outlined'
-              className={ classes.chip }
-            />
-          )}
-          <CardContent>
-            <Markdown content={ legend[0].content } />
-          </CardContent>
-          <CardActions>
-            {/* <IconButton aria-label="add to favorites">
+    <Article>
+      <ArticleCardHeader image={ legend[0].image && legend[0].image.src } title={ legend[0].title } />
+      <Chip
+        label={ event.name }
+        variant='outlined'
+        className={ classes.chip }
+        to={ `/${event.id}` }
+        component={ Link }
+        clickable
+      />
+      { legend[0].published_at && (
+        <Chip
+          label={ timestampToDateStr(legend[0].published_at) }
+          variant='outlined'
+          className={ classes.chip }
+        />
+      )}
+      <CardContent>
+        <Markdown content={ legend[0].content } />
+      </CardContent>
+      <CardActions>
+        {/* <IconButton aria-label="add to favorites">
               <FavoriteOutlined />
             </IconButton> */}
-            <IconButton aria-label="share" onClick={ ()=> setShareDialogOpen(true) }>
-              <ShareOutlined />
-            </IconButton>
-          </CardActions>
-        </Card>
-        <ShareDialog
-          open={ shareDialogOpen }
-          onClose={ () => setShareDialogOpen(false) }
-          title={ legend[0].title }
-          eventName={ event.name }
-        />
-      </Grid>
-    </Container>
+        <IconButton aria-label="share" onClick={ ()=> setShareDialogOpen(true) }>
+          <ShareOutlined />
+        </IconButton>
+      </CardActions>
+      <ShareDialog
+        open={ shareDialogOpen }
+        onClose={ () => setShareDialogOpen(false) }
+        title={ legend[0].title }
+        eventName={ event.name }
+      />
+    </Article>
   );
 };
 

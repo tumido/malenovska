@@ -1,11 +1,3 @@
-import Article from './Article';
-import ArticleContent from './ArticleContent';
-import ArticleMedia from './ArticleMedia';
-import ArticlePreview from './ArticlePreview';
-
-export {
-  Article,
-  ArticleContent,
-  ArticleMedia,
-  ArticlePreview
-};
+export { default as Article } from './Article';
+export { default as ArticleCardHeader } from './ArticleCardHeader';
+export { default as SmallArticleCard } from './SmallArticleCard';

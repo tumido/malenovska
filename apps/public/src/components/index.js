@@ -1,4 +1,4 @@
-import { Article, ArticleContent, ArticleMedia, ArticlePreview } from './Article';
+import { Article, ArticleCardHeader, SmallArticleCard } from './Article';
 import ColorBadge from './ColorBadge';
 import EventAvailabilityChip from './EventAvailabilityChip';
 import Footer from './Footer';
@@ -19,9 +19,7 @@ import Wizard from './Wizard';
 
 export {
   Article,
-  ArticleContent,
-  ArticleMedia,
-  ArticlePreview,
+  ArticleCardHeader,
   ColorBadge,
   EventAvailabilityChip,
   Footer,
@@ -34,6 +32,7 @@ export {
   ScrollTop,
   ScrollRestore,
   ScrollRestoreOnMount,
+  SmallArticleCard,
   ShareDialog,
   TableHead,
   TableSearch,
