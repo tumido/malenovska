@@ -4,30 +4,23 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 
-import { Container, Grid, Typography, Button } from '@material-ui/core';
+import { Container, Grid, Typography, Button, CardContent, CardActions, Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
-import { Article, ArticleContent } from 'components';
+import { Article } from 'components';
+import { Alert } from '@material-ui/lab';
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    [theme.breakpoints.down('sm')]: {
-      padding: 0
-    }
-  },
-  paper: {
-    padding: '40px 16px'
-  },
-  h1: {
-    fontWeight: 600
-  },
+const useStyles = makeStyles({
   banner: {
     paddingTop: '10vh',
     minHeight: '25vh',
     color: '#fff',
     marginBottom: 20
+  },
+  h1: {
+    fontWeight: 600
   }
-}));
+});
 
 const List = ({ event, location: { state }}) => {
   const classes = useStyles();
@@ -41,21 +34,27 @@ const List = ({ event, location: { state }}) => {
           </Grid>
         </Grid>
       </Container>
-      <Article>
-        <ArticleContent>
-          <Typography gutterBottom variant='subtitle1'>
-            Registraci zpracujeme. Tvé jméno se co nevidět objeví v seznamu účastníků.
-          </Typography>
-          { state && state.isUnderage &&
-            <Typography paragraph color='secondary' variant='body1'>
+      <Container maxWidth='md'>
+        <Grid container direction='column' spacing={ 2 }>
+          <Grid item>
+
+            <Alert severity='success'>Registrace byla úspěšně odeslána.</Alert>
+          </Grid>
+          <Grid item>
+            <Alert severity='info'>Registrace je ve zpracování.</Alert>
+          </Grid>
+          { state && state.isUnderage && (
+            <Grid item>
+              <Alert severity='warning'>
               Ještě ti nebylo 18 let a my nechceme být zodpovědní za žádná tvá zranění.
               Nezapomeň si stáhnout, vyplnit a hlavně přinést podepsané potvrzení pro nezletilé.
-            </Typography>
-          }
-        </ArticleContent>
-        <Grid container justify="center" spacing={ 2 }>
+              </Alert>
+            </Grid>
+          )}
+        </Grid>
+        <Grid container justify="center" spacing={ 2 } style={ { marginTop: 20 } }>
           <Grid item>
-            <Button color='primary' variant='contained' size='large' href='./list'>Zobrazit přihlášené účastníky</Button>
+            <Button color='secondary' variant='contained' size='large' href='./list'>Zobrazit přihlášené účastníky</Button>
           </Grid>
           <Grid item>
             <Button
@@ -65,11 +64,11 @@ const List = ({ event, location: { state }}) => {
               target='_blank'
               href={ event.declaration && event.declaration.src }
             >
-              Potvrzení pro nezletilé
+                  Potvrzení pro nezletilé
             </Button>
           </Grid>
         </Grid>
-      </Article>
+      </Container>
     </React.Fragment>
   );
 };
