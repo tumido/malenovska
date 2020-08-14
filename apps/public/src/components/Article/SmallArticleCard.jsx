@@ -37,11 +37,13 @@ const SmallArticleCard = ({ title, body, image, href }) => {
     <CardActionArea component={ RouterLink } to={ href }>
       <Card className={ classes.fullHeight }>
         <ArticleCardHeader height={ 250 } titleVariant='h5' image={ image.src } title={ title }/>
-        <CardContent className={ classes.text }>
-          <Typography variant="body2" color="textSecondary" component="p">
-            { body }
-          </Typography>
-        </CardContent>
+        { body && (
+          <CardContent className={ classes.text }>
+            <Typography variant="body2" color="textPrimary" component="p">
+              { body }
+            </Typography>
+          </CardContent>
+        )}
       </Card>
     </CardActionArea>
   );

@@ -15,23 +15,6 @@ import { ShareDialog } from '../../components';
 const useStyles = makeStyles(theme => ({
   margin: {
     margin: theme.spacing(1)
-  },
-  image: {
-    height: 400
-  },
-  relative: {
-    position: 'relative'
-  },
-  title: {
-    position: 'absolute',
-    bottom: 0,
-    width: '100%',
-    // background: 'linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.8) 45%)',
-    backgroundColor: 'rgba(0,0,0,0.3)',
-    backdropFilter: 'blur(4px)',
-    color: '#fff',
-    padding: theme.spacing(2),
-    paddingTop: theme.spacing(4)
   }
 }));
 
