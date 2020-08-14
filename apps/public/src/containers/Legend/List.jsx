@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { Typography, Grid, Container, Chip, Hidden } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
-import { Article, ArticlePreview, EventAvailabilityChip, Markdown } from 'components';
+import { ArticlePreview, EventAvailabilityChip, Markdown } from 'components';
 
 const useStyles = makeStyles(theme => ({
   h1: {
@@ -47,17 +47,17 @@ const List = ({ event }) => {
   const legendsList = isLoaded(legends)
     ? legends.map(l => (
       <Grid item container xs={ 12 } sm={ 6 } lg={ 4 } key={ l.id }>
-        <ArticlePreview article={ l } href={ `/${event.id}/legends/${l.id}` }/>
+        <ArticlePreview title={ l.title } perex={ l.perex } image={ l.image } href={ `/${event.id}/legends/${l.id}` }/>
       </Grid>
     )) : (
       <React.Fragment>
-        <Grid item xs={ 12 } sm={ 6 } lg={ 4 }>
+        <Grid item container xs={ 12 } sm={ 6 } lg={ 4 }>
           <ArticlePreview/>
         </Grid>
-        <Grid item xs={ 12 } sm={ 6 } lg={ 4 }>
+        <Grid item container xs={ 12 } sm={ 6 } lg={ 4 }>
           <ArticlePreview/>
         </Grid>
-        <Grid item xs={ 12 } sm={ 6 } lg={ 4 }>
+        <Grid item container xs={ 12 } sm={ 6 } lg={ 4 }>
           <ArticlePreview/>
         </Grid>
       </React.Fragment>

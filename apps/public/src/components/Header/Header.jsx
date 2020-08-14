@@ -82,7 +82,7 @@ const Header = ({ event, allEvents, navigation, location: { pathname }}) => {
       <div className={ classes.drawerHeader }>
         <Hidden mdUp>
           <IconButton onClick={ handleDrawerClose }>
-            <Icon className={ classes.faIcon }>chevron_left</Icon>
+            <Icon>chevron_left</Icon>
           </IconButton>
         </Hidden>
       </div>

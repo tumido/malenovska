@@ -11,6 +11,7 @@ import Notifier from './Notifier';
 import ScrollRestore from './ScrollRestore';
 import ScrollRestoreOnMount from './ScrollRestoreOnMount';
 import ScrollTop from './ScrollTop';
+import ShareDialog from './ShareDialog';
 import TableHead from './TableHead';
 import TableSearch from './TableSearch';
 import TableToolbar from './TableToolbar';
@@ -33,6 +34,7 @@ export {
   ScrollTop,
   ScrollRestore,
   ScrollRestoreOnMount,
+  ShareDialog,
   TableHead,
   TableSearch,
   TableToolbar,
