@@ -3,7 +3,7 @@ import { connect, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { isLoaded, useFirestoreConnect } from 'react-redux-firebase';
 
-import { Container, Table, TableBody, TableRow, TableCell, TablePagination, Typography } from '@material-ui/core';
+import { Container, Table, TableBody, TableRow, TableCell, TablePagination, Typography, CardContent } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Skeleton } from '@material-ui/lab';
 
@@ -125,10 +125,10 @@ const List = ({ event }) => {
 
   return (
     <Article>
-      <Container>
-        <Typography variant='h4' component='h2'>Přihlášení účastníci</Typography>
+      <CardContent>
+        <Typography gutterBottom variant='h4' component='h2'>Přihlášení účastníci</Typography>
         <Markdown content={ event.registrationList } />
-      </Container>
+      </CardContent>
       <TableToolbar
         onSearch={ handleSearch }
         onFilterClick={ handleFilterClick }
@@ -156,11 +156,11 @@ const List = ({ event }) => {
                 </TableRow>
               );
             })}
-            {emptyRows > 0 && (
-              <TableRow style={ { height: 49 * emptyRows } }>
+            {[ ...Array(emptyRows) ].map((r, idx) => (
+              <TableRow key={ idx } style={ { height: 49 } }>
                 <TableCell colSpan={ 6 } />
               </TableRow>
-            )}
+            ))}
           </TableBody>
         </Table>
       </div>
