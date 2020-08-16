@@ -4,55 +4,10 @@ import { Redirect } from 'react-router-dom';
 import { isLoaded, useFirestoreConnect } from 'react-redux-firebase';
 import PropTypes from 'prop-types';
 
-import { CardContent, CardActions, IconButton, Fab, Box } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { CardContent, CardActions, IconButton } from '@material-ui/core';
 
-import { Article, ArticleCardHeader, Markdown, ShareDialog } from 'components';
-import { ShareOutlined, PaletteOutlined } from '@material-ui/icons';
-
-const useStyles = makeStyles({
-  colorFab: ({ color }) => ({
-    background: color,
-    color: 'white',
-    float: 'right',
-    '&:hover': {
-      background: color
-    }
-  }),
-  colorBadge: ({ color }) => ({
-    backgroundColor: color,
-    display: 'box',
-    textAlign: 'center',
-    height: 16,
-    width: '100%',
-    color: 'white'
-  })
-});
-
-const ColorFab = ({ color }) => {
-  const styles = useStyles({ color });
-
-  return (
-    <Fab className={ styles.colorFab } component='div' >
-      <PaletteOutlined/>
-    </Fab>
-  );
-};
-
-ColorFab.propTypes = {
-  color: PropTypes.string.isRequired
-};
-
-const ColorBadge = ({ color }) => {
-  const styles = useStyles({ color });
-
-  return !color ? null : (<Box className={ styles.colorBadge } />);
-};
-
-ColorBadge.propTypes = {
-  color: PropTypes.string,
-  className: PropTypes.string
-};
+import { Article, ArticleCardHeader, Markdown, ShareDialog, ColorBadge } from 'components';
+import { ShareOutlined } from '@material-ui/icons';
 
 const Show = ({ match: { params: { id }}, event }) => {
   const [ shareDialogOpen, setShareDialogOpen ] = React.useState(false);
@@ -76,10 +31,10 @@ const Show = ({ match: { params: { id }}, event }) => {
 
   return (
     <Article>
-      <ColorBadge color={ race[0].color } />
+      <ColorBadge variant='line' color={ race[0].color } />
       <ArticleCardHeader image={ race[0].image && race[0].image.src } title={ <React.Fragment>
         {race[0].name}
-        <ColorFab color={ race[0].color } />
+        <ColorBadge variant='fab' color={ race[0].color } />
       </React.Fragment> } />
       <CardContent>
         <Markdown content={ race[0].legend } />
