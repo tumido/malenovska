@@ -1,4 +1,5 @@
 import { Article, ArticleCardHeader, SmallArticleCard } from './Article';
+import FormCustomizations from './FormCustomizations';
 import EventAvailabilityChip from './EventAvailabilityChip';
 import Footer from './Footer';
 import Header from './Header';
@@ -21,6 +22,7 @@ export {
   ArticleCardHeader,
   EventAvailabilityChip,
   Footer,
+  FormCustomizations,
   Header,
   Loading,
   Logo,

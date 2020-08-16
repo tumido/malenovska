@@ -10,7 +10,6 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import { Article, Wizard } from 'components';
 import { RaceSelect, Readout, PersonalDetails } from './steps';
-import validate from './validate';
 import { registerNewParticipant  } from '../../redux/actions/participant-actions';
 
 const useStyles = makeStyles(() => ({
@@ -27,8 +26,6 @@ const useStyles = makeStyles(() => ({
     alignSelf: 'center'
   }
 }));
-
-const formName = 'registration';
 
 const New = ({ event, registerNewParticipant, history }) => {
   const classes = useStyles();
@@ -60,15 +57,21 @@ const New = ({ event, registerNewParticipant, history }) => {
     history.push('./done', { isUnderage: (values.age < 18) });
   };
 
+  // if (!isLoaded(races) || !isLoaded(participants)) {
   return (
-    <Article spacing={ 0 }>
+    <Article />
+  );
+  // }
+
+  return (
+    <Article>
       <Grid container direction='column' wrap='nowrap' spacing={ 2 } >
         <Grid item ref={ handleStepperRef }/>
         <Grid item>
           <Wizard
             isLoading={ !isLoaded(races) || !isLoaded(participants) }
             onSubmit={ handleSubmit }
-            formName={ formName }
+            subscription={ { submitting: true, pristine: true } }
             stepperProps={ {
               className: classes.stepper,
               names: [
@@ -84,19 +87,24 @@ const New = ({ event, registerNewParticipant, history }) => {
               stepper: stepperEl,
               buttons: buttonsEl
             } }
-            validate={ validate }
             classes={ classes }
           >
-            <RaceSelect
-              texts={ {
-                above: event.registrationBeforeAbove,
-                below: event.registrationBeforeBelow
-              } }
-              races={ races }
-              participants={ participants }
-            />
-            <Readout races={ races } participants={ participants }/>
-            <PersonalDetails races={ races }/>
+            <Wizard.Page>
+              <RaceSelect
+                texts={ {
+                  above: event.registrationBeforeAbove,
+                  below: event.registrationBeforeBelow
+                } }
+                races={ races }
+                participants={ participants }
+              />
+            </Wizard.Page>
+            <Wizard.Page>
+              <Readout races={ races } participants={ participants }/>
+            </Wizard.Page>
+            <Wizard.Page>
+              <PersonalDetails races={ races }/>
+            </Wizard.Page>
           </Wizard>
         </Grid>
         <Grid item className={ classes.buttonWrapper } ref={ handleButtonsRef }/>

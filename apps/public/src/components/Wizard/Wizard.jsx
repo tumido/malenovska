@@ -1,12 +1,11 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { submit, isValid, isPristine, initialize } from 'redux-form';
+import { Form } from 'react-final-form';
 
 import { Stepper, MobileStepper, Step, StepLabel, Hidden, Button, Icon, Portal } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 
-import WizardPage from './WizardPage';
+import { ScrollRestoreOnMount } from 'components';
 
 const Wizard = ({
   stepperProps = { names: []},
@@ -14,17 +13,12 @@ const Wizard = ({
   buttonsProps = {},
   children,
   onSubmit,
-  formName,
-  submit,
-  validate,
-  initialize,
-  isValid,
-  isPristine,
-  isLoading,
   buttonText = {},
-  portals = {}
+  portals = {},
+  isLoading = false,
+  subscription
 }) => {
-  if (isLoading) {
+  if (!children || isLoading) {
     return (
       <React.Fragment>
         <Skeleton variant='text' height={ 24 }/>
@@ -42,101 +36,113 @@ const Wizard = ({
   }
 
   const [ activeStep, setActiveStep ] = React.useState(0);
-  const [ firstLoad, setFirstLoad ] = React.useState(true);
+  const [ values, setValues ] = React.useState({});
 
-  React.useEffect(() => {
-    if (firstLoad) {
-      initialize(formName);
-      setFirstLoad(false);
-    }
-  });
-
-  const handleNext = () => {
-    setActiveStep(prev => prev + 1);
+  const handleNext = values => {
+    setActiveStep(prev => Math.min(prev + 1, children.length - 1));
+    setValues(prev => ({ ...prev, ...values }));
   };
 
   const handleBack = () => {
     setActiveStep(prev => prev - 1);
   };
 
-  const isLast = activeStep === React.Children.count(children) - 1;
+  const isLastStep = () => activeStep === React.Children.count(children) - 1;
 
-  const steps = React.Children.map(children, (step, idx) => (
-    <WizardPage
-      key={ idx }
-      onSubmit={ !(isLast)
-        ? handleNext
-        : values => { onSubmit(values); setActiveStep(0); initialize(formName); } }
-      form={ formName }
-      validate={ validate }
-    >
-      { step }
-    </WizardPage>
-  ));
+  const handleSubmit = values => {
+    return isLastStep() ? onSubmit(values) : handleNext(values);
+  };
+
+  const activePage = React.Children.toArray(children)[activeStep];
+
+  const validate = values => {
+    return activePage.props.validate ? activePage.props.validate(values) : {};
+  };
+
+  const buttonNextText = () => {
+    if (!isLastStep()) {
+      return (buttonText.next || 'Další');
+    } else {
+      return (buttonText.nextFinal || 'Odeslat');
+    }
+  };
 
   return (
-    <React.Fragment>
-      <Hidden smDown>
-        <Portal container={ portals.stepper } disablePortal={ !portals.stepper }>
-          <Stepper
-            activeStep={ activeStep }
-            { ...stepperProps }
-          >
-            {steps.map((label, idx) => (
-              <Step key={ idx }>
-                <StepLabel>{ stepperProps.names[idx] }</StepLabel>
-              </Step>
-            ))}
-          </Stepper>
-        </Portal>
-      </Hidden>
+    <Form
+      initialValues={ values }
+      validate={ validate }
+      subscription={ subscription }
+      onSubmit={ handleSubmit }>
+      {({ handleSubmit, submitting }) => (
+        <form onSubmit={ handleSubmit }>
+          <Hidden smDown>
+            <Portal container={ portals.stepper } disablePortal={ !portals.stepper }>
+              <Stepper
+                activeStep={ activeStep }
+                { ...stepperProps }
+              >
+                {React.Children.toArray(children).map((label, idx) => (
+                  <Step key={ idx }>
+                    <StepLabel>{ stepperProps.names[idx] }</StepLabel>
+                  </Step>
+                ))}
+              </Stepper>
+            </Portal>
+          </Hidden>
 
-      { steps[activeStep] }
+          { activePage }
 
-      <Hidden smDown>
-        <Portal container={ portals.buttons } disablePortal={ !portals.buttons } >
-          <div { ...buttonsProps }>
-            <Button
-              size='large'
-              disabled={ activeStep === 0 }
-              onClick={ handleBack }
-            >
-              { buttonText.previous || 'Zpět'}
-            </Button>
-            <Button
-              size='large'
-              onClick={ () => submit(formName) }
-              disabled={ !isValid }
-              type='submit'
-              color='secondary'
-              variant='contained'
-            >
-              { !(isLast) ? (buttonText.next || 'Další') : (buttonText.nextFinal || 'Odeslat') }
-            </Button>
-          </div>
-        </Portal>
-      </Hidden>
+          <Hidden smDown>
+            <Portal container={ portals.buttons } disablePortal={ !portals.buttons } >
+              <div { ...buttonsProps }>
+                <Button
+                  size='large'
+                  disabled={ activeStep === 0 }
+                  onClick={ handleBack }
+                >
+                  { buttonText.previous || 'Zpět'}
+                </Button>
+                <Button
+                  size='large'
+                  disabled={ submitting }
+                  type='submit'
+                  color='secondary'
+                  variant='contained'
+                  onClick={ handleSubmit }
+                >
+                  { buttonNextText() }
+                </Button>
+              </div>
+            </Portal>
+          </Hidden>
 
-      <Hidden mdUp>
-        <Portal container={ portals.mobileStepper } disablePortal={ !portals.mobileStepper }>
-          <MobileStepper
-            { ...mobileStepperProps }
-            // position="static"
-            // variant="text"
-            activeStep={ activeStep }
-            steps={ React.Children.count(children) }
-            backButton={ <Button size="small" onClick={ handleBack } disabled={ activeStep === 0 }>
-              <Icon>keyboard_arrow_left</Icon>
-              { buttonText.previous || 'Zpět'}
-            </Button> }
-            nextButton={ <Button size="small" onClick={ () => submit(formName) } disabled={ !isValid || isPristine }>
-              {!(isLast) ? (buttonText.next || 'Další') : (buttonText.nextFinal || 'Odeslat') }
-              <Icon>keyboard_arrow_right</Icon>
-            </Button> }
-          />
-        </Portal>
-      </Hidden>
-    </React.Fragment>
+          <Hidden mdUp>
+            <Portal container={ portals.mobileStepper } disablePortal={ !portals.mobileStepper }>
+              <MobileStepper
+                { ...mobileStepperProps }
+                activeStep={ activeStep }
+                steps={ React.Children.count(children) }
+                backButton={ <Button
+                  size="small"
+                  onClick={ handleBack }
+                  disabled={ activeStep === 0 }>
+                  <Icon>keyboard_arrow_left</Icon>
+                  { buttonText.previous || 'Zpět'}
+                </Button> }
+                nextButton={ <Button
+                  size="small"
+                  type="submit"
+                  onClick={ handleSubmit }
+                  disabled={ submitting } >
+                  { buttonNextText() }
+                  <Icon>keyboard_arrow_right</Icon>
+                </Button> }
+              />
+            </Portal>
+          </Hidden>
+        </form>
+      )}
+    </Form>
   );
 };
 
@@ -147,31 +153,32 @@ Wizard.propTypes = {
   mobileStepperProps: PropTypes.object,
   buttonsProps: PropTypes.object,
   children: PropTypes.node,
-  onSubmit: PropTypes.func.isRequired,
-  formName: PropTypes.string.isRequired,
+  onSubmit: PropTypes.func,
   buttonText: PropTypes.shape({
     previous: PropTypes.string,
     next: PropTypes.string,
     nextFinal: PropTypes.string
   }),
-  validate: PropTypes.func,
   portals: PropTypes.shape({
     stepper: PropTypes.object,
     mobileStepper: PropTypes.object,
     buttons: PropTypes.object
   }),
   isLoading: PropTypes.bool,
-  // connect() props
-  submit: PropTypes.func.isRequired,
-  initialize: PropTypes.func.isRequired,
-  isValid: PropTypes.bool.isRequired,
-  isPristine: PropTypes.bool.isRequired
+  subscription: PropTypes.object
 };
 
-export default connect(
-  (state, { formName }) => ({
-    isValid: isValid(formName)(state),
-    isPristine: isPristine(formName)(state)
-  }),
-  { submit, initialize }
-)(Wizard);
+Wizard.Page = ({ children }) => (
+  <React.Fragment>
+    <ScrollRestoreOnMount />
+    {children}
+  </React.Fragment>
+);
+
+Wizard.Page.propTypes = {
+  children: PropTypes.node.isRequired
+};
+
+Wizard.Page.displayName = 'Wizard.Page';
+
+export default Wizard;
