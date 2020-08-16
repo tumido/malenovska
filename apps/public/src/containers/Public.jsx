@@ -36,7 +36,11 @@ const useStyles = makeStyles(theme => ({
     minHeight: '100vh',
     width: '100%',
     [theme.breakpoints.down('sm')]: {
-      marginTop: '64px'
+      marginTop: '64px',
+      paddingTop: 0
+    },
+    [theme.breakpoints.down('xs')]: {
+      marginTop: '56px'
     },
     paddingTop: 20,
     '& main': {

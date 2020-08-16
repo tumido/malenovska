@@ -41,7 +41,7 @@ const ColorBadge = ({ color, variant }) => {
 
 ColorBadge.propTypes = {
   color: PropTypes.string,
-  variant: PropTypes.oneOf('line', 'fab')
+  variant: PropTypes.oneOf([ 'line', 'fab' ])
 };
 
 export default ColorBadge;

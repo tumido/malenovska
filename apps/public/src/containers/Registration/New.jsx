@@ -5,7 +5,7 @@ import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 import { isLoaded, useFirestoreConnect } from 'react-redux-firebase';
 
-import { Grid } from '@material-ui/core';
+import { Grid, Hidden } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { Article, Wizard } from 'components';
@@ -58,9 +58,11 @@ const New = ({ event, registerNewParticipant, history }) => {
   };
 
   return (
-    <Article>
+    <Article scrollTop={ false }>
       <Grid container direction='column' wrap='nowrap' spacing={ 2 } >
-        <Grid item ref={ handleStepperRef }/>
+        <Hidden smDown>
+          <Grid item ref={ handleStepperRef }/>
+        </Hidden>
         <Grid item>
           <Wizard
             isLoading={ !isLoaded(races) || !isLoaded(participants) }
