@@ -26,18 +26,16 @@ const useStyles = makeStyles(theme => ({
 const ArticleCardHeader = ({ image, title, height, titleVariant = 'h4' }) => {
   const styles = useStyles({ height });
 
-  if (!title) {
-    return <Typography variant={ titleVariant } component='h2'><Skeleton variant='text' width="30%"/></Typography>;
-  }
-
-  if (!image) {
-    return <Typography variant={ titleVariant } component='h2'>{ title }</Typography>;
-  }
-
   return (
     <Box className={ styles.relative }>
-      <CardMedia className={ styles.image } image={ image } />
-      <Typography className={ styles.title } variant={ titleVariant } component='h2'>{ title }</Typography>
+      { image ? (
+        <CardMedia className={ styles.image } image={ image }/>
+      ) : (
+        <Skeleton className={ styles.image } variant='rect' />
+      )}
+      <Typography className={ styles.title } variant={ titleVariant } component='h2'>
+        { title }
+      </Typography>
     </Box>
   );
 };

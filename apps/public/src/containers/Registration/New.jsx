@@ -57,12 +57,6 @@ const New = ({ event, registerNewParticipant, history }) => {
     history.push('./done', { isUnderage: (values.age < 18) });
   };
 
-  // if (!isLoaded(races) || !isLoaded(participants)) {
-  return (
-    <Article />
-  );
-  // }
-
   return (
     <Article>
       <Grid container direction='column' wrap='nowrap' spacing={ 2 } >

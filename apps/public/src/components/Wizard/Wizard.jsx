@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Form } from 'react-final-form';
 
-import { Stepper, MobileStepper, Step, StepLabel, Hidden, Button, Icon, Portal } from '@material-ui/core';
+import { Stepper, MobileStepper, Step, StepLabel, Hidden, Button, Icon, Portal, CardContent, Typography } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 
-import { ScrollRestoreOnMount } from 'components';
+import { ScrollRestoreOnMount, ArticleCardHeader } from 'components';
 
 const Wizard = ({
   stepperProps = { names: []},
@@ -18,22 +18,6 @@ const Wizard = ({
   isLoading = false,
   subscription
 }) => {
-  if (!children || isLoading) {
-    return (
-      <React.Fragment>
-        <Skeleton variant='text' height={ 24 }/>
-        <Skeleton variant='text'/>
-        <Skeleton variant='rect' height={ 100 } />
-        <br />
-        <Skeleton variant='rect' height={ 100 } />
-        <br />
-        <Skeleton variant='rect' height={ 100 } />
-        <Skeleton variant='text'/>
-        <Skeleton variant='text'/>
-        <Skeleton variant='text' width='50%'/>
-      </React.Fragment>
-    );
-  }
 
   const [ activeStep, setActiveStep ] = React.useState(0);
   const [ values, setValues ] = React.useState({});
@@ -90,7 +74,21 @@ const Wizard = ({
             </Portal>
           </Hidden>
 
-          { activePage }
+          { !isLoading ? activePage : (
+            <React.Fragment>
+              <ArticleCardHeader />
+              <CardContent>
+                { [ ...Array(2).keys() ].map((_, idx) => (
+                  <Typography key={ idx } variant='body1'>
+                    <Skeleton variant='text'/>
+                    <Skeleton variant='text'/>
+                    <Skeleton variant='text'/>
+                    <Skeleton variant='text' width={ 200 }/>
+                  </Typography>
+                ))}
+              </CardContent>
+            </React.Fragment>
+          )}
 
           <Hidden smDown>
             <Portal container={ portals.buttons } disablePortal={ !portals.buttons } >

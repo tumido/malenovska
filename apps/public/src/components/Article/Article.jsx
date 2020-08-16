@@ -1,16 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Container, Grid, Card, CardContent } from '@material-ui/core';
+import { Container, Card, CardContent, Box } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 
 import { ScrollTop, ArticleCardHeader } from 'components';
 
-const Article = ({ scrollTop = true, children }) =>  (
+const Article = ({ scrollTop = true, children, isLoading = false }) =>  (
   <Container maxWidth='md'>
-    <Grid container spacing={ 2 }>
+    <Box width="100%">
       <Card>
-        { children ? children : (
+        { children && !isLoading ? children : (
           <React.Fragment>
             <ArticleCardHeader />
             <CardContent>
@@ -19,7 +19,7 @@ const Article = ({ scrollTop = true, children }) =>  (
           </React.Fragment>
         ) }
       </Card>
-    </Grid>
+    </Box>
     { scrollTop && <ScrollTop anchor='#top' /> }
   </Container>
 

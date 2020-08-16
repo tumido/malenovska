@@ -52,13 +52,13 @@ const List = ({ event }) => {
     )) : (
       <React.Fragment>
         <Grid item container xs={ 12 } sm={ 6 } lg={ 4 }>
-          <SmallArticleCard/>
+          <SmallArticleCard />
         </Grid>
         <Grid item container xs={ 12 } sm={ 6 } lg={ 4 }>
-          <SmallArticleCard/>
+          <SmallArticleCard />
         </Grid>
         <Grid item container xs={ 12 } sm={ 6 } lg={ 4 }>
-          <SmallArticleCard/>
+          <SmallArticleCard />
         </Grid>
       </React.Fragment>
     );
