@@ -9,7 +9,7 @@ import { firestoreConnect, isLoaded } from 'react-redux-firebase';
 import { Hidden, Grid, Typography, Card, CardActionArea, CardContent, Link } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
-import BgImage from '@malenovska/common/assets/images/background.jpg';
+import BgImage from 'url:@malenovska/common/assets/images/background.jpg';
 
 import { darkTheme } from '../../utilities/theme';
 import { Logo, EventAvailabilityChip, Markdown } from 'components';
@@ -74,9 +74,9 @@ EventItem.propTypes = {
     name: PropTypes.string.isRequired,
     type: PropTypes.bool.isRequired,
     description: PropTypes.string.isRequired,
-    year: PropTypes.number.isRequired,
+    year: PropTypes.number.isRequired
   }).isRequired,
-  showChip: PropTypes.bool,
+  showChip: PropTypes.bool
 };
 
 const Landing = ({ events }) => {
@@ -120,7 +120,7 @@ export default compose(
   firestoreConnect(() => ([
     {
       collection: 'events',
-      where: ['display', '==', true]
+      where: [ 'display', '==', true ]
     }
   ])),
   connect(state => ({

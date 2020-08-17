@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { Field, FormSpy } from 'react-final-form';
 
 import { TextField, Typography, Grid, Icon, CardContent, Box } from '@material-ui/core';
-import { TextFormField, CheckboxFormField, required, isGreater, composeValidators, isEmail } from 'components/FormCustomizations';
-
+import { TextFormField, CheckboxFormField } from 'components';
+import { required, isGreater, composeValidators, isEmail } from './validators';
 import { Markdown } from 'components';
 
 const formFields = races => [

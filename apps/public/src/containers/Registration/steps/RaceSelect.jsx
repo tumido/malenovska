@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import { Field } from 'react-final-form';
 
 import { Typography, Grid, Container } from '@material-ui/core';
-import { Markdown } from 'components';
-import { CardFormField, required } from 'components/FormCustomizations';
+import { Markdown, CardFormField } from 'components';
+
+import { required } from './validators';
 
 const RaceSelect = ({ texts = {}, races, participants }) => (
   <Container>

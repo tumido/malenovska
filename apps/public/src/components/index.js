@@ -1,6 +1,6 @@
 import { Article, ArticleCardHeader, SmallArticleCard } from './Article';
 import ColorBadge from './ColorBadge';
-import FormCustomizations from './FormCustomizations';
+import { CardFormField, CheckboxFormField, TextFormField } from './FormCustomizations';
 import EventAvailabilityChip from './EventAvailabilityChip';
 import Footer from './Footer';
 import Header from './Header';
@@ -21,10 +21,11 @@ import Wizard from './Wizard';
 export {
   Article,
   ArticleCardHeader,
+  CardFormField,
+  CheckboxFormField,
   ColorBadge,
   EventAvailabilityChip,
   Footer,
-  FormCustomizations,
   Header,
   Loading,
   Logo,
@@ -39,5 +40,6 @@ export {
   TableHead,
   TableSearch,
   TableToolbar,
+  TextFormField,
   Wizard
 };

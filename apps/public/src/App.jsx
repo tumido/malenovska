@@ -8,8 +8,8 @@ import { CssBaseline, NoSsr } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
 
-import BgImage from '@malenovska/common/assets/images/background.jpg';
-import Favicon from '@malenovska/common/assets/images/favicon-32x32.png';
+import BgImage from 'url:@malenovska/common/assets/images/background.jpg';
+import Favicon from 'url:@malenovska/common/assets/images/favicon-32x32.png';
 
 import { Loading } from 'components';
 import { theme } from './utilities/theme';

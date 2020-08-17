@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { lazy } from 'react';
 import { compose } from 'redux';
 import { connect, useSelector } from 'react-redux';
 import { withRouter } from 'react-router';
@@ -9,7 +9,9 @@ import { Grid, Hidden } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { Article, Wizard } from 'components';
-import { RaceSelect, Readout, PersonalDetails } from './steps';
+const PersonalDetails = lazy(() => import('./steps/PersonalDetails'));
+const Readout = lazy(() => import('./steps/Readout'));
+const RaceSelect = lazy(() => import('./steps/RaceSelect'));
 import { registerNewParticipant  } from '../../redux/actions/participant-actions';
 
 const useStyles = makeStyles(() => ({
@@ -57,6 +59,8 @@ const New = ({ event, registerNewParticipant, history }) => {
     history.push('./done', { isUnderage: (values.age < 18) });
   };
 
+  const isLoading = !isLoaded(races) || !isLoaded(participants);
+
   return (
     <Article scrollTop={ false }>
       <Grid container direction='column' wrap='nowrap' spacing={ 2 } >
@@ -65,7 +69,7 @@ const New = ({ event, registerNewParticipant, history }) => {
         </Hidden>
         <Grid item>
           <Wizard
-            isLoading={ !isLoaded(races) || !isLoaded(participants) }
+            isLoading={ isLoading }
             onSubmit={ handleSubmit }
             subscription={ { submitting: true, pristine: true } }
             stepperProps={ {
@@ -86,20 +90,20 @@ const New = ({ event, registerNewParticipant, history }) => {
             classes={ classes }
           >
             <Wizard.Page>
-              <RaceSelect
+              { !isLoading &&  <RaceSelect
                 texts={ {
                   above: event.registrationBeforeAbove,
                   below: event.registrationBeforeBelow
                 } }
                 races={ races }
                 participants={ participants }
-              />
+              /> }
             </Wizard.Page>
             <Wizard.Page>
-              <Readout races={ races } participants={ participants }/>
+              { !isLoading && <Readout races={ races } participants={ participants }/> }
             </Wizard.Page>
             <Wizard.Page>
-              <PersonalDetails races={ races }/>
+              { !isLoading && <PersonalDetails races={ races }/> }
             </Wizard.Page>
           </Wizard>
         </Grid>

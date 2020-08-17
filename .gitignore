@@ -18,3 +18,5 @@ assets/images/background_backup.jpg
 
 .cache
 **/yarn-error.log
+.parcel-cache
+parcel-bundle-reports
