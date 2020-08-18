@@ -53,7 +53,7 @@ const Markdown = ({ content = '', options, ...props }) => (
     } }
     { ...props }
   >
-    { content }
+    { content || '' }
   </BaseMarkdown>
 );
 
