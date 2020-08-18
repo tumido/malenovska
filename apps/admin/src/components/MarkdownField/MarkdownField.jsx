@@ -22,7 +22,10 @@ MarkdownFieldBase.propTypes = {
   input: PropTypes.shape({
     value: PropTypes.string.isRequired
   }).isRequired,
-  props: PropTypes.object
+  props: PropTypes.object,
+  addLabel: PropTypes.any,
+  isRequired: PropTypes.any,
+  basePath: PropTypes.any
 };
 
 const MarkdownField = addField(MarkdownFieldBase);

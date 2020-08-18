@@ -21,7 +21,7 @@ const List = (props) => (
           { id: false, name: 'Šarvátka' }
         ] }
       />
-      <FunctionField label='Titulek' render={record => truncate(record.description.replace(/\n/gm, ''), { length: 40, separator: ' ' })} />
+      <FunctionField label='Titulek' render={ record => truncate(record.description.replace(/\n/gm, ''), { length: 40, separator: ' ' }) } />
       <BooleanField label='Zobrazitelné' source="display" />
       <BooleanField label='Registrace' source="registrationAvailable" />
       <DateField label="Aktualizováno" source="lastupdate" />

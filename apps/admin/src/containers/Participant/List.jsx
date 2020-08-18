@@ -27,7 +27,6 @@ const LegendFilter = (props) => (
   </Filter>
 );
 
-
 const getData = async (participants, races) => {
   const firestore = firebase.app().firestore();
 
