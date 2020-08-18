@@ -8,7 +8,7 @@ import { Article, ArticleCardHeader, Markdown } from 'components';
 
 const List = ({ event }) => (
   <Article>
-    <ArticleCardHeader title={ `${event.name} - Pravidla` } image={ event.rules_image && event.rules_image.src }/>
+    <ArticleCardHeader title={ `${event.name} - Pravidla` } image={ event.rulesImage && event.rulesImage.src }/>
     <CardContent>
       <Markdown content={ event.rules } />
     </CardContent>
