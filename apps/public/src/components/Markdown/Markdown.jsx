@@ -32,7 +32,7 @@ const overrides = {
     component: Typography,
     props: {
       variant: 'body1',
-      gutterBottom: true
+      style: { marginBottom: '2em' }
     }
   },
   li: {
@@ -40,6 +40,15 @@ const overrides = {
     props: {
       variant: 'body1',
       component: 'li'
+    }
+  },
+  pre: {
+    component: Typography,
+    props: {
+      variant: 'body1',
+      component: 'pre',
+      fontFamily: 'Monospace',
+      style: { marginLeft: '2em', marginBottom: '2em' }
     }
   }
 };
