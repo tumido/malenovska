@@ -23,7 +23,8 @@ const Edit = (props) => {
   const notify = useNotify();
   const redirectTo = useRedirect();
   const onSuccess = setCacheForRecord({
-    records: [ 'a' ],
+    collection: 'events',
+    records: [ 'contactImage', 'rulesImage', 'declaration' ],
     isCreate: false,
     basePath: props.basePath,
     redirectTo, notify
@@ -49,7 +50,7 @@ const Edit = (props) => {
         </FormTab>
         <FormTab label="Pravidla">
           <MarkdownInput label="" source="rules" />
-          <ImageInput label="Obrázek" source="rules_image">
+          <ImageInput label="Obrázek" source="rulesImage">
             <ImageField source="src" title="title" />
           </ImageInput>
         </FormTab>

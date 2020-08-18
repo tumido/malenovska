@@ -8,16 +8,14 @@ import {
 
 import { ParticipantTitle, getAge } from './shared';
 import { useStyles } from '../shared';
-import firebase from 'firebase/app';
 
 const Show = (props) => {
   const classes = useStyles();
   const [ age, setAge ] = React.useState('');
-  const firestore = firebase.app().firestore();
 
   const { record } = useShowController(props);
   React.useEffect(() => {
-    record && getAge(firestore, record).then(age => setAge(age));
+    record && getAge(record).then(age => setAge(age));
   });
 
   return (
