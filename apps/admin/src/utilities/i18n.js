@@ -9,6 +9,7 @@ export const czechMessages = {
       clone: 'Klonovat',
       clear_input_value: 'Smazat hodnotu',
       create: 'Vytvořit',
+      confirm: 'Potvrdit',
       delete: 'Smazat',
       edit: 'Upravit',
       export: 'Exportovat',
@@ -91,7 +92,9 @@ export const czechMessages = {
       bad_item: 'Nesprávný prvek',
       item_doesnt_exist: 'Prvek neexistuje',
       http_error: 'Chyba komunikace serveru',
-      canceled: 'Akce zrušena'
+      canceled: 'Akce zrušena',
+      metadata_updated: 'Úprava metadat úspěšná',
+      metadata_update_error: 'Úprava metadat selhala pro soubor %{name}'
     },
     validation: {
       required: 'Povinné pole',

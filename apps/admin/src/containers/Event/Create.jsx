@@ -1,22 +1,34 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   Create as CreateBase,
   TabbedForm, FormTab,
   TextInput, BooleanInput, NumberInput, SelectInput, FileInput, ImageInput,
   FileField, ImageField,
+  useNotify, useRedirect,
   required
 } from 'react-admin';
 import { DateInput, KeyboardTimeInput } from 'react-admin-date-inputs';
 
 import MarkdownInput from 'components/MarkdownInput';
 
-import { useStyles } from '../shared';
+import { useStyles, setCacheForRecord } from '../shared';
 
 const Create = (props) => {
   const classes = useStyles();
 
+  const notify = useNotify();
+  const redirectTo = useRedirect();
+  const onSuccess = setCacheForRecord({
+    collection: 'events',
+    records: [ 'contactImage', 'rulesImage', 'declaration' ],
+    isCreate: true,
+    basePath: props.basePath,
+    redirectTo, notify
+  });
+
   return (
-    <CreateBase title="Nová událost" { ...props }>
+    <CreateBase onSuccess={ onSuccess } title="Nová událost" { ...props }>
       <TabbedForm>
         <FormTab label="Obecné">
           <TextInput label="ID" source="id" formClassName={ classes.inlineBlock } />
@@ -82,6 +94,10 @@ const Create = (props) => {
       </TabbedForm>
     </CreateBase>
   );
+};
+
+Create.propTypes = {
+  basePath: PropTypes.string
 };
 
 export default Create;

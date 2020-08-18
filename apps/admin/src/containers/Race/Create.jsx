@@ -1,21 +1,33 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   Create as CreateBase,
   SimpleForm,
   TextInput, ReferenceInput, SelectInput, ImageInput, NumberInput,
   ImageField,
+  useNotify, useRedirect,
   required
 } from 'react-admin';
 import { ColorInput } from 'react-admin-color-input';
 
 import MarkdownInput from 'components/MarkdownInput';
-import { useStyles } from '../shared';
+import { useStyles, setCacheForRecord  } from '../shared';
 
 const Create = (props) => {
   const classes = useStyles();
 
+  const notify = useNotify();
+  const redirectTo = useRedirect();
+  const onSuccess = setCacheForRecord({
+    collection: 'races',
+    records: [ 'image' ],
+    isCreate: true,
+    basePath: props.basePath,
+    redirectTo, notify
+  });
+
   return (
-    <CreateBase title="Nová strana" { ...props }>
+    <CreateBase onSuccess={ onSuccess } title="Nová strana" { ...props }>
       <SimpleForm>
         <TextInput label='Název' source="name" validate={ required() } formClassName={ classes.inlineBlock } />
         <ReferenceInput label="Událost" source="event" reference="events" formClassName={ classes.inlineBlock }>
@@ -31,6 +43,10 @@ const Create = (props) => {
       </SimpleForm>
     </CreateBase>
   );
+};
+
+Create.propTypes = {
+  basePath: PropTypes.string
 };
 
 export default Create;

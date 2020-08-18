@@ -1,23 +1,35 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   Create as CreateBase,
   SimpleForm, FormDataConsumer,
   TextInput, DateInput, ReferenceInput, SelectInput, ImageInput,
   ImageField,
+  useNotify, useRedirect,
   maxLength, required
 } from 'react-admin';
 
 import MarkdownInput from 'components/MarkdownInput';
 import SaveWithTransformToolbar from 'components/SaveWithTransformToolbar';
 
-import { useStyles } from '../shared';
+import { useStyles, setCacheForRecord } from '../shared';
 
 const Create = (props) => {
   const classes = useStyles();
   const transform = ({ title }) => title && title.replace(/ /g, '_').toLowerCase().replace(/\W/g, '');
 
+  const notify = useNotify();
+  const redirectTo = useRedirect();
+  const onSuccess = setCacheForRecord({
+    collection: 'legends',
+    records: [ 'image' ],
+    isCreate: true,
+    basePath: props.basePath,
+    redirectTo, notify
+  });
+
   return (
-    <CreateBase title="Nová legenda" { ...props }>
+    <CreateBase onSuccess={ onSuccess } title="Nová legenda" { ...props }>
       <SimpleForm toolbar={ <SaveWithTransformToolbar transform={ data => ({ ...data, id: transform({ title: data.title }) }) } /> }>
         <FormDataConsumer formClassName={ classes.inlineBlock }>
           {({ formData: { title }, ...rest }) =>
@@ -43,6 +55,10 @@ const Create = (props) => {
       </SimpleForm>
     </CreateBase>
   );
+};
+
+Create.propTypes = {
+  basePath: PropTypes.string
 };
 
 export default Create;

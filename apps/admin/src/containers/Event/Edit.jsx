@@ -31,8 +31,7 @@ const Edit = (props) => {
   });
 
   return (
-    <EditBase
-      onSuccess={ onSuccess } undoable={ false } title={ <EventTitle /> }  { ...props }>
+    <EditBase onSuccess={ onSuccess } undoable={ false } title={ <EventTitle /> }  { ...props }>
       <TabbedForm>
         <FormTab label="Obecné">
           <TextInput label="ID" source="id" disabled formClassName={ classes.inlineBlock } />

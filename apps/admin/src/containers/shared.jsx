@@ -33,10 +33,14 @@ export const setCacheForRecord = ({
     const key = `${collection}/${data.id}/${r}`;
     console.log('Setting cache for updated image: ', key);
 
-    return storageRef.child(key).updateMetadata(metadata);
+    return storageRef
+    .child(key)
+    .updateMetadata(metadata)
+    .then(() => notify('ra.notification.metadata_updated', 'info'))
+    .catch(() => notify('ra.notification.metadata_update_error', 'error', { name: key }));
   });
 
-  notify(isCreate ? 'ra.notification.created' : 'ra.notification.updated', 'info',{ smart_count: 1 } ); //eslint-disable-line
+  notify(isCreate ? 'ra.notification.created' : 'ra.notification.updated', 'info', { smart_count: 1 } ); //eslint-disable-line
   redirectTo(isCreate ? 'edit' : 'list', basePath, data.id, data);
 };
 
