@@ -20,6 +20,7 @@ export const czechMessages = {
           show: 'Zobrazit',
           sort: 'Seřadit',
           undo: 'Vrátit',
+          unselect: 'Zrušit výběr'
       },
       boolean: {
           true: 'Ano',

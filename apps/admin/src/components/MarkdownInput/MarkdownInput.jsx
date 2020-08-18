@@ -2,12 +2,12 @@ import React from 'react';
 import ReactMde from 'react-mde';
 import PropTypes from 'prop-types';
 import { addField } from 'ra-core';
-import { FormControl } from '@material-ui/core';
+import FormControl from '@material-ui/core/FormControl';
 import { compiler } from 'markdown-to-jsx';
 
 import 'react-mde/lib/styles/css/react-mde-all.css';
 
-const MarkdownInputBase = ({ input: { value, onChange: handleChange }, ...props }) => {
+const MarkdownInputBase = ({ input: { value, onChange: handleChange }, addLabel, isRequired, basePath, ...props }) => {
   const [ activeTab, setActiveTab ] = React.useState('write');
   const [ content, setContent ] = React.useState(value);
 

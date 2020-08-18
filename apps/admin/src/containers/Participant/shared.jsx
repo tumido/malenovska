@@ -6,7 +6,7 @@ export const ParticipantTitle = ({ record }) => (
 );
 
 ParticipantTitle.propTypes = {
-  record: PropTypes.object.isRequired
+  record: PropTypes.object
 };
 
 export const getAge = async (firestore, participant) =>

@@ -6,5 +6,5 @@ export const RaceTitle = ({ record }) => (
 );
 
 RaceTitle.propTypes = {
-  record: PropTypes.object.isRequired
+  record: PropTypes.object
 };

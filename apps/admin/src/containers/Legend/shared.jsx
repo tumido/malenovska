@@ -6,5 +6,5 @@ export const LegendTitle = ({ record }) => (
 );
 
 LegendTitle.propTypes = {
-  record: PropTypes.object.isRequired
+  record: PropTypes.object
 };

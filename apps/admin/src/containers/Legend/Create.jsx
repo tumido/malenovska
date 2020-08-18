@@ -1,28 +1,32 @@
 import React from 'react';
 import {
   Create as CreateBase,
-  SimpleForm, FormDataConsumer,
+  SimpleForm, FormDataConsumer, Toolbar, SaveButton,
   TextInput, DateInput, ReferenceInput, SelectInput, ImageInput,
   ImageField,
   maxLength, required
 } from 'react-admin';
 
 import MarkdownInput from 'components/MarkdownInput';
+import SaveWithTransformToolbar from 'components/SaveWithTransformToolbar';
 
 import { useStyles } from '../shared';
 
 const Create = (props) => {
   const classes = useStyles();
+  const transform = ({title}) => title && title.replace(/ /g, '_').toLowerCase().replace(/\W/g, '')
 
   return (
     <CreateBase title="Nová legenda" {...props}>
-      <SimpleForm>
+      <SimpleForm toolbar={
+        <SaveWithTransformToolbar transform={ data => ({...data, id: transform({title: data.title})}) } />
+      }>
         <FormDataConsumer formClassName={classes.inlineBlock}>
           {({ formData: { title }, ...rest }) =>
             <TextInput
               label="ID"
               source="id"
-              value={title && title.replace(/ /g, '_').toLowerCase().replace(/\W/g, '')}
+              value={ transform({ title }) || ""}
               {...rest}
               disabled
             />
