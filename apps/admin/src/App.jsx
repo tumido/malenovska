@@ -19,29 +19,28 @@ import event from 'containers/Event';
 import race from 'containers/Race';
 import participant from 'containers/Participant';
 
-
 const options = {};
 
-const dataProvider = FirebaseDataProvider(firebaseConfig, options);
-const authProvider = FirebaseAuthProvider(firebaseConfig, options);
+const dataProvider = FirebaseDataProvider(firebaseConfig, options); // eslint-disable-line
+const authProvider = FirebaseAuthProvider(firebaseConfig, options); // eslint-disable-line
 const i18nProvider = polyglotI18nProvider(() => czechMessages, 'cs');
 
 const LoginPage = () => <Login backgroundImage={ BgImage } />;
 
 const App = () => (
   <React.Fragment>
-    <Helmet defaultTitle="🛡️ Malenovská Strojovna" > 
+    <Helmet defaultTitle="🛡️ Malenovská Strojovna" >
       <meta name="theme-color" content='#0e0a0a' />
       <link rel="shortcut icon" href={ Favicon } />
     </Helmet>
     <Admin
-    locale='cs'
-    i18nProvider={ i18nProvider }
-    dataProvider={ dataProvider }
-    authProvider={ authProvider }
-    theme={ adminTheme }
-    loginPage={ LoginPage }
-    title="Malenovská Strojovna"
+      locale='cs'
+      i18nProvider={ i18nProvider }
+      dataProvider={ dataProvider }
+      authProvider={ authProvider }
+      theme={ adminTheme }
+      loginPage={ LoginPage }
+      title="Malenovská Strojovna"
     >
       <Resource
         name='events'

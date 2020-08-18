@@ -7,4 +7,4 @@ import './index.css';
 
 loadFonts();
 
-ReactDOM.render(<App />,document.getElementById('app'));
+ReactDOM.render(<App />, document.getElementById('app'));
