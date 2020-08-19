@@ -55,8 +55,21 @@ const shareTo = [
 
 const ShareDialog = ({ title: shareTitle, eventName, open, onClose }) => {
   const title = `${eventName}: ${shareTitle}`;
+
+  if (navigator.share) {
+    if (open) {
+      navigator.share({
+        title,
+        url: window.location.href
+      });
+      onClose();
+    }
+
+    return '';
+  }
+
   return (
-    <Dialog  open={ open } onClose={ onClose }>
+    <Dialog open={ open } onClose={ onClose }>
       <DialogTitle>Sdílet {`"${title}"`}</DialogTitle>
       <List>
         { shareTo.map((s, idx) => (
