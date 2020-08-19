@@ -10,12 +10,12 @@ ParticipantTitle.propTypes = {
   record: PropTypes.object
 };
 
-export const getAge = async (participant) => {
+export const getPrivateSubDocument = async (participant) => {
   const firestore = firebase.app().firestore();
 
   return await firestore
   .doc(`participants/${participant.id}`)
   .collection('private')
   .get()
-  .then(p => p.docs[0].data().age);
+  .then(p => p.docs[0].data());
 };

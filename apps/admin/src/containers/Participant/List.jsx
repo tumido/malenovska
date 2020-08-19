@@ -8,9 +8,8 @@ import {
   downloadCSV
 } from 'react-admin';
 import { unparse as convertToCSV } from 'papaparse/papaparse.min';
-import firebase from 'firebase/app';
 
-import { getAge } from './shared';
+import { getPrivateSubDocument } from './shared';
 
 const LegendFilter = (props) => (
   <Filter { ...props }>
@@ -28,10 +27,8 @@ const LegendFilter = (props) => (
 );
 
 const getData = async (participants, races) => {
-  const firestore = firebase.app().firestore();
-
   return await Promise.all(participants.map(p =>
-    getAge(firestore, p).then(age => [
+    getPrivateSubDocument(p).then(({ age }) => [
       races[p.race].name,
       p.group,
       p.firstName,

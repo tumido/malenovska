@@ -6,16 +6,16 @@ import {
   useShowController
 } from 'react-admin';
 
-import { ParticipantTitle, getAge } from './shared';
+import { ParticipantTitle, getPrivateSubDocument } from './shared';
 import { useStyles } from '../shared';
 
 const Show = (props) => {
   const classes = useStyles();
-  const [ age, setAge ] = React.useState('');
+  const [ privateData, setPrivateData ] = React.useState({});
 
   const { record } = useShowController(props);
   React.useEffect(() => {
-    record && getAge(record).then(age => setAge(age));
+    record && getPrivateSubDocument(record).then(data => setPrivateData(data));
   });
 
   return (
@@ -32,7 +32,8 @@ const Show = (props) => {
         <TextField label='Jméno' source="firstName" formClassName={ classes.inlineBlock } />
         <TextField label='Přezdívka' source="nickName" formClassName={ classes.inlineBlock } />
         <TextField label='Příjmení' source="lastName" formClassName={ classes.inlineBlock } />
-        <FunctionField label='Věk' render={ () => age } formClassName={ classes.inlineBlock } />
+        <FunctionField label='Věk' render={ () => privateData.age } formClassName={ classes.inlineBlock } />
+        <FunctionField label='E-Mail' render={ () => privateData.email } formClassName={ classes.inlineBlock } />
         <br />
         <TextField label='Skupina' source="group" fullWidth />
       </SimpleForm>
