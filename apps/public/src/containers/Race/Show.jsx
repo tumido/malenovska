@@ -4,7 +4,7 @@ import { Redirect } from 'react-router-dom';
 import { isLoaded, useFirestoreConnect } from 'react-redux-firebase';
 import PropTypes from 'prop-types';
 
-import { CardContent, CardActions, IconButton } from '@material-ui/core';
+import { CardContent, CardActions, IconButton, Typography, Box, Divider } from '@material-ui/core';
 
 import { Article, ArticleCardHeader, Markdown, ShareDialog, ColorBadge } from 'components';
 import { ShareOutlined } from '@material-ui/icons';
@@ -37,6 +37,12 @@ const Show = ({ match: { params: { id }}, event }) => {
         <ColorBadge variant='fab' color={ race[0].color } />
       </React.Fragment> } />
       <CardContent>
+        <Typography variant='h5' gutterBottom>Charakteristika strany</Typography>
+        <Markdown content={ race[0].requirements } />
+        <Box marginY={ 2 }>
+          <Divider variant='middle'/>
+        </Box>
+        <Typography variant='h5' gutterBottom>Příběh</Typography>
         <Markdown content={ race[0].legend } />
       </CardContent>
       <CardActions>
