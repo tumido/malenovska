@@ -39,7 +39,8 @@ const List = ({ event }) => {
     {
       collection: 'legends',
       where: [ 'event', '==', event.id ],
-      storeAs: `legends_${event.id}`
+      storeAs: `legends_${event.id}`,
+      orderBy: 'publishedAt'
     }
   ]));
   const legends = useSelector(({ firestore }) => firestore.ordered[`legends_${event.id}`]);

@@ -35,6 +35,7 @@ const Edit = (props) => {
           <SelectInput optionText="name" />
         </ReferenceInput>
         <NumberInput label='Limit' source='limit' validate={ required() } formClassName={ classes.inlineBlock } />
+        <NumberInput label='Pořadí v registraci' source='priority' formClassName={ classes.inlineBlock } />
         <ColorInput label='Barva' source="color" picker='Sketch' validate={ required() } />
         <MarkdownInput label='Legenda' source="legend" validate={ required() } />
         <MarkdownInput label='Požadavky' source="requirements" validate={ required() } />

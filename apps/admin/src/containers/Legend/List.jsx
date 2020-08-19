@@ -22,6 +22,7 @@ const List = (props) => (
       </ReferenceField>
       <FunctionField label='Perex' render={ record => truncate(record.perex, { length: 60, separator: ' ' }) } />
       <TextField label="Autor" source="createdby" />
+      <DateField label="Publikováno" source="publishedAt" />
       <DateField label="Vytvořeno" source="createdate" />
       <DateField label="Aktualizováno" source="lastupdate" />
       <EditButton />

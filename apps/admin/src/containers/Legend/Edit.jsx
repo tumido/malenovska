@@ -8,6 +8,7 @@ import {
   useNotify, useRedirect,
   maxLength, required
 } from 'react-admin';
+import { DateInput } from 'react-admin-date-inputs';
 
 import MarkdownInput from 'components/MarkdownInput';
 import { LegendTitle } from './shared';
@@ -34,6 +35,7 @@ const Edit = (props) => {
         <ReferenceInput label="Událost" source="event" reference="events" formClassName={ classes.inlineBlock }>
           <SelectInput optionText="name" />
         </ReferenceInput>
+        <DateInput label="Datum publikace" source="publishedAt" formClassName={ classes.inlineBlock } />
         <TextInput label='Perex' source="perex" defaultValue='' validate={ [ required(), maxLength(200) ] } fullWidth />
         <MarkdownInput label='Obsah' source="content" validate={ required() } />
         <ImageInput source="image" label="Obrázek">

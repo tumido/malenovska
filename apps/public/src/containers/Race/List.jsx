@@ -22,7 +22,8 @@ const List = ({ event }) => {
     {
       collection: 'races',
       where: [ 'event', '==', event.id ],
-      storeAs: `${event.id}_races`
+      storeAs: `${event.id}_races`,
+      orderBy: 'priority'
     }
   ]);
 

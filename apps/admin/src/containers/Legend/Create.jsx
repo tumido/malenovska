@@ -3,11 +3,12 @@ import PropTypes from 'prop-types';
 import {
   Create as CreateBase,
   SimpleForm, FormDataConsumer,
-  TextInput, DateInput, ReferenceInput, SelectInput, ImageInput,
+  TextInput, ReferenceInput, SelectInput, ImageInput,
   ImageField,
   useNotify, useRedirect,
   maxLength, required
 } from 'react-admin';
+import { DateInput } from 'react-admin-date-inputs';
 
 import MarkdownInput from 'components/MarkdownInput';
 import SaveWithTransformToolbar from 'components/SaveWithTransformToolbar';
@@ -46,7 +47,7 @@ const Create = (props) => {
         <ReferenceInput label="Událost" source="event" reference="events" formClassName={ classes.inlineBlock }>
           <SelectInput optionText="name" />
         </ReferenceInput>
-        <DateInput label="Publication date" source="published_at" defaultValue={ new Date() } formClassName={ classes.inlineBlock } />
+        <DateInput label="Datum publikace" source="publishedAt" defaultValue={ new Date() } formClassName={ classes.inlineBlock } />
         <TextInput label='Perex' source="perex" defaultValue='' validate={ [ required(), maxLength(200) ] } fullWidth />
         <MarkdownInput label='Obsah' source="content" validate={ required() } />
         <ImageInput source="image" label="Obrázek">

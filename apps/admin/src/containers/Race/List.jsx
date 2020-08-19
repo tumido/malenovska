@@ -23,6 +23,7 @@ const List = (props) => (
         <TextField source="name" />
       </ReferenceField>
       <TextField label='Limit' source="limit" />
+      <TextField label='Pořadí v registraci' source="priority" />
       <FunctionField label='Obrázek' source="image" render={ ({ image }) => <Icon>{ image ? 'check' : 'close' }</Icon> }/>
       <ColorField label='Barva' source='color'/>
       <TextField label="Autor" source="createdby" />
