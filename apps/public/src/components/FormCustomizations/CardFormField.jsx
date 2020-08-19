@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Grid, Chip } from '@material-ui/core';
+import { Grid, Chip, Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { SmallArticleCard } from 'components';
@@ -14,7 +14,7 @@ const useStyles = makeStyles(theme => ({
     border: '2px solid transparent'
   },
   chip: {
-    margin: theme.spacing(1)
+    float: 'right'
   }
 }));
 
@@ -25,7 +25,7 @@ const CardFormField = ({ input, race, participants }) => {
     <Grid item xs={ 12 } lg={ 6 }>
       <SmallArticleCard
         title={ <React.Fragment>
-          {race.name}
+          <Box display='inline-block' maxWidth='80%' overflow='hidden' whiteSpace='nowrap' textOverflow='ellipsis'>{race.name}</Box>
           <Chip label={ `${participants.filter(p => p.race === race.id).length} / ${race.limit}` } className={ classes.chip } />
         </React.Fragment> }
         image={ race.image }

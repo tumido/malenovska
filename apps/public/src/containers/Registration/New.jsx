@@ -1,7 +1,7 @@
 import React, { lazy } from 'react';
 import { compose } from 'redux';
 import { connect, useSelector } from 'react-redux';
-import { withRouter } from 'react-router';
+import { withRouter, Redirect } from 'react-router';
 import PropTypes from 'prop-types';
 import { isLoaded, useFirestoreConnect } from 'react-redux-firebase';
 
@@ -61,6 +61,10 @@ const New = ({ event, registerNewParticipant, history }) => {
   };
 
   const isLoading = !isLoaded(races) || !isLoaded(participants);
+
+  if (!event.registrationAvailable) {
+    return <Redirect to='/not-found'/>;
+  }
 
   return (
     <Article scrollTop={ false }>

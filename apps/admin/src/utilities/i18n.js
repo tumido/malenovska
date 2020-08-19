@@ -83,7 +83,9 @@ export const czechMessages = {
       password: 'Heslo',
       sign_in: 'Přihlásit se',
       sign_in_error: 'Ověření selhalo, zkuste to znovu',
-      logout: 'Odhlásit se'
+      logout: 'Odhlásit se',
+      user_menu: 'Menu',
+      auth_check_error: 'Chyba přihlášení, prosím přihlaste se'
     },
     notification: {
       updated: 'Prvek aktualizován |||| %{smart_count} prvků aktualizováno',

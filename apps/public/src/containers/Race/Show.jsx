@@ -40,9 +40,6 @@ const Show = ({ match: { params: { id }}, event }) => {
         <Markdown content={ race[0].legend } />
       </CardContent>
       <CardActions>
-        {/* <IconButton aria-label="add to favorites">
-              <FavoriteOutlined />
-            </IconButton> */}
         <IconButton aria-label="share" onClick={ ()=> setShareDialogOpen(true) }>
           <ShareOutlined />
         </IconButton>
