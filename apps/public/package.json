@@ -11,9 +11,9 @@
   "license": "MIT",
   "scripts": {
     "prebuild": "rm -rf dist",
-    "build": "parcel build src/index.html --no-source-maps",
+    "build": "NODE_ENV='production' webpack --config webpack.prod.js",
     "deploy": "firebase deploy --only hosting:public",
-    "start": "parcel src/index.html --port 1233",
+    "start": "webpack-dev-server --port 1233 --open --config webpack.dev.js",
     "start:prod": "yarn run build && firebase serve --only hosting:public",
     "lint": "eslint"
   },
@@ -62,13 +62,21 @@
     "@babel/preset-env": "^7.11.0",
     "@babel/preset-react": "^7.10.4",
     "babel-eslint": "^10.1.0",
-    "babel-plugin-import": "^1.13.0",
+    "babel-loader": "^8.1.0",
+    "css-loader": "^4.2.1",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.2",
     "eslint": "^7.7.0",
     "eslint-config-prettier": "^6.10.0",
     "eslint-plugin-react": "^7.18.3",
-    "parcel-bundler": "^1.12.4",
-    "parcel-plugin-bundle-visualiser": "^1.2.0"
+    "file-loader": "^6.0.0",
+    "html-webpack-plugin": "^4.3.0",
+    "style-loader": "^1.2.1",
+    "terser-webpack-plugin": "^4.1.0",
+    "webp-loader": "^0.6.0",
+    "webpack": "^5.0.0-beta.28",
+    "webpack-bundle-analyzer": "^3.8.0",
+    "webpack-cli": "^3.3.12",
+    "webpack-merge": "^5.1.2"
   }
 }
