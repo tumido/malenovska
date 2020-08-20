@@ -2,7 +2,7 @@ import React from 'react';
 import {
   Show as ShowBase,
   Datagrid, TabbedForm, FormTab,
-  FunctionField, FileField, ImageField, NumberField, TextField, BooleanField, SelectField, ReferenceManyField, ReferenceField, UrlField, DateField,
+  FunctionField, FileField, ImageField, NumberField, TextField, BooleanField, SelectField, ReferenceManyField, ReferenceField, UrlField,
   EditButton
 } from 'react-admin';
 import { ColorField } from 'react-admin-color-input';
@@ -10,7 +10,7 @@ import { Icon } from '@material-ui/core';
 
 import { MarkdownField, TimeField } from 'components';
 import { EventTitle } from './shared';
-import { useStyles } from '../shared';
+import { useStyles, LocaleDateField } from '../shared';
 
 const Show = (props) => {
   const classes = useStyles();
@@ -22,7 +22,7 @@ const Show = (props) => {
           <TextField label="ID" source="id" formClassName={ classes.inlineBlock } />
           <TextField label='Název' source="name" formClassName={ classes.inlineBlock } />
           <TextField label='Rok konání' source="year" formClassName={ classes.inlineBlock } />
-          <DateField label="Datum konání" source='date' formClassName={ classes.inlineBlock } />
+          <LocaleDateField label="Datum konání" source='date' formClassName={ classes.inlineBlock } />
           <SelectField label='Tag' source="type" formClassName={ classes.inlineBlock }
             choices={ [
               { id: true, name: 'Bitva' },

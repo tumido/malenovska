@@ -2,12 +2,13 @@ import React from 'react';
 import {
   List as ListBase,
   Datagrid,
-  DateField, TextField, ReferenceField, FunctionField,
+  TextField, ReferenceField, FunctionField,
   EditButton, ShowButton
 } from 'react-admin';
 import { truncate } from 'lodash/string';
 
 import { EventFilter } from '../shared';
+import { LocaleDateField } from '../shared';
 
 const List = (props) => (
   <ListBase
@@ -22,9 +23,9 @@ const List = (props) => (
       </ReferenceField>
       <FunctionField label='Perex' render={ record => truncate(record.perex, { length: 60, separator: ' ' }) } />
       <TextField label="Autor" source="createdby" />
-      <DateField label="Publikováno" source="publishedAt" />
-      <DateField label="Vytvořeno" source="createdate" />
-      <DateField label="Aktualizováno" source="lastupdate" />
+      <LocaleDateField label="Publikováno" source="publishedAt" />
+      <LocaleDateField label="Vytvořeno" source="createdate" />
+      <LocaleDateField label="Aktualizováno" source="lastupdate" />
       <EditButton />
       <ShowButton />
     </Datagrid>

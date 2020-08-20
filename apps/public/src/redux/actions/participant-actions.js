@@ -11,7 +11,7 @@ export const registerNewParticipant = ({
     options: { action: 'spinner' }
   }));
 
-  const personDataPublic = { firstName, nickName, lastName, race, group, event };
+  const personDataPublic = { firstName, nickName, lastName, race, group, event, createdate: new Date() };
   const personDataPrivate = { age, email };
 
   const firestore = getFirebase().firestore();

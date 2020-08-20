@@ -2,12 +2,13 @@ import React from 'react';
 import {
   List as ListBase,
   Datagrid,
-  DateField, SelectField, BooleanField, TextField, FunctionField,
+  SelectField, BooleanField, TextField, FunctionField,
   EditButton, ShowButton, CloneButton
 } from 'react-admin';
 import { truncate } from 'lodash/string';
 
 import { ChipField } from './shared';
+import { LocaleDateField } from '../shared';
 
 const List = (props) => (
   <ListBase title='Události' { ...props }>
@@ -29,7 +30,7 @@ const List = (props) => (
             { length: 40, separator: ' ' }) } />
       <BooleanField label='Zobrazitelné' source="display" />
       <BooleanField label='Registrace' source="registrationAvailable" />
-      <DateField label="Aktualizováno" source="lastupdate" />
+      <LocaleDateField label="Aktualizováno" source="lastupdate" />
       <EditButton />
       <CloneButton />
       <ShowButton />

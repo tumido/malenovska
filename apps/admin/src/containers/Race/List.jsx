@@ -2,14 +2,14 @@ import React from 'react';
 import {
   List as ListBase,
   Datagrid,
-  FunctionField, DateField, TextField, ReferenceField,
+  FunctionField, TextField, ReferenceField,
   EditButton, ShowButton
 } from 'react-admin';
 import { ColorField } from 'react-admin-color-input';
 
 import Icon from '@material-ui/core/Icon';
 
-import { EventFilter } from '../shared';
+import { EventFilter, LocaleDateField } from '../shared';
 
 const List = (props) => (
   <ListBase
@@ -27,8 +27,8 @@ const List = (props) => (
       <FunctionField label='Obrázek' source="image" render={ ({ image }) => <Icon>{ image ? 'check' : 'close' }</Icon> }/>
       <ColorField label='Barva' source='color'/>
       <TextField label="Autor" source="createdby" />
-      <DateField label="Vytvořeno" source="createdate" />
-      <DateField label="Aktualizováno" source="lastupdate" />
+      <LocaleDateField label="Vytvořeno" source="createdate" />
+      <LocaleDateField label="Aktualizováno" source="lastupdate" />
       <EditButton />
       <ShowButton />
     </Datagrid>

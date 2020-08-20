@@ -1,7 +1,7 @@
 import React from 'react';
 import {
   Filter,
-  ReferenceInput, SelectInput
+  ReferenceInput, SelectInput, DateField, useLocale
 } from 'react-admin';
 
 import firebase from 'firebase/app';
@@ -14,6 +14,16 @@ export const EventFilter = (props) => (
     </ReferenceInput>
   </Filter>
 );
+
+export const LocaleDateField = (props) => {
+  const locale = useLocale();
+
+  return <DateField { ...props } locales={ locale } />;
+};
+
+LocaleDateField.defaultProps = {
+  addLabel: true
+};
 
 export const useStyles = makeStyles({
   inlineBlock: { display: 'inline-flex', marginRight: '1rem' }
@@ -45,5 +55,5 @@ export const setCacheForRecord = ({
 };
 
 export default {
-  EventFilter
+  EventFilter, LocaleDateField
 };

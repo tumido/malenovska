@@ -10,6 +10,7 @@ import {
 import { unparse as convertToCSV } from 'papaparse/papaparse.min';
 
 import { getPrivateSubDocument } from './shared';
+import { LocaleDateField } from '../shared';
 
 const LegendFilter = (props) => (
   <Filter { ...props }>
@@ -69,6 +70,8 @@ const List = (props) => (
       <ReferenceField label='Strana' source="race" reference='races'>
         <TextField source='name' />
       </ReferenceField>
+      <LocaleDateField label="Vytvořeno" source="createdate" />
+      <LocaleDateField label="Aktualizováno" source="lastupdate" />
       <EditButton />
       <ShowButton />
     </Datagrid>
