@@ -4,7 +4,7 @@ import { FirebaseAuthProvider, FirebaseDataProvider } from 'react-admin-firebase
 import polyglotI18nProvider from 'ra-i18n-polyglot';
 import { Helmet } from 'react-helmet';
 
-import { Today, Receipt, Group, Person } from '@material-ui/icons';
+import { Today, Receipt, Group, Person, CameraEnhance } from '@material-ui/icons';
 
 import '@firebase/auth';
 
@@ -19,6 +19,7 @@ import legend from 'containers/Legend';
 import event from 'containers/Event';
 import race from 'containers/Race';
 import participant from 'containers/Participant';
+import gallery from 'containers/Gallery';
 
 const options = {};
 
@@ -67,6 +68,12 @@ const App = () => (
         options={ { label: 'Účastníci' } }
         icon={ Person }
         { ...participant }
+      />
+      <Resource
+        name='galleries'
+        options={ { label: 'Galerie' } }
+        icon={ CameraEnhance }
+        { ...gallery }
       />
     </Admin>
   </React.Fragment>

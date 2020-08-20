@@ -22,7 +22,7 @@ const Edit = (props) => {
   const onSuccess = setCacheForRecord({
     collection: 'races',
     records: [ 'image' ],
-    isCreate: true,
+    isCreate: false,
     basePath: props.basePath,
     redirectTo, notify
   });
