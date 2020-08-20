@@ -6,9 +6,11 @@ import PropTypes from 'prop-types';
 
 import { firestoreConnect, isLoaded } from 'react-redux-firebase';
 
-import { Hidden, Grid, Typography, Card, CardActionArea, CardContent, Link } from '@material-ui/core';
+import { Hidden, Grid, Typography, Card, CardActionArea, CardContent, Link, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
+import { ExpandMore } from '@material-ui/icons';
+
 import BgImage from '@malenovska/common/assets/images/background.jpg';
 
 import { darkTheme } from '../../utilities/theme';
@@ -43,7 +45,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const EventItem = ({ event, showChip = false }) => {
+const EventItem = ({ event }) => {
   const classes = useStyles();
 
   return (
@@ -54,7 +56,7 @@ const EventItem = ({ event, showChip = false }) => {
             <CardContent>
               <Typography gutterBottom variant="h5">
                 { event.name }
-                { showChip && <EventAvailabilityChip event={ event } className={ classes.chip }/> }
+                <EventAvailabilityChip event={ event } className={ classes.chip }/>
               </Typography>
               <Typography gutterBottom variant="body2" color="textSecondary" component="p">
                 { event.type ? 'Bitva, podzim' : 'Šarvátka, jaro' } { event.year }
@@ -75,13 +77,35 @@ EventItem.propTypes = {
     type: PropTypes.bool.isRequired,
     description: PropTypes.string.isRequired,
     year: PropTypes.number.isRequired
-  }).isRequired,
-  showChip: PropTypes.bool
+  }).isRequired
 };
+
+const cmpDate = (a, b) => a.date < b.date ? 1 : -1;
+const getYear = date => date && date.toDate && date.toDate().getFullYear() || 0;
+const cmpYear = (year, today) => year === today.getFullYear();
 
 const Landing = ({ events }) => {
   const classes = useStyles();
   const today = new Date();
+
+  const thisYear = (!isLoaded(events)) ? [] : events
+  .filter(({ date, display }) => display && cmpYear(getYear(date), today))
+  .sort(cmpDate);
+
+  const pastYears = (!isLoaded(events)) ? [] : events
+  .filter(({ date, display }) => display && (!cmpYear(getYear(date), today)))
+  .sort(cmpDate);
+
+  const [ expanded, setExpanded ] = React.useState(false);
+
+  const renderPast = expanded ? (
+    <React.Fragment>
+      <Typography variant="overline" color="textSecondary">V letech minulých</Typography>
+      { pastYears.map((event) => <EventItem key={ event.id } event={ event } />)}
+    </React.Fragment>
+  ) : (
+    <Button onClick={ () => setExpanded(true) } startIcon={ <ExpandMore /> } variant='outlined' size='small'>Zobraz minulé ročníky</Button>
+  );
 
   return (
     <ThemeProvider theme={ darkTheme }>
@@ -97,15 +121,9 @@ const Landing = ({ events }) => {
           </Grid>
         </Hidden>
         <Grid item xs={ 12 } md={ 3 } container spacing={ 4 } direction="column" justify="center" alignItems="center" className={ classes.eventList }>
-          { isLoaded(events) && events
-          .filter(({ date }) => date && date.toDate && date.toDate() >= today)
-          .sort((a, b) => a.date < b.date ? 1 : -1)
-          .map((event) => <EventItem key={ event.id } event={ event } showChip={ true }/>)}
-          <Typography variant="overline" color="textSecondary">Již proběhlo</Typography>
-          { isLoaded(events) && events
-          .filter(({ date }) => date && date.toDate && date.toDate() < today)
-          .sort((a, b) => a.date < b.date ? 1 : -1)
-          .map((event) => <EventItem key={ event.id } event={ event } />)}
+          <Typography variant="overline" color="textSecondary">Malenovské události roku {today.getFullYear()}</Typography>
+          { thisYear.map((event) => <EventItem key={ event.id } event={ event } />)}
+          { renderPast }
         </Grid>
       </Grid>
     </ThemeProvider>
