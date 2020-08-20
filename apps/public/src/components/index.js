@@ -1,4 +1,5 @@
 import { Article, ArticleCardHeader, SmallArticleCard } from './Article';
+import Banner from './Banner';
 import ColorBadge from './ColorBadge';
 import { CardFormField, CheckboxFormField, TextFormField } from './FormCustomizations';
 import EventAvailabilityChip from './EventAvailabilityChip';
@@ -21,6 +22,7 @@ import Wizard from './Wizard';
 export {
   Article,
   ArticleCardHeader,
+  Banner,
   CardFormField,
   CheckboxFormField,
   ColorBadge,

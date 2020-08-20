@@ -3,8 +3,10 @@ import PropTypes from 'prop-types';
 import { connect, useSelector } from 'react-redux';
 import { useFirestoreConnect, isLoaded } from 'react-redux-firebase';
 
-import { GridList, GridListTile, GridListTileBar, Link, Container } from '@material-ui/core';
+import { GridList, GridListTile, GridListTileBar, Link, Container, Typography } from '@material-ui/core';
 import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
+
+import { Banner } from 'components';
 
 const List = ({ event, width }) => {
   useFirestoreConnect(() => [
@@ -37,6 +39,9 @@ const List = ({ event, width }) => {
 
   return (
     <Container maxWidth='md' style={ { padding: 2 } }>
+      <Banner event={ event } title="Galerie">
+        <Typography>Fotogalerie, sdílená alba, památníčky... prostě, co se našlo.</Typography>
+      </Banner>
       <GridList cellHeight={ 300 } cols={ isWidthUp('sm', width) ? 3 : 2 }>
         {galleries.map((tile, idx) => (
           <GridListTile
@@ -45,7 +50,7 @@ const List = ({ event, width }) => {
             key={ tile.url }
             href={ tile.url }
             target='_blank'
-            style={ { padding: 0 } }>
+            style={ { padding: 0, backgroundColor: 'lightgray' } }>
             <img src={ tile.cover && tile.cover.src } alt={ `${event.name} od ${tile.author}` } />
             <GridListTileBar
               title={ tile.name }
@@ -53,6 +58,7 @@ const List = ({ event, width }) => {
           </GridListTile>
         ))}
       </GridList>
+
     </Container>
   );
 };

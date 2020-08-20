@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { Grid, Container } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
-import { SmallArticleCard } from 'components';
+import { SmallArticleCard, Banner } from 'components';
 
 const useStyles = makeStyles(theme => ({
   grid: {
@@ -47,12 +47,12 @@ const List = ({ event }) => {
 
   return (
     <Container maxWidth="lg">
+      <Banner event={ event } title="Strany"/>
       { !isEmpty(races)
         && (
           <Grid
             container
             direction="row"
-            alignItems="center"
             spacing={ 2 }
             className={ styles.grid }>
             { raceCards }
