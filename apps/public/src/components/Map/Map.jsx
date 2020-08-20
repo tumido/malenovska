@@ -54,7 +54,7 @@ const Map = ({ markers, center, className }) => {
   const markersToRender = markers.map((marker, index) => (
     <Marker
       key={ `point_${index}` }
-      position={ [ marker.geo.latitude, marker.geo.longitude ] }
+      position={ [ marker.latitude, marker.longitude ] }
       icon={ divIcon({
         html: renderToString(<Icon fontSize='large' className={ classes[`color${index % 3}`] }>location_on</Icon>),
         className: ''
@@ -68,7 +68,7 @@ const Map = ({ markers, center, className }) => {
         <LeafletMap
           center={ center ||
             latLngBounds(
-              markers.map(marker => [ marker.geo.latitude, marker.geo.longitude ])
+              markers.map(marker => [ marker.latitude, marker.longitude ])
             ).getCenter() }
           zoom={ 15 }
           className={ classes.maximize }>

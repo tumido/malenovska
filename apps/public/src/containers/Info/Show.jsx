@@ -102,7 +102,7 @@ const Show = ({ event, center, setCenter }) => {
                   <TableRow
                     hover
                     key={ `row_${index}` }
-                    onClick={ () => { setCenter([ row.geo.latitude, row.geo.longitude ]); } }
+                    onClick={ () => { setCenter([ row.latitude, row.longitude ]); } }
                     className={ classes.clickableRow }
                   >
                     <TableCell padding='none' className={ classes.columnMarker } >
@@ -119,7 +119,7 @@ const Show = ({ event, center, setCenter }) => {
                         </IconButton>
                       </Tooltip>
                       <Tooltip title="Otevřít v Mapy.cz" aria-label="locate on mapy.cz" placement='top'>
-                        <IconButton target='_blank' href={ `http://www.mapy.cz/#z=16@mm=T@st=s@ssq=loc:${row.geo.latitude}N ${row.geo.longitude}E` }>
+                        <IconButton target='_blank' href={ `http://www.mapy.cz/#z=16@mm=T@st=s@ssq=loc:${row.latitude}N ${row.longitude}E` }>
                           <Icon fontSize='small'>navigation</Icon>
                         </IconButton>
                       </Tooltip>

@@ -2,11 +2,11 @@ import React from 'react';
 import {
   Edit as EditBase,
   Datagrid, TabbedForm, FormTab,
-  TextInput, BooleanInput, NumberInput, SelectInput, FileInput, ImageInput,
+  TextInput, BooleanInput, NumberInput, SelectInput, FileInput, ImageInput, ArrayInput,
   FunctionField, FileField, ImageField, TextField, ReferenceManyField, ReferenceField,
-  EditButton,
+  EditButton, SimpleFormIterator,
   useNotify, useRedirect,
-  required
+  required, minValue, maxValue
 } from 'react-admin';
 import PropTypes from 'prop-types';
 import { ColorField } from 'react-admin-color-input';
@@ -83,6 +83,24 @@ const Edit = (props) => {
           <MarkdownInput label='Úvod: Dole' source="registrationBeforeBelow" />
           <MarkdownInput label='Úspěšná registrace' source="registrationAfter" />
           <MarkdownInput label='Přihlášení účastníci' source="registrationList" />
+        </FormTab>
+        <FormTab label="Mapa">
+          <ArrayInput label="Body na mapě" source='poi'>
+            <SimpleFormIterator>
+              <TextInput label='Název' source='name' formClassName={ classes.inlineBlock }/>
+              <TextInput label='Popisek' source='description' formClassName={ classes.inlineBlock }/>
+              <NumberInput
+                label='Souřadnice - šířka'
+                source='latitude'
+                validate={ [ minValue(-180), maxValue(180) ] }
+                formClassName={ classes.inlineBlock }/>
+              <NumberInput
+                label='Souřadnice - délka'
+                source='longitude'
+                validate={ [ minValue(-90), maxValue(90) ] }
+                formClassName={ classes.inlineBlock }/>
+            </SimpleFormIterator>
+          </ArrayInput>
         </FormTab>
         <FormTab label="Ostatní">
           <FileInput label="Potvrzení pro nezletilé" source="declaration" accept="application/pdf">
