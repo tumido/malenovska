@@ -12,6 +12,7 @@ import BgImage from '@malenovska/common/assets/images/background.jpg';
 import { Header, Footer, Loading, Notifier, ScrollRestore } from 'components';
 import { setEvent } from '../redux/actions/event-actions';
 
+const Gallery = lazy(() => import('containers/Gallery/List'));
 const LegendList = lazy(() => import('containers/Legend/List'));
 const LegendShow = lazy(() => import('containers/Legend/Show'));
 const Rules = lazy(() => import('containers/Rules'));
@@ -101,7 +102,9 @@ const Public = ({ event, setEvent }) => {
       {
         title: 'Galerie',
         className: 'material-icons-outlined',
-        icon: 'collections_outline'
+        icon: 'collections_outline',
+        href: 'gallery',
+        disabled: event.date.toDate() > tomorrow
       }
     ],
     [
@@ -140,6 +143,7 @@ const Public = ({ event, setEvent }) => {
                 <Route path={ `/${event.id}/registration/new` } component={ RegistrationNew } />
                 <Route path={ `/${event.id}/registration/done` } component={ RegistrationDone } />
                 <Route path={ `/${event.id}/registration/list` } component={ RegistrationList } />
+                <Route path={ `/${event.id}/gallery` } component={ Gallery } />
                 <Redirect exact from={ `/${event.id}` } to={ `/${event.id}/legends` } />
                 <Redirect to='/not-found' />
               </Switch>
