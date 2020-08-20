@@ -10,6 +10,7 @@ import '@firebase/auth';
 
 import { adminTheme } from './utilities/theme';
 import { czechMessages } from './utilities/i18n';
+import { deleteParticipantSubCollection } from './utilities/sagas';
 import BgImage from '@malenovska/common/assets/images/background.jpg';
 import Favicon from '@malenovska/common/assets/images/favicon-32x32.png';
 import { firebaseConfig } from '@malenovska/common/utilities/firebase';
@@ -41,6 +42,7 @@ const App = () => (
       theme={ adminTheme }
       loginPage={ LoginPage }
       title="Malenovská Strojovna"
+      customSagas={ [ deleteParticipantSubCollection ] }
     >
       <Resource
         name='events'

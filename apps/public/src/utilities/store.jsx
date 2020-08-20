@@ -7,7 +7,7 @@ import { getFirebase } from 'react-redux-firebase';
 let middleware = [
   thunk.withExtraArgument(getFirebase)
 ];
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV === 'development') {
   middleware = [ ...middleware, logger ];
 }
 

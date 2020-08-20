@@ -63,7 +63,11 @@ const New = ({ event, registerNewParticipant, history }) => {
   const isLoading = !isLoaded(races) || !isLoaded(participants);
 
   if (!event.registrationAvailable) {
-    return <Redirect to='/not-found'/>;
+    if (process.env.NODE_ENV === 'development') {
+      console.warn('Route available only because you\'re in devel mode.');
+    } else {
+      return <Redirect to='/not-found'/>;
+    }
   }
 
   return (
