@@ -7,6 +7,7 @@ import { GridList, GridListTile, GridListTileBar, Link, Container, Typography } 
 import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
 
 import { Banner } from 'components';
+import { Helmet } from 'react-helmet';
 
 const List = ({ event, width }) => {
   useFirestoreConnect(() => [
@@ -37,8 +38,16 @@ const List = ({ event, width }) => {
 
   if (!isLoaded(galleries)) {return '';}
 
+  const randomGalleryItem = galleries[Math.floor(Math.random() * galleries.length)];
+
   return (
     <Container maxWidth='md' style={ { padding: 2 } }>
+      <Helmet
+        title='Galerie'
+        meta={ galleries && [
+          { property: 'og:image', content: randomGalleryItem.cover && randomGalleryItem.cover.src }
+        ] }
+      />
       <Banner event={ event } title="Galerie">
         <Typography>Fotogalerie, sdílená alba, památníčky... prostě, co se našlo.</Typography>
       </Banner>

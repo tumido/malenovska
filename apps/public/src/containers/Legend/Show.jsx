@@ -11,6 +11,7 @@ import { ShareOutlined } from '@material-ui/icons';
 import { Markdown, Article, ArticleCardHeader } from 'components';
 import { timestampToDateStr } from '../../utilities/firebase';
 import { ShareDialog } from '../../components';
+import { Helmet } from 'react-helmet';
 
 const useStyles = makeStyles(theme => ({
   margin: {
@@ -41,6 +42,12 @@ const Show = ({ match: { params: { id }}, event }) => {
 
   return (
     <Article>
+      <Helmet
+        title={ legend[0].title }
+        meta={ [
+          { property: 'og:image', content: legend[0].image && legend[0].image.src },
+          { property: 'og:description', content: legend[0].perex }
+        ] }/>
       <ArticleCardHeader image={ legend[0].image && legend[0].image.src } title={ legend[0].title } />
       <CardContent>
         <Chip
@@ -51,9 +58,9 @@ const Show = ({ match: { params: { id }}, event }) => {
           component={ Link }
           clickable
         />
-        { legend[0].published_at && (
+        { legend[0].publishedAt && (
           <Chip
-            label={ timestampToDateStr(legend[0].published_at) }
+            label={ timestampToDateStr(legend[0].publishedAt) }
             variant='outlined'
             className={ classes.margin }
           />

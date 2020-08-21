@@ -7,6 +7,7 @@ import { Grid, Container } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { SmallArticleCard, Banner } from 'components';
+import { Helmet } from 'react-helmet';
 
 const useStyles = makeStyles(theme => ({
   grid: {
@@ -47,6 +48,7 @@ const List = ({ event }) => {
 
   return (
     <Container maxWidth="lg">
+      <Helmet title='Bojující strany' />
       <Banner event={ event } title="Strany"/>
       { !isEmpty(races)
         && (

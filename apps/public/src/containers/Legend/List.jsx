@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import { Grid, Container } from '@material-ui/core';
 
 import { SmallArticleCard, Markdown, Banner } from 'components';
+import { Helmet } from 'react-helmet';
 
 const List = ({ event }) => {
   useFirestoreConnect(() => ([
@@ -39,6 +40,7 @@ const List = ({ event }) => {
 
   return (
     <React.Fragment>
+      <Helmet title='Legendy' />
       <Banner event={ event } title="Legendy">
         <Markdown content={ event.description } />
       </Banner>

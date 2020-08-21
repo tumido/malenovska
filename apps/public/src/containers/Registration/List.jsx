@@ -9,6 +9,7 @@ import { Skeleton } from '@material-ui/lab';
 
 import { Article, TableHead, Markdown, TableToolbar } from 'components';
 import { stableSort, getSorting } from '../../utilities/sorting';
+import { Helmet } from 'react-helmet';
 
 const useStyles = makeStyles(() => ({
   table: {
@@ -94,6 +95,7 @@ const List = ({ event }) => {
   if (!isLoaded(participants) || !isLoaded(races)) {
     return (
       <Article>
+        <Helmet title='Účastníci'/>
         <Container>
           <Typography variant='h4' component='h2'><Skeleton type='text' width={ 400 }/></Typography>
         </Container>

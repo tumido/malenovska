@@ -9,6 +9,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Map } from 'components';
 import { timestampToDateStr, timestampToTimeStr } from '../../utilities/firebase';
 import { setCenter } from '../../redux/actions/map-actions';
+import { Helmet } from 'react-helmet';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -63,6 +64,7 @@ const Show = ({ event, center, setCenter }) => {
 
   return (
     <div className={ classes.root }>
+      <Helmet title='Důležité informace' />
       <Paper>
         <Grid container>
           <Grid item xs={ 12 } lg={ 3 } className={ classes.info }>

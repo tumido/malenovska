@@ -5,6 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import { Logo } from 'components';
 import BgImage from '@malenovska/common/assets/images/background.jpg';
+import { Helmet } from 'react-helmet';
 
 const styles = makeStyles({
   h1: {
@@ -26,6 +27,7 @@ const NotFound = () => {
 
   return (
     <Grid container spacing={ 2 } direction='column' justify='center' alignItems='center' className={ classes.root }>
+      <Helmet title='Nenalezeno' />
       <Grid item>
         <Typography gutterBottom variant='h1' className={ classes.h1 }>
           Nenalezen

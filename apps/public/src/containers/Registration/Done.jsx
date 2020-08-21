@@ -4,11 +4,11 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 
-import { Container, Grid, Typography, Button, CardContent, CardActions, Box } from '@material-ui/core';
+import { Container, Grid, Typography, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
-import { Article } from 'components';
 import { Alert } from '@material-ui/lab';
+import { Helmet } from 'react-helmet';
 
 const useStyles = makeStyles({
   banner: {
@@ -27,6 +27,7 @@ const List = ({ event, location: { state }}) => {
 
   return (
     <React.Fragment>
+      <Helmet title='Registrace odeslána' />
       <Container>
         <Grid container direction="column" justify="center" spacing={ 2 } alignItems="center" className={ classes.banner }>
           <Grid item>

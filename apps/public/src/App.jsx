@@ -9,7 +9,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
 
 import BgImage from '@malenovska/common/assets/images/background.jpg';
-import Favicon from '@malenovska/common/assets/images/favicon-32x32.png';
+import DefaultOgImage from '@malenovska/common/assets/images/og_image.jpg';
 
 import { Loading } from 'components';
 import { theme } from './utilities/theme';
@@ -53,10 +53,13 @@ const App = () => {
     <NoSsr>
       <ThemeProvider theme={ theme }>
         <CssBaseline />
-        <Helmet defaultTitle={ `Malenovská ${ new Date().getFullYear()}` }>
-          <meta name="theme-color" content='#0e0a0a' />
-          <link rel="shortcut icon" href={ Favicon } />
-        </Helmet>
+        <Helmet
+          defaultTitle={ `Malenovská ${ new Date().getFullYear()}` }
+          titleTemplate={ `Malenovská ${ new Date().getFullYear()} - %s` }
+          meta={ [
+            { property: 'og:image', content: DefaultOgImage }
+          ] }
+        />
         <Suspense fallback={ <ThemedLoading /> }>
           <Switch>
             { isLoaded(events) && events.map((event) => (

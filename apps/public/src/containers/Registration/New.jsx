@@ -13,6 +13,7 @@ const PersonalDetails = lazy(() => import('./steps/PersonalDetails'));
 const Readout = lazy(() => import('./steps/Readout'));
 const RaceSelect = lazy(() => import('./steps/RaceSelect'));
 import { registerNewParticipant  } from '../../redux/actions/participant-actions';
+import { Helmet } from 'react-helmet';
 
 const useStyles = makeStyles(() => ({
   stepper: {
@@ -72,6 +73,7 @@ const New = ({ event, registerNewParticipant, history }) => {
 
   return (
     <Article scrollTop={ false }>
+      <Helmet title='Nová registrace' />
       <Grid container direction='column' wrap='nowrap' spacing={ 2 } >
         <Hidden smDown>
           <Grid item ref={ handleStepperRef }/>
