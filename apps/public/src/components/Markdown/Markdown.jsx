@@ -48,7 +48,7 @@ const overrides = {
       variant: 'body1',
       component: 'pre',
       fontFamily: 'Monospace',
-      style: { marginLeft: '2em', marginBottom: '2em' }
+      style: { marginLeft: '2em', marginBottom: '2em', overflowX: 'auto' }
     }
   }
 };
