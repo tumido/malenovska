@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Field, FormSpy } from 'react-final-form';
 
 import { TextField, Typography, Grid, Icon, CardContent, Box } from '@material-ui/core';
-import { TextFormField, CheckboxFormField } from 'components';
+import { TextFormField, ColorBadge, CheckboxFormField } from 'components';
 import { required, isGreater, composeValidators, isEmail } from './validators';
 import { Markdown } from 'components';
 
@@ -136,13 +136,22 @@ const formFields = races => [
 
 const PersonalDetails = ({ races }) => (
   <React.Fragment>
+    <FormSpy subscription={ { values: true } }>
+      {({ values }) => {
+        const race = races.filter(({ id }) => id === values.race)[0];
+        return (
+          <React.Fragment>
+            <ColorBadge variant='line' color={ race.color } />
+            <CardContent>
+              <Typography gutterBottom variant='h4' component='h2'>Charakteristika strany</Typography>
+              <Markdown content={ race.requirements } />
+              <ColorBadge variant='fab' color={ race.color } />
+            </CardContent>
+          </React.Fragment>
+        );
+      }}
+    </FormSpy>
     <CardContent>
-      <Typography gutterBottom variant='h4' component='h2'>Charakteristika strany</Typography>
-      <FormSpy subscription={ { values: true } }>
-        {({ values }) => (
-          <Markdown content={ races.filter(({ id }) => id === values.race)[0].requirements } />
-        )}
-      </FormSpy>
       <Box paddingY={ 2 }>
         <Typography variant='h5' component='h2'>Osobní údaje</Typography>
       </Box>
