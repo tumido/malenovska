@@ -38,13 +38,13 @@ const List = ({ event, width }) => {
 
   if (!isLoaded(galleries)) {return '';}
 
-  const randomGalleryItem = galleries[Math.floor(Math.random() * galleries.length)];
+  const randomGalleryItem = galleries && galleries[Math.floor(Math.random() * galleries.length)];
 
   return (
     <Container maxWidth='md' style={ { padding: 2 } }>
       <Helmet
         title='Galerie'
-        meta={ galleries && [
+        meta={ randomGalleryItem && [
           { property: 'og:image', content: randomGalleryItem.cover && randomGalleryItem.cover.src }
         ] }
       />
