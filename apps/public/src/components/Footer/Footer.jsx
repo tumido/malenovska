@@ -17,7 +17,7 @@ const Footer = () => {
   const classes = useStyles();
 
   return (
-    <Grid container direction='column' justify='center' alignItems='center' component='footer' className={ classes.root }>
+    <Grid container direction='column' justifyContent='center' alignItems='center' component='footer' className={ classes.root }>
       <Grid item>
         Zlišky <span role="img" area-label="heart-emoji">❤️</span> Malenovská
       </Grid>

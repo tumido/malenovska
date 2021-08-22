@@ -109,9 +109,9 @@ const Landing = ({ events }) => {
 
   return (
     <ThemeProvider theme={ darkTheme }>
-      <Grid container justify="center" alignItems="stretch" className={ classes.root }>
+      <Grid container justifyContent="center" alignItems="stretch" className={ classes.root }>
         <Hidden xsDown>
-          <Grid item xs={ 12 } md={ 9 } container direction="column" justify="center" alignItems="center" className={ classes.logo }>
+          <Grid item xs={ 12 } md={ 9 } container direction="column" justifyContent="center" alignItems="center" className={ classes.logo }>
             <Typography gutterBottom variant="h1" className={ classes.h1 }>
               Malen
               <Logo size='5rem' bgColor={ darkTheme.palette.text.primary } fgColor='#000' />
@@ -120,7 +120,7 @@ const Landing = ({ events }) => {
             <Typography variant="body1">Kdo zvítězí tentokrát? Vyber si tu bitvu, která tě zajímá.</Typography>
           </Grid>
         </Hidden>
-        <Grid item xs={ 12 } md={ 3 } container spacing={ 4 } direction="column" justify="center" alignItems="center" className={ classes.eventList }>
+        <Grid item xs={ 12 } md={ 3 } container spacing={ 4 } direction="column" justifyContent="center" alignItems="center" className={ classes.eventList }>
           <Typography variant="overline" color="textSecondary">Malenovské události roku {today.getFullYear()}</Typography>
           { thisYear.map((event) => <EventItem key={ event.id } event={ event } />)}
           { renderPast }

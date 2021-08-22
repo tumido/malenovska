@@ -49,7 +49,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent);
+const iOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
 
 // eslint-disable-next-line react/display-name
 const AdapterLink = React.forwardRef((props, ref) => <RouterLink innerRef={ ref } { ...props } />);

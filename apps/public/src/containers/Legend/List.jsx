@@ -50,7 +50,7 @@ const List = ({ event }) => {
             <Grid
               container
               spacing={ 2 }
-              justify="center"
+              justifyContent="center"
               alignItems='stretch'>
               { legendsList }
             </Grid>

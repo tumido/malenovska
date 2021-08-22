@@ -29,7 +29,7 @@ const List = ({ event, location: { state }}) => {
     <React.Fragment>
       <Helmet title='Registrace odeslána' />
       <Container>
-        <Grid container direction="column" justify="center" spacing={ 2 } alignItems="center" className={ classes.banner }>
+        <Grid container direction="column" justifyContent="center" spacing={ 2 } alignItems="center" className={ classes.banner }>
           <Grid item>
             <Typography gutterBottom variant='h1' className={ classes.h1 }>Přihláška byla odeslána</Typography>
           </Grid>
@@ -53,7 +53,7 @@ const List = ({ event, location: { state }}) => {
             </Grid>
           )}
         </Grid>
-        <Grid container justify="center" spacing={ 2 } style={ { marginTop: 20 } }>
+        <Grid container justifyContent="center" spacing={ 2 } style={ { marginTop: 20 } }>
           <Grid item>
             <Button color='secondary' variant='contained' size='large' href='./list'>Zobrazit přihlášené účastníky</Button>
           </Grid>

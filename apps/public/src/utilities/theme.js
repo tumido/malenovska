@@ -1,4 +1,4 @@
-import { createMuiTheme } from '@material-ui/core/styles';
+import { createTheme } from '@material-ui/core/styles';
 import { deepOrange, grey } from '@material-ui/core/colors';
 import { csCZ } from '@material-ui/core/locale';
 
@@ -9,7 +9,7 @@ const palette = {
   ]
 };
 
-export const theme = createMuiTheme({
+export const theme = createTheme({
   palette: {
     primary: {
       main: grey[900]
@@ -18,7 +18,7 @@ export const theme = createMuiTheme({
   }
 }, csCZ);
 
-export const darkTheme = createMuiTheme({
+export const darkTheme = createTheme({
   palette: {
     primary: {
       main: grey[50]

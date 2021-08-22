@@ -11,8 +11,8 @@ import '@firebase/auth';
 import { adminTheme } from './utilities/theme';
 import { czechMessages } from './utilities/i18n';
 import { deleteParticipantSubCollection } from './utilities/sagas';
-import BgImage from '@malenovska/common/assets/images/background.jpg';
-import Favicon from '@malenovska/common/assets/images/favicon-32x32.png';
+import BgImage from 'url:@malenovska/common/assets/images/background.jpg';
+import Favicon from 'url:@malenovska/common/assets/images/favicon-32x32.png';
 import { firebaseConfig } from '@malenovska/common/utilities/firebase';
 
 import legend from 'containers/Legend';
