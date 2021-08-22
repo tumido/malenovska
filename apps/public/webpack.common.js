@@ -28,10 +28,14 @@ module.exports = {
       containers: path.resolve(__dirname, "src/containers/"),
     },
   },
+  optimization: {
+    runtimeChunk: 'single',
+    moduleIds: 'deterministic',
+  },
   output: {
     publicPath: '/',
     path: path.resolve(__dirname, './dist'),
-    filename: '[name].bundle.js',
+    filename: '[name].[contenthash].js',
     clean: true,
   },
   plugins: [
