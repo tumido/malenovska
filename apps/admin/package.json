@@ -26,7 +26,6 @@
     "@babel/runtime-corejs3": "^7.8.4",
     "@malenovska/common": "1.0.0",
     "@material-ui/icons": "^4.9.1",
-    "cross-env": "^7.0.0",
     "firebase-tools": "^8.7.0",
     "material-ui-pickers": "^2.2.4",
     "papaparse": "^5.1.1",

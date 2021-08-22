@@ -11,9 +11,7 @@
   "scripts": {
     "build": "true"
   },
-  "dependencies": {
-    "cross-env": "^7.0.0"
-  },
+  "dependencies": {},
   "sideEffects": "false",
   "devDependencies": {
     "@babel/core": "^7.8.4",
