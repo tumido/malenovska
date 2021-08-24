@@ -5,7 +5,6 @@ import {
   FunctionField, FileField, ImageField, NumberField, TextField, BooleanField, SelectField, ReferenceManyField, ReferenceField, UrlField,
   EditButton
 } from 'react-admin';
-import { ColorField } from 'react-admin-color-input';
 import { Icon } from '@material-ui/core';
 
 import { MarkdownField, TimeField } from 'components';
@@ -42,7 +41,7 @@ const Show = (props) => {
               <TextField label='Název' source="name" />
               <TextField label='Limit' source="limit" />
               <FunctionField label='Obrázek' source="image" render={ ({ image }) => <Icon>{image ? 'check' : 'close'}</Icon> } />
-              <ColorField label='Barva' source='color' />
+              <TextField label='Barva' source='color' />
               <EditButton />
             </Datagrid>
           </ReferenceManyField>

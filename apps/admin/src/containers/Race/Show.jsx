@@ -5,7 +5,6 @@ import {
   TextField, ReferenceField, NumberField, ImageField,
   required
 } from 'react-admin';
-import { ColorField } from 'react-admin-color-input';
 
 import MarkdownField from 'components/MarkdownField';
 import { RaceTitle } from './shared';
@@ -22,7 +21,7 @@ const Show = (props) => {
           <TextField source="name"  formClassName={ classes.inlineBlock }/>
         </ReferenceField>
         <NumberField label='Limit' source='limit' validate={ required() }  formClassName={ classes.inlineBlock }/>
-        <ColorField label='Barva' source="color" picker='Sketch' validate={ required() }  formClassName={ classes.inlineBlock }/>
+        <TextField label='Barva' source="color" picker='Sketch' validate={ required() }  formClassName={ classes.inlineBlock }/>
         <MarkdownField label='Legenda' source="legend" validate={ required() } />
         <MarkdownField label='Požadavky' source="requirements" validate={ required() } />
         <ImageField source="image.src" title="image.title" />

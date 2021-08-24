@@ -8,7 +8,6 @@ import {
   useNotify, useRedirect,
   required
 } from 'react-admin';
-import { ColorInput } from 'react-admin-color-input';
 
 import MarkdownInput from 'components/MarkdownInput';
 import { useStyles, setCacheForRecord  } from '../shared';
@@ -35,7 +34,7 @@ const Create = (props) => {
         </ReferenceInput>
         <NumberInput label='Limit' source='limit' validate={ required() } formClassName={ classes.inlineBlock } />
         <NumberInput label='Pořadí v registraci' source='priority' defaultValue='1' formClassName={ classes.inlineBlock } />
-        <ColorInput label='Barva' source="color" picker='Sketch' validate={ required() } />
+        <TextInput label='Barva' source="color" picker='Sketch' validate={ required() } />
         <MarkdownInput label='Legenda' source="legend" validate={ required() } />
         <MarkdownInput label='Požadavky' source="requirements" validate={ required() } />
         <ImageInput source="image" label="Obrázek">
