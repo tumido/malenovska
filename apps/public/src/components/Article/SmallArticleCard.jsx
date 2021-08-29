@@ -10,7 +10,7 @@ import { ArticleCardHeader } from 'components';
 const SmallArticleCard = ({ title, body, image, href, actionAreaProps = {}, cardProps = {}}) => (
   <CardActionArea component={ href && RouterLink } to={ href } { ...actionAreaProps }>
     <Card component={ Box } width='100%' height='100%' { ...cardProps }>
-      <ArticleCardHeader height={ 250 } titleVariant='h5' image={ image && image.src } title={ title }/>
+      <ArticleCardHeader height={ 300 } titleVariant='h5' image={ image && image.src } title={ title }/>
       { body && (
         <CardContent>
           <Typography variant="body2" color="textPrimary" component="p">

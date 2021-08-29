@@ -4,21 +4,12 @@ import { useFirestoreConnect, isLoaded, isEmpty } from 'react-redux-firebase';
 import PropTypes from 'prop-types';
 
 import { Grid, Container } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
 
 import { SmallArticleCard, Banner } from 'components';
 import { Helmet } from 'react-helmet';
 
-const useStyles = makeStyles(theme => ({
-  grid: {
-    [theme.breakpoints.up('md')]: {
-      minHeight: '100vh'
-    }
-  }
-}));
 
 const List = ({ event }) => {
-  const styles = useStyles();
   useFirestoreConnect(() => [
     {
       collection: 'races',
@@ -37,7 +28,6 @@ const List = ({ event }) => {
       item
       xs={ 12 }
       sm={ 6 }
-      md={ 12 / races.length }
       key={ r.id }>
       <SmallArticleCard
         title={ r.name }
@@ -55,8 +45,7 @@ const List = ({ event }) => {
           <Grid
             container
             direction="row"
-            spacing={ 2 }
-            className={ styles.grid }>
+            spacing={ 2 }>
             { raceCards }
           </Grid>
         )}
