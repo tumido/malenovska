@@ -9,7 +9,6 @@ import {
   required, minValue, maxValue
 } from 'react-admin';
 import PropTypes from 'prop-types';
-import { ColorField } from 'react-admin-color-input';
 import { DateInput, KeyboardTimeInput } from 'react-admin-date-inputs';
 import { Icon } from '@material-ui/core';
 
@@ -59,7 +58,7 @@ const Edit = (props) => {
               <TextField label='Název' source="name" />
               <TextField label='Limit' source="limit" />
               <FunctionField label='Obrázek' source="image" render={ ({ image }) => <Icon>{image ? 'check' : 'close'}</Icon> } />
-              <ColorField label='Barva' source='color' />
+              <TextField label='Barva' source='color' />
               <EditButton />
             </Datagrid>
           </ReferenceManyField>

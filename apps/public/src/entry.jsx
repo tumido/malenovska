@@ -19,7 +19,7 @@ loadFonts();
 
 const store = configureStore();
 
-const IE = process.browser && /MSIE|Trident/.test(navigator.userAgent);
+const IE = /MSIE|Trident/.test(navigator.userAgent);
 
 const render = () => {
   ReactDOM.render(
@@ -41,6 +41,7 @@ const render = () => {
 };
 
 if (module.hot) {
+  module.hot.accept();
   enableFirebasePersistence();
 }
 

@@ -32,7 +32,7 @@ const Banner = ({ event, title, children }) => {
   return (
     <Hidden xsDown>
       <Container>
-        <Grid container direction="column" justify="center" spacing={ 2 } alignItems="center" className={ styles.banner }>
+        <Grid container direction="column" justifyContent="center" spacing={ 2 } alignItems="center" className={ styles.banner }>
           <Grid item>
             { title && <Typography variant='h2' className={ styles.h2 }>{ title }</Typography>}
             <Typography gutterBottom variant='h1' className={ styles.h1 }>{ event.name }</Typography>

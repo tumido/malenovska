@@ -2,7 +2,7 @@ import React from 'react';
 import { renderToString } from 'react-dom/server';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import { Map as LeafletMap, Marker, TileLayer } from 'react-leaflet';
+import { MapContainer, Marker, TileLayer } from 'react-leaflet';
 
 import { latLngBounds, divIcon } from 'leaflet';
 import { Grid, Icon } from '@material-ui/core';
@@ -65,7 +65,7 @@ const Map = ({ markers, center, className }) => {
   return (
     <Grid container className={ clsx(`${classes.root} ${className}`) }>
       <Grid item className={ classes.map }>
-        <LeafletMap
+        <MapContainer
           center={ center ||
             latLngBounds(
               markers.map(marker => [ marker.latitude, marker.longitude ])
@@ -82,7 +82,7 @@ const Map = ({ markers, center, className }) => {
             ) }
           />
           { markersToRender }
-        </LeafletMap>
+        </MapContainer>
       </Grid>
     </Grid>
   );

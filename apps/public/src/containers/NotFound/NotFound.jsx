@@ -26,7 +26,7 @@ const NotFound = () => {
   const classes = styles();
 
   return (
-    <Grid container spacing={ 2 } direction='column' justify='center' alignItems='center' className={ classes.root }>
+    <Grid container spacing={ 2 } direction='column' justifyContent='center' alignItems='center' className={ classes.root }>
       <Helmet title='Nenalezeno' />
       <Grid item>
         <Typography gutterBottom variant='h1' className={ classes.h1 }>

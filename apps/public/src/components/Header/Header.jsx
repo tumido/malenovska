@@ -49,7 +49,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent);
+const iOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
 
 // eslint-disable-next-line react/display-name
 const AdapterLink = React.forwardRef((props, ref) => <RouterLink innerRef={ ref } { ...props } />);
@@ -127,14 +127,14 @@ const Header = ({ event, allEvents, navigation, location: { pathname }}) => {
         open={ Boolean(menuOpen) }
         onClick={ handleMenuClose }
       >
-        { allEvents.filter(({ display }) => display).map(option => (
+        { allEvents.filter(({ display }) => display).sort(({year: year1}, {year: year2}) => year1 > year2 ? -1 : 1).map(option => (
           <MenuItem
             key={ option.id }
             selected={ option.id === event.id }
             component={ AdapterLink }
             to={ `/${option.id}` }
           >
-            {option.name}
+            {option.year}: {option.name}
           </MenuItem>
         )) }
       </Menu>

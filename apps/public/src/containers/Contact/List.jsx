@@ -41,7 +41,7 @@ const List = ({ event }) => (
       </Box>
       <Typography variant='h5' gutterBottom component='h3'>Kontakty a odkazy pro současný ročník</Typography>
       <Box marginTop={ 4 }>
-        <Grid container justify='center' spacing={ 2 } >
+        <Grid container justifyContent='center' spacing={ 2 } >
           { contactButtons(event).map(c => (
             <Grid item key={ c.href }>
               <Button

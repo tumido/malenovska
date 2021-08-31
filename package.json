@@ -9,13 +9,15 @@
     "predeploy": "yarn workspaces run build",
     "deploy": "firebase deploy --only hosting",
     "deploy:rules": "firebase deploy --only firestore:rules",
-    "export": "firestore-export -a malenovska-service-account.json -p",
+    "export": "mkdir -p backup && firestore-export -a malenovska-service-account.json -p -b backup/$(date -I).json",
     "start": "npm-run-all -p start:*",
     "start:admin": "yarn workspace @malenovska/admin start",
     "start:public": "yarn workspace @malenovska/public start"
   },
   "devDependencies": {
-    "firebase-tools": "^7.15.1",
+    "firebase-tools": "^9.16.5",
+    "node-firestore-import-export": "^1.1.0",
     "npm-run-all": "^4.1.5"
-  }
+  },
+  "version": "0.0.0"
 }

@@ -155,7 +155,7 @@ const PersonalDetails = ({ races }) => (
       <Box paddingY={ 2 }>
         <Typography variant='h5' component='h2'>Osobní údaje</Typography>
       </Box>
-      <Grid container justify='center' spacing={ 3 }>
+      <Grid container justifyContent='center' spacing={ 3 }>
         {formFields(races).map((item, idx) => (
           <Grid item xs={ 12 } sm={ item.size } key={ idx }>
             {item.field}
