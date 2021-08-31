@@ -2151,7 +2151,7 @@ __metadata:
     react-router: 5.2.1
     react-router-dom: 5.2.1
     react-share: 4.4.0
-    react-social-icons: 5.6.0
+    react-social-icons: 5.6.1
     redux: 4.1.1
     redux-firestore: 0.15.0
     redux-logger: 3.0.6
@@ -10946,14 +10946,14 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"react-social-icons@npm:5.6.0":
-  version: 5.6.0
-  resolution: "react-social-icons@npm:5.6.0"
+"react-social-icons@npm:5.6.1":
+  version: 5.6.1
+  resolution: "react-social-icons@npm:5.6.1"
   dependencies:
     prop-types: ^15.7.2
   peerDependencies:
     react: 15.x.x || 16.x.x || 17.x.x
-  checksum: 8753223c3ff5afd97e392ab064559baa66fd9c4108a8c3970740c6a47a0e66c49249b87bd03316ab98500d79db3274aac9cbd0a48b1a1b8490adfbf49a908544
+  checksum: 5c0600df3d7a622be3e0726d5288779d2b3e8f4515cfc49989694e00e8e6d16328581c60f3aea76d8b95e75ac35d314768db1318aa7e918e46860020e911c0df
   languageName: node
   linkType: hard
 
