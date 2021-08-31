@@ -2050,7 +2050,7 @@ __metadata:
     date-fns: 2.23.0
     eslint: 7.32.0
     eslint-config-prettier: 8.3.0
-    eslint-plugin-react: 7.24.0
+    eslint-plugin-react: 7.25.1
     final-form: 4.20.2
     final-form-arrays: 3.0.2
     firebase: 8.10.0
@@ -2099,7 +2099,7 @@ __metadata:
     babel-plugin-import: 1.13.3
     eslint: 7.32.0
     eslint-config-prettier: 8.3.0
-    eslint-plugin-react: 7.24.0
+    eslint-plugin-react: 7.25.1
     webfontloader: 1.6.28
   languageName: unknown
   linkType: soft
@@ -2132,7 +2132,7 @@ __metadata:
     css-loader: 6.2.0
     eslint: 7.32.0
     eslint-config-prettier: 8.3.0
-    eslint-plugin-react: 7.24.0
+    eslint-plugin-react: 7.25.1
     final-form: 4.20.2
     firebase-tools: 9.16.6
     html-webpack-plugin: 5.3.2
@@ -5590,13 +5590,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-react@npm:7.24.0":
-  version: 7.24.0
-  resolution: "eslint-plugin-react@npm:7.24.0"
+"eslint-plugin-react@npm:7.25.1":
+  version: 7.25.1
+  resolution: "eslint-plugin-react@npm:7.25.1"
   dependencies:
     array-includes: ^3.1.3
     array.prototype.flatmap: ^1.2.4
     doctrine: ^2.1.0
+    estraverse: ^5.2.0
     has: ^1.0.3
     jsx-ast-utils: ^2.4.1 || ^3.0.0
     minimatch: ^3.0.4
@@ -5608,7 +5609,7 @@ __metadata:
     string.prototype.matchall: ^4.0.5
   peerDependencies:
     eslint: ^3 || ^4 || ^5 || ^6 || ^7
-  checksum: bf844f98d93f3617fbd03df4be4f4c9e8e49ea035678762b73a28df730e9518d5ac636293f6326b41b4a0678f9dfa059ce559f6652c7a2d914d477ec3a389619
+  checksum: e22ffbb6d336558cab38717c8c6199b72635500b9bd909891ba45865adae5846912a2b3daa355b0c1b1bfe6664b28ee277c14943acc739e703316eff87c1fce4
   languageName: node
   linkType: hard
 
