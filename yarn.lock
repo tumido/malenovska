@@ -2062,11 +2062,11 @@ __metadata:
     markdown-to-jsx: 7.1.3
     papaparse: 5.3.1
     prop-types: 15.7.2
-    ra-core: ^3.17.2
-    ra-i18n-polyglot: ^3.17.2
-    ra-language-english: ^3.17.2
+    ra-core: 3.17.2
+    ra-i18n-polyglot: 3.17.2
+    ra-language-english: 3.17.2
     react: ^17.0.2
-    react-admin: ^3.17.2
+    react-admin: 3.17.2
     react-admin-date-inputs: "https://github.com/WiXSL/react-admin-date-inputs.git#commit=3e6eee77e98f9c1acbfc8d972d3bbb4af54e26c5"
     react-admin-firebase: 3.2.24
     react-dom: ^17.0.2
@@ -10468,7 +10468,7 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"ra-core@npm:^3.17.2":
+"ra-core@npm:3.17.2, ra-core@npm:^3.17.2":
   version: 3.17.2
   resolution: "ra-core@npm:3.17.2"
   dependencies:
@@ -10495,7 +10495,7 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"ra-i18n-polyglot@npm:^3.17.2":
+"ra-i18n-polyglot@npm:3.17.2, ra-i18n-polyglot@npm:^3.17.2":
   version: 3.17.2
   resolution: "ra-i18n-polyglot@npm:3.17.2"
   dependencies:
@@ -10505,7 +10505,7 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"ra-language-english@npm:^3.17.2":
+"ra-language-english@npm:3.17.2, ra-language-english@npm:^3.17.2":
   version: 3.17.2
   resolution: "ra-language-english@npm:3.17.2"
   dependencies:
@@ -10649,7 +10649,7 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"react-admin@npm:^3.17.2":
+"react-admin@npm:3.17.2":
   version: 3.17.2
   resolution: "react-admin@npm:3.17.2"
   dependencies:
