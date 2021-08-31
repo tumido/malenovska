@@ -1806,6 +1806,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@firebase/storage@npm:0.8.1":
+  version: 0.8.1
+  resolution: "@firebase/storage@npm:0.8.1"
+  dependencies:
+    "@firebase/component": 0.5.6
+    "@firebase/util": 1.3.0
+    node-fetch: 2.6.1
+    tslib: ^2.1.0
+  peerDependencies:
+    "@firebase/app": 0.x
+  checksum: 2de2ebf00f3fc5c640fcab9551e143ae3e593af9743cf363fdeb234c98e5d615a7f55f9e5b0c404b4bd903f043318c7764be1e406afcccca62ee0947e70becc8
+  languageName: node
+  linkType: hard
+
 "@firebase/util@npm:0.3.2":
   version: 0.3.2
   resolution: "@firebase/util@npm:0.3.2"
@@ -2123,7 +2137,7 @@ __metadata:
     "@firebase/app": 0.6.30
     "@firebase/app-types": 0.7.0
     "@firebase/firestore": 2.4.0
-    "@firebase/storage": 0.7.0
+    "@firebase/storage": 0.8.1
     "@malenovska/common": 1.0.0
     "@material-ui/core": 4.12.3
     "@material-ui/icons": 4.11.2

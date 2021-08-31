@@ -20,7 +20,7 @@
   "dependencies": {
     "@firebase/app": "0.6.30",
     "@firebase/firestore": "2.4.0",
-    "@firebase/storage": "0.7.0",
+    "@firebase/storage": "0.8.1",
     "@malenovska/common": "1.0.0",
     "@material-ui/core": "4.12.3",
     "@material-ui/icons": "4.11.2",
