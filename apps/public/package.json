@@ -18,7 +18,7 @@
   },
   "sideEffects": "false",
   "dependencies": {
-    "@firebase/app": "0.6.30",
+    "@firebase/app": "0.7.0",
     "@firebase/firestore": "2.4.0",
     "@firebase/storage": "0.7.0",
     "@malenovska/common": "1.0.0",
