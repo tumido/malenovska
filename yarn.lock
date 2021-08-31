@@ -1471,14 +1471,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@firebase/app-types@npm:0.6.3, @firebase/app-types@npm:^0.6.3":
+"@firebase/app-types@npm:0.6.3":
   version: 0.6.3
   resolution: "@firebase/app-types@npm:0.6.3"
   checksum: f4523ee29ef667a68110a97275dcba43b3275264055887baca49c7f726aa5a9006f6e31ab47a24472b4a0864b8018ddf48424081a85a7558431d399ae8c3cfb1
   languageName: node
   linkType: hard
 
-"@firebase/app@npm:0.6.30, @firebase/app@npm:^0.6.30":
+"@firebase/app@npm:0.6.30":
   version: 0.6.30
   resolution: "@firebase/app@npm:0.6.30"
   dependencies:
@@ -1523,7 +1523,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@firebase/auth@npm:0.16.8, @firebase/auth@npm:^0.16.8":
+"@firebase/auth@npm:0.16.8":
   version: 0.16.8
   resolution: "@firebase/auth@npm:0.16.8"
   dependencies:
@@ -1613,7 +1613,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@firebase/firestore@npm:2.4.0, @firebase/firestore@npm:^2.4.0":
+"@firebase/firestore@npm:2.4.0":
   version: 2.4.0
   resolution: "@firebase/firestore@npm:2.4.0"
   dependencies:
@@ -1783,7 +1783,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@firebase/storage@npm:0.7.0, @firebase/storage@npm:^0.7.0":
+"@firebase/storage@npm:0.7.0":
   version: 0.7.0
   resolution: "@firebase/storage@npm:0.7.0"
   dependencies:
@@ -1808,7 +1808,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@firebase/util@npm:1.3.0, @firebase/util@npm:^1.3.0":
+"@firebase/util@npm:1.3.0":
   version: 1.3.0
   resolution: "@firebase/util@npm:1.3.0"
   dependencies:
@@ -2033,58 +2033,58 @@ __metadata:
     "@babel/runtime": 7.15.3
     "@babel/runtime-corejs3": 7.15.3
     "@date-io/core": ^2.11.0
-    "@firebase/app": ^0.6.30
-    "@firebase/app-types": ^0.6.3
-    "@firebase/auth": ^0.16.8
-    "@firebase/util": ^1.3.0
+    "@firebase/app": 0.6.30
+    "@firebase/app-types": 0.6.3
+    "@firebase/auth": 0.16.8
+    "@firebase/util": 1.3.0
     "@malenovska/common": 1.0.0
     "@material-ui/core": ^4.12.3
     "@material-ui/icons": ^4.11.2
     "@material-ui/pickers": ^3.3.10
-    "@types/react": ^17.0.19
+    "@types/react": 17.0.19
     babel-loader: 8.2.2
-    babel-plugin-import: ^1.13.3
-    connected-react-router: ^6.9.1
-    core-js: 3
-    css-loader: ^6.2.0
-    date-fns: ^2.23.0
-    eslint: ^7.32.0
-    eslint-config-prettier: ^8.3.0
-    eslint-plugin-react: ^7.24.0
-    final-form: ^4.20.2
-    final-form-arrays: ^3.0.2
-    firebase: ^8.10.0
-    firebase-tools: ^9.16.5
+    babel-plugin-import: 1.13.3
+    connected-react-router: 6.9.1
+    core-js: 3.16.2
+    css-loader: 6.2.0
+    date-fns: 2.23.0
+    eslint: 7.32.0
+    eslint-config-prettier: 8.3.0
+    eslint-plugin-react: 7.24.0
+    final-form: 4.20.2
+    final-form-arrays: 3.0.2
+    firebase: 8.10.0
+    firebase-tools: 9.16.5
     history: 4.10.1
-    html-webpack-plugin: ^5.3.2
-    jsonexport: ^3.2.0
+    html-webpack-plugin: 5.3.2
+    jsonexport: 3.2.0
     lodash: ^4.17.21
-    markdown-to-jsx: ^7.1.3
-    papaparse: ^5.3.1
-    prop-types: ^15.7.2
+    markdown-to-jsx: 7.1.3
+    papaparse: 5.3.1
+    prop-types: 15.7.2
     ra-core: ^3.17.2
     ra-i18n-polyglot: ^3.17.2
     ra-language-english: ^3.17.2
     react: ^17.0.2
     react-admin: ^3.17.2
     react-admin-date-inputs: "https://github.com/WiXSL/react-admin-date-inputs.git#commit=3e6eee77e98f9c1acbfc8d972d3bbb4af54e26c5"
-    react-admin-firebase: ^3.2.24
+    react-admin-firebase: 3.2.24
     react-dom: ^17.0.2
-    react-final-form: ^6.5.3
-    react-helmet: ^6.1.0
-    react-hot-loader: ^4.13.0
+    react-final-form: 6.5.3
+    react-helmet: 6.1.0
+    react-hot-loader: 4.13.0
     react-is: ^17.0.2
-    react-mde: ^11.5.0
-    react-redux: ^7.2.4
+    react-mde: 11.5.0
+    react-redux: 7.2.4
     react-router: ^5.2.0
     react-router-dom: ^5.2.0
-    redux: ^4.1.1
-    redux-saga: ^1.1.3
-    style-loader: ^3.2.1
-    webpack: ^5.51.1
-    webpack-cli: ^4.8.0
-    webpack-dev-server: ^4.0.0
-    webpack-merge: ^5.8.0
+    redux: 4.1.1
+    redux-saga: 1.1.3
+    style-loader: 3.2.1
+    webpack: 5.51.1
+    webpack-cli: 4.8.0
+    webpack-dev-server: 4.0.0
+    webpack-merge: 5.8.0
   languageName: unknown
   linkType: soft
 
@@ -2096,11 +2096,11 @@ __metadata:
     "@babel/eslint-parser": 7.15.0
     "@babel/preset-env": 7.15.0
     "@babel/preset-react": 7.14.5
-    babel-plugin-import: ^1.13.3
-    eslint: ^7.32.0
-    eslint-config-prettier: ^8.3.0
-    eslint-plugin-react: ^7.24.0
-    webfontloader: ^1.6.28
+    babel-plugin-import: 1.13.3
+    eslint: 7.32.0
+    eslint-config-prettier: 8.3.0
+    eslint-plugin-react: 7.24.0
+    webfontloader: 1.6.28
   languageName: unknown
   linkType: soft
 
@@ -2113,56 +2113,56 @@ __metadata:
     "@babel/plugin-transform-runtime": 7.15.0
     "@babel/preset-env": 7.15.0
     "@babel/preset-react": 7.14.5
-    "@firebase/app": ^0.6.30
-    "@firebase/app-types": ^0.6.3
-    "@firebase/firestore": ^2.4.0
-    "@firebase/storage": ^0.7.0
+    "@firebase/app": 0.6.30
+    "@firebase/app-types": 0.6.3
+    "@firebase/firestore": 2.4.0
+    "@firebase/storage": 0.7.0
     "@malenovska/common": 1.0.0
     "@material-ui/core": ^4.12.3
     "@material-ui/icons": ^4.11.2
     "@material-ui/lab": ^4.0.0-alpha.60
     "@material-ui/styles": ^4.11.4
     "@material-ui/system": ^4.12.1
-    "@types/react": ^17.0.19
+    "@types/react": 17.0.19
     babel-loader: 8.2.2
-    babel-plugin-import: ^1.13.3
-    clipboard-copy: ^4.0.1
-    clsx: ^1.1.1
-    core-js: ^3.16.2
-    css-loader: ^6.2.0
-    eslint: ^7.32.0
-    eslint-config-prettier: ^8.3.0
-    eslint-plugin-react: ^7.24.0
-    final-form: ^4.20.2
-    firebase-tools: ^9.16.5
-    html-webpack-plugin: ^5.3.2
-    leaflet: ^1.7.1
-    markdown-to-jsx: ^7.1.3
-    notistack: ^1.0.10
-    prop-types: ^15.7.2
+    babel-plugin-import: 1.13.3
+    clipboard-copy: 4.0.1
+    clsx: 1.1.1
+    core-js: 3.16.2
+    css-loader: 6.2.0
+    eslint: 7.32.0
+    eslint-config-prettier: 8.3.0
+    eslint-plugin-react: 7.24.0
+    final-form: 4.20.2
+    firebase-tools: 9.16.5
+    html-webpack-plugin: 5.3.2
+    leaflet: 1.7.1
+    markdown-to-jsx: 7.1.3
+    notistack: 1.0.10
+    prop-types: 15.7.2
     react: ^17.0.2
     react-dom: ^17.0.2
-    react-final-form: ^6.5.3
+    react-final-form: 6.5.3
     react-helmet: 6.1.0
-    react-hot-loader: ^4.13.0
-    react-leaflet: ^3.2.1
+    react-hot-loader: 4.13.0
+    react-leaflet: 3.2.1
     react-redux: 7.2.4
-    react-redux-firebase: ^3.10.0
+    react-redux-firebase: 3.10.0
     react-router: ^5.2.0
     react-router-dom: ^5.2.0
-    react-share: ^4.4.0
-    react-social-icons: ^5.6.0
-    redux: ^4.1.1
-    redux-firestore: ^0.15.0
-    redux-logger: ^3.0.6
-    redux-thunk: ^2.3.0
-    smoothscroll-polyfill: ^0.4.4
-    style-loader: ^3.2.1
-    webpack: ^5.51.1
-    webpack-cli: ^4.8.0
-    webpack-dev-server: ^4.0.0
-    webpack-merge: ^5.8.0
-    whatwg-fetch: ^3.6.2
+    react-share: 4.4.0
+    react-social-icons: 5.6.0
+    redux: 4.1.1
+    redux-firestore: 0.15.0
+    redux-logger: 3.0.6
+    redux-thunk: 2.3.0
+    smoothscroll-polyfill: 0.4.4
+    style-loader: 3.2.1
+    webpack: 5.51.1
+    webpack-cli: 4.8.0
+    webpack-dev-server: 4.0.0
+    webpack-merge: 5.8.0
+    whatwg-fetch: 3.6.2
   languageName: unknown
   linkType: soft
 
@@ -2772,7 +2772,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:*, @types/react@npm:^17.0.19":
+"@types/react@npm:*, @types/react@npm:17.0.19":
   version: 17.0.19
   resolution: "@types/react@npm:17.0.19"
   dependencies:
@@ -3550,7 +3550,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"babel-plugin-import@npm:^1.13.3":
+"babel-plugin-import@npm:1.13.3":
   version: 1.13.3
   resolution: "babel-plugin-import@npm:1.13.3"
   dependencies:
@@ -4189,7 +4189,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"clipboard-copy@npm:^4.0.1":
+"clipboard-copy@npm:4.0.1":
   version: 4.0.1
   resolution: "clipboard-copy@npm:4.0.1"
   checksum: 530a09de80dfd0536793fdefb6559a2dfb6c2706b027c41c672a0f18debafd420e69111224f3265555afcd73f9cd97517dcaf494aa25996a58a8f550a3426080
@@ -4234,7 +4234,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"clsx@npm:^1.0.2, clsx@npm:^1.0.4, clsx@npm:^1.1.0, clsx@npm:^1.1.1":
+"clsx@npm:1.1.1, clsx@npm:^1.0.2, clsx@npm:^1.0.4, clsx@npm:^1.1.0":
   version: 1.1.1
   resolution: "clsx@npm:1.1.1"
   checksum: ff052650329773b9b245177305fc4c4dc3129f7b2be84af4f58dc5defa99538c61d4207be7419405a5f8f3d92007c954f4daba5a7b74e563d5de71c28c830063
@@ -4479,7 +4479,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"connected-react-router@npm:^6.5.2, connected-react-router@npm:^6.9.1":
+"connected-react-router@npm:6.9.1, connected-react-router@npm:^6.5.2":
   version: 6.9.1
   resolution: "connected-react-router@npm:6.9.1"
   dependencies:
@@ -4565,7 +4565,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"core-js@npm:3, core-js@npm:^3.1.3, core-js@npm:^3.16.2":
+"core-js@npm:3.16.2, core-js@npm:^3.1.3":
   version: 3.16.2
   resolution: "core-js@npm:3.16.2"
   checksum: f48b988ab6d144aad1a7c09a73174946f797ec050b4566dee9bf0227560296cdd0f714b37f0ee065303eccf0e7fb8115ccca52ab3e80db12e0dcc20a88219483
@@ -4661,7 +4661,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"css-loader@npm:^6.2.0":
+"css-loader@npm:6.2.0":
   version: 6.2.0
   resolution: "css-loader@npm:6.2.0"
   dependencies:
@@ -4783,17 +4783,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"date-fns@npm:2.23.0":
+  version: 2.23.0
+  resolution: "date-fns@npm:2.23.0"
+  checksum: 485216d550255a548552db16379e7a5cd440e262b90fbdc0362f63ee71d0e74bd00ce29ca8d76b343f6df36c1ecb6f22edba0b72848a4c32674e755619695c1f
+  languageName: node
+  linkType: hard
+
 "date-fns@npm:^1.29.0":
   version: 1.30.1
   resolution: "date-fns@npm:1.30.1"
   checksum: 86b1f3269cbb1f3ee5ac9959775ea6600436f4ee2b78430cd427b41a0c9fabf740b1a5d401c085f3003539a6f4755c7c56c19fbd70ce11f6f673f6bc8075b710
-  languageName: node
-  linkType: hard
-
-"date-fns@npm:^2.23.0":
-  version: 2.23.0
-  resolution: "date-fns@npm:2.23.0"
-  checksum: 485216d550255a548552db16379e7a5cd440e262b90fbdc0362f63ee71d0e74bd00ce29ca8d76b343f6df36c1ecb6f22edba0b72848a4c32674e755619695c1f
   languageName: node
   linkType: hard
 
@@ -5572,7 +5572,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-config-prettier@npm:^8.3.0":
+"eslint-config-prettier@npm:8.3.0":
   version: 8.3.0
   resolution: "eslint-config-prettier@npm:8.3.0"
   peerDependencies:
@@ -5583,7 +5583,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-react@npm:^7.24.0":
+"eslint-plugin-react@npm:7.24.0":
   version: 7.24.0
   resolution: "eslint-plugin-react@npm:7.24.0"
   dependencies:
@@ -5638,7 +5638,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint@npm:^7.32.0":
+"eslint@npm:7.32.0":
   version: 7.32.0
   resolution: "eslint@npm:7.32.0"
   dependencies:
@@ -6091,7 +6091,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"final-form-arrays@npm:^3.0.2":
+"final-form-arrays@npm:3.0.2, final-form-arrays@npm:^3.0.2":
   version: 3.0.2
   resolution: "final-form-arrays@npm:3.0.2"
   peerDependencies:
@@ -6100,7 +6100,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"final-form@npm:^4.20.2":
+"final-form@npm:4.20.2, final-form@npm:^4.20.2":
   version: 4.20.2
   resolution: "final-form@npm:4.20.2"
   dependencies:
@@ -6180,7 +6180,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"firebase-tools@npm:^9.16.5":
+"firebase-tools@npm:9.16.5":
   version: 9.16.5
   resolution: "firebase-tools@npm:9.16.5"
   dependencies:
@@ -6248,7 +6248,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"firebase@npm:^8.10.0":
+"firebase@npm:8.10.0":
   version: 8.10.0
   resolution: "firebase@npm:8.10.0"
   dependencies:
@@ -7100,7 +7100,7 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"html-webpack-plugin@npm:^5.3.2":
+"html-webpack-plugin@npm:5.3.2":
   version: 5.3.2
   resolution: "html-webpack-plugin@npm:5.3.2"
   dependencies:
@@ -8156,21 +8156,21 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
+"jsonexport@npm:3.2.0":
+  version: 3.2.0
+  resolution: "jsonexport@npm:3.2.0"
+  bin:
+    jsonexport: bin/jsonexport.js
+  checksum: c497d19cf9c4f8d429d38be4e8631de45055d5c2dd27b63de870329e616e181171bdffb25622f5248b6d04a52cd102a53814dab13ff402037d3b6d32df4361ae
+  languageName: node
+  linkType: hard
+
 "jsonexport@npm:^2.4.1":
   version: 2.5.2
   resolution: "jsonexport@npm:2.5.2"
   bin:
     jsonexport: bin/jsonexport.js
   checksum: 3ad6a404d454b26cd1c8f6c374fce9491e2dae5e25dcb14007c704673787277d8b93cb3c42a30f212b855b6ab365c7013cd306eee8436f2d69cdfd6e0a5a2f6d
-  languageName: node
-  linkType: hard
-
-"jsonexport@npm:^3.2.0":
-  version: 3.2.0
-  resolution: "jsonexport@npm:3.2.0"
-  bin:
-    jsonexport: bin/jsonexport.js
-  checksum: c497d19cf9c4f8d429d38be4e8631de45055d5c2dd27b63de870329e616e181171bdffb25622f5248b6d04a52cd102a53814dab13ff402037d3b6d32df4361ae
   languageName: node
   linkType: hard
 
@@ -8411,7 +8411,7 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"leaflet@npm:^1.7.1":
+"leaflet@npm:1.7.1":
   version: 1.7.1
   resolution: "leaflet@npm:1.7.1"
   checksum: f69149ab482eeb6cdabd837939c4782c97a7a18bc0b2a9330d4a828ca0dc6e035981f2ecdb71c6646aa173bc369cd3b4fd6bbe5d81df4c59c45254f9e9361d03
@@ -8861,7 +8861,7 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"markdown-to-jsx@npm:^7.1.3":
+"markdown-to-jsx@npm:7.1.3":
   version: 7.1.3
   resolution: "markdown-to-jsx@npm:7.1.3"
   peerDependencies:
@@ -9370,7 +9370,7 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"node-firestore-import-export@npm:^1.1.0":
+"node-firestore-import-export@npm:1.1.0":
   version: 1.1.0
   resolution: "node-firestore-import-export@npm:1.1.0"
   dependencies:
@@ -9481,7 +9481,7 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"notistack@npm:^1.0.10":
+"notistack@npm:1.0.10":
   version: 1.0.10
   resolution: "notistack@npm:1.0.10"
   dependencies:
@@ -9495,7 +9495,7 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"npm-run-all@npm:^4.1.5":
+"npm-run-all@npm:4.1.5":
   version: 4.1.5
   resolution: "npm-run-all@npm:4.1.5"
   dependencies:
@@ -9920,7 +9920,7 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"papaparse@npm:^5.3.1":
+"papaparse@npm:5.3.1":
   version: 5.3.1
   resolution: "papaparse@npm:5.3.1"
   checksum: 3431917bb46f8952e49ca64ecc9107ddf05291573ef666c8fac4e172b57780d131f1af925b47841039bd5ae0ceadc2eafbcb8183c092307442f85eed11f82b69
@@ -10287,7 +10287,7 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"prop-types@npm:^15.6.0, prop-types@npm:^15.6.1, prop-types@npm:^15.6.2, prop-types@npm:^15.7.0, prop-types@npm:^15.7.2":
+"prop-types@npm:15.7.2, prop-types@npm:^15.6.0, prop-types@npm:^15.6.1, prop-types@npm:^15.6.2, prop-types@npm:^15.7.0, prop-types@npm:^15.7.2":
   version: 15.7.2
   resolution: "prop-types@npm:15.7.2"
   dependencies:
@@ -10632,7 +10632,7 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"react-admin-firebase@npm:^3.2.24":
+"react-admin-firebase@npm:3.2.24":
   version: 3.2.24
   resolution: "react-admin-firebase@npm:3.2.24"
   dependencies:
@@ -10724,7 +10724,7 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"react-final-form@npm:^6.5.2, react-final-form@npm:^6.5.3":
+"react-final-form@npm:6.5.3, react-final-form@npm:^6.5.2":
   version: 6.5.3
   resolution: "react-final-form@npm:6.5.3"
   dependencies:
@@ -10736,7 +10736,7 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"react-helmet@npm:6.1.0, react-helmet@npm:^6.1.0":
+"react-helmet@npm:6.1.0":
   version: 6.1.0
   resolution: "react-helmet@npm:6.1.0"
   dependencies:
@@ -10750,7 +10750,7 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"react-hot-loader@npm:^4.13.0":
+"react-hot-loader@npm:4.13.0":
   version: 4.13.0
   resolution: "react-hot-loader@npm:4.13.0"
   dependencies:
@@ -10787,7 +10787,7 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"react-leaflet@npm:^3.2.1":
+"react-leaflet@npm:3.2.1":
   version: 3.2.1
   resolution: "react-leaflet@npm:3.2.1"
   dependencies:
@@ -10807,7 +10807,7 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"react-mde@npm:^11.5.0":
+"react-mde@npm:11.5.0":
   version: 11.5.0
   resolution: "react-mde@npm:11.5.0"
   peerDependencies:
@@ -10817,7 +10817,7 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"react-redux-firebase@npm:^3.10.0":
+"react-redux-firebase@npm:3.10.0":
   version: 3.10.0
   resolution: "react-redux-firebase@npm:3.10.0"
   dependencies:
@@ -10830,7 +10830,7 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"react-redux@npm:7.2.4, react-redux@npm:^7.1.0, react-redux@npm:^7.2.4":
+"react-redux@npm:7.2.4, react-redux@npm:^7.1.0":
   version: 7.2.4
   resolution: "react-redux@npm:7.2.4"
   dependencies:
@@ -10888,7 +10888,7 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"react-share@npm:^4.4.0":
+"react-share@npm:4.4.0":
   version: 4.4.0
   resolution: "react-share@npm:4.4.0"
   dependencies:
@@ -10909,7 +10909,7 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"react-social-icons@npm:^5.6.0":
+"react-social-icons@npm:5.6.0":
   version: 5.6.0
   resolution: "react-social-icons@npm:5.6.0"
   dependencies:
@@ -11051,7 +11051,7 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"redux-firestore@npm:^0.15.0":
+"redux-firestore@npm:0.15.0":
   version: 0.15.0
   resolution: "redux-firestore@npm:0.15.0"
   dependencies:
@@ -11062,7 +11062,7 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"redux-logger@npm:^3.0.6":
+"redux-logger@npm:3.0.6":
   version: 3.0.6
   resolution: "redux-logger@npm:3.0.6"
   dependencies:
@@ -11071,7 +11071,7 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"redux-saga@npm:^1.0.0, redux-saga@npm:^1.1.3":
+"redux-saga@npm:1.1.3, redux-saga@npm:^1.0.0":
   version: 1.1.3
   resolution: "redux-saga@npm:1.1.3"
   dependencies:
@@ -11080,14 +11080,14 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"redux-thunk@npm:^2.3.0":
+"redux-thunk@npm:2.3.0":
   version: 2.3.0
   resolution: "redux-thunk@npm:2.3.0"
   checksum: d13f442ffc91249b534bf14884c33feff582894be2562169637dc9d4d70aec6423bfe6d66f88c46ac027ac1c0cd07d6c2dd4a61cf7695b8e43491de679df9bcf
   languageName: node
   linkType: hard
 
-"redux@npm:^3.7.2 || ^4.0.3, redux@npm:^4.0.0, redux@npm:^4.0.4, redux@npm:^4.1.1":
+"redux@npm:4.1.1, redux@npm:^3.7.2 || ^4.0.3, redux@npm:^4.0.0, redux@npm:^4.0.4":
   version: 4.1.1
   resolution: "redux@npm:4.1.1"
   dependencies:
@@ -11428,9 +11428,9 @@ resolve@^2.0.0-next.3:
   version: 0.0.0-use.local
   resolution: "root-workspace-0b6124@workspace:."
   dependencies:
-    firebase-tools: ^9.16.5
-    node-firestore-import-export: ^1.1.0
-    npm-run-all: ^4.1.5
+    firebase-tools: 9.16.5
+    node-firestore-import-export: 1.1.0
+    npm-run-all: 4.1.5
   languageName: unknown
   linkType: soft
 
@@ -11803,7 +11803,7 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"smoothscroll-polyfill@npm:^0.4.4":
+"smoothscroll-polyfill@npm:0.4.4":
   version: 0.4.4
   resolution: "smoothscroll-polyfill@npm:0.4.4"
   checksum: b99ff7d91689d563ec69cb1d29713b332a24c88ac3dc4ef9ef9fbe4137305336e67253211067c5f786478dbdabd2aa6c2033709d4d8feca327b09eca8d5a0e7b
@@ -12251,7 +12251,7 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"style-loader@npm:^3.2.1":
+"style-loader@npm:3.2.1":
   version: 3.2.1
   resolution: "style-loader@npm:3.2.1"
   peerDependencies:
@@ -13095,14 +13095,14 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"webfontloader@npm:^1.6.28":
+"webfontloader@npm:1.6.28":
   version: 1.6.28
   resolution: "webfontloader@npm:1.6.28"
   checksum: cbebbe593cb0d27dbb4d418f7f96bd9893024f1f2062e858af76209b6524e25d766964b6e2a724f3b694fadef661dd3a01065455a96df05337b3281ca09ab656
   languageName: node
   linkType: hard
 
-"webpack-cli@npm:^4.8.0":
+"webpack-cli@npm:4.8.0":
   version: 4.8.0
   resolution: "webpack-cli@npm:4.8.0"
   dependencies:
@@ -13152,7 +13152,7 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"webpack-dev-server@npm:^4.0.0":
+"webpack-dev-server@npm:4.0.0":
   version: 4.0.0
   resolution: "webpack-dev-server@npm:4.0.0"
   dependencies:
@@ -13192,7 +13192,7 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"webpack-merge@npm:^5.7.3, webpack-merge@npm:^5.8.0":
+"webpack-merge@npm:5.8.0, webpack-merge@npm:^5.7.3":
   version: 5.8.0
   resolution: "webpack-merge@npm:5.8.0"
   dependencies:
@@ -13209,7 +13209,7 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"webpack@npm:^5.51.1":
+"webpack@npm:5.51.1":
   version: 5.51.1
   resolution: "webpack@npm:5.51.1"
   dependencies:
@@ -13271,7 +13271,7 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"whatwg-fetch@npm:^3.6.2":
+"whatwg-fetch@npm:3.6.2":
   version: 3.6.2
   resolution: "whatwg-fetch@npm:3.6.2"
   checksum: ee976b7249e7791edb0d0a62cd806b29006ad7ec3a3d89145921ad8c00a3a67e4be8f3fb3ec6bc7b58498724fd568d11aeeeea1f7827e7e1e5eae6c8a275afed
