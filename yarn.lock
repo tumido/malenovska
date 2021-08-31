@@ -1360,7 +1360,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@date-io/core@npm:^2.11.0":
+"@date-io/core@npm:2.11.0":
   version: 2.11.0
   resolution: "@date-io/core@npm:2.11.0"
   checksum: ad26af280b0fb08bf4a272fbd5d41fb9bdb5b5aa3fcc4930ea5ae92a691c6b1adad8d54aa4172cc164b260aa5ee7994d5d1fcee00609f2e12efda8556fa32ba2
@@ -2032,7 +2032,7 @@ __metadata:
     "@babel/preset-react": 7.14.5
     "@babel/runtime": 7.15.3
     "@babel/runtime-corejs3": 7.15.3
-    "@date-io/core": ^2.11.0
+    "@date-io/core": 2.11.0
     "@firebase/app": 0.6.30
     "@firebase/app-types": 0.6.3
     "@firebase/auth": 0.16.8
