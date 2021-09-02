@@ -76,7 +76,8 @@ export const czechMessages = {
       page_range_info: '%{offsetBegin}-%{offsetEnd} z %{total}',
       next: 'Další',
       prev: 'Předchozí',
-      page_rows_per_page: 'Řádků na stránku'
+      page_rows_per_page: 'Řádků na stránku',
+      skip_nav: 'Přejít na obsah'
     },
     auth: {
       username: 'Uživatelské jméno',

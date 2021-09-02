@@ -30,7 +30,9 @@ export const useStyles = makeStyles({
 });
 
 const metadata = {
-  cacheControl: 'public, max-age=31536000'
+  metadata: {
+    cacheControl: 'public, max-age=31536000'
+  }
 };
 
 export const setCacheForRecord = ({
