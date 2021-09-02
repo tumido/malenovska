@@ -1,5 +1,4 @@
 const path = require('path');
-const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
@@ -41,10 +40,6 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, "src/index.html")
-    }),
-    new webpack.EnvironmentPlugin({
-      NODE_ENV: 'development',
-      DEBUG: false
     })
   ],
   stats: {
