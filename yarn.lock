@@ -2210,7 +2210,7 @@ __metadata:
     react-hot-loader: 4.13.0
     react-is: 17.0.2
     react-mde: 11.5.0
-    react-redux: 7.2.4
+    react-redux: 7.2.5
     react-router: 5.2.1
     react-router-dom: 5.2.1
     redux: 4.1.1
@@ -2281,7 +2281,7 @@ __metadata:
     react-helmet: 6.1.0
     react-hot-loader: 4.13.0
     react-leaflet: 3.2.1
-    react-redux: 7.2.4
+    react-redux: 7.2.5
     react-redux-firebase: 3.10.0
     react-router: 5.2.1
     react-router-dom: 5.2.1
@@ -11012,7 +11012,28 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"react-redux@npm:7.2.4, react-redux@npm:^7.1.0":
+"react-redux@npm:7.2.5":
+  version: 7.2.5
+  resolution: "react-redux@npm:7.2.5"
+  dependencies:
+    "@babel/runtime": ^7.12.1
+    "@types/react-redux": ^7.1.16
+    hoist-non-react-statics: ^3.3.2
+    loose-envify: ^1.4.0
+    prop-types: ^15.7.2
+    react-is: ^16.13.1
+  peerDependencies:
+    react: ^16.8.3 || ^17
+  peerDependenciesMeta:
+    react-dom:
+      optional: true
+    react-native:
+      optional: true
+  checksum: 04ac4a4178067cbcfc05506dfea9f7e01730093a5752f050567f7ae4a38c03c96da9d8fed051f8ab1ecede5ea8a15ee41c5f6c5eeb7f04f37e4d13e431ec7830
+  languageName: node
+  linkType: hard
+
+"react-redux@npm:^7.1.0":
   version: 7.2.4
   resolution: "react-redux@npm:7.2.4"
   dependencies:
