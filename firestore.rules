@@ -25,5 +25,9 @@ service cloud.firestore {
       allow read;
       allow create, update, delete: if request.auth.uid != null;
     }
+    match /config/config {
+    	allow read;
+      allow create, update, delete: if request.auth.uid != null;
+    }
   }
 }

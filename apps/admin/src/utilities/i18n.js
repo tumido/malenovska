@@ -29,7 +29,7 @@ export const czechMessages = {
     },
     page: {
       create: 'Vytvořit %{name}',
-      dashboard: 'Dashboard',
+      dashboard: 'Přehled',
       edit: '%{name} #%{id}',
       list: '%{name} Seznam',
       loading: 'Načítání',
