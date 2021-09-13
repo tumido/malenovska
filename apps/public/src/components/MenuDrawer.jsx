@@ -41,6 +41,9 @@ const useStyles = makeStyles((theme) => ({
   secondary: {
     color: grey[500],
   },
+  block: {
+    display: "block",
+  },
 }));
 
 const MenuDrawer = ({ event, navigation, pathname, onClick }) => {
@@ -56,16 +59,19 @@ const MenuDrawer = ({ event, navigation, pathname, onClick }) => {
         </Hidden>
       </div>
       <div onClick={onClick}>
-        {navigation.map((section, index) => (
-          <React.Fragment key={`sec_${index}`}>
-            <List>
-              {section.map((item, index) => (
+        <List>
+          {navigation.map((item, idx) => {
+            if (item.type === "visible") {
+              return (
                 <ListItem
-                  key={`item_${index}`}
+                  key={item.path || `item_${idx}`}
                   button
-                  selected={pathname.startsWith(`/${event.id}/${item.href}`)}
-                  disabled={!item.href || item.disabled}
-                  to={`/${event.id}/${item.href}`}
+                  selected={
+                    pathname.startsWith(item.path) ||
+                    item.owns?.some((i) => pathname.startsWith(i))
+                  }
+                  disabled={!item.path || item.disabled}
+                  to={item.path || "/"}
                   component={AdapterLink}
                 >
                   <ListItemIcon>
@@ -77,11 +83,14 @@ const MenuDrawer = ({ event, navigation, pathname, onClick }) => {
                   </ListItemIcon>
                   <ListItemText primary={item.title} />
                 </ListItem>
-              ))}
-            </List>
-            <Divider className={classes.divider} />
-          </React.Fragment>
-        ))}
+              );
+            }
+            if (item.type === "divider")
+              return (
+                <Divider key={`divider_${idx}`} className={classes.divider} />
+              );
+          })}
+        </List>
       </div>
       <List component="nav" aria-label="vyber udalosti">
         <ListItem button to="/choose" component={AdapterLink}>
@@ -95,7 +104,11 @@ const MenuDrawer = ({ event, navigation, pathname, onClick }) => {
             primary="Další ročníky"
             secondary={
               <React.Fragment>
-                <Typography component="p" variant="body2">
+                <Typography
+                  component="span"
+                  className={classes.block}
+                  variant="body2"
+                >
                   Právě prohlížíte:
                 </Typography>
                 {event.name} {event.year}

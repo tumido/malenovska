@@ -122,16 +122,13 @@ const Header = ({ event, navigation, location: { pathname } }) => {
 Header.propTypes = {
   event: PropTypes.object,
   navigation: PropTypes.arrayOf(
-    PropTypes.arrayOf(
-      PropTypes.shape({
-        hasBanner: PropTypes.bool,
-        title: PropTypes.string.isRequired,
-        href: PropTypes.string,
-        icon: PropTypes.string,
-        className: PropTypes.string,
-        disabled: PropTypes.bool,
-      })
-    )
+    PropTypes.shape({
+      title: PropTypes.string,
+      path: PropTypes.string,
+      icon: PropTypes.string,
+      className: PropTypes.string,
+      disabled: PropTypes.bool,
+    })
   ).isRequired,
   location: PropTypes.shape({
     pathname: PropTypes.string.isRequired,
