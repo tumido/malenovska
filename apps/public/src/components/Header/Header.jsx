@@ -34,9 +34,6 @@ const useStyles = makeStyles((theme) => ({
       flexShrink: 0,
     },
   },
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
   drawerDivider: {
     margin: "20px 0",
   },
@@ -57,6 +54,13 @@ const useStyles = makeStyles((theme) => ({
   },
   icon: {
     color: "#fff",
+  },
+  appBar: {
+    right: "unset",
+    width: "unset",
+    marginTop: "10px",
+    borderBottomRightRadius: "10px",
+    borderTopRightRadius: "10px",
   },
 }));
 
@@ -144,7 +148,12 @@ const Header = ({ event, navigation, location: { pathname } }) => {
   return (
     <React.Fragment>
       <Hidden mdUp>
-        <AppBar position="fixed" color="primary" elevation={0}>
+        <AppBar
+          position="fixed"
+          className={classes.appBar}
+          color="secondary"
+          elevation={0}
+        >
           <Toolbar>
             <IconButton
               color="inherit"
