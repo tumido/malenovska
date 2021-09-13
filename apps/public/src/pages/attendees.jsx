@@ -199,8 +199,8 @@ const ListContent = ({ event }) => {
         count={rows.length}
         rowsPerPage={rowsPerPage}
         page={page}
-        onChangePage={handleChangePage}
-        onChangeRowsPerPage={handleChangeRowsPerPage}
+        onPageChange={handleChangePage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
       />
     </Article>
   );
@@ -210,7 +210,7 @@ ListContent.propTypes = {
   event: PropTypes.object.isRequired,
 };
 
-const List = ({ event }) => (
+const Attendees = ({ event }) => (
   <React.Fragment>
     <Helmet title="Účastníci" />
     <Banner event={event} title="Účastníci" />
@@ -218,8 +218,8 @@ const List = ({ event }) => (
   </React.Fragment>
 );
 
-List.propTypes = {
+Attendees.propTypes = {
   event: PropTypes.object.isRequired,
 };
 
-export default connect(({ event }) => ({ event }))(List);
+export default connect(({ event }) => ({ event }))(Attendees);

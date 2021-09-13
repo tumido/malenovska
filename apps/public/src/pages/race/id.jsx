@@ -23,7 +23,7 @@ import {
 import { ShareOutlined } from "@material-ui/icons";
 import { Helmet } from "react-helmet";
 
-const Show = ({
+const Race = ({
   match: {
     params: { id },
   },
@@ -94,7 +94,7 @@ const Show = ({
   );
 };
 
-Show.propTypes = {
+Race.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
       id: PropTypes.string.isRequired,
@@ -103,4 +103,4 @@ Show.propTypes = {
   event: PropTypes.object.isRequired,
 };
 
-export default connect(({ event }) => ({ event }))(Show);
+export default connect(({ event }) => ({ event }))(Race);

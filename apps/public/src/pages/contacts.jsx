@@ -39,7 +39,7 @@ const contactButtons = (event) => [
   },
 ];
 
-const List = ({ event }) => (
+const Contacts = ({ event }) => (
   <React.Fragment>
     <Helmet title="Tým" />
     <Banner event={event} title="Kontakt a tým" />
@@ -80,7 +80,7 @@ const List = ({ event }) => (
   </React.Fragment>
 );
 
-List.propTypes = {
+Contacts.propTypes = {
   event: PropTypes.shape({
     contactImage: PropTypes.shape({
       src: PropTypes.string.isRequired,
@@ -95,4 +95,4 @@ List.propTypes = {
   }).isRequired,
 };
 
-export default connect(({ event }) => ({ event }))(List);
+export default connect(({ event }) => ({ event }))(Contacts);

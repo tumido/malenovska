@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Show = ({
+const Legend = ({
   match: {
     params: { id },
   },
@@ -109,7 +109,7 @@ const Show = ({
   );
 };
 
-Show.propTypes = {
+Legend.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
       id: PropTypes.string.isRequired,
@@ -118,4 +118,4 @@ Show.propTypes = {
   event: PropTypes.object.isRequired,
 };
 
-export default connect(({ event }) => ({ event }))(Show);
+export default connect(({ event }) => ({ event }))(Legend);

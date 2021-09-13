@@ -1,15 +1,15 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Icon, InputBase } from "@material-ui/core";
-import { fade, makeStyles } from "@material-ui/core/styles";
+import { alpha, makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
   search: {
     position: "relative",
     borderRadius: theme.shape.borderRadius,
-    backgroundColor: fade(theme.palette.common.black, 0.05),
+    backgroundColor: alpha(theme.palette.common.black, 0.05),
     "&:hover": {
-      backgroundColor: fade(theme.palette.common.black, 0.1),
+      backgroundColor: alpha(theme.palette.common.black, 0.1),
     },
     width: "100%",
     [theme.breakpoints.up("sm")]: {

@@ -8,7 +8,7 @@ import { Grid, Container } from "@material-ui/core";
 import { SmallArticleCard, Banner } from "../components";
 import { Helmet } from "react-helmet";
 
-const List = ({ event }) => {
+const Races = ({ event }) => {
   useFirestoreConnect(() => [
     {
       collection: "races",
@@ -51,8 +51,8 @@ const List = ({ event }) => {
   );
 };
 
-List.propTypes = {
+Races.propTypes = {
   event: PropTypes.object.isRequired,
 };
 
-export default connect(({ event }) => ({ event }))(List);
+export default connect(({ event }) => ({ event }))(Races);
