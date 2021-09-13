@@ -126,8 +126,9 @@ const Landing = ({ events }) => {
       >
         <Grid
           item
-          xs={12}
-          md={3}
+          sm={12}
+          md={4}
+          lg={3}
           container
           spacing={4}
           direction="column"
@@ -148,11 +149,12 @@ const Landing = ({ events }) => {
             <EventItem key={event.id} event={event} />
           ))}
         </Grid>
-        <Hidden xsDown>
+        <Hidden smDown>
           <Grid
             item
             xs={12}
-            md={9}
+            md={8}
+            lg={9}
             container
             direction="column"
             justifyContent="center"
