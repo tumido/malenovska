@@ -1,33 +1,33 @@
-import React, { lazy } from 'react';
-import { compose } from 'redux';
-import { connect, useSelector } from 'react-redux';
-import { withRouter, Redirect } from 'react-router';
-import PropTypes from 'prop-types';
-import { isLoaded, useFirestoreConnect } from 'react-redux-firebase';
+import React, { lazy } from "react";
+import { compose } from "redux";
+import { connect, useSelector } from "react-redux";
+import { withRouter, Redirect } from "react-router";
+import PropTypes from "prop-types";
+import { isLoaded, useFirestoreConnect } from "react-redux-firebase";
 
-import { Grid, Hidden } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { Grid, Hidden } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 
-import { Article, Wizard } from 'components';
-const PersonalDetails = lazy(() => import('./steps/PersonalDetails'));
-const Readout = lazy(() => import('./steps/Readout'));
-const RaceSelect = lazy(() => import('./steps/RaceSelect'));
-import { registerNewParticipant  } from '../../redux/actions/participant-actions';
-import { Helmet } from 'react-helmet';
+import { Article, Banner, Wizard } from "components";
+const PersonalDetails = lazy(() => import("./steps/PersonalDetails"));
+const Readout = lazy(() => import("./steps/Readout"));
+const RaceSelect = lazy(() => import("./steps/RaceSelect"));
+import { registerNewParticipant } from "../../redux/actions/participant-actions";
+import { Helmet } from "react-helmet";
 
 const useStyles = makeStyles(() => ({
   stepper: {
-    background: 'transparent'
+    background: "transparent",
   },
   buttons: {
     margin: 20,
-    '& > *': {
-      margin: 20
-    }
+    "& > *": {
+      margin: 20,
+    },
   },
   buttonWrapper: {
-    alignSelf: 'center'
-  }
+    alignSelf: "center",
+  },
 }));
 
 const New = ({ event, registerNewParticipant, history }) => {
@@ -35,105 +35,114 @@ const New = ({ event, registerNewParticipant, history }) => {
 
   useFirestoreConnect(() => [
     {
-      collection: 'races',
-      where: [ 'event', '==', event.id ],
+      collection: "races",
+      where: ["event", "==", event.id],
       storeAs: `${event.id}_races`,
-      orderBy: 'priority'
+      orderBy: "priority",
     },
     {
-      collection: 'participants',
-      where: [ 'event', '==', event.id ],
-      storeAs: `${event.id}_participants`
-    }
+      collection: "participants",
+      where: ["event", "==", event.id],
+      storeAs: `${event.id}_participants`,
+    },
   ]);
 
-  const races = useSelector(({ firestore }) => firestore.ordered[`${event.id}_races`]);
-  const participants = useSelector(({ firestore }) => firestore.ordered[`${event.id}_participants`]);
+  const races = useSelector(
+    ({ firestore }) => firestore.ordered[`${event.id}_races`]
+  );
+  const participants = useSelector(
+    ({ firestore }) => firestore.ordered[`${event.id}_participants`]
+  );
 
-  const [ stepperEl, setStepperEl ] = React.useState(null);
-  const handleStepperRef = React.useCallback(instance => setStepperEl(instance), [ setStepperEl ]);
+  const [stepperEl, setStepperEl] = React.useState(null);
+  const handleStepperRef = React.useCallback(
+    (instance) => setStepperEl(instance),
+    [setStepperEl]
+  );
 
-  const [ buttonsEl, setButtonsEl ] = React.useState(null);
-  const handleButtonsRef = React.useCallback(instance => setButtonsEl(instance), [ setButtonsEl ]);
+  const [buttonsEl, setButtonsEl] = React.useState(null);
+  const handleButtonsRef = React.useCallback(
+    (instance) => setButtonsEl(instance),
+    [setButtonsEl]
+  );
 
-  const handleSubmit = values => {
+  const handleSubmit = (values) => {
     registerNewParticipant({ event: event.id, ...values });
-    history.push('./done', { isUnderage: (values.age < 18) });
+    history.push("./done", { isUnderage: values.age < 18 });
   };
 
   const isLoading = !isLoaded(races) || !isLoaded(participants);
 
   if (!event.registrationAvailable) {
-    if (process.env.NODE_ENV === 'development') {
-      console.warn('Route available only because you\'re in devel mode.');
+    if (process.env.NODE_ENV === "development") {
+      console.warn("Route available only because you're in devel mode.");
     } else {
-      return <Redirect to='/not-found'/>;
+      return <Redirect to="/not-found" />;
     }
   }
 
   return (
-    <Article scrollTop={ false }>
-      <Helmet title='Nová registrace' />
-      <Grid container direction='column' wrap='nowrap' spacing={ 2 } >
-        <Hidden smDown>
-          <Grid item ref={ handleStepperRef }/>
-        </Hidden>
-        <Grid item>
-          <Wizard
-            isLoading={ isLoading }
-            onSubmit={ handleSubmit }
-            subscription={ { submitting: true, pristine: true } }
-            stepperProps={ {
-              className: classes.stepper,
-              names: [
-                'Výběr strany',
-                'Legenda',
-                'Osobní údaje'
-              ]
-            } }
-            buttonsProps={ {
-              className: classes.buttons
-            } }
-            portals={ {
-              stepper: stepperEl,
-              buttons: buttonsEl
-            } }
-            classes={ classes }
-          >
-            <Wizard.Page>
-              { !isLoading &&  <RaceSelect
-                texts={ {
-                  above: event.registrationBeforeAbove,
-                  below: event.registrationBeforeBelow
-                } }
-                races={ races }
-                participants={ participants }
-              /> }
-            </Wizard.Page>
-            <Wizard.Page>
-              { !isLoading && <Readout races={ races } participants={ participants }/> }
-            </Wizard.Page>
-            <Wizard.Page>
-              { !isLoading && <PersonalDetails races={ races }/> }
-            </Wizard.Page>
-          </Wizard>
+    <React.Fragment>
+      <Helmet title="Nová registrace" />
+      <Banner event={event} title="Registrace" />
+      <Article scrollTop={false}>
+        <Grid container direction="column" wrap="nowrap" spacing={2}>
+          <Hidden smDown>
+            <Grid item ref={handleStepperRef} />
+          </Hidden>
+          <Grid item>
+            <Wizard
+              isLoading={isLoading}
+              onSubmit={handleSubmit}
+              subscription={{ submitting: true, pristine: true }}
+              stepperProps={{
+                className: classes.stepper,
+                names: ["Výběr strany", "Legenda", "Osobní údaje"],
+              }}
+              buttonsProps={{
+                className: classes.buttons,
+              }}
+              portals={{
+                stepper: stepperEl,
+                buttons: buttonsEl,
+              }}
+            >
+              <Wizard.Page>
+                {!isLoading && (
+                  <RaceSelect
+                    texts={{
+                      above: event.registrationBeforeAbove,
+                      below: event.registrationBeforeBelow,
+                    }}
+                    races={races}
+                    participants={participants}
+                  />
+                )}
+              </Wizard.Page>
+              <Wizard.Page>
+                {!isLoading && (
+                  <Readout races={races} participants={participants} />
+                )}
+              </Wizard.Page>
+              <Wizard.Page>
+                {!isLoading && <PersonalDetails races={races} />}
+              </Wizard.Page>
+            </Wizard>
+          </Grid>
+          <Grid item className={classes.buttonWrapper} ref={handleButtonsRef} />
         </Grid>
-        <Grid item className={ classes.buttonWrapper } ref={ handleButtonsRef }/>
-      </Grid>
-    </Article>
+      </Article>
+    </React.Fragment>
   );
 };
 
 New.propTypes = {
   event: PropTypes.object.isRequired,
   registerNewParticipant: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired
+  history: PropTypes.object.isRequired,
 };
 
 export default compose(
   withRouter,
-  connect(
-    ({ event }) => ({ event }),
-    { registerNewParticipant }
-  )
+  connect(({ event }) => ({ event }), { registerNewParticipant })
 )(New);

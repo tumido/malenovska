@@ -144,7 +144,7 @@ const Header = ({ event, navigation, location: { pathname } }) => {
   return (
     <React.Fragment>
       <Hidden mdUp>
-        <AppBar position="fixed">
+        <AppBar position="fixed" color="primary" elevation={0}>
           <Toolbar>
             <IconButton
               color="inherit"
@@ -155,9 +155,6 @@ const Header = ({ event, navigation, location: { pathname } }) => {
             >
               <Icon>menu</Icon>
             </IconButton>
-            <Typography variant="h6" noWrap>
-              {event.name}
-            </Typography>
           </Toolbar>
         </AppBar>
       </Hidden>
@@ -200,6 +197,7 @@ Header.propTypes = {
   navigation: PropTypes.arrayOf(
     PropTypes.arrayOf(
       PropTypes.shape({
+        hasBanner: PropTypes.bool,
         title: PropTypes.string.isRequired,
         href: PropTypes.string,
         icon: PropTypes.string,

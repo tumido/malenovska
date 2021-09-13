@@ -1,24 +1,30 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import React from "react";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
 
-import { CardContent } from '@material-ui/core';
+import { CardContent } from "@material-ui/core";
 
-import { Article, ArticleCardHeader, Markdown } from 'components';
-import { Helmet } from 'react-helmet';
+import { Article, ArticleCardHeader, Banner, Markdown } from "components";
+import { Helmet } from "react-helmet";
 
 const List = ({ event }) => (
-  <Article>
-    <Helmet title='Pravidla' />
-    <ArticleCardHeader title={ `${event.name} - Pravidla` } image={ event.rulesImage && event.rulesImage.src }/>
-    <CardContent>
-      <Markdown content={ event.rules } />
-    </CardContent>
-  </Article>
+  <React.Fragment>
+    <Helmet title="Pravidla" />
+    <Banner event={event} title="Pravidla" />
+    <Article>
+      <ArticleCardHeader
+        title="Pravidla"
+        image={event.rulesImage && event.rulesImage.src}
+      />
+      <CardContent>
+        <Markdown content={event.rules} />
+      </CardContent>
+    </Article>
+  </React.Fragment>
 );
 
 List.propTypes = {
-  event: PropTypes.object.isRequired
+  event: PropTypes.object.isRequired,
 };
 
 export default connect(({ event }) => ({ event }))(List);

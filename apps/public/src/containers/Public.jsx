@@ -111,7 +111,9 @@ const Public = ({ event, setEvent }) => {
         title: "Nová registrace",
         icon: "person_add",
         href: "registration/new",
-        disabled: !event.registrationAvailable,
+        disabled:
+          !event.registrationAvailable &&
+          process.env.NODE_ENV !== "development",
       },
       {
         title: "Účastníci",
