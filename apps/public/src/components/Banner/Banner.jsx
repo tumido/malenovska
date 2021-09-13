@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { Grid, Hidden, Container, Chip, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
-import { EventAvailabilityChip } from "components";
+import { Logo, EventAvailabilityChip } from "components";
 
 const useStyles = makeStyles((theme) => ({
   h1: {
@@ -42,6 +42,8 @@ const useStyles = makeStyles((theme) => ({
 const Banner = ({ event, title, children }) => {
   const styles = useStyles();
 
+  const splitAt = event.name.indexOf("o");
+
   return (
     <Container className={styles.container}>
       <Grid
@@ -59,7 +61,9 @@ const Banner = ({ event, title, children }) => {
             </Typography>
           )}
           <Typography gutterBottom variant="h1" className={styles.h1}>
-            {event.name}
+            {event.name.slice(0, splitAt)}
+            <Logo size=".55em" />
+            {event.name.slice(splitAt + 1)}
           </Typography>
           <Chip
             label={event.type ? "Bitva" : "Šarvátka"}
