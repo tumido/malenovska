@@ -35,9 +35,7 @@ const useStyles = makeStyles((theme) => ({
       paddingRight: 24,
     },
     padding: 16,
-    [theme.breakpoints.down("md")]: {
-      paddingTop: 0,
-    },
+    paddingTop: 0,
   },
   heading: {
     marginTop: "1.7em",
@@ -79,18 +77,11 @@ const Info = ({ event, center, setCenter }) => {
   return (
     <React.Fragment>
       <Helmet title="To důležité" />
-      <Hidden lgUp>
-        <Banner event={event} title="To důležité" />
-      </Hidden>
+      <Banner event={event} title="To důležité" />
       <div className={classes.root}>
         <Paper>
           <Grid container>
             <Grid item xs={12} lg={3} className={classes.info}>
-              <Hidden mdDown>
-                <Typography gutterBottom variant="h4" component="h2">
-                  To důležité
-                </Typography>
-              </Hidden>
               <Typography gutterBottom className={classes.heading} variant="h5">
                 K registraci
               </Typography>
