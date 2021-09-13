@@ -2429,7 +2429,7 @@ __metadata:
     final-form: 4.20.2
     final-form-arrays: 3.0.2
     firebase: 9.0.2
-    firebase-tools: 9.17.0
+    firebase-tools: 9.18.0
     history: 4.10.1
     html-webpack-plugin: 5.3.2
     jsonexport: 3.2.0
@@ -2509,7 +2509,7 @@ __metadata:
     eslint-config-prettier: 8.3.0
     eslint-plugin-react: 7.25.1
     final-form: 4.20.2
-    firebase-tools: 9.17.0
+    firebase-tools: 9.18.0
     html-webpack-plugin: 5.3.2
     leaflet: 1.7.1
     markdown-to-jsx: 7.1.3
@@ -6567,9 +6567,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"firebase-tools@npm:9.17.0":
-  version: 9.17.0
-  resolution: "firebase-tools@npm:9.17.0"
+"firebase-tools@npm:9.18.0":
+  version: 9.18.0
+  resolution: "firebase-tools@npm:9.18.0"
   dependencies:
     "@google-cloud/pubsub": ^2.7.0
     "@types/archiver": ^5.1.0
@@ -6631,7 +6631,7 @@ __metadata:
     ws: ^7.2.3
   bin:
     firebase: ./lib/bin/firebase.js
-  checksum: 05b362cb970a6af178aa5f8eb366b166d81ad03d54633d904df06062b7fe14bce59225213054d3cf01e04a438db9a123cd97285f339cd1640b3db9851ada0008
+  checksum: db711d6850228ac718f1391129be87a8a81c2bbbb0d216d97b6d3cd2fd2f7fb68019d692a1310a3986ff6e3e7f9c647de922c92e74f5f7bc79fcc4359e1309a3
   languageName: node
   linkType: hard
 
@@ -11886,7 +11886,7 @@ resolve@^2.0.0-next.3:
   version: 0.0.0-use.local
   resolution: "root-workspace-0b6124@workspace:."
   dependencies:
-    firebase-tools: 9.17.0
+    firebase-tools: 9.18.0
     node-firestore-import-export: 1.1.0
     npm-run-all: 4.1.5
   languageName: unknown
