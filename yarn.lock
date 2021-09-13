@@ -1808,22 +1808,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@firebase/auth@npm:0.17.1":
-  version: 0.17.1
-  resolution: "@firebase/auth@npm:0.17.1"
-  dependencies:
-    "@firebase/component": 0.5.6
-    "@firebase/logger": 0.2.6
-    "@firebase/util": 1.3.0
-    node-fetch: 2.6.1
-    selenium-webdriver: 4.0.0-beta.1
-    tslib: ^2.1.0
-  peerDependencies:
-    "@firebase/app": 0.x
-  checksum: bd110194c59138b7d1302b39b765ebdc3eb342a17760548eb226d52a9a242ef03083cf2c776fc7bec6fed745aad08dbf3a1d4ec335530e84c2fea4250ad0c7c3
-  languageName: node
-  linkType: hard
-
 "@firebase/auth@npm:0.17.2":
   version: 0.17.2
   resolution: "@firebase/auth@npm:0.17.2"
@@ -2458,7 +2442,7 @@ __metadata:
     "@date-io/core": 2.11.0
     "@firebase/app": 0.7.0
     "@firebase/app-types": 0.7.0
-    "@firebase/auth": 0.17.1
+    "@firebase/auth": 0.17.2
     "@firebase/util": 1.3.0
     "@malenovska/common": 1.0.0
     "@material-ui/core": 4.12.3
