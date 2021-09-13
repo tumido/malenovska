@@ -11,12 +11,12 @@ import { ThemeProvider } from "@material-ui/styles";
 import BgImage from "@malenovska/common/assets/images/background.jpg";
 import DefaultOgImage from "@malenovska/common/assets/images/og_image.jpg";
 
-import { Loading } from "components";
+import { Loading } from "./components";
 import { theme } from "./utilities/theme";
 
-const NotFound = lazy(() => import("containers/NotFound"));
-const Landing = lazy(() => import("containers/Landing"));
-const Public = lazy(() => import("containers/Public"));
+const NotFound = lazy(() => import("./pages/404"));
+const Landing = lazy(() => import("./pages/choose"));
+const Public = lazy(() => import("./pages"));
 
 const useStyles = makeStyles(() => ({
   content: {
