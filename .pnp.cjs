@@ -2875,38 +2875,12 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@firebase/auth", [
-        ["npm:0.17.1", {
-          "packageLocation": "./.yarn/cache/@firebase-auth-npm-0.17.1-a71acf43de-bd110194c5.zip/node_modules/@firebase/auth/",
-          "packageDependencies": [
-            ["@firebase/auth", "npm:0.17.1"]
-          ],
-          "linkType": "SOFT",
-        }],
         ["npm:0.17.2", {
           "packageLocation": "./.yarn/cache/@firebase-auth-npm-0.17.2-975d8d6424-9a8f8d1569.zip/node_modules/@firebase/auth/",
           "packageDependencies": [
             ["@firebase/auth", "npm:0.17.2"]
           ],
           "linkType": "SOFT",
-        }],
-        ["virtual:a142d2a7b82c7773e3af78a95524f9bd88567e8f6e7b929147325518a887f4e62fce41c86a4cb923054da1ee248a84dfdfea800bb1d4a52d4b340717af293ac5#npm:0.17.1", {
-          "packageLocation": "./.yarn/__virtual__/@firebase-auth-virtual-9d9adb4520/0/cache/@firebase-auth-npm-0.17.1-a71acf43de-bd110194c5.zip/node_modules/@firebase/auth/",
-          "packageDependencies": [
-            ["@firebase/auth", "virtual:a142d2a7b82c7773e3af78a95524f9bd88567e8f6e7b929147325518a887f4e62fce41c86a4cb923054da1ee248a84dfdfea800bb1d4a52d4b340717af293ac5#npm:0.17.1"],
-            ["@firebase/app", "npm:0.7.0"],
-            ["@firebase/component", "npm:0.5.6"],
-            ["@firebase/logger", "npm:0.2.6"],
-            ["@firebase/util", "npm:1.3.0"],
-            ["@types/firebase__app", null],
-            ["node-fetch", "npm:2.6.1"],
-            ["selenium-webdriver", "npm:4.0.0-beta.1"],
-            ["tslib", "npm:2.3.1"]
-          ],
-          "packagePeers": [
-            "@firebase/app",
-            "@types/firebase__app"
-          ],
-          "linkType": "HARD",
         }],
         ["virtual:c1de3b3144d13e8a777681906750e30927a60e25ce48b8928075a376cde25732aa52c9d732f737667c117414bcf76bf412c5e1dae3e0ed299df7530112280b1c#npm:0.17.2", {
           "packageLocation": "./.yarn/__virtual__/@firebase-auth-virtual-5bb804ce34/0/cache/@firebase-auth-npm-0.17.2-975d8d6424-9a8f8d1569.zip/node_modules/@firebase/auth/",
@@ -4025,7 +3999,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@date-io/core", "npm:2.11.0"],
             ["@firebase/app", "npm:0.7.0"],
             ["@firebase/app-types", "npm:0.7.0"],
-            ["@firebase/auth", "virtual:a142d2a7b82c7773e3af78a95524f9bd88567e8f6e7b929147325518a887f4e62fce41c86a4cb923054da1ee248a84dfdfea800bb1d4a52d4b340717af293ac5#npm:0.17.1"],
+            ["@firebase/auth", "virtual:f742448727cae29ab2f2b3433cb6347808f00aaada2af1bee59b4b196da4d37313db4bdddf80c19b9fb927327c9845da1436881bcdb32923965f1a8ce7cd0927#npm:0.17.2"],
             ["@firebase/util", "npm:1.3.0"],
             ["@malenovska/common", "workspace:apps/common"],
             ["@material-ui/core", "virtual:a142d2a7b82c7773e3af78a95524f9bd88567e8f6e7b929147325518a887f4e62fce41c86a4cb923054da1ee248a84dfdfea800bb1d4a52d4b340717af293ac5#npm:4.12.3"],
