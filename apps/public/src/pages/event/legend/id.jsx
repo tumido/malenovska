@@ -19,8 +19,8 @@ import {
   Article,
   ArticleCardHeader,
   ShareDialog,
-} from "../../components";
-import { timestampToDateStr } from "../../utilities/firebase";
+} from "../../../components";
+import { timestampToDateStr } from "../../../utilities/firebase";
 import { Helmet } from "react-helmet";
 
 const useStyles = makeStyles((theme) => ({

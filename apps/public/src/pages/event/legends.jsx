@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 
 import { Grid, Container } from "@material-ui/core";
 
-import { SmallArticleCard, Markdown, Banner } from "../components";
+import { SmallArticleCard, Markdown, Banner } from "../../components";
 import { Helmet } from "react-helmet";
 
 const Legends = ({ event }) => {

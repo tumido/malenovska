@@ -19,7 +19,7 @@ import {
   Markdown,
   ShareDialog,
   ColorBadge,
-} from "../../components";
+} from "../../../components";
 import { ShareOutlined } from "@material-ui/icons";
 import { Helmet } from "react-helmet";
 

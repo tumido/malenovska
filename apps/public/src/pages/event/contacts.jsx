@@ -13,7 +13,7 @@ import {
 } from "@material-ui/core";
 import { TodayOutlined, EventOutlined, MailOutlined } from "@material-ui/icons";
 
-import { Article, ArticleCardHeader, Banner, Markdown } from "../components";
+import { Article, ArticleCardHeader, Banner, Markdown } from "../../components";
 import { Helmet } from "react-helmet";
 
 const contactButtons = (event) => [

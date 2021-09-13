@@ -1,16 +1,16 @@
 import React, { lazy } from "react";
 
-const Gallery = lazy(() => import("./pages/gallery"));
-const Legends = lazy(() => import("./pages/legends"));
-const LegendId = lazy(() => import("./pages/legend/id"));
-const Rules = lazy(() => import("./pages/rules"));
-const Info = lazy(() => import("./pages/info"));
-const Contacts = lazy(() => import("./pages/contacts"));
-const Races = lazy(() => import("./pages/races"));
-const RaceId = lazy(() => import("./pages/race/id"));
-const RegistrationNew = lazy(() => import("./pages/registration/new"));
-const RegistrationSuccess = lazy(() => import("./pages/registration/success"));
-const Attendees = lazy(() => import("./pages/attendees"));
+const Gallery = lazy(() => import("./pages/event/gallery"));
+const Legends = lazy(() => import("./pages/event/legends"));
+const LegendId = lazy(() => import("./pages/event/legend/id"));
+const Rules = lazy(() => import("./pages/event/rules"));
+const Info = lazy(() => import("./pages/event/info"));
+const Contacts = lazy(() => import("./pages/event/contacts"));
+const Races = lazy(() => import("./pages/event/races"));
+const RaceId = lazy(() => import("./pages/event/race/id"));
+const RegistrationNew = lazy(() => import("./pages/event/registration/new"));
+const RegistrationSuccess = lazy(() => import("./pages/event/registration/success"));
+const Attendees = lazy(() => import("./pages/event/attendees"));
 
 export const useEventRouter = (event) => {
   const tomorrow = new Date();

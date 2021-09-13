@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 
 import { CardContent } from "@material-ui/core";
 
-import { Article, ArticleCardHeader, Banner, Markdown } from "../components";
+import { Article, ArticleCardHeader, Banner, Markdown } from "../../components";
 import { Helmet } from "react-helmet";
 
 const Rules = ({ event }) => (

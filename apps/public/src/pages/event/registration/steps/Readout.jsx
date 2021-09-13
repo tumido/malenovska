@@ -5,7 +5,11 @@ import { FormSpy } from "react-final-form";
 import { Chip, CardContent } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 
-import { Markdown, ColorBadge, ArticleCardHeader } from "../../../components";
+import {
+  Markdown,
+  ColorBadge,
+  ArticleCardHeader,
+} from "../../../../components";
 
 const useStyles = makeStyles((theme) => ({
   chip: {

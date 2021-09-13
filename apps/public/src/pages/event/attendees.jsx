@@ -22,8 +22,8 @@ import {
   Markdown,
   TableToolbar,
   Banner,
-} from "../components";
-import { stableSort, getSorting } from "../utilities/sorting";
+} from "../../components";
+import { stableSort, getSorting } from "../../utilities/sorting";
 import { Helmet } from "react-helmet";
 
 const useStyles = makeStyles(() => ({

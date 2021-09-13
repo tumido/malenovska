@@ -13,7 +13,7 @@ import {
 } from "@material-ui/core";
 import withWidth, { isWidthUp } from "@material-ui/core/withWidth";
 
-import { Banner } from "../components";
+import { Banner } from "../../components";
 import { Helmet } from "react-helmet";
 
 const Gallery = ({ event, width }) => {

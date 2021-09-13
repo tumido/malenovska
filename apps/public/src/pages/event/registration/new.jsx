@@ -8,11 +8,11 @@ import { isLoaded, useFirestoreConnect } from "react-redux-firebase";
 import { Grid, Hidden } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
-import { Article, Banner, Wizard } from "../../components";
+import { Article, Banner, Wizard } from "../../../components";
 const PersonalDetails = lazy(() => import("./steps/PersonalDetails"));
 const Readout = lazy(() => import("./steps/Readout"));
 const RaceSelect = lazy(() => import("./steps/RaceSelect"));
-import { registerNewParticipant } from "../../redux/actions/participant-actions";
+import { registerNewParticipant } from "../../../redux/actions/participant-actions";
 import { Helmet } from "react-helmet";
 
 const useStyles = makeStyles(() => ({
