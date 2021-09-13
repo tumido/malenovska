@@ -77,7 +77,6 @@ const Map = ({ markers, center, className }) => {
       })}
     />
   ));
-  console.log(center);
 
   return (
     <Grid container className={clsx(`${classes.root} ${className}`)}>

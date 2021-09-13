@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import {
@@ -13,13 +13,11 @@ import {
   IconButton,
   Tooltip,
   Box,
-  Hidden,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 import { Map, Banner } from "../components";
 import { timestampToDateStr, timestampToTimeStr } from "../utilities/firebase";
-import { setCenter } from "../redux/actions/map-actions";
 import { Helmet } from "react-helmet";
 
 const useStyles = makeStyles((theme) => ({
@@ -63,8 +61,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Info = ({ event, center, setCenter }) => {
+const Info = ({ event }) => {
   const classes = useStyles();
+  const [center, setCenter] = useState();
 
   const timesToRender = [
     ["Datum akce", timestampToDateStr(event.date)],
@@ -224,10 +223,4 @@ Info.propTypes = {
   setCenter: PropTypes.func.isRequired,
 };
 
-export default connect(
-  ({ map, event }) => ({
-    center: map.center,
-    event,
-  }),
-  { setCenter }
-)(Info);
+export default connect(({ event }) => ({ event }))(Info);
