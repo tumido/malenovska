@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { connect, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useFirestoreConnect, isLoaded } from "react-redux-firebase";
 
 import {
@@ -15,8 +15,10 @@ import withWidth, { isWidthUp } from "@material-ui/core/withWidth";
 
 import { Banner } from "../../components";
 import { Helmet } from "react-helmet";
+import { useEvent } from "../../contexts/EventContext";
 
-const Gallery = ({ event, width }) => {
+const Gallery = ({ width }) => {
+  const [event] = useEvent();
   useFirestoreConnect(() => [
     {
       collection: "galleries",
@@ -65,7 +67,7 @@ const Gallery = ({ event, width }) => {
           ]
         }
       />
-      <Banner event={event} title="Galerie">
+      <Banner title="Galerie">
         <Typography>
           Fotogalerie, sdílená alba, památníčky... prostě, co se našlo.
         </Typography>
@@ -96,8 +98,7 @@ const Gallery = ({ event, width }) => {
 };
 
 Gallery.propTypes = {
-  event: PropTypes.object.isRequired,
   width: PropTypes.string,
 };
 
-export default connect(({ event }) => ({ event }))(withWidth()(Gallery));
+export default withWidth()(Gallery);

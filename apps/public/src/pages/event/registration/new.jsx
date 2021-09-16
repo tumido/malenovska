@@ -14,6 +14,7 @@ const Readout = lazy(() => import("./steps/Readout"));
 const RaceSelect = lazy(() => import("./steps/RaceSelect"));
 import { registerNewParticipant } from "../../../redux/actions/participant-actions";
 import { Helmet } from "react-helmet";
+import { useEvent } from "../../../contexts/EventContext";
 
 const useStyles = makeStyles(() => ({
   stepper: {
@@ -30,8 +31,9 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const New = ({ event, registerNewParticipant, history }) => {
+const New = ({ registerNewParticipant, history }) => {
   const classes = useStyles();
+  const [event] = useEvent();
 
   useFirestoreConnect(() => [
     {
@@ -84,7 +86,7 @@ const New = ({ event, registerNewParticipant, history }) => {
   return (
     <React.Fragment>
       <Helmet title="Nová registrace" />
-      <Banner event={event} title="Registrace" />
+      <Banner title="Registrace" />
       <Article scrollTop={false}>
         <Grid container direction="column" wrap="nowrap" spacing={2}>
           <Hidden smDown>
@@ -137,12 +139,11 @@ const New = ({ event, registerNewParticipant, history }) => {
 };
 
 New.propTypes = {
-  event: PropTypes.object.isRequired,
   registerNewParticipant: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
 };
 
 export default compose(
   withRouter,
-  connect(({ event }) => ({ event }), { registerNewParticipant })
+  connect(null, { registerNewParticipant })
 )(New);

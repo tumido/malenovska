@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
 import {
   Paper,
   Grid,
@@ -22,6 +20,7 @@ import {
   timestampToTimeStr,
 } from "../../utilities/firebase";
 import { Helmet } from "react-helmet";
+import { useEvent } from "../../contexts/EventContext";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -64,7 +63,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Info = ({ event }) => {
+const Info = () => {
+  const [event] = useEvent();
   const classes = useStyles();
   const [center, setCenter] = useState();
 
@@ -79,7 +79,7 @@ const Info = ({ event }) => {
   return (
     <React.Fragment>
       <Helmet title="To důležité" />
-      <Banner event={event} title="To důležité" />
+      <Banner title="To důležité" />
       <div className={classes.root}>
         <Paper>
           <Grid container>
@@ -200,30 +200,4 @@ const Info = ({ event }) => {
   );
 };
 
-Info.propTypes = {
-  event: PropTypes.shape({
-    poi: PropTypes.arrayOf(
-      PropTypes.shape({
-        geo: PropTypes.shape({
-          latitude: PropTypes.number.isRequired,
-          longitude: PropTypes.number.isRequired,
-        }).isRequired,
-        name: PropTypes.string.isRequired,
-        description: PropTypes.string.isRequired,
-      }).isRequired
-    ),
-    date: PropTypes.instanceOf(Date),
-    onsiteStart: PropTypes.instanceOf(Date),
-    onsiteRegistrationOpen: PropTypes.instanceOf(Date),
-    onsiteRegistrationClose: PropTypes.instanceOf(Date),
-    onsiteEnd: PropTypes.instanceOf(Date),
-    declaration: PropTypes.shape({
-      src: PropTypes.string.isRequired,
-    }).isRequired,
-    price: PropTypes.number.isRequired,
-  }).isRequired,
-  center: PropTypes.array,
-  setCenter: PropTypes.func.isRequired,
-};
-
-export default connect(({ event }) => ({ event }))(Info);
+export default Info;

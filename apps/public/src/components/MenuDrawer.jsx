@@ -19,6 +19,7 @@ import { ThemeProvider } from "@material-ui/styles";
 import { darkTheme } from "../utilities/theme";
 
 import AdapterLink from "./AdapterLink";
+import { useEvent } from "../contexts/EventContext";
 
 const drawerWidth = 300;
 
@@ -46,8 +47,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const MenuDrawer = ({ event, navigation, pathname, onClick }) => {
+const MenuDrawer = ({ navigation, pathname, onClick }) => {
   const classes = useStyles();
+  const [event] = useEvent();
 
   return (
     <ThemeProvider theme={darkTheme}>

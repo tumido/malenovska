@@ -1,6 +1,4 @@
-import React, { lazy } from "react";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
+import React, { useEffect } from "react";
 import { Helmet } from "react-helmet";
 import { Switch, Route, Redirect } from "react-router-dom";
 import { SnackbarProvider } from "notistack";
@@ -15,8 +13,8 @@ import {
   Notifier,
   ScrollRestore,
 } from "../components";
-import { setEvent } from "../redux/actions/event-actions";
 import { useEventRouter } from "../router";
+import { EventProvider, useEvent } from "../contexts/EventContext";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -40,11 +38,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Home = ({ event, setEvent }) => {
+const Home = ({ event }) => {
   const classes = useStyles();
-  React.useEffect(() => {
-    setEvent(event);
-  });
 
   if (!event) {
     return (
@@ -63,41 +58,38 @@ const Home = ({ event, setEvent }) => {
           <Helmet>
             <title>{`${event.name} ${event.year}`}</title>
           </Helmet>
-          <Header event={event} navigation={navigation} />
-          <div className={classes.content}>
-            <div id="top" />
-            <main>
-              <Switch>
-                {navigation.map((i) => {
-                  if (i.path && i.component)
-                    return (
-                      <Route
-                        key={i.path}
-                        path={i.path}
-                        component={i.component}
-                      />
-                    );
-                })}
-                <Redirect
-                  exact
-                  from={`/${event.id}`}
-                  to={`/${event.id}/legends`}
-                />
-                <Redirect to="/not-found" />
-              </Switch>
-            </main>
-            <Footer />
-            <Notifier />
-          </div>
+          <EventProvider event={event}>
+            <Header navigation={navigation} />
+            <div className={classes.content}>
+              <div id="top" />
+              <main>
+                <Switch>
+                  {navigation.map((i) => {
+                    if (i.path && i.component)
+                      return (
+                        <Route
+                          key={i.path}
+                          path={i.path}
+                          component={i.component}
+                        />
+                      );
+                  })}
+                  <Redirect
+                    exact
+                    from={`/${event.id}`}
+                    to={`/${event.id}/legends`}
+                  />
+                  <Redirect to="/not-found" />
+                </Switch>
+              </main>
+              <Footer />
+              <Notifier />
+            </div>
+          </EventProvider>
         </div>
       </SnackbarProvider>
     </ScrollRestore>
   );
 };
 
-Home.propTypes = {
-  event: PropTypes.object,
-  setEvent: PropTypes.func,
-};
-
-export default connect(null, { setEvent })(Home);
+export default Home;

@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
 
 const iOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
 
-const Header = ({ event, navigation, location: { pathname } }) => {
+const Header = ({ navigation, location: { pathname } }) => {
   const classes = useStyles();
 
   const [drawerOpen, setDrawerOpen] = React.useState(false);
@@ -91,7 +91,6 @@ const Header = ({ event, navigation, location: { pathname } }) => {
             }}
           >
             <MenuDrawer
-              event={event}
               navigation={navigation}
               pathname={pathname}
               onClick={handleDrawerClose}
@@ -107,11 +106,7 @@ const Header = ({ event, navigation, location: { pathname } }) => {
             }}
             open
           >
-            <MenuDrawer
-              event={event}
-              navigation={navigation}
-              pathname={pathname}
-            />
+            <MenuDrawer navigation={navigation} pathname={pathname} />
           </Drawer>
         </Hidden>
       </nav>
@@ -120,7 +115,6 @@ const Header = ({ event, navigation, location: { pathname } }) => {
 };
 
 Header.propTypes = {
-  event: PropTypes.object,
   navigation: PropTypes.arrayOf(
     PropTypes.shape({
       title: PropTypes.string,

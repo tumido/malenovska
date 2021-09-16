@@ -1,6 +1,5 @@
 import React from "react";
-import { connect, useSelector } from "react-redux";
-import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
 import { isLoaded, useFirestoreConnect } from "react-redux-firebase";
 
 import {
@@ -25,6 +24,7 @@ import {
 } from "../../components";
 import { stableSort, getSorting } from "../../utilities/sorting";
 import { Helmet } from "react-helmet";
+import { useEvent } from "../../contexts/EventContext";
 
 const useStyles = makeStyles(() => ({
   table: {
@@ -52,7 +52,7 @@ const filterBySearch = (participant, filter) =>
     ([k, v]) => headerKeys.includes(k) && v.toLowerCase().includes(filter)
   );
 
-const ListContent = ({ event }) => {
+const ListContent = () => {
   const classes = useStyles();
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("race");
@@ -60,6 +60,7 @@ const ListContent = ({ event }) => {
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [filterSearch, setFilterSearch] = React.useState(false);
   const [filterChips, setFilterChips] = React.useState([]);
+  const [event] = useEvent();
 
   const handleRequestSort = (event, property) => {
     const isDesc = orderBy === property && order === "desc";
@@ -206,20 +207,12 @@ const ListContent = ({ event }) => {
   );
 };
 
-ListContent.propTypes = {
-  event: PropTypes.object.isRequired,
-};
-
-const Attendees = ({ event }) => (
+const Attendees = () => (
   <React.Fragment>
     <Helmet title="Účastníci" />
-    <Banner event={event} title="Účastníci" />
-    <ListContent event={event} />
+    <Banner title="Účastníci" />
+    <ListContent />
   </React.Fragment>
 );
 
-Attendees.propTypes = {
-  event: PropTypes.object.isRequired,
-};
-
-export default connect(({ event }) => ({ event }))(Attendees);
+export default Attendees;

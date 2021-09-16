@@ -1,5 +1,5 @@
 import React from "react";
-import { connect, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useFirestoreConnect, isLoaded, isEmpty } from "react-redux-firebase";
 import PropTypes from "prop-types";
 
@@ -7,8 +7,10 @@ import { Grid, Container } from "@material-ui/core";
 
 import { SmallArticleCard, Markdown, Banner } from "../../components";
 import { Helmet } from "react-helmet";
+import { useEvent } from "../../contexts/EventContext";
 
-const Legends = ({ event }) => {
+const Legends = () => {
+  const [event] = useEvent();
   useFirestoreConnect(() => [
     {
       collection: "legends",
@@ -49,7 +51,7 @@ const Legends = ({ event }) => {
   return (
     <React.Fragment>
       <Helmet title="Legendy" />
-      <Banner event={event} title="Legendy">
+      <Banner title="Legendy">
         <Markdown content={event.description} />
       </Banner>
       <Container maxWidth="lg">
@@ -70,7 +72,6 @@ const Legends = ({ event }) => {
 
 Legends.propTypes = {
   legends: PropTypes.array,
-  event: PropTypes.object,
 };
 
-export default connect(({ event }) => ({ event }))(Legends);
+export default Legends;

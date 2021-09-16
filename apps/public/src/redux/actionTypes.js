@@ -1,7 +1,3 @@
-export const EVENT = {
-  set: '@@event/CONTEXT_SET'
-};
-
 export const PARTICIPANT = {
   add: {
     pending: '@@participant/ADD_PENDING',

@@ -1,14 +1,15 @@
 import React from "react";
-import { connect, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useFirestoreConnect, isLoaded, isEmpty } from "react-redux-firebase";
-import PropTypes from "prop-types";
 
 import { Grid, Container } from "@material-ui/core";
 
 import { SmallArticleCard, Banner } from "../../components";
 import { Helmet } from "react-helmet";
+import { useEvent } from "../../contexts/EventContext";
 
-const Races = ({ event }) => {
+const Races = () => {
+  const [event] = useEvent();
   useFirestoreConnect(() => [
     {
       collection: "races",
@@ -39,7 +40,7 @@ const Races = ({ event }) => {
   return (
     <React.Fragment>
       <Helmet title="Bojující strany" />
-      <Banner event={event} title="Strany" />
+      <Banner title="Strany" />
       <Container maxWidth="lg">
         {!isEmpty(races) && (
           <Grid container direction="row" spacing={2}>
@@ -51,8 +52,4 @@ const Races = ({ event }) => {
   );
 };
 
-Races.propTypes = {
-  event: PropTypes.object.isRequired,
-};
-
-export default connect(({ event }) => ({ event }))(Races);
+export default Races;

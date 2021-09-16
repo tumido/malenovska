@@ -1,6 +1,4 @@
 import React from "react";
-import { compose } from "redux";
-import { connect } from "react-redux";
 import { withRouter } from "react-router";
 import PropTypes from "prop-types";
 
@@ -9,6 +7,7 @@ import { makeStyles } from "@material-ui/core/styles";
 
 import { Alert } from "@material-ui/lab";
 import { Helmet } from "react-helmet";
+import { useEvent } from "../../../contexts/EventContext";
 
 const useStyles = makeStyles({
   banner: {
@@ -22,8 +21,9 @@ const useStyles = makeStyles({
   },
 });
 
-const List = ({ event, location: { state } }) => {
+const List = ({ location: { state } }) => {
   const classes = useStyles();
+  const [event] = useEvent();
 
   return (
     <React.Fragment>
@@ -96,11 +96,6 @@ const List = ({ event, location: { state } }) => {
 };
 
 List.propTypes = {
-  event: PropTypes.shape({
-    declaration: PropTypes.shape({
-      src: PropTypes.string.isRequired,
-    }),
-  }).isRequired,
   location: PropTypes.shape({
     state: PropTypes.shape({
       isUnderage: PropTypes.bool,
@@ -108,7 +103,4 @@ List.propTypes = {
   }).isRequired,
 };
 
-export default compose(
-  withRouter,
-  connect(({ event }) => ({ event }))
-)(List);
+export default withRouter(List);

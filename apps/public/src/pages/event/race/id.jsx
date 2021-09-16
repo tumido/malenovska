@@ -1,5 +1,5 @@
 import React from "react";
-import { connect, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
 import { isLoaded, useFirestoreConnect } from "react-redux-firebase";
 import PropTypes from "prop-types";
@@ -22,14 +22,15 @@ import {
 } from "../../../components";
 import { ShareOutlined } from "@material-ui/icons";
 import { Helmet } from "react-helmet";
+import { useEvent } from "../../../contexts/EventContext";
 
 const Race = ({
   match: {
     params: { id },
   },
-  event,
 }) => {
   const [shareDialogOpen, setShareDialogOpen] = React.useState(false);
+  const [event] = useEvent();
 
   useFirestoreConnect(() => [
     {
@@ -100,7 +101,6 @@ Race.propTypes = {
       id: PropTypes.string.isRequired,
     }).isRequired,
   }).isRequired,
-  event: PropTypes.object.isRequired,
 };
 
-export default connect(({ event }) => ({ event }))(Race);
+export default Race;

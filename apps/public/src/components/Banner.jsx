@@ -5,6 +5,7 @@ import { Grid, Hidden, Container, Chip, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 import { Logo, EventAvailabilityChip } from ".";
+import { useEvent } from "../contexts/EventContext";
 
 const useStyles = makeStyles((theme) => ({
   h1: {
@@ -39,8 +40,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Banner = ({ event, title, children }) => {
+const Banner = ({ title, children }) => {
   const styles = useStyles();
+  const [event] = useEvent();
 
   const splitAt = event.name.indexOf("o");
 
@@ -73,7 +75,7 @@ const Banner = ({ event, title, children }) => {
             label={`${event.type ? "Podzim" : "Jaro"} ${event.year}`}
             className={styles.chip}
           />
-          <EventAvailabilityChip event={event} className={styles.chip} />
+          <EventAvailabilityChip className={styles.chip} />
         </Grid>
         {React.Children.map(children, (c, idx) => (
           <Grid item key={idx}>
@@ -86,7 +88,6 @@ const Banner = ({ event, title, children }) => {
 };
 
 Banner.propTypes = {
-  event: PropTypes.object,
   children: PropTypes.node,
   title: PropTypes.string,
 };

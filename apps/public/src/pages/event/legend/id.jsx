@@ -22,6 +22,7 @@ import {
 } from "../../../components";
 import { timestampToDateStr } from "../../../utilities/firebase";
 import { Helmet } from "react-helmet";
+import { useEvent } from "../../../contexts/EventContext";
 
 const useStyles = makeStyles((theme) => ({
   margin: {
@@ -33,10 +34,10 @@ const Legend = ({
   match: {
     params: { id },
   },
-  event,
 }) => {
   const classes = useStyles();
   const [shareDialogOpen, setShareDialogOpen] = React.useState(false);
+  const [event] = useEvent();
 
   useFirestoreConnect(() => [
     {
@@ -115,7 +116,6 @@ Legend.propTypes = {
       id: PropTypes.string.isRequired,
     }).isRequired,
   }).isRequired,
-  event: PropTypes.object.isRequired,
 };
 
-export default connect(({ event }) => ({ event }))(Legend);
+export default Legend;

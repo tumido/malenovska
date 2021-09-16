@@ -15,6 +15,7 @@ import { TodayOutlined, EventOutlined, MailOutlined } from "@material-ui/icons";
 
 import { Article, ArticleCardHeader, Banner, Markdown } from "../../components";
 import { Helmet } from "react-helmet";
+import { useEvent } from "../../contexts/EventContext";
 
 const contactButtons = (event) => [
   {
@@ -39,60 +40,48 @@ const contactButtons = (event) => [
   },
 ];
 
-const Contacts = ({ event }) => (
-  <React.Fragment>
-    <Helmet title="Tým" />
-    <Banner event={event} title="Kontakt a tým" />
-    <Article>
-      <ArticleCardHeader
-        height={600}
-        title="Náš tým"
-        image={event.contactImage && event.contactImage.src}
-      />
-      <CardContent>
-        <Markdown content={event.contactText} />
-        <Box marginY={4}>
-          <Divider />
-        </Box>
-        <Typography variant="h5" gutterBottom component="h3">
-          Kontakty a odkazy pro současný ročník
-        </Typography>
-        <Box marginTop={4}>
-          <Grid container justifyContent="center" spacing={2}>
-            {contactButtons(event).map((c) => (
-              <Grid item key={c.href}>
-                <Button
-                  variant="outlined"
-                  color="primary"
-                  target="_blank"
-                  href={c.href}
-                  disabled={!c.href}
-                  startIcon={c.startIcon}
-                >
-                  {c.text}
-                </Button>
-              </Grid>
-            ))}
-          </Grid>
-        </Box>
-      </CardContent>
-    </Article>
-  </React.Fragment>
-);
-
-Contacts.propTypes = {
-  event: PropTypes.shape({
-    contactImage: PropTypes.shape({
-      src: PropTypes.string.isRequired,
-    }),
-    contactText: PropTypes.string.isRequired,
-    contact: PropTypes.shape({
-      facebook: PropTypes.string,
-      larpovadatabaze: PropTypes.string,
-      larpcz: PropTypes.string,
-      email: PropTypes.string,
-    }),
-  }).isRequired,
+const Contacts = () => {
+  const [event] = useEvent();
+  return (
+    <React.Fragment>
+      <Helmet title="Tým" />
+      <Banner title="Kontakt a tým" />
+      <Article>
+        <ArticleCardHeader
+          height={600}
+          title="Náš tým"
+          image={event.contactImage && event.contactImage.src}
+        />
+        <CardContent>
+          <Markdown content={event.contactText} />
+          <Box marginY={4}>
+            <Divider />
+          </Box>
+          <Typography variant="h5" gutterBottom component="h3">
+            Kontakty a odkazy pro současný ročník
+          </Typography>
+          <Box marginTop={4}>
+            <Grid container justifyContent="center" spacing={2}>
+              {contactButtons(event).map((c) => (
+                <Grid item key={c.href}>
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    target="_blank"
+                    href={c.href}
+                    disabled={!c.href}
+                    startIcon={c.startIcon}
+                  >
+                    {c.text}
+                  </Button>
+                </Grid>
+              ))}
+            </Grid>
+          </Box>
+        </CardContent>
+      </Article>
+    </React.Fragment>
+  );
 };
 
-export default connect(({ event }) => ({ event }))(Contacts);
+export default Contacts;

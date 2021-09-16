@@ -1,10 +1,8 @@
 import React from "react";
-import { connect } from "react-redux";
-import { compose } from "redux";
+import { useSelector } from "react-redux";
 import { Link as RouterLink } from "react-router-dom";
-import PropTypes from "prop-types";
 
-import { firestoreConnect, isLoaded } from "react-redux-firebase";
+import { useFirestoreConnect, isLoaded } from "react-redux-firebase";
 
 import {
   Hidden,
@@ -23,6 +21,7 @@ import BgImage from "@malenovska/common/assets/images/background.jpg";
 
 import { darkTheme } from "../utilities/theme";
 import { Logo, EventAvailabilityChip, Markdown } from "../components";
+import { EventProvider, useEvent } from "../contexts/EventContext";
 
 const useStyles = makeStyles((theme) => ({
   h1: {
@@ -53,18 +52,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const EventItem = ({ event }) => {
+const EventItem = () => {
   const classes = useStyles();
+  const [event] = useEvent();
 
   return (
-    <Grid item key={`item_${event.id}`} className={classes.event}>
+    <Grid item className={classes.event}>
       <Link component={RouterLink} underline="none" to={event.id}>
         <Card>
           <CardActionArea>
             <CardContent>
               <Typography gutterBottom variant="h5">
                 {event.name}
-                <EventAvailabilityChip event={event} className={classes.chip} />
+                <EventAvailabilityChip className={classes.chip} />
               </Typography>
               <Typography
                 gutterBottom
@@ -83,23 +83,22 @@ const EventItem = ({ event }) => {
   );
 };
 
-EventItem.propTypes = {
-  event: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    type: PropTypes.bool.isRequired,
-    description: PropTypes.string.isRequired,
-    year: PropTypes.number.isRequired,
-  }).isRequired,
-};
-
 const cmpDate = (a, b) => (a.date < b.date ? 1 : -1);
 const getYear = (date) =>
   (date && date.toDate && date.toDate().getFullYear()) || 0;
 const cmpYear = (year, today) => year === today.getFullYear();
 
-const Choose = ({ events }) => {
+const Choose = () => {
   const classes = useStyles();
+  useFirestoreConnect(() => [
+    {
+      collection: "events",
+      where: ["display", "==", true],
+    },
+  ]);
+
+  const events = useSelector(({ firestore }) => firestore.ordered.events);
+
   const today = new Date();
 
   const thisYear = !isLoaded(events)
@@ -140,13 +139,17 @@ const Choose = ({ events }) => {
             Malenovské události roku {today.getFullYear()}
           </Typography>
           {thisYear.map((event) => (
-            <EventItem key={event.id} event={event} />
+            <EventProvider key={event.id} event={event}>
+              <EventItem />
+            </EventProvider>
           ))}
           <Typography variant="overline" color="textSecondary">
             V letech minulých
           </Typography>
           {pastYears.map((event) => (
-            <EventItem key={event.id} event={event} />
+            <EventProvider key={event.id} event={event}>
+              <EventItem />
+            </EventProvider>
           ))}
         </Grid>
         <Hidden smDown>
@@ -180,18 +183,4 @@ const Choose = ({ events }) => {
   );
 };
 
-Choose.propTypes = {
-  events: PropTypes.array,
-};
-
-export default compose(
-  firestoreConnect(() => [
-    {
-      collection: "events",
-      where: ["display", "==", true],
-    },
-  ]),
-  connect((state) => ({
-    events: state.firestore.ordered.events,
-  }))
-)(Choose);
+export default Choose;

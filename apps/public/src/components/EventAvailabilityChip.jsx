@@ -4,9 +4,14 @@ import PropTypes from "prop-types";
 import { Chip, Icon } from "@material-ui/core";
 
 import { timestampToDateStr } from "../utilities/firebase";
+import { useEvent } from "../contexts/EventContext";
 
-const EventAvailabilityChip = ({ event, className }) =>
-  !event.date || !event.date.toDate || event.date.toDate() < new Date() ? (
+const EventAvailabilityChip = ({ className }) => {
+  const [event] = useEvent();
+
+  return !event.date ||
+    !event.date.toDate ||
+    event.date.toDate() < new Date() ? (
     <Chip
       className={className}
       color="primary"
@@ -21,9 +26,9 @@ const EventAvailabilityChip = ({ event, className }) =>
       icon={<Icon>favorite_border</Icon>}
     />
   );
+};
 
 EventAvailabilityChip.propTypes = {
-  event: PropTypes.object.isRequired,
   className: PropTypes.string,
 };
 
