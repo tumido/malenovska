@@ -1,19 +1,11 @@
-import React, { useState, createContext, useContext, useEffect } from "react";
+import React, { useState, createContext, useContext } from "react";
 
-export const EventContext = createContext();
+const EventContext = createContext();
 
-export const useEvent = () => {
-  const x = useContext(EventContext);
-  console.log(x);
-  return x;
-};
+export const useEvent = () => useContext(EventContext);
 
 export const EventProvider = ({ children, event: propsEvent }) => {
-  const [event, setEvent] = useState({});
-
-  useEffect(() => {
-    setEvent(propsEvent);
-  }, []);
+  const [event, setEvent] = useState(propsEvent || {});
 
   return (
     <EventContext.Provider value={[event, setEvent]}>

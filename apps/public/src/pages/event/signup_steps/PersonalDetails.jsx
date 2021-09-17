@@ -17,7 +17,7 @@ import {
   ColorBadge,
   CheckboxFormField,
   Markdown,
-} from "../../../../components";
+} from "../../../components";
 import { required, isGreater, composeValidators, isEmail } from "./validators";
 
 const useStyles = makeStyles((theme) => ({

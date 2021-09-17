@@ -4,7 +4,7 @@ import { Field } from "react-final-form";
 
 import { Typography, Grid, Container } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { Markdown, CardFormField } from "../../../../components";
+import { Markdown, CardFormField } from "../../../components";
 
 import { required } from "./validators";
 

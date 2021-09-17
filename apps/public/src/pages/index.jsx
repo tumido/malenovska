@@ -6,15 +6,9 @@ import { SnackbarProvider } from "notistack";
 import { makeStyles } from "@material-ui/core/styles";
 import BgImage from "@malenovska/common/assets/images/background.jpg";
 
-import {
-  Header,
-  Footer,
-  Loading,
-  Notifier,
-  ScrollRestore,
-} from "../components";
+import { Header, Footer, Loading, ScrollRestore } from "../components";
 import { useEventRouter } from "../router";
-import { EventProvider, useEvent } from "../contexts/EventContext";
+import { EventProvider } from "../contexts/EventContext";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -83,7 +77,6 @@ const Home = ({ event }) => {
                 </Switch>
               </main>
               <Footer />
-              <Notifier />
             </div>
           </EventProvider>
         </div>

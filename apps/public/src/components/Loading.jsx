@@ -3,14 +3,16 @@ import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    display: "flex",
+    alignItems: "center",
+  },
+  fullscreen: {
     position: "absolute",
     left: 0,
     right: 0,
     top: 0,
     bottom: 0,
     backgroundColor: "rgba(0,0,0, 0.8)",
-    display: "flex",
-    alignItems: "center",
     zIndex: 1300,
   },
   spinner: {
@@ -60,11 +62,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Loading = () => {
+const Loading = ({ isFloating }) => {
   const classes = useStyles();
 
   return (
-    <div className={classes.root}>
+    <div className={`${classes.root} ${!isFloating && classes.fullscreen}`}>
       <div className={classes.spinner} />
     </div>
   );

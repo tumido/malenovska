@@ -12,7 +12,7 @@ import Loading from './Loading';
 import Logo from './Logo';
 import Map from './Map';
 import Markdown from './Markdown';
-import Notifier from './Notifier';
+import NotificationAction from './NotificationAction';
 import ScrollRestore from './ScrollRestore';
 import ScrollRestoreOnMount from './ScrollRestoreOnMount';
 import ScrollTop from './ScrollTop';
@@ -39,7 +39,7 @@ export {
   Logo,
   Map,
   Markdown,
-  Notifier,
+  NotificationAction,
   ScrollTop,
   ScrollRestore,
   ScrollRestoreOnMount,

@@ -8,8 +8,7 @@ const Info = lazy(() => import("./pages/event/info"));
 const Contacts = lazy(() => import("./pages/event/contacts"));
 const Races = lazy(() => import("./pages/event/races"));
 const RaceId = lazy(() => import("./pages/event/race/id"));
-const RegistrationNew = lazy(() => import("./pages/event/registration/new"));
-const RegistrationSuccess = lazy(() => import("./pages/event/registration/success"));
+const RegistrationNew = lazy(() => import("./pages/event/signup"));
 const Attendees = lazy(() => import("./pages/event/attendees"));
 
 export const useEventRouter = (event) => {
@@ -84,15 +83,10 @@ export const useEventRouter = (event) => {
     type: "visible",
     title: "Nová registrace",
     icon: "person_add",
-    path: `/${event.id}/registration/new`,
-    owns: [`/${event.id}/registration/success`],
+    path: `/${event.id}/signup`,
     disabled:
       !event.registrationAvailable && process.env.NODE_ENV !== "development",
     component: RegistrationNew,
-  },
-  {
-    path: `/${event.id}/registration/success`,
-    component: RegistrationSuccess,
   },
   {
     type: "visible",
