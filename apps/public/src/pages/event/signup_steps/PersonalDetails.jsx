@@ -129,44 +129,42 @@ const formFields = (races) => [
     field: (
       <Grid container direction="column" spacing={2}>
         <Grid item>
-          <Typography variant="body1">
-            Jako každý rok i letos jsme se rozhodli se po bitvě sejít na
-            malinovku, čaj či pivo. Hledáme proto vhodnou lokalitu. Moc nám
-            pomůže, když budeme vědět, jak velký zájem máme čekat. Lorem, ipsum
-            dolor sit amet consectetur adipisicing elit. Sed laudantium optio
-            odio, esse assumenda maxime in deserunt iure nisi unde.
+          <Typography variant="body1" gutterBottom>
+            Jako každý rok i letos jsme se rozhodli po bitvě sejít a pokecat. Od
+            dob co nám zavřeli U Hřiba hledáme místo, které by jej dokázalo
+            aspoň částečně nahradit. Letos je plán následující: Obsadíme{" "}
+            <a href="https://en.mapy.cz/s/hacofujuco" target="_blank">
+              palouk nahoře u Majáku
+            </a>
+            , kde má místní domorodec pípu v garáži, dáme si pivo (točený
+            Zlínský Švec - <b>pouze za hotové</b>, cca 25 za kus), uděláme oheň,
+            něco opečeme atd. Jsme schopni vám na ohni uvařit kotel čaje,
+            popřípadě zprostředkovat objednání nějakého hromadného jídla. Na
+            stejném místě a okolí je možné přespat ve stanech (na historiky to
+            moc není, raději berte moderní).
+          </Typography>
+          <Typography variant="body1" gutterBottom>
+            Moc nám pomůžete, když nám dáte vědět, zda-li by byl by o takovou
+            akci zájem. Pokud byste měli nějaké své návrhy a nápady k tématu,
+            uveďtě je prosím do poznámky či nás kontaktujte jakkoliv jinak
+            (Facebook, e-mail).
           </Typography>
         </Grid>
         <Grid item>
           <Field
             id="afterparty"
             name="afterparty"
-            label="Mám zájem se zúčastnit"
+            label="Mám zájem o Afterparty"
             type="checkbox"
             labelPlacement="end"
             component={CheckboxFormField}
           />
         </Grid>
-      </Grid>
-    ),
-  },
-  {
-    field: (
-      <Grid container direction="column" spacing={2}>
-        <Grid item>
-          <Typography variant="body1">
-            Pro velké odvážlivce je zde navíc ještě možnost přespat na bojišti.
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt,
-            pariatur voluptatum maiores saepe, exercitationem quis quibusdam
-            cumque possimus reiciendis officia sequi! Omnis laborum autem,
-            recusandae in ex at nobis odit?
-          </Typography>
-        </Grid>
         <Grid item>
           <Field
             id="sleepover"
             name="sleepover"
-            label="Rád bych na místě přespal"
+            label="Rád bych na místě i přespal"
             type="checkbox"
             labelPlacement="end"
             component={CheckboxFormField}
