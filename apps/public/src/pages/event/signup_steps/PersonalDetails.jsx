@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Field, FormSpy } from "react-final-form";
+import { Field as FormField, FormSpy } from "react-final-form";
 
 import {
   TextField,
@@ -18,7 +18,8 @@ import {
   CheckboxFormField,
   Markdown,
 } from "../../../components";
-import { required, isGreater, composeValidators, isEmail } from "./validators";
+import validate from "./validators";
+import { useEvent } from "../../../contexts/EventContext";
 
 const useStyles = makeStyles((theme) => ({
   marginTop: {
@@ -26,89 +27,113 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const formFields = (races) => [
+const CustomDivider = () => {
+  const classes = useStyles();
+
+  return <Divider className={classes.marginTop} />;
+};
+
+const Field = ({ type, align, props, size, raw, content }) => {
+  const children =
+    type === "raw" ? (
+      raw
+    ) : type === "markdown" ? (
+      <Markdown content={content} />
+    ) : (
+      <FormField
+        {...props}
+        validate={props.validate && validate(props.validate)}
+        name={props.id}
+        component={
+          type === "text"
+            ? TextFormField
+            : type === "number"
+            ? TextFormField
+            : type === "checkbox"
+            ? CheckboxFormField
+            : null
+        }
+      />
+    );
+
+  return (
+    <Grid item xs={12} sm={size}>
+      {align ? (
+        <Grid container alignItems={align} justifyContent={align}>
+          <Grid item>{children}</Grid>
+        </Grid>
+      ) : (
+        children
+      )}
+    </Grid>
+  );
+};
+
+const formFields = (races, extras = []) => [
   {
     size: 4,
-    field: (
-      <Field
-        id="nickName"
-        name="nickName"
-        label="Přezdívka"
-        placeholder="Mirek"
-        component={TextFormField}
-      />
-    ),
+    type: "text",
+    props: {
+      id: "nickName",
+      label: "Přezdívka",
+      placeholder: "Mirek",
+    },
   },
   {
     size: 4,
-    field: (
-      <Field
-        id="firstName"
-        name="firstName"
-        label="Jméno"
-        placeholder="Mirek"
-        required
-        validate={required()}
-        component={TextFormField}
-      />
-    ),
+    type: "text",
+    props: {
+      id: "firstName",
+      label: "Jméno",
+      placeholder: "Mirek",
+      required: true,
+      validate: ["required"],
+    },
   },
   {
     size: 4,
-    field: (
-      <Field
-        id="lastName"
-        name="lastName"
-        label="Příjmení"
-        placeholder="Dušín"
-        required
-        validate={required()}
-        component={TextFormField}
-      />
-    ),
+    type: "text",
+    props: {
+      id: "lastName",
+      label: "Příjmení",
+      placeholder: "Dušín",
+      required: true,
+      validate: ["required"],
+    },
   },
   {
-    field: (
-      <Field
-        id="email"
-        name="email"
-        label="E-mail"
-        placeholder="mirek@rychlesipy.cz"
-        required
-        validate={composeValidators(required(), isEmail)}
-        component={TextFormField}
-      />
-    ),
+    type: "text",
+    props: {
+      id: "email",
+      label: "E-mail",
+      placeholder: "mirek@rychlesipy.cz",
+      required: true,
+      validate: ["required", "email"],
+    },
   },
   {
     size: 10,
-    field: (
-      <Field
-        id="group"
-        name="group"
-        label="Skupina"
-        placeholder="Rychlé Šípy"
-        component={TextFormField}
-      />
-    ),
+    type: "text",
+    props: {
+      id: "group",
+      label: "Skupina",
+      placeholder: "Rychlé Šípy",
+    },
   },
   {
     size: 2,
-    field: (
-      <Field
-        id="age"
-        name="age"
-        label="Věk"
-        type="number"
-        InputProps={{ inputProps: { min: 10 } }}
-        required
-        validate={composeValidators(required(), isGreater(10))}
-        component={TextFormField}
-      />
-    ),
+    type: "number",
+    props: {
+      id: "age",
+      label: "Věk",
+      InputProps: { inputProps: { min: 10 } },
+      required: true,
+      validate: ["required", ["greater", [10]]],
+    },
   },
   {
-    field: (
+    type: "raw",
+    raw: (
       <FormSpy subscription={{ values: true }}>
         {({ values }) => (
           <TextField
@@ -125,95 +150,41 @@ const formFields = (races) => [
       </FormSpy>
     ),
   },
+  { type: "raw", raw: <CustomDivider /> },
+  ...extras,
+  { type: "raw", raw: <CustomDivider /> },
   {
-    field: (
-      <Grid container direction="column" spacing={2}>
-        <Grid item>
-          <Typography variant="body1" gutterBottom>
-            Jako každý rok i letos jsme se rozhodli po bitvě sejít a pokecat. Od
-            dob co nám zavřeli U Hřiba hledáme místo, které by jej dokázalo
-            aspoň částečně nahradit. Letos je plán následující: Obsadíme{" "}
-            <a href="https://en.mapy.cz/s/hacofujuco" target="_blank">
-              palouk nahoře u Majáku
-            </a>
-            , kde má místní domorodec pípu v garáži, dáme si pivo (točený
-            Zlínský Švec - <b>pouze za hotové</b>, cca 25 za kus), uděláme oheň,
-            něco opečeme atd. Jsme schopni vám na ohni uvařit kotel čaje,
-            popřípadě zprostředkovat objednání nějakého hromadného jídla. Na
-            stejném místě a okolí je možné přespat ve stanech (na historiky to
-            moc není, raději berte moderní).
-          </Typography>
-          <Typography variant="body1" gutterBottom>
-            Moc nám pomůžete, když nám dáte vědět, zda-li by byl by o takovou
-            akci zájem. Pokud byste měli nějaké své návrhy a nápady k tématu,
-            uveďtě je prosím do poznámky či nás kontaktujte jakkoliv jinak
-            (Facebook, e-mail).
-          </Typography>
-        </Grid>
-        <Grid item>
-          <Field
-            id="afterparty"
-            name="afterparty"
-            label="Mám zájem o Afterparty"
-            type="checkbox"
-            labelPlacement="end"
-            component={CheckboxFormField}
-          />
-        </Grid>
-        <Grid item>
-          <Field
-            id="sleepover"
-            name="sleepover"
-            label="Rád bych na místě i přespal"
-            type="checkbox"
-            labelPlacement="end"
-            component={CheckboxFormField}
-          />
-        </Grid>
-      </Grid>
-    ),
+    type: "text",
+    props: {
+      id: "note",
+      label: "Poznámka",
+      multiline: true,
+      placeholder: "A můžeme s sebou vzít i Bublinu?",
+    },
   },
   {
-    field: (
-      <Field
-        id="note"
-        name="note"
-        label="Poznámka"
-        multiline
-        placeholder="A můžeme s sebou vzít i Bublinu?"
-        component={TextFormField}
-      />
-    ),
+    type: "markdown",
+    content:
+      "Pro přijetí výše uvedených údajů je třeba tvůj souhlas. Slibujeme, že s&nbsp;tvými údaji budeme nakládat pouze pro potřeby konání akce a nebudeme je uchovávat déle, než je nezbytně nutné.",
   },
   {
-    field: (
-      <Grid container direction="column" alignItems="center" spacing={2}>
-        <Grid item>
-          <Typography variant="body1">
-            Pro přijetí výše uvedených údajů je třeba tvůj souhlas. Slibujeme,
-            že s&nbsp;tvými údaji budeme nakládat pouze pro potřeby konání akce
-            a nebudeme je uchovávat déle, než je nezbytně nutné.
-          </Typography>
-        </Grid>
-        <Grid item>
-          <Field
-            id="terms"
-            name="terms"
-            label="Souhlasím"
-            type="checkbox"
-            validate={required("Souhlas je nutný")}
-            component={CheckboxFormField}
-            icon={<Icon>favorite_border</Icon>}
-            checkedIcon={<Icon>favorite</Icon>}
-          />
-        </Grid>
-      </Grid>
-    ),
+    type: "checkbox",
+    align: "center",
+    props: {
+      id: "terms",
+      label: "Souhlasím",
+      validate: [["required", ["Souhlas je nutný"]]],
+      icon: <Icon>favorite_border</Icon>,
+      checkedIcon: <Icon>favorite</Icon>,
+      labelPlacement: "bottom",
+    },
   },
 ];
 
 const PersonalDetails = ({ races }) => {
   const classes = useStyles();
+  const [event] = useEvent();
+
   return (
     <React.Fragment>
       <FormSpy subscription={{ values: true }}>
@@ -241,10 +212,8 @@ const PersonalDetails = ({ races }) => {
           </Typography>
         </Box>
         <Grid container justifyContent="center" spacing={3}>
-          {formFields(races).map((item, idx) => (
-            <Grid item xs={12} sm={item.size} key={idx}>
-              {item.field}
-            </Grid>
+          {formFields(races, event.registrationExtras).map((item, idx) => (
+            <Field key={`${idx}_${item.props?.id}`} {...item} />
           ))}
         </Grid>
       </CardContent>

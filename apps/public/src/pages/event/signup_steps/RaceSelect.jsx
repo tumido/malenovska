@@ -6,7 +6,7 @@ import { Typography, Grid, Container } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { Markdown, CardFormField } from "../../../components";
 
-import { required } from "./validators";
+import validate from "./validators";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -43,7 +43,7 @@ const RaceSelect = ({ texts = {}, races, participants }) => {
             key={race.id}
             race={race}
             participants={participants}
-            validate={required()}
+            validate={validate(["required"])}
           />
         ))}
         <Grid item xs={12}>

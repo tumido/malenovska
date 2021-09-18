@@ -12,7 +12,7 @@ const CheckboxFormField = ({
   input,
   label,
   required,
-  labelPlacement = "bottom",
+  labelPlacement = "end",
   meta: { touched, error },
   ...extra
 }) => (
