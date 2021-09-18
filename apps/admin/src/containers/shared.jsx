@@ -5,6 +5,7 @@ import {
   SelectInput,
   DateField,
   useLocale,
+  useRecordContext,
 } from "react-admin";
 
 import firebase from "firebase/app";
@@ -17,6 +18,13 @@ export const EventFilter = (props) => (
     </ReferenceInput>
   </Filter>
 );
+
+export const ConditionalField = ({ conditional, component, ...props }) => {
+  const record = useRecordContext(props);
+  const Component = component;
+
+  return record && conditional(record) && <Component {...props} />;
+};
 
 export const LocaleDateField = (props) => {
   const locale = useLocale();

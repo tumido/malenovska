@@ -31,7 +31,7 @@ import { Icon } from "@material-ui/core";
 
 import MarkdownInput from "components/MarkdownInput";
 import { EventTitle } from "./shared";
-import { useStyles, setCacheForRecord } from "../shared";
+import { useStyles, setCacheForRecord, ConditionalField } from "../shared";
 
 const Edit = (props) => {
   const classes = useStyles();
@@ -164,17 +164,26 @@ const Edit = (props) => {
                 validate={[minValue(1), maxValue(12)]}
                 formClassName={classes.inlineBlock}
               />
-              <TextInput
+              <ConditionalField
+                conditional={(r) => r.type !== "markdown"}
+                component={TextInput}
                 label="ID"
                 source="props.id"
                 formClassName={classes.inlineBlock}
               />
-              <TextInput
+              <ConditionalField
+                conditional={(r) => r.type !== "markdown"}
+                component={TextInput}
                 label="Popisek"
                 source="props.label"
                 formClassName={classes.inlineBlock}
               />
-              <MarkdownInput label="Komentář" source="content" />
+              <ConditionalField
+                conditional={(r) => r.type === "markdown"}
+                component={MarkdownInput}
+                label="Komentář"
+                source="content"
+              />
             </SimpleFormIterator>
           </ArrayInput>
         </FormTab>

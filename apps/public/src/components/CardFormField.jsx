@@ -5,6 +5,7 @@ import { Grid, Chip, Box } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 import SmallArticleCard from "./SmallArticleCard";
+import { participantsForRace } from "../utilities/filters";
 
 const useStyles = makeStyles((theme) => ({
   raised: {
@@ -20,6 +21,7 @@ const useStyles = makeStyles((theme) => ({
 
 const CardFormField = ({ input, race, participants }) => {
   const classes = useStyles();
+  const registeredToRace = participantsForRace(participants, race);
 
   return (
     <Grid item xs={12} lg={6}>
@@ -36,9 +38,7 @@ const CardFormField = ({ input, race, participants }) => {
               {race.name}
             </Box>
             <Chip
-              label={`${
-                participants.filter((p) => p.race === race.id).length
-              } / ${race.limit}`}
+              label={`${registeredToRace} / ${race.limit}`}
               className={classes.chip}
             />
           </React.Fragment>
@@ -46,8 +46,7 @@ const CardFormField = ({ input, race, participants }) => {
         image={race.image}
         actionAreaProps={{
           onClick: () => input.onChange(race.id),
-          disabled:
-            participants.filter((p) => p.race === race.id).length >= race.limit,
+          disabled: registeredToRace >= race.limit,
           className: input.value === race.id ? classes.raised : classes.normal,
         }}
         cardProps={{

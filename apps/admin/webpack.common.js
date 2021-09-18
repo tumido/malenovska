@@ -42,10 +42,6 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, "src/index.html")
     }),
-    new webpack.EnvironmentPlugin({
-      NODE_ENV: 'development',
-      DEBUG: false
-    })
   ],
   stats: {
     errorDetails: true

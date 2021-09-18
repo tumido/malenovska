@@ -27,6 +27,7 @@ const Readout = lazy(() => import("./signup_steps/Readout"));
 const RaceSelect = lazy(() => import("./signup_steps/RaceSelect"));
 import { Helmet } from "react-helmet";
 import { useEvent } from "../../contexts/EventContext";
+import { getRaceById, participantsForRace } from "../../utilities/filters";
 
 const useStyles = makeStyles((theme) => ({
   stepper: {
@@ -53,6 +54,8 @@ const useStyles = makeStyles((theme) => ({
 
 const registerNewParticipant = async (
   data,
+  participants,
+  races,
   firestore,
   enqueueSnackbar,
   closeSnackbar
@@ -78,6 +81,26 @@ const registerNewParticipant = async (
     ),
     persist: true,
   });
+
+  const race = getRaceById(races, data.race);
+  if (participantsForRace(participants, race) >= race.limit) {
+    closeSnackbar(`${pk}__pending`);
+    enqueueSnackbar("Někdo tě předběhl, limit pro stranu dosažen.", {
+      key: `${pk}__result`,
+      action: (
+        <NotificationAction
+          action="close"
+          onClose={() => closeSnackbar(`${pk}__result`)}
+        />
+      ),
+      variant: "error",
+      persist: true,
+    });
+    return {
+      message: "Někdo tě předběhl, limit pro stranu dosažen.",
+      options: { variant: "error" },
+    };
+  }
 
   const batch = firestore.batch();
   const personDoc = firestore.collection("participants").doc(pk);
@@ -170,6 +193,8 @@ const New = () => {
     setResult(
       await registerNewParticipant(
         { event: event.id, ...data },
+        participants,
+        races,
         firestore,
         enqueueSnackbar,
         closeSnackbar
