@@ -49,7 +49,6 @@ const Contacts = () => {
       <Article>
         <ArticleCardHeader
           height={600}
-          title="Náš tým"
           image={event.contactImage && event.contactImage.src}
         />
         <CardContent>

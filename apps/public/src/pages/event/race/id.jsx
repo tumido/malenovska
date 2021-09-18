@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
 import { isLoaded, useFirestoreConnect } from "react-redux-firebase";
@@ -11,6 +11,7 @@ import {
   Typography,
   Box,
   Divider,
+  Hidden,
 } from "@material-ui/core";
 
 import {
@@ -23,6 +24,7 @@ import {
 import { ShareOutlined } from "@material-ui/icons";
 import { Helmet } from "react-helmet";
 import { useEvent } from "../../../contexts/EventContext";
+import { useTopBanner } from "../../../contexts/TopBannerContext";
 
 const Race = ({
   match: {
@@ -31,6 +33,7 @@ const Race = ({
 }) => {
   const [shareDialogOpen, setShareDialogOpen] = React.useState(false);
   const [event] = useEvent();
+  const { setBreadcrumbs } = useTopBanner();
 
   useFirestoreConnect(() => [
     {
@@ -40,6 +43,15 @@ const Race = ({
     },
   ]);
   const race = useSelector(({ firestore }) => firestore.ordered[id]);
+
+  useEffect(() => {
+    setBreadcrumbs(
+      race
+        ? [{ to: `/${event.id}/races`, name: "Strany" }, { name: race[0].name }]
+        : []
+    );
+    return () => setBreadcrumbs([]);
+  }, [race]);
 
   if (!isLoaded(race)) {
     return <Article />;
@@ -54,7 +66,10 @@ const Race = ({
       <Helmet
         title={race[0].name}
         meta={[
-          { property: "og:image", content: race[0].image && race[0].image.src },
+          {
+            property: "og:image",
+            content: race[0].image && race[0].image.src,
+          },
         ]}
       />
       <ColorBadge variant="line" color={race[0].color} />
@@ -63,7 +78,9 @@ const Race = ({
         title={
           <React.Fragment>
             {race[0].name}
-            <ColorBadge variant="fab" color={race[0].color} />
+            <Hidden xsDown>
+              <ColorBadge variant="fab" color={race[0].color} />
+            </Hidden>
           </React.Fragment>
         }
       />

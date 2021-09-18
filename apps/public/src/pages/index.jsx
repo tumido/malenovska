@@ -9,6 +9,7 @@ import BgImage from "@malenovska/common/assets/images/background.jpg";
 import { Header, Footer, Loading, ScrollRestore } from "../components";
 import { useEventRouter } from "../router";
 import { EventProvider } from "../contexts/EventContext";
+import { TopBannerProvider } from "../contexts/TopBannerContext";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -19,9 +20,11 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     flexGrow: 1,
-    background: `linear-gradient(to bottom, transparent 80%, #000 100%), url(${BgImage}) repeat-x top center fixed`,
     minHeight: "100vh",
     width: "100%",
+    [theme.breakpoints.up("sm")]: {
+      background: `linear-gradient(to bottom, transparent 80%, #000 100%), url(${BgImage}) repeat-x top center fixed`,
+    },
     [theme.breakpoints.down("sm")]: {
       paddingTop: 10,
     },
@@ -53,31 +56,33 @@ const Home = ({ event }) => {
             <title>{`${event.name} ${event.year}`}</title>
           </Helmet>
           <EventProvider event={event}>
-            <Header navigation={navigation} />
-            <div className={classes.content}>
-              <div id="top" />
-              <main>
-                <Switch>
-                  {navigation.map((i) => {
-                    if (i.path && i.component)
-                      return (
-                        <Route
-                          key={i.path}
-                          path={i.path}
-                          component={i.component}
-                        />
-                      );
-                  })}
-                  <Redirect
-                    exact
-                    from={`/${event.id}`}
-                    to={`/${event.id}/legends`}
-                  />
-                  <Redirect to="/not-found" />
-                </Switch>
-              </main>
-              <Footer />
-            </div>
+            <TopBannerProvider>
+              <Header navigation={navigation} />
+              <div className={classes.content}>
+                <div id="top" />
+                <main>
+                  <Switch>
+                    {navigation.map((i) => {
+                      if (i.path && i.component)
+                        return (
+                          <Route
+                            key={i.path}
+                            path={i.path}
+                            component={i.component}
+                          />
+                        );
+                    })}
+                    <Redirect
+                      exact
+                      from={`/${event.id}`}
+                      to={`/${event.id}/legends`}
+                    />
+                    <Redirect to="/not-found" />
+                  </Switch>
+                </main>
+                <Footer />
+              </div>
+            </TopBannerProvider>
           </EventProvider>
         </div>
       </SnackbarProvider>

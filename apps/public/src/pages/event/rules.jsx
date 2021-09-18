@@ -15,7 +15,7 @@ const Rules = () => {
       <Banner title="Pravidla" />
       <Article>
         <ArticleCardHeader
-          title="Pravidla"
+          // title="Pravidla"
           image={event.rulesImage && event.rulesImage.src}
         />
         <CardContent>

@@ -18,13 +18,15 @@ const NotFound = lazy(() => import("./pages/404"));
 const Landing = lazy(() => import("./pages/choose"));
 const Public = lazy(() => import("./pages"));
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   content: {
     display: "flex",
     flexDirection: "column",
     flexGrow: 1,
-    background: `linear-gradient(to bottom, transparent 80%, #000 100%), url(${BgImage}) repeat-x top center/cover fixed`,
     minHeight: "100vh",
+    [theme.breakpoints.up("sm")]: {
+      background: `linear-gradient(to bottom, transparent 80%, #000 100%), url(${BgImage}) repeat-x top center/cover fixed`,
+    },
   },
 }));
 

@@ -28,6 +28,7 @@ const RaceSelect = lazy(() => import("./signup_steps/RaceSelect"));
 import { Helmet } from "react-helmet";
 import { useEvent } from "../../contexts/EventContext";
 import { getRaceById, participantsForRace } from "../../utilities/filters";
+import { useTopBanner } from "../../contexts/TopBannerContext";
 
 const useStyles = makeStyles((theme) => ({
   stepper: {
@@ -149,6 +150,7 @@ const registerNewParticipant = async (
 const New = () => {
   const classes = useStyles();
   const [event] = useEvent();
+  const { setTopBanner } = useTopBanner();
   const firestore = useFirestore();
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
@@ -211,7 +213,7 @@ const New = () => {
 
   if (!event.registrationAvailable) {
     if (process.env.NODE_ENV === "development") {
-      console.warn("Route available only because you're in devel mode.");
+      setTopBanner("DEV-mode");
     } else {
       return <Redirect to="/not-found" />;
     }

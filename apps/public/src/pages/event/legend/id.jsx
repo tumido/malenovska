@@ -1,5 +1,5 @@
-import React from "react";
-import { connect, useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
 import { Link, Redirect } from "react-router-dom";
 import { isLoaded, useFirestoreConnect } from "react-redux-firebase";
 import PropTypes from "prop-types";
@@ -23,6 +23,7 @@ import {
 import { timestampToDateStr } from "../../../utilities/firebase";
 import { Helmet } from "react-helmet";
 import { useEvent } from "../../../contexts/EventContext";
+import { useTopBanner } from "../../../contexts/TopBannerContext";
 
 const useStyles = makeStyles((theme) => ({
   margin: {
@@ -38,6 +39,7 @@ const Legend = ({
   const classes = useStyles();
   const [shareDialogOpen, setShareDialogOpen] = React.useState(false);
   const [event] = useEvent();
+  const { setBreadcrumbs } = useTopBanner();
 
   useFirestoreConnect(() => [
     {
@@ -47,6 +49,18 @@ const Legend = ({
     },
   ]);
   const legend = useSelector(({ firestore }) => firestore.ordered[id]);
+
+  useEffect(() => {
+    setBreadcrumbs(
+      legend
+        ? [
+            { to: `/${event.id}/legends`, name: "Legendy" },
+            { name: legend[0].title },
+          ]
+        : []
+    );
+    return () => setBreadcrumbs([]);
+  }, [legend]);
 
   if (!isLoaded(legend)) {
     return <Article />;
@@ -69,8 +83,8 @@ const Legend = ({
         ]}
       />
       <ArticleCardHeader
-        image={legend[0].image && legend[0].image.src}
         title={legend[0].title}
+        image={legend[0].image && legend[0].image.src}
       />
       <CardContent>
         <Chip
@@ -93,9 +107,6 @@ const Legend = ({
         </Box>
       </CardContent>
       <CardActions>
-        {/* <IconButton aria-label="add to favorites">
-              <FavoriteOutlined />
-            </IconButton> */}
         <IconButton aria-label="share" onClick={() => setShareDialogOpen(true)}>
           <ShareOutlined />
         </IconButton>

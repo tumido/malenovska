@@ -2,6 +2,7 @@ import AdapterLink from './AdapterLink';
 import Article from './Article';
 import ArticleCardHeader from './ArticleCardHeader';
 import Banner from './Banner';
+import Breadcrumbs from './Breadcrumbs';
 import CardFormField from './CardFormField';
 import CheckboxFormField from './CheckboxFormField';
 import ColorBadge from './ColorBadge';
@@ -12,6 +13,7 @@ import Loading from './Loading';
 import Logo from './Logo';
 import Map from './Map';
 import Markdown from './Markdown';
+import MenuDrawer from './MenuDrawer';
 import NotificationAction from './NotificationAction';
 import ScrollRestore from './ScrollRestore';
 import ScrollRestoreOnMount from './ScrollRestoreOnMount';
@@ -29,6 +31,7 @@ export {
   Article,
   ArticleCardHeader,
   Banner,
+  Breadcrumbs,
   CardFormField,
   CheckboxFormField,
   ColorBadge,
@@ -39,6 +42,7 @@ export {
   Logo,
   Map,
   Markdown,
+  MenuDrawer,
   NotificationAction,
   ScrollTop,
   ScrollRestore,
