@@ -122,17 +122,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@babel/eslint-parser", [
-        ["npm:7.15.4", {
-          "packageLocation": "./.yarn/cache/@babel-eslint-parser-npm-7.15.4-2ec88bccd6-e4406f3eee.zip/node_modules/@babel/eslint-parser/",
+        ["npm:7.15.7", {
+          "packageLocation": "./.yarn/cache/@babel-eslint-parser-npm-7.15.7-24b96e6d19-f087a11e87.zip/node_modules/@babel/eslint-parser/",
           "packageDependencies": [
-            ["@babel/eslint-parser", "npm:7.15.4"]
+            ["@babel/eslint-parser", "npm:7.15.7"]
           ],
           "linkType": "SOFT",
         }],
-        ["virtual:01625856f9344d35532f7d6da587cd3ecabf22ba0d20e8e54e2c72a41d28897d9df3c6d4f23c9d53bbbede8fa1d869ca1de814bd03c80636cd0e54a87efb7c26#npm:7.15.4", {
-          "packageLocation": "./.yarn/__virtual__/@babel-eslint-parser-virtual-e210cad544/0/cache/@babel-eslint-parser-npm-7.15.4-2ec88bccd6-e4406f3eee.zip/node_modules/@babel/eslint-parser/",
+        ["virtual:01625856f9344d35532f7d6da587cd3ecabf22ba0d20e8e54e2c72a41d28897d9df3c6d4f23c9d53bbbede8fa1d869ca1de814bd03c80636cd0e54a87efb7c26#npm:7.15.7", {
+          "packageLocation": "./.yarn/__virtual__/@babel-eslint-parser-virtual-f8687976b2/0/cache/@babel-eslint-parser-npm-7.15.7-24b96e6d19-f087a11e87.zip/node_modules/@babel/eslint-parser/",
           "packageDependencies": [
-            ["@babel/eslint-parser", "virtual:01625856f9344d35532f7d6da587cd3ecabf22ba0d20e8e54e2c72a41d28897d9df3c6d4f23c9d53bbbede8fa1d869ca1de814bd03c80636cd0e54a87efb7c26#npm:7.15.4"],
+            ["@babel/eslint-parser", "virtual:01625856f9344d35532f7d6da587cd3ecabf22ba0d20e8e54e2c72a41d28897d9df3c6d4f23c9d53bbbede8fa1d869ca1de814bd03c80636cd0e54a87efb7c26#npm:7.15.7"],
             ["@babel/core", "npm:7.15.5"],
             ["@types/babel__core", null],
             ["@types/eslint", null],
@@ -3962,7 +3962,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["@malenovska/admin", "workspace:apps/admin"],
             ["@babel/core", "npm:7.15.5"],
-            ["@babel/eslint-parser", "virtual:01625856f9344d35532f7d6da587cd3ecabf22ba0d20e8e54e2c72a41d28897d9df3c6d4f23c9d53bbbede8fa1d869ca1de814bd03c80636cd0e54a87efb7c26#npm:7.15.4"],
+            ["@babel/eslint-parser", "virtual:01625856f9344d35532f7d6da587cd3ecabf22ba0d20e8e54e2c72a41d28897d9df3c6d4f23c9d53bbbede8fa1d869ca1de814bd03c80636cd0e54a87efb7c26#npm:7.15.7"],
             ["@babel/plugin-transform-runtime", "virtual:a142d2a7b82c7773e3af78a95524f9bd88567e8f6e7b929147325518a887f4e62fce41c86a4cb923054da1ee248a84dfdfea800bb1d4a52d4b340717af293ac5#npm:7.15.0"],
             ["@babel/preset-env", "virtual:01625856f9344d35532f7d6da587cd3ecabf22ba0d20e8e54e2c72a41d28897d9df3c6d4f23c9d53bbbede8fa1d869ca1de814bd03c80636cd0e54a87efb7c26#npm:7.15.6"],
             ["@babel/preset-react", "virtual:01625856f9344d35532f7d6da587cd3ecabf22ba0d20e8e54e2c72a41d28897d9df3c6d4f23c9d53bbbede8fa1d869ca1de814bd03c80636cd0e54a87efb7c26#npm:7.14.5"],
@@ -4031,7 +4031,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["@malenovska/common", "workspace:apps/common"],
             ["@babel/core", "npm:7.15.5"],
-            ["@babel/eslint-parser", "virtual:01625856f9344d35532f7d6da587cd3ecabf22ba0d20e8e54e2c72a41d28897d9df3c6d4f23c9d53bbbede8fa1d869ca1de814bd03c80636cd0e54a87efb7c26#npm:7.15.4"],
+            ["@babel/eslint-parser", "virtual:01625856f9344d35532f7d6da587cd3ecabf22ba0d20e8e54e2c72a41d28897d9df3c6d4f23c9d53bbbede8fa1d869ca1de814bd03c80636cd0e54a87efb7c26#npm:7.15.7"],
             ["@babel/preset-env", "virtual:01625856f9344d35532f7d6da587cd3ecabf22ba0d20e8e54e2c72a41d28897d9df3c6d4f23c9d53bbbede8fa1d869ca1de814bd03c80636cd0e54a87efb7c26#npm:7.15.6"],
             ["@babel/preset-react", "virtual:01625856f9344d35532f7d6da587cd3ecabf22ba0d20e8e54e2c72a41d28897d9df3c6d4f23c9d53bbbede8fa1d869ca1de814bd03c80636cd0e54a87efb7c26#npm:7.14.5"],
             ["babel-plugin-import", "npm:1.13.3"],
@@ -4049,7 +4049,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["@malenovska/public", "workspace:apps/public"],
             ["@babel/core", "npm:7.15.5"],
-            ["@babel/eslint-parser", "virtual:01625856f9344d35532f7d6da587cd3ecabf22ba0d20e8e54e2c72a41d28897d9df3c6d4f23c9d53bbbede8fa1d869ca1de814bd03c80636cd0e54a87efb7c26#npm:7.15.4"],
+            ["@babel/eslint-parser", "virtual:01625856f9344d35532f7d6da587cd3ecabf22ba0d20e8e54e2c72a41d28897d9df3c6d4f23c9d53bbbede8fa1d869ca1de814bd03c80636cd0e54a87efb7c26#npm:7.15.7"],
             ["@babel/plugin-transform-runtime", "virtual:a142d2a7b82c7773e3af78a95524f9bd88567e8f6e7b929147325518a887f4e62fce41c86a4cb923054da1ee248a84dfdfea800bb1d4a52d4b340717af293ac5#npm:7.15.0"],
             ["@babel/preset-env", "virtual:01625856f9344d35532f7d6da587cd3ecabf22ba0d20e8e54e2c72a41d28897d9df3c6d4f23c9d53bbbede8fa1d869ca1de814bd03c80636cd0e54a87efb7c26#npm:7.15.6"],
             ["@babel/preset-react", "virtual:01625856f9344d35532f7d6da587cd3ecabf22ba0d20e8e54e2c72a41d28897d9df3c6d4f23c9d53bbbede8fa1d869ca1de814bd03c80636cd0e54a87efb7c26#npm:7.14.5"],
