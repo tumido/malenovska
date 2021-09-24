@@ -1,14 +1,8 @@
-import React, { useState, useEffect } from "react";
-import {
-  Box,
-  Card,
-  CardActions,
-  CardContent,
-  Grid,
-  Typography,
-} from "@material-ui/core";
+import React from "react";
+import { Box, Card, CardContent, Grid, Typography } from "@material-ui/core";
+import { Skeleton } from "@material-ui/lab";
 import { makeStyles } from "@material-ui/core/styles";
-import { useDataProvider, EditButton } from "react-admin";
+import { useGetOne, useGetList, EditButton } from "react-admin";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -20,46 +14,62 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Dashboard = () => {
-  const dataProvider = useDataProvider();
-  const [config, setConfig] = useState();
-  const [event, setEvent] = useState();
+const DashboardCard = ({ label, value }) => {
   const classes = useStyles();
 
-  useEffect(async () => {
-    const { data } = await dataProvider.getOne("config", { id: "config" });
-    setConfig(data);
-  }, []);
-  useEffect(async () => {
-    if (!config) {
-      return;
-    }
-    const { data } = await dataProvider.getOne("events", { id: config.event });
-    setEvent(data);
-  }, [config]);
+  return (
+    <Card className={classes.card}>
+      <CardContent className={classes.main}>
+        <Box textAlign="right">
+          <Typography color="textSecondary" gutterBottom>
+            {label}
+          </Typography>
+          <Typography variant="h5" component="h2">
+            {value || <Skeleton animation="wave" />}
+          </Typography>
+        </Box>
+      </CardContent>
+    </Card>
+  );
+};
+
+const Dashboard = () => {
+  const { data: config } = useGetOne("config", "config");
+  const { data: event } = useGetOne("events", config?.event || "");
+  const { data: participantsData, ids: participantIds } = useGetList(
+    "participants",
+    { page: 1, perPage: 1000 },
+    {},
+    { event: config?.event || "" }
+  );
 
   return (
-    <Grid container spacing={8}>
+    <Grid container spacing={2}>
       <Grid item>
-        <Card className={classes.card}>
-          <CardContent className={classes.main}>
-            <Box textAlign="right">
-              <Typography color="textSecondary" gutterBottom>
-                Aktivní událost
-              </Typography>
-              <Typography variant="h5" component="h2">
-                {event?.name}
-              </Typography>
-            </Box>
-          </CardContent>
-          <CardActions>
-            <EditButton
-              basePath="config"
-              label="Změnit"
-              record={{ id: "config" }}
-            />
-          </CardActions>
-        </Card>
+        <DashboardCard label="Aktivní událost" value={event?.name} />
+      </Grid>
+      <Grid item>
+        <DashboardCard
+          label="Přihlášených účastníků"
+          value={(participantIds || []).length}
+        />
+      </Grid>
+      <Grid item>
+        <DashboardCard
+          label="Afterparty"
+          value={
+            (participantIds.map((id) => participantsData[id]) || []).filter(
+              (p) => p.afterparty
+            ).length
+          }
+        />
+      </Grid>
+      <Grid item>
+        <EditButton
+          basePath="config"
+          label="Nastavení"
+          record={{ id: "config" }}
+        />
       </Grid>
     </Grid>
   );

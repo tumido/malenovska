@@ -3357,6 +3357,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@malenovska/common", "workspace:apps/common"],
             ["@material-ui/core", "virtual:a142d2a7b82c7773e3af78a95524f9bd88567e8f6e7b929147325518a887f4e62fce41c86a4cb923054da1ee248a84dfdfea800bb1d4a52d4b340717af293ac5#npm:4.12.3"],
             ["@material-ui/icons", "virtual:a142d2a7b82c7773e3af78a95524f9bd88567e8f6e7b929147325518a887f4e62fce41c86a4cb923054da1ee248a84dfdfea800bb1d4a52d4b340717af293ac5#npm:4.11.2"],
+            ["@material-ui/lab", "virtual:a142d2a7b82c7773e3af78a95524f9bd88567e8f6e7b929147325518a887f4e62fce41c86a4cb923054da1ee248a84dfdfea800bb1d4a52d4b340717af293ac5#npm:4.0.0-alpha.60"],
             ["@material-ui/pickers", "virtual:a142d2a7b82c7773e3af78a95524f9bd88567e8f6e7b929147325518a887f4e62fce41c86a4cb923054da1ee248a84dfdfea800bb1d4a52d4b340717af293ac5#npm:3.3.10"],
             ["@types/react", "npm:17.0.19"],
             ["babel-loader", "virtual:a142d2a7b82c7773e3af78a95524f9bd88567e8f6e7b929147325518a887f4e62fce41c86a4cb923054da1ee248a84dfdfea800bb1d4a52d4b340717af293ac5#npm:8.2.2"],
@@ -3442,7 +3443,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@malenovska/common", "workspace:apps/common"],
             ["@material-ui/core", "virtual:a142d2a7b82c7773e3af78a95524f9bd88567e8f6e7b929147325518a887f4e62fce41c86a4cb923054da1ee248a84dfdfea800bb1d4a52d4b340717af293ac5#npm:4.12.3"],
             ["@material-ui/icons", "virtual:a142d2a7b82c7773e3af78a95524f9bd88567e8f6e7b929147325518a887f4e62fce41c86a4cb923054da1ee248a84dfdfea800bb1d4a52d4b340717af293ac5#npm:4.11.2"],
-            ["@material-ui/lab", "virtual:a35b4ba410c3139ca5af980d60694f59079a1830291574e50958f861253d4da2463a6be48b9043f6413252d528e9c47ef55d929121ef1a77d874844f33299548#npm:4.0.0-alpha.60"],
+            ["@material-ui/lab", "virtual:a142d2a7b82c7773e3af78a95524f9bd88567e8f6e7b929147325518a887f4e62fce41c86a4cb923054da1ee248a84dfdfea800bb1d4a52d4b340717af293ac5#npm:4.0.0-alpha.60"],
             ["@material-ui/styles", "virtual:cedfcb184126fd5d6f61a54b6bb1d957f79d1ec1930dc26ff8806986de6cb3e722197b66f546c9d22d40b9c836315ae1e148d19caf80e7c2c40307c466f0c081#npm:4.11.4"],
             ["@material-ui/system", "virtual:cedfcb184126fd5d6f61a54b6bb1d957f79d1ec1930dc26ff8806986de6cb3e722197b66f546c9d22d40b9c836315ae1e148d19caf80e7c2c40307c466f0c081#npm:4.12.1"],
             ["@types/react", "npm:17.0.19"],
@@ -3566,10 +3567,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "SOFT",
         }],
-        ["virtual:a35b4ba410c3139ca5af980d60694f59079a1830291574e50958f861253d4da2463a6be48b9043f6413252d528e9c47ef55d929121ef1a77d874844f33299548#npm:4.0.0-alpha.60", {
-          "packageLocation": "./.yarn/__virtual__/@material-ui-lab-virtual-c16a16a514/0/cache/@material-ui-lab-npm-4.0.0-alpha.60-f4addfaf93-8da8bcd636.zip/node_modules/@material-ui/lab/",
+        ["virtual:a142d2a7b82c7773e3af78a95524f9bd88567e8f6e7b929147325518a887f4e62fce41c86a4cb923054da1ee248a84dfdfea800bb1d4a52d4b340717af293ac5#npm:4.0.0-alpha.60", {
+          "packageLocation": "./.yarn/__virtual__/@material-ui-lab-virtual-3bf31e71ec/0/cache/@material-ui-lab-npm-4.0.0-alpha.60-f4addfaf93-8da8bcd636.zip/node_modules/@material-ui/lab/",
           "packageDependencies": [
-            ["@material-ui/lab", "virtual:a35b4ba410c3139ca5af980d60694f59079a1830291574e50958f861253d4da2463a6be48b9043f6413252d528e9c47ef55d929121ef1a77d874844f33299548#npm:4.0.0-alpha.60"],
+            ["@material-ui/lab", "virtual:a142d2a7b82c7773e3af78a95524f9bd88567e8f6e7b929147325518a887f4e62fce41c86a4cb923054da1ee248a84dfdfea800bb1d4a52d4b340717af293ac5#npm:4.0.0-alpha.60"],
             ["@babel/runtime", "npm:7.15.3"],
             ["@material-ui/core", "virtual:a142d2a7b82c7773e3af78a95524f9bd88567e8f6e7b929147325518a887f4e62fce41c86a4cb923054da1ee248a84dfdfea800bb1d4a52d4b340717af293ac5#npm:4.12.3"],
             ["@material-ui/utils", "virtual:cedfcb184126fd5d6f61a54b6bb1d957f79d1ec1930dc26ff8806986de6cb3e722197b66f546c9d22d40b9c836315ae1e148d19caf80e7c2c40307c466f0c081#npm:4.11.2"],

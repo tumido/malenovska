@@ -1,53 +1,66 @@
-import React from 'react';
+import React from "react";
 import {
   List as ListBase,
-  Datagrid, Filter, FormDataConsumer,
-  ReferenceInput, SelectInput,
-  TextField, ReferenceField,
-  EditButton, ShowButton,
-  downloadCSV
-} from 'react-admin';
-import { unparse as convertToCSV } from 'papaparse/papaparse.min';
+  Datagrid,
+  Filter,
+  ReferenceInput,
+  SelectInput,
+  TextField,
+  ReferenceField,
+  FunctionField,
+  BooleanField,
+  EditButton,
+  ShowButton,
+  downloadCSV,
+} from "react-admin";
+import { unparse as convertToCSV } from "papaparse/papaparse.min";
+import { truncate } from "lodash/string";
 
-import { getPrivateSubDocument } from './shared';
-import { LocaleDateField } from '../shared';
+import { getPrivateSubDocument } from "./shared";
+import { LocaleDateField } from "../shared";
 
-const LegendFilter = (props) => (
-  <Filter { ...props }>
-    <ReferenceInput source='event' reference='events' label='Událost' alwaysOn>
-      <SelectInput source='name'/>
+const ParticipantFilter = (props) => (
+  <Filter {...props}>
+    <ReferenceInput source="event" reference="events" label="Událost" alwaysOn>
+      <SelectInput source="name" />
     </ReferenceInput>
-    <FormDataConsumer>
-      {({ formData: { event }}) =>
-        <ReferenceInput source='race' reference='races' label='Strana' filter={ { event } }>
-          <SelectInput source='name'/>
-        </ReferenceInput>
+    <ReferenceInput
+      source="race"
+      reference="races"
+      label="Strana"
+      filter={
+        props.filterValues.event ? { event: props.filterValues.event } : {}
       }
-    </FormDataConsumer>
+      alwaysOn
+    >
+      <SelectInput source="name" />
+    </ReferenceInput>
   </Filter>
 );
 
 const getData = async (participants, races) => {
-  return await Promise.all(participants.map(p =>
-    getPrivateSubDocument(p).then(({ age }) => [
-      races[p.race].name,
-      p.group,
-      p.firstName,
-      p.nickName,
-      p.lastName,
-      age
-    ])
-  ));
+  return await Promise.all(
+    participants.map((p) =>
+      getPrivateSubDocument(p).then(({ age }) => [
+        races[p.race].name,
+        p.group,
+        p.firstName,
+        p.nickName,
+        p.lastName,
+        age,
+      ])
+    )
+  );
 };
 
 const exporter = (participants, fetchRelatedRecords) => {
-  fetchRelatedRecords(participants, 'race', 'races').then(races => {
-    getData(participants, races).then(data => {
+  fetchRelatedRecords(participants, "race", "races").then((races) => {
+    getData(participants, races).then((data) => {
       const csv = convertToCSV({
         data,
-        fields: [ 'Strana', 'Skupina', 'Jméno', 'Přezdívka', 'Příjmení', 'Věk' ]
+        fields: ["Strana", "Skupina", "Jméno", "Přezdívka", "Příjmení", "Věk"],
       });
-      downloadCSV(csv, 'registrace');
+      downloadCSV(csv, "registrace");
     });
   });
 };
@@ -55,21 +68,27 @@ const exporter = (participants, fetchRelatedRecords) => {
 const List = (props) => (
   <ListBase
     title="Účastníci"
-    filters={ <LegendFilter /> }
-    exporter={ exporter }
-    { ...props }
+    filters={<ParticipantFilter />}
+    exporter={exporter}
+    {...props}
   >
     <Datagrid>
-      <TextField label='Jméno' source="firstName" />
-      <TextField label='Příjmení' source="lastName" />
-      <TextField label='Přezdívka' source="nickName" />
-      <ReferenceField label='Událost' source="event" reference='events'>
-        <TextField source='name' />
+      <FunctionField
+        label="Jméno"
+        render={(r) =>
+          r.firstName + (r.nickname ? ` "${r.nickName}" ` : " ") + r.lastName
+        }
+      />
+      <ReferenceField label="Událost" source="event" reference="events">
+        <TextField source="name" />
       </ReferenceField>
-      <TextField label='Skupina' source="group" />
-      <ReferenceField label='Strana' source="race" reference='races'>
-        <TextField source='name' />
+      <TextField label="Skupina" source="group" />
+      <ReferenceField label="Strana" source="race" reference="races">
+        <FunctionField render={(r) => truncate(r.name, { length: 20 })} />
       </ReferenceField>
+      <BooleanField label="Poznámka" source="note" />
+      <BooleanField label="Afterparty" source="afterparty" />
+      <BooleanField label="Přespání" source="sleepover" />
       <LocaleDateField label="Vytvořeno" source="createdate" />
       <LocaleDateField label="Aktualizováno" source="lastupdate" />
       <EditButton />
