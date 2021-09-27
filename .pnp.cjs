@@ -4093,7 +4093,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@firebase/app", "npm:0.7.0"],
             ["@firebase/app-types", "npm:0.7.0"],
             ["@firebase/auth", "virtual:a142d2a7b82c7773e3af78a95524f9bd88567e8f6e7b929147325518a887f4e62fce41c86a4cb923054da1ee248a84dfdfea800bb1d4a52d4b340717af293ac5#npm:0.17.2"],
-            ["@firebase/util", "npm:1.3.0"],
+            ["@firebase/util", "npm:1.4.0"],
             ["@malenovska/common", "workspace:apps/common"],
             ["@material-ui/core", "virtual:a142d2a7b82c7773e3af78a95524f9bd88567e8f6e7b929147325518a887f4e62fce41c86a4cb923054da1ee248a84dfdfea800bb1d4a52d4b340717af293ac5#npm:4.12.3"],
             ["@material-ui/icons", "virtual:a142d2a7b82c7773e3af78a95524f9bd88567e8f6e7b929147325518a887f4e62fce41c86a4cb923054da1ee248a84dfdfea800bb1d4a52d4b340717af293ac5#npm:4.11.2"],
