@@ -2875,13 +2875,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@firebase/auth", [
-        ["npm:0.17.2", {
-          "packageLocation": "./.yarn/cache/@firebase-auth-npm-0.17.2-975d8d6424-9a8f8d1569.zip/node_modules/@firebase/auth/",
-          "packageDependencies": [
-            ["@firebase/auth", "npm:0.17.2"]
-          ],
-          "linkType": "SOFT",
-        }],
         ["npm:0.18.0", {
           "packageLocation": "./.yarn/cache/@firebase-auth-npm-0.18.0-ba4bde8295-010d7b174c.zip/node_modules/@firebase/auth/",
           "packageDependencies": [
@@ -2919,25 +2912,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/firebase__app", null],
             ["node-fetch", "npm:2.6.2"],
             ["selenium-webdriver", "npm:4.0.0-rc-1"],
-            ["tslib", "npm:2.3.1"]
-          ],
-          "packagePeers": [
-            "@firebase/app",
-            "@types/firebase__app"
-          ],
-          "linkType": "HARD",
-        }],
-        ["virtual:a142d2a7b82c7773e3af78a95524f9bd88567e8f6e7b929147325518a887f4e62fce41c86a4cb923054da1ee248a84dfdfea800bb1d4a52d4b340717af293ac5#npm:0.17.2", {
-          "packageLocation": "./.yarn/__virtual__/@firebase-auth-virtual-b9c9e0079b/0/cache/@firebase-auth-npm-0.17.2-975d8d6424-9a8f8d1569.zip/node_modules/@firebase/auth/",
-          "packageDependencies": [
-            ["@firebase/auth", "virtual:a142d2a7b82c7773e3af78a95524f9bd88567e8f6e7b929147325518a887f4e62fce41c86a4cb923054da1ee248a84dfdfea800bb1d4a52d4b340717af293ac5#npm:0.17.2"],
-            ["@firebase/app", "npm:0.7.1"],
-            ["@firebase/component", "npm:0.5.6"],
-            ["@firebase/logger", "npm:0.2.6"],
-            ["@firebase/util", "npm:1.3.0"],
-            ["@types/firebase__app", null],
-            ["node-fetch", "npm:2.6.1"],
-            ["selenium-webdriver", "npm:4.0.0-beta.1"],
             ["tslib", "npm:2.3.1"]
           ],
           "packagePeers": [
@@ -4046,7 +4020,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@date-io/core", "npm:2.11.0"],
             ["@firebase/app", "npm:0.7.1"],
             ["@firebase/app-types", "npm:0.7.0"],
-            ["@firebase/auth", "virtual:a142d2a7b82c7773e3af78a95524f9bd88567e8f6e7b929147325518a887f4e62fce41c86a4cb923054da1ee248a84dfdfea800bb1d4a52d4b340717af293ac5#npm:0.17.2"],
+            ["@firebase/auth", "virtual:808d5c047316c942efbb17729b670ab9b5f9994ade94ab7bf8ebbfe4be165c571e09202e8c9b7bcced6814a4bcff5e3073560a799d11fbb5a3616398d6408c40#npm:0.18.0"],
             ["@firebase/util", "npm:1.4.0"],
             ["@malenovska/common", "workspace:apps/common"],
             ["@material-ui/core", "virtual:a142d2a7b82c7773e3af78a95524f9bd88567e8f6e7b929147325518a887f4e62fce41c86a4cb923054da1ee248a84dfdfea800bb1d4a52d4b340717af293ac5#npm:4.12.3"],
@@ -16154,17 +16128,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["selenium-webdriver", [
-        ["npm:4.0.0-beta.1", {
-          "packageLocation": "./.yarn/cache/selenium-webdriver-npm-4.0.0-beta.1-c690d5a201-bc467a750f.zip/node_modules/selenium-webdriver/",
-          "packageDependencies": [
-            ["selenium-webdriver", "npm:4.0.0-beta.1"],
-            ["jszip", "npm:3.7.1"],
-            ["rimraf", "npm:2.7.1"],
-            ["tmp", "npm:0.2.1"],
-            ["ws", "virtual:c690d5a20139e676c656aa06439ee56e05e4c2523ed04491d4ef1f4bec651496f49bd69d9754902b8c37ef253c9300e24172a79d1160709aeacd8474a29c982c#npm:7.5.4"]
-          ],
-          "linkType": "HARD",
-        }],
         ["npm:4.0.0-rc-1", {
           "packageLocation": "./.yarn/cache/selenium-webdriver-npm-4.0.0-rc-1-51b5007a0a-10e74040a3.zip/node_modules/selenium-webdriver/",
           "packageDependencies": [
@@ -18471,13 +18434,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "SOFT",
         }],
-        ["npm:7.5.4", {
-          "packageLocation": "./.yarn/cache/ws-npm-7.5.4-6e0fe1400d-48582e4feb.zip/node_modules/ws/",
-          "packageDependencies": [
-            ["ws", "npm:7.5.4"]
-          ],
-          "linkType": "SOFT",
-        }],
         ["npm:8.2.0", {
           "packageLocation": "./.yarn/cache/ws-npm-8.2.0-2947217175-7cd544312a.zip/node_modules/ws/",
           "packageDependencies": [
@@ -18530,23 +18486,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/__virtual__/ws-virtual-2bf1b693bd/0/cache/ws-npm-8.2.1-93dae97f6f-22906903c7.zip/node_modules/ws/",
           "packageDependencies": [
             ["ws", "virtual:51b5007a0a6043224d448e3e10bec37beea6ac02269ac22d18a43e347b094f7833a39a1fa9ebd84ff12a3fd556308f5fa09868c8247e1b4bb0c2bfff1e458ed6#npm:8.2.1"],
-            ["@types/bufferutil", null],
-            ["@types/utf-8-validate", null],
-            ["bufferutil", null],
-            ["utf-8-validate", null]
-          ],
-          "packagePeers": [
-            "@types/bufferutil",
-            "@types/utf-8-validate",
-            "bufferutil",
-            "utf-8-validate"
-          ],
-          "linkType": "HARD",
-        }],
-        ["virtual:c690d5a20139e676c656aa06439ee56e05e4c2523ed04491d4ef1f4bec651496f49bd69d9754902b8c37ef253c9300e24172a79d1160709aeacd8474a29c982c#npm:7.5.4", {
-          "packageLocation": "./.yarn/__virtual__/ws-virtual-54ad0aaba6/0/cache/ws-npm-7.5.4-6e0fe1400d-48582e4feb.zip/node_modules/ws/",
-          "packageDependencies": [
-            ["ws", "virtual:c690d5a20139e676c656aa06439ee56e05e4c2523ed04491d4ef1f4bec651496f49bd69d9754902b8c37ef253c9300e24172a79d1160709aeacd8474a29c982c#npm:7.5.4"],
             ["@types/bufferutil", null],
             ["@types/utf-8-validate", null],
             ["bufferutil", null],

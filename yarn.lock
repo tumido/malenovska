@@ -1808,22 +1808,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@firebase/auth@npm:0.17.2":
-  version: 0.17.2
-  resolution: "@firebase/auth@npm:0.17.2"
-  dependencies:
-    "@firebase/component": 0.5.6
-    "@firebase/logger": 0.2.6
-    "@firebase/util": 1.3.0
-    node-fetch: 2.6.1
-    selenium-webdriver: 4.0.0-beta.1
-    tslib: ^2.1.0
-  peerDependencies:
-    "@firebase/app": 0.x
-  checksum: 9a8f8d1569a7f0b343c63d0aa6de9dd23f6c025c899005811c776b9db72175df3b6ee7c38183461d5fa05e598e24a9fa0bce425e2a876d8951d488be91119297
-  languageName: node
-  linkType: hard
-
 "@firebase/auth@npm:0.18.0":
   version: 0.18.0
   resolution: "@firebase/auth@npm:0.18.0"
@@ -2468,7 +2452,7 @@ __metadata:
     "@date-io/core": 2.11.0
     "@firebase/app": 0.7.1
     "@firebase/app-types": 0.7.0
-    "@firebase/auth": 0.17.2
+    "@firebase/auth": 0.18.0
     "@firebase/util": 1.4.0
     "@malenovska/common": 1.0.0
     "@material-ui/core": 4.12.3
@@ -8835,7 +8819,7 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"jszip@npm:^3.5.0, jszip@npm:^3.6.0":
+"jszip@npm:^3.6.0":
   version: 3.7.1
   resolution: "jszip@npm:3.7.1"
   dependencies:
@@ -11979,7 +11963,7 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"rimraf@npm:2, rimraf@npm:^2.7.1":
+"rimraf@npm:2":
   version: 2.7.1
   resolution: "rimraf@npm:2.7.1"
   dependencies:
@@ -12122,18 +12106,6 @@ resolve@^2.0.0-next.3:
   version: 2.0.0
   resolution: "select-hose@npm:2.0.0"
   checksum: d7e5fcc695a4804209d232a1b18624a5134be334d4e1114b0721f7a5e72bd73da483dcf41528c1af4f4f4892ad7cfd6a1e55c8ffb83f9c9fe723b738db609dbb
-  languageName: node
-  linkType: hard
-
-"selenium-webdriver@npm:4.0.0-beta.1":
-  version: 4.0.0-beta.1
-  resolution: "selenium-webdriver@npm:4.0.0-beta.1"
-  dependencies:
-    jszip: ^3.5.0
-    rimraf: ^2.7.1
-    tmp: ^0.2.1
-    ws: ^7.3.1
-  checksum: bc467a750ff17ef3383efce3e54b90cde585d3dc527bf305921fb4b28b5f6cd3eeaffbdbd2db6c1604204ace49803e779926ede72e03dc940e80333b5e12f276
   languageName: node
   linkType: hard
 
@@ -14071,21 +14043,6 @@ resolve@^2.0.0-next.3:
     utf-8-validate:
       optional: true
   checksum: 423dc0d859fa74020f5555140905b862470a60ea1567bb9ad55a087263d7718b9c94f69678be1cee9868925c570f1e6fc79d09f90c39057bc63fa2edbb2c547b
-  languageName: node
-  linkType: hard
-
-"ws@npm:^7.3.1":
-  version: 7.5.4
-  resolution: "ws@npm:7.5.4"
-  peerDependencies:
-    bufferutil: ^4.0.1
-    utf-8-validate: ^5.0.2
-  peerDependenciesMeta:
-    bufferutil:
-      optional: true
-    utf-8-validate:
-      optional: true
-  checksum: 48582e4feb1fc6b6b977a0ee6136e5cd1c6a14bc5cb6ce5acf596652b34be757cdf0c225235b3263d56d057bc5d6e528dbe27fc88a3d09828aa803c6696f4b2c
   languageName: node
   linkType: hard
 
