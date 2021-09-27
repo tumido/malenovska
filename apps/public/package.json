@@ -29,7 +29,7 @@
     "@material-ui/system": "4.12.1",
     "clipboard-copy": "4.0.1",
     "clsx": "1.1.1",
-    "core-js": "3.18.0",
+    "core-js": "3.18.1",
     "final-form": "4.20.2",
     "leaflet": "1.7.1",
     "markdown-to-jsx": "7.1.3",
