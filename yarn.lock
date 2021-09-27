@@ -2532,11 +2532,11 @@ __metadata:
     markdown-to-jsx: 7.1.3
     papaparse: 5.3.1
     prop-types: 15.7.2
-    ra-core: 3.18.0
-    ra-i18n-polyglot: 3.18.0
-    ra-language-english: 3.18.0
+    ra-core: 3.18.2
+    ra-i18n-polyglot: 3.18.2
+    ra-language-english: 3.18.2
     react: 17.0.2
-    react-admin: 3.18.1
+    react-admin: 3.18.2
     react-admin-date-inputs: "https://github.com/WiXSL/react-admin-date-inputs.git#commit=3e6eee77e98f9c1acbfc8d972d3bbb4af54e26c5"
     react-admin-firebase: 3.2.24
     react-dom: 17.0.2
@@ -11024,9 +11024,9 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"ra-core@npm:3.18.0, ra-core@npm:^3.18.0":
-  version: 3.18.0
-  resolution: "ra-core@npm:3.18.0"
+"ra-core@npm:3.18.2, ra-core@npm:^3.18.2":
+  version: 3.18.2
+  resolution: "ra-core@npm:3.18.2"
   dependencies:
     classnames: ~2.2.5
     date-fns: ^1.29.0
@@ -11047,32 +11047,32 @@ fsevents@~2.3.2:
     react-router-dom: ^5.1.0
     redux: ^3.7.2 || ^4.0.3
     redux-saga: ^1.0.0
-  checksum: 2e0b9650dd4c47186fb5888640a5296edcb13a9c8e51047fe5302d8e127c8098643fdcc98ec974fb7c541b4ad3061a1879c8e39b4a287c9695977d046d7f3d91
+  checksum: 72421e915bee83a8fe7e9b6142a96723a032ed1ec68191ccfa2ddef41b871bf1a31dc8a552023e10b3e88bdac00654c37898f203ab52f58930720c15461664cf
   languageName: node
   linkType: hard
 
-"ra-i18n-polyglot@npm:3.18.0, ra-i18n-polyglot@npm:^3.18.0":
-  version: 3.18.0
-  resolution: "ra-i18n-polyglot@npm:3.18.0"
+"ra-i18n-polyglot@npm:3.18.2, ra-i18n-polyglot@npm:^3.18.2":
+  version: 3.18.2
+  resolution: "ra-i18n-polyglot@npm:3.18.2"
   dependencies:
     node-polyglot: ^2.2.2
-    ra-core: ^3.18.0
-  checksum: d365a12d8227eff635bd63acaf4d1a5d23ef5ce258a25c533b1066cd15394ac4a0483a230628fea407c40b431e3d4549d6e9ce041a434b1391e47d014ff37d05
+    ra-core: ^3.18.2
+  checksum: 77e49a5255484d12d22d2bb15942030ff1a390de0fb40cfe067d003caf85425750ac28e0a8f5cb293d327a894201e61975e7b60168e00b37a794e4bee55ebc42
   languageName: node
   linkType: hard
 
-"ra-language-english@npm:3.18.0, ra-language-english@npm:^3.18.0":
-  version: 3.18.0
-  resolution: "ra-language-english@npm:3.18.0"
+"ra-language-english@npm:3.18.2, ra-language-english@npm:^3.18.2":
+  version: 3.18.2
+  resolution: "ra-language-english@npm:3.18.2"
   dependencies:
-    ra-core: ^3.18.0
-  checksum: b03e0d6cc43176d848ec49469a07c8cbdeedd5d847a2defc469724d6c90fab989f9c5004ad42aa84f940314b3b9064f45d89dfe3971d53add84fa0d2ba7c5015
+    ra-core: ^3.18.2
+  checksum: e229fdf8dc65b040d5625b7bd93340a6e67b272d20b13e6a313fc3b99491e67278595e67a238f4b5bc0d6941e2c6ee08f4825e751bffe4488808e514643b6e5e
   languageName: node
   linkType: hard
 
-"ra-ui-materialui@npm:^3.18.1":
-  version: 3.18.1
-  resolution: "ra-ui-materialui@npm:3.18.1"
+"ra-ui-materialui@npm:^3.18.2":
+  version: 3.18.2
+  resolution: "ra-ui-materialui@npm:3.18.2"
   dependencies:
     autosuggest-highlight: ^3.1.1
     classnames: ~2.2.5
@@ -11101,7 +11101,7 @@ fsevents@~2.3.2:
     react-router: ^5.1.0
     react-router-dom: ^5.1.0
     redux: ^3.7.2 || ^4.0.3
-  checksum: 370e2266972b108e8097bcd76e57b7408dd6258e08d6612452ba301341e5514a08f77228c2885fb4ce134f5030ec189e15d908865e23d6d601c256db8f5019c2
+  checksum: cd7c54d0ea043087657db38094033e2054623ddec91a3fcacb0f799aee8e14ff6b05118e75566e3d179bbadfa6df0753b26248d659f28e18603f12ebfba6e8d4
   languageName: node
   linkType: hard
 
@@ -11205,9 +11205,9 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"react-admin@npm:3.18.1":
-  version: 3.18.1
-  resolution: "react-admin@npm:3.18.1"
+"react-admin@npm:3.18.2":
+  version: 3.18.2
+  resolution: "react-admin@npm:3.18.2"
   dependencies:
     "@material-ui/core": ^4.11.2
     "@material-ui/icons": ^4.11.2
@@ -11215,10 +11215,10 @@ fsevents@~2.3.2:
     connected-react-router: ^6.5.2
     final-form: ^4.20.2
     final-form-arrays: ^3.0.2
-    ra-core: ^3.18.0
-    ra-i18n-polyglot: ^3.18.0
-    ra-language-english: ^3.18.0
-    ra-ui-materialui: ^3.18.1
+    ra-core: ^3.18.2
+    ra-i18n-polyglot: ^3.18.2
+    ra-language-english: ^3.18.2
+    ra-ui-materialui: ^3.18.2
     react-final-form: ^6.5.2
     react-final-form-arrays: ^3.1.3
     react-redux: ^7.1.0
@@ -11229,7 +11229,7 @@ fsevents@~2.3.2:
   peerDependencies:
     react: ^16.9.0 || ^17.0.0
     react-dom: ^16.9.0 || ^17.0.0
-  checksum: 5f2d9f039e77bfe9b314eae0427c0ed184aab759f4d3cf117761b86ccff05e98702a5d8f7f4769d0d92bb3bc8e6d2655c692c4ef9f7c4fe35b9c14672c6628b3
+  checksum: 7ba637be5d8c61431213a97bd2387bca3b0bc7f5771e33427b80d92572583d7f5d0641e5defaac9b609a633228e25d440b7404f0de37fda18408cce79c71b49b
   languageName: node
   linkType: hard
 
