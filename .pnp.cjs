@@ -4093,7 +4093,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["connected-react-router", "virtual:a142d2a7b82c7773e3af78a95524f9bd88567e8f6e7b929147325518a887f4e62fce41c86a4cb923054da1ee248a84dfdfea800bb1d4a52d4b340717af293ac5#npm:6.9.1"],
             ["core-js", "npm:3.18.1"],
             ["css-loader", "virtual:a142d2a7b82c7773e3af78a95524f9bd88567e8f6e7b929147325518a887f4e62fce41c86a4cb923054da1ee248a84dfdfea800bb1d4a52d4b340717af293ac5#npm:6.3.0"],
-            ["date-fns", "npm:2.23.0"],
+            ["date-fns", "npm:2.24.0"],
             ["eslint", "npm:7.32.0"],
             ["eslint-config-prettier", "virtual:01625856f9344d35532f7d6da587cd3ecabf22ba0d20e8e54e2c72a41d28897d9df3c6d4f23c9d53bbbede8fa1d869ca1de814bd03c80636cd0e54a87efb7c26#npm:8.3.0"],
             ["eslint-plugin-react", "virtual:01625856f9344d35532f7d6da587cd3ecabf22ba0d20e8e54e2c72a41d28897d9df3c6d4f23c9d53bbbede8fa1d869ca1de814bd03c80636cd0e54a87efb7c26#npm:7.26.0"],
@@ -7581,10 +7581,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "HARD",
         }],
-        ["npm:2.23.0", {
-          "packageLocation": "./.yarn/cache/date-fns-npm-2.23.0-fa1182c861-485216d550.zip/node_modules/date-fns/",
+        ["npm:2.24.0", {
+          "packageLocation": "./.yarn/cache/date-fns-npm-2.24.0-2fbbc81936-f930419e35.zip/node_modules/date-fns/",
           "packageDependencies": [
-            ["date-fns", "npm:2.23.0"]
+            ["date-fns", "npm:2.24.0"]
           ],
           "linkType": "HARD",
         }],

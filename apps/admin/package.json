@@ -29,7 +29,7 @@
     "@material-ui/pickers": "3.3.10",
     "connected-react-router": "6.9.1",
     "core-js": "3.18.1",
-    "date-fns": "2.23.0",
+    "date-fns": "2.24.0",
     "final-form": "4.20.2",
     "final-form-arrays": "3.0.2",
     "firebase": "9.1.0",
