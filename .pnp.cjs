@@ -2753,17 +2753,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@firebase/app", [
-        ["npm:0.7.0", {
-          "packageLocation": "./.yarn/cache/@firebase-app-npm-0.7.0-2376ef6fed-8b78b570ff.zip/node_modules/@firebase/app/",
-          "packageDependencies": [
-            ["@firebase/app", "npm:0.7.0"],
-            ["@firebase/component", "npm:0.5.6"],
-            ["@firebase/logger", "npm:0.2.6"],
-            ["@firebase/util", "npm:1.3.0"],
-            ["tslib", "npm:2.3.1"]
-          ],
-          "linkType": "HARD",
-        }],
         ["npm:0.7.1", {
           "packageLocation": "./.yarn/cache/@firebase-app-npm-0.7.1-1bf4c0e9f3-b9a92e23ff.zip/node_modules/@firebase/app/",
           "packageDependencies": [
@@ -2942,7 +2931,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/__virtual__/@firebase-auth-virtual-b9c9e0079b/0/cache/@firebase-auth-npm-0.17.2-975d8d6424-9a8f8d1569.zip/node_modules/@firebase/auth/",
           "packageDependencies": [
             ["@firebase/auth", "virtual:a142d2a7b82c7773e3af78a95524f9bd88567e8f6e7b929147325518a887f4e62fce41c86a4cb923054da1ee248a84dfdfea800bb1d4a52d4b340717af293ac5#npm:0.17.2"],
-            ["@firebase/app", "npm:0.7.0"],
+            ["@firebase/app", "npm:0.7.1"],
             ["@firebase/component", "npm:0.5.6"],
             ["@firebase/logger", "npm:0.2.6"],
             ["@firebase/util", "npm:1.3.0"],
@@ -3229,7 +3218,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/__virtual__/@firebase-firestore-virtual-1c6dbe61b1/0/cache/@firebase-firestore-npm-3.0.2-97f5ec4b36-ec1aedfbed.zip/node_modules/@firebase/firestore/",
           "packageDependencies": [
             ["@firebase/firestore", "virtual:a35b4ba410c3139ca5af980d60694f59079a1830291574e50958f861253d4da2463a6be48b9043f6413252d528e9c47ef55d929121ef1a77d874844f33299548#npm:3.0.2"],
-            ["@firebase/app", "npm:0.7.0"],
+            ["@firebase/app", "npm:0.7.1"],
             ["@firebase/component", "npm:0.5.6"],
             ["@firebase/logger", "npm:0.2.6"],
             ["@firebase/util", "npm:1.3.0"],
@@ -3739,7 +3728,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/__virtual__/@firebase-storage-virtual-30139b87ec/0/cache/@firebase-storage-npm-0.8.2-8b904d2881-a5edcdb931.zip/node_modules/@firebase/storage/",
           "packageDependencies": [
             ["@firebase/storage", "virtual:a35b4ba410c3139ca5af980d60694f59079a1830291574e50958f861253d4da2463a6be48b9043f6413252d528e9c47ef55d929121ef1a77d874844f33299548#npm:0.8.2"],
-            ["@firebase/app", "npm:0.7.0"],
+            ["@firebase/app", "npm:0.7.1"],
             ["@firebase/component", "npm:0.5.6"],
             ["@firebase/util", "npm:1.3.0"],
             ["@types/firebase__app", null],
@@ -4090,7 +4079,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@babel/runtime", "npm:7.15.4"],
             ["@babel/runtime-corejs3", "npm:7.15.4"],
             ["@date-io/core", "npm:2.11.0"],
-            ["@firebase/app", "npm:0.7.0"],
+            ["@firebase/app", "npm:0.7.1"],
             ["@firebase/app-types", "npm:0.7.0"],
             ["@firebase/auth", "virtual:a142d2a7b82c7773e3af78a95524f9bd88567e8f6e7b929147325518a887f4e62fce41c86a4cb923054da1ee248a84dfdfea800bb1d4a52d4b340717af293ac5#npm:0.17.2"],
             ["@firebase/util", "npm:1.3.0"],
@@ -4174,7 +4163,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@babel/plugin-transform-runtime", "virtual:a142d2a7b82c7773e3af78a95524f9bd88567e8f6e7b929147325518a887f4e62fce41c86a4cb923054da1ee248a84dfdfea800bb1d4a52d4b340717af293ac5#npm:7.15.0"],
             ["@babel/preset-env", "virtual:01625856f9344d35532f7d6da587cd3ecabf22ba0d20e8e54e2c72a41d28897d9df3c6d4f23c9d53bbbede8fa1d869ca1de814bd03c80636cd0e54a87efb7c26#npm:7.15.6"],
             ["@babel/preset-react", "virtual:01625856f9344d35532f7d6da587cd3ecabf22ba0d20e8e54e2c72a41d28897d9df3c6d4f23c9d53bbbede8fa1d869ca1de814bd03c80636cd0e54a87efb7c26#npm:7.14.5"],
-            ["@firebase/app", "npm:0.7.0"],
+            ["@firebase/app", "npm:0.7.1"],
             ["@firebase/app-types", "npm:0.7.0"],
             ["@firebase/firestore", "virtual:a35b4ba410c3139ca5af980d60694f59079a1830291574e50958f861253d4da2463a6be48b9043f6413252d528e9c47ef55d929121ef1a77d874844f33299548#npm:3.0.2"],
             ["@firebase/storage", "virtual:a35b4ba410c3139ca5af980d60694f59079a1830291574e50958f861253d4da2463a6be48b9043f6413252d528e9c47ef55d929121ef1a77d874844f33299548#npm:0.8.2"],
