@@ -48,7 +48,7 @@
     "react-admin-date-inputs": "https://github.com/WiXSL/react-admin-date-inputs.git#commit=3e6eee77e98f9c1acbfc8d972d3bbb4af54e26c5",
     "react-admin-firebase": "3.2.24",
     "react-dom": "17.0.2",
-    "react-final-form": "6.5.3",
+    "react-final-form": "6.5.6",
     "react-helmet": "6.1.0",
     "react-is": "17.0.2",
     "react-mde": "11.5.0",

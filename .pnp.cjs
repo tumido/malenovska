@@ -3036,15 +3036,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "HARD",
         }],
-        ["npm:0.5.6", {
-          "packageLocation": "./.yarn/cache/@firebase-component-npm-0.5.6-4e2b0c8c6f-53ea07ba4f.zip/node_modules/@firebase/component/",
-          "packageDependencies": [
-            ["@firebase/component", "npm:0.5.6"],
-            ["@firebase/util", "npm:1.3.0"],
-            ["tslib", "npm:2.3.1"]
-          ],
-          "linkType": "HARD",
-        }],
         ["npm:0.5.7", {
           "packageLocation": "./.yarn/cache/@firebase-component-npm-0.5.7-c461db650b-dc2b8bdc52.zip/node_modules/@firebase/component/",
           "packageDependencies": [
@@ -3743,14 +3734,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "HARD",
         }],
-        ["npm:1.3.0", {
-          "packageLocation": "./.yarn/cache/@firebase-util-npm-1.3.0-eb8e44b03a-9dcaac1532.zip/node_modules/@firebase/util/",
-          "packageDependencies": [
-            ["@firebase/util", "npm:1.3.0"],
-            ["tslib", "npm:2.3.1"]
-          ],
-          "linkType": "HARD",
-        }],
         ["npm:1.4.0", {
           "packageLocation": "./.yarn/cache/@firebase-util-npm-1.4.0-d15e1fed60-21648eece8.zip/node_modules/@firebase/util/",
           "packageDependencies": [
@@ -4031,7 +4014,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["react-admin-date-inputs", "virtual:a142d2a7b82c7773e3af78a95524f9bd88567e8f6e7b929147325518a887f4e62fce41c86a4cb923054da1ee248a84dfdfea800bb1d4a52d4b340717af293ac5#https://github.com/WiXSL/react-admin-date-inputs.git#commit=3e6eee77e98f9c1acbfc8d972d3bbb4af54e26c5"],
             ["react-admin-firebase", "virtual:a142d2a7b82c7773e3af78a95524f9bd88567e8f6e7b929147325518a887f4e62fce41c86a4cb923054da1ee248a84dfdfea800bb1d4a52d4b340717af293ac5#npm:3.2.24"],
             ["react-dom", "virtual:a142d2a7b82c7773e3af78a95524f9bd88567e8f6e7b929147325518a887f4e62fce41c86a4cb923054da1ee248a84dfdfea800bb1d4a52d4b340717af293ac5#npm:17.0.2"],
-            ["react-final-form", "virtual:a142d2a7b82c7773e3af78a95524f9bd88567e8f6e7b929147325518a887f4e62fce41c86a4cb923054da1ee248a84dfdfea800bb1d4a52d4b340717af293ac5#npm:6.5.3"],
+            ["react-final-form", "virtual:a142d2a7b82c7773e3af78a95524f9bd88567e8f6e7b929147325518a887f4e62fce41c86a4cb923054da1ee248a84dfdfea800bb1d4a52d4b340717af293ac5#npm:6.5.6"],
             ["react-helmet", "virtual:a142d2a7b82c7773e3af78a95524f9bd88567e8f6e7b929147325518a887f4e62fce41c86a4cb923054da1ee248a84dfdfea800bb1d4a52d4b340717af293ac5#npm:6.1.0"],
             ["react-hot-loader", "virtual:a142d2a7b82c7773e3af78a95524f9bd88567e8f6e7b929147325518a887f4e62fce41c86a4cb923054da1ee248a84dfdfea800bb1d4a52d4b340717af293ac5#npm:4.13.0"],
             ["react-is", "npm:17.0.2"],
@@ -4107,7 +4090,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["prop-types", "npm:15.7.2"],
             ["react", "npm:17.0.2"],
             ["react-dom", "virtual:a142d2a7b82c7773e3af78a95524f9bd88567e8f6e7b929147325518a887f4e62fce41c86a4cb923054da1ee248a84dfdfea800bb1d4a52d4b340717af293ac5#npm:17.0.2"],
-            ["react-final-form", "virtual:a142d2a7b82c7773e3af78a95524f9bd88567e8f6e7b929147325518a887f4e62fce41c86a4cb923054da1ee248a84dfdfea800bb1d4a52d4b340717af293ac5#npm:6.5.3"],
+            ["react-final-form", "virtual:a142d2a7b82c7773e3af78a95524f9bd88567e8f6e7b929147325518a887f4e62fce41c86a4cb923054da1ee248a84dfdfea800bb1d4a52d4b340717af293ac5#npm:6.5.6"],
             ["react-helmet", "virtual:a142d2a7b82c7773e3af78a95524f9bd88567e8f6e7b929147325518a887f4e62fce41c86a4cb923054da1ee248a84dfdfea800bb1d4a52d4b340717af293ac5#npm:6.1.0"],
             ["react-hot-loader", "virtual:a142d2a7b82c7773e3af78a95524f9bd88567e8f6e7b929147325518a887f4e62fce41c86a4cb923054da1ee248a84dfdfea800bb1d4a52d4b340717af293ac5#npm:4.13.0"],
             ["react-leaflet", "virtual:a35b4ba410c3139ca5af980d60694f59079a1830291574e50958f861253d4da2463a6be48b9043f6413252d528e9c47ef55d929121ef1a77d874844f33299548#npm:3.2.1"],
@@ -14146,7 +14129,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["query-string", "npm:5.1.1"],
             ["react", "npm:17.0.2"],
             ["react-dom", "virtual:a142d2a7b82c7773e3af78a95524f9bd88567e8f6e7b929147325518a887f4e62fce41c86a4cb923054da1ee248a84dfdfea800bb1d4a52d4b340717af293ac5#npm:17.0.2"],
-            ["react-final-form", "virtual:a142d2a7b82c7773e3af78a95524f9bd88567e8f6e7b929147325518a887f4e62fce41c86a4cb923054da1ee248a84dfdfea800bb1d4a52d4b340717af293ac5#npm:6.5.3"],
+            ["react-final-form", "virtual:821a6ac37b768345f65d1475545fad0c916795880294d71324baa52dfb29f7ff2c8b9afa74b27c80fbb9c7cc6240cdc5ec9de0ce4e883a191fad8dea1fd0d080#npm:6.5.3"],
             ["react-is", "npm:17.0.2"],
             ["react-redux", "virtual:821a6ac37b768345f65d1475545fad0c916795880294d71324baa52dfb29f7ff2c8b9afa74b27c80fbb9c7cc6240cdc5ec9de0ce4e883a191fad8dea1fd0d080#npm:7.2.4"],
             ["react-router", "virtual:821a6ac37b768345f65d1475545fad0c916795880294d71324baa52dfb29f7ff2c8b9afa74b27c80fbb9c7cc6240cdc5ec9de0ce4e883a191fad8dea1fd0d080#npm:5.2.0"],
@@ -14219,7 +14202,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["query-string", "npm:5.1.1"],
             ["react", "npm:17.0.2"],
             ["react-dom", "virtual:a142d2a7b82c7773e3af78a95524f9bd88567e8f6e7b929147325518a887f4e62fce41c86a4cb923054da1ee248a84dfdfea800bb1d4a52d4b340717af293ac5#npm:17.0.2"],
-            ["react-final-form", "virtual:a142d2a7b82c7773e3af78a95524f9bd88567e8f6e7b929147325518a887f4e62fce41c86a4cb923054da1ee248a84dfdfea800bb1d4a52d4b340717af293ac5#npm:6.5.3"],
+            ["react-final-form", "virtual:a142d2a7b82c7773e3af78a95524f9bd88567e8f6e7b929147325518a887f4e62fce41c86a4cb923054da1ee248a84dfdfea800bb1d4a52d4b340717af293ac5#npm:6.5.6"],
             ["react-is", "npm:17.0.2"],
             ["react-redux", "virtual:a142d2a7b82c7773e3af78a95524f9bd88567e8f6e7b929147325518a887f4e62fce41c86a4cb923054da1ee248a84dfdfea800bb1d4a52d4b340717af293ac5#npm:7.2.5"],
             ["react-router", "virtual:a142d2a7b82c7773e3af78a95524f9bd88567e8f6e7b929147325518a887f4e62fce41c86a4cb923054da1ee248a84dfdfea800bb1d4a52d4b340717af293ac5#npm:5.2.1"],
@@ -14296,7 +14279,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["ra-core", "virtual:821a6ac37b768345f65d1475545fad0c916795880294d71324baa52dfb29f7ff2c8b9afa74b27c80fbb9c7cc6240cdc5ec9de0ce4e883a191fad8dea1fd0d080#npm:3.18.2"],
             ["react", "npm:17.0.2"],
             ["react-dom", "virtual:a142d2a7b82c7773e3af78a95524f9bd88567e8f6e7b929147325518a887f4e62fce41c86a4cb923054da1ee248a84dfdfea800bb1d4a52d4b340717af293ac5#npm:17.0.2"],
-            ["react-final-form", "virtual:a142d2a7b82c7773e3af78a95524f9bd88567e8f6e7b929147325518a887f4e62fce41c86a4cb923054da1ee248a84dfdfea800bb1d4a52d4b340717af293ac5#npm:6.5.3"],
+            ["react-final-form", "virtual:821a6ac37b768345f65d1475545fad0c916795880294d71324baa52dfb29f7ff2c8b9afa74b27c80fbb9c7cc6240cdc5ec9de0ce4e883a191fad8dea1fd0d080#npm:6.5.3"],
             ["react-is", "npm:17.0.2"],
             ["react-redux", "virtual:821a6ac37b768345f65d1475545fad0c916795880294d71324baa52dfb29f7ff2c8b9afa74b27c80fbb9c7cc6240cdc5ec9de0ce4e883a191fad8dea1fd0d080#npm:7.2.4"],
             ["react-router", "virtual:821a6ac37b768345f65d1475545fad0c916795880294d71324baa52dfb29f7ff2c8b9afa74b27c80fbb9c7cc6240cdc5ec9de0ce4e883a191fad8dea1fd0d080#npm:5.2.0"],
@@ -14363,7 +14346,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["ra-core", "virtual:a142d2a7b82c7773e3af78a95524f9bd88567e8f6e7b929147325518a887f4e62fce41c86a4cb923054da1ee248a84dfdfea800bb1d4a52d4b340717af293ac5#npm:3.18.2"],
             ["react", "npm:17.0.2"],
             ["react-dom", "virtual:a142d2a7b82c7773e3af78a95524f9bd88567e8f6e7b929147325518a887f4e62fce41c86a4cb923054da1ee248a84dfdfea800bb1d4a52d4b340717af293ac5#npm:17.0.2"],
-            ["react-final-form", "virtual:a142d2a7b82c7773e3af78a95524f9bd88567e8f6e7b929147325518a887f4e62fce41c86a4cb923054da1ee248a84dfdfea800bb1d4a52d4b340717af293ac5#npm:6.5.3"],
+            ["react-final-form", "virtual:a142d2a7b82c7773e3af78a95524f9bd88567e8f6e7b929147325518a887f4e62fce41c86a4cb923054da1ee248a84dfdfea800bb1d4a52d4b340717af293ac5#npm:6.5.6"],
             ["react-is", "npm:17.0.2"],
             ["react-redux", "virtual:a142d2a7b82c7773e3af78a95524f9bd88567e8f6e7b929147325518a887f4e62fce41c86a4cb923054da1ee248a84dfdfea800bb1d4a52d4b340717af293ac5#npm:7.2.5"],
             ["react-router", "virtual:a142d2a7b82c7773e3af78a95524f9bd88567e8f6e7b929147325518a887f4e62fce41c86a4cb923054da1ee248a84dfdfea800bb1d4a52d4b340717af293ac5#npm:5.2.1"],
@@ -14438,7 +14421,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["ra-core", "virtual:821a6ac37b768345f65d1475545fad0c916795880294d71324baa52dfb29f7ff2c8b9afa74b27c80fbb9c7cc6240cdc5ec9de0ce4e883a191fad8dea1fd0d080#npm:3.18.2"],
             ["react", "npm:17.0.2"],
             ["react-dom", "virtual:a142d2a7b82c7773e3af78a95524f9bd88567e8f6e7b929147325518a887f4e62fce41c86a4cb923054da1ee248a84dfdfea800bb1d4a52d4b340717af293ac5#npm:17.0.2"],
-            ["react-final-form", "virtual:a142d2a7b82c7773e3af78a95524f9bd88567e8f6e7b929147325518a887f4e62fce41c86a4cb923054da1ee248a84dfdfea800bb1d4a52d4b340717af293ac5#npm:6.5.3"],
+            ["react-final-form", "virtual:821a6ac37b768345f65d1475545fad0c916795880294d71324baa52dfb29f7ff2c8b9afa74b27c80fbb9c7cc6240cdc5ec9de0ce4e883a191fad8dea1fd0d080#npm:6.5.3"],
             ["react-is", "npm:17.0.2"],
             ["react-redux", "virtual:821a6ac37b768345f65d1475545fad0c916795880294d71324baa52dfb29f7ff2c8b9afa74b27c80fbb9c7cc6240cdc5ec9de0ce4e883a191fad8dea1fd0d080#npm:7.2.4"],
             ["react-router", "virtual:821a6ac37b768345f65d1475545fad0c916795880294d71324baa52dfb29f7ff2c8b9afa74b27c80fbb9c7cc6240cdc5ec9de0ce4e883a191fad8dea1fd0d080#npm:5.2.0"],
@@ -14504,7 +14487,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["ra-core", "virtual:a142d2a7b82c7773e3af78a95524f9bd88567e8f6e7b929147325518a887f4e62fce41c86a4cb923054da1ee248a84dfdfea800bb1d4a52d4b340717af293ac5#npm:3.18.2"],
             ["react", "npm:17.0.2"],
             ["react-dom", "virtual:a142d2a7b82c7773e3af78a95524f9bd88567e8f6e7b929147325518a887f4e62fce41c86a4cb923054da1ee248a84dfdfea800bb1d4a52d4b340717af293ac5#npm:17.0.2"],
-            ["react-final-form", "virtual:a142d2a7b82c7773e3af78a95524f9bd88567e8f6e7b929147325518a887f4e62fce41c86a4cb923054da1ee248a84dfdfea800bb1d4a52d4b340717af293ac5#npm:6.5.3"],
+            ["react-final-form", "virtual:a142d2a7b82c7773e3af78a95524f9bd88567e8f6e7b929147325518a887f4e62fce41c86a4cb923054da1ee248a84dfdfea800bb1d4a52d4b340717af293ac5#npm:6.5.6"],
             ["react-is", "npm:17.0.2"],
             ["react-redux", "virtual:a142d2a7b82c7773e3af78a95524f9bd88567e8f6e7b929147325518a887f4e62fce41c86a4cb923054da1ee248a84dfdfea800bb1d4a52d4b340717af293ac5#npm:7.2.5"],
             ["react-router", "virtual:a142d2a7b82c7773e3af78a95524f9bd88567e8f6e7b929147325518a887f4e62fce41c86a4cb923054da1ee248a84dfdfea800bb1d4a52d4b340717af293ac5#npm:5.2.1"],
@@ -14594,7 +14577,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["react", "npm:17.0.2"],
             ["react-dom", "virtual:a142d2a7b82c7773e3af78a95524f9bd88567e8f6e7b929147325518a887f4e62fce41c86a4cb923054da1ee248a84dfdfea800bb1d4a52d4b340717af293ac5#npm:17.0.2"],
             ["react-dropzone", "virtual:37790fab9811427edb180771386f1a881fc4772afdfb8f6dad3f05188be2c15ef769da226dbe1af8d763d3f47379e934ecc207a9c588a7ba523bed82ef6f9577#npm:10.2.2"],
-            ["react-final-form", "virtual:a142d2a7b82c7773e3af78a95524f9bd88567e8f6e7b929147325518a887f4e62fce41c86a4cb923054da1ee248a84dfdfea800bb1d4a52d4b340717af293ac5#npm:6.5.3"],
+            ["react-final-form", "virtual:821a6ac37b768345f65d1475545fad0c916795880294d71324baa52dfb29f7ff2c8b9afa74b27c80fbb9c7cc6240cdc5ec9de0ce4e883a191fad8dea1fd0d080#npm:6.5.3"],
             ["react-final-form-arrays", "virtual:821a6ac37b768345f65d1475545fad0c916795880294d71324baa52dfb29f7ff2c8b9afa74b27c80fbb9c7cc6240cdc5ec9de0ce4e883a191fad8dea1fd0d080#npm:3.1.3"],
             ["react-is", "npm:17.0.2"],
             ["react-redux", "virtual:821a6ac37b768345f65d1475545fad0c916795880294d71324baa52dfb29f7ff2c8b9afa74b27c80fbb9c7cc6240cdc5ec9de0ce4e883a191fad8dea1fd0d080#npm:7.2.4"],
@@ -14752,7 +14735,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["ra-ui-materialui", "virtual:821a6ac37b768345f65d1475545fad0c916795880294d71324baa52dfb29f7ff2c8b9afa74b27c80fbb9c7cc6240cdc5ec9de0ce4e883a191fad8dea1fd0d080#npm:3.18.2"],
             ["react", "npm:17.0.2"],
             ["react-dom", "virtual:a142d2a7b82c7773e3af78a95524f9bd88567e8f6e7b929147325518a887f4e62fce41c86a4cb923054da1ee248a84dfdfea800bb1d4a52d4b340717af293ac5#npm:17.0.2"],
-            ["react-final-form", "virtual:a142d2a7b82c7773e3af78a95524f9bd88567e8f6e7b929147325518a887f4e62fce41c86a4cb923054da1ee248a84dfdfea800bb1d4a52d4b340717af293ac5#npm:6.5.3"],
+            ["react-final-form", "virtual:821a6ac37b768345f65d1475545fad0c916795880294d71324baa52dfb29f7ff2c8b9afa74b27c80fbb9c7cc6240cdc5ec9de0ce4e883a191fad8dea1fd0d080#npm:6.5.3"],
             ["react-final-form-arrays", "virtual:821a6ac37b768345f65d1475545fad0c916795880294d71324baa52dfb29f7ff2c8b9afa74b27c80fbb9c7cc6240cdc5ec9de0ce4e883a191fad8dea1fd0d080#npm:3.1.3"],
             ["react-is", "npm:17.0.2"],
             ["react-redux", "virtual:821a6ac37b768345f65d1475545fad0c916795880294d71324baa52dfb29f7ff2c8b9afa74b27c80fbb9c7cc6240cdc5ec9de0ce4e883a191fad8dea1fd0d080#npm:7.2.4"],
@@ -14933,11 +14916,36 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "SOFT",
         }],
-        ["virtual:a142d2a7b82c7773e3af78a95524f9bd88567e8f6e7b929147325518a887f4e62fce41c86a4cb923054da1ee248a84dfdfea800bb1d4a52d4b340717af293ac5#npm:6.5.3", {
-          "packageLocation": "./.yarn/__virtual__/react-final-form-virtual-1813aa382c/0/cache/react-final-form-npm-6.5.3-eb30c5d067-f05bcbea51.zip/node_modules/react-final-form/",
+        ["npm:6.5.6", {
+          "packageLocation": "./.yarn/cache/react-final-form-npm-6.5.6-b291e12340-975acddfb6.zip/node_modules/react-final-form/",
           "packageDependencies": [
-            ["react-final-form", "virtual:a142d2a7b82c7773e3af78a95524f9bd88567e8f6e7b929147325518a887f4e62fce41c86a4cb923054da1ee248a84dfdfea800bb1d4a52d4b340717af293ac5#npm:6.5.3"],
+            ["react-final-form", "npm:6.5.6"]
+          ],
+          "linkType": "SOFT",
+        }],
+        ["virtual:821a6ac37b768345f65d1475545fad0c916795880294d71324baa52dfb29f7ff2c8b9afa74b27c80fbb9c7cc6240cdc5ec9de0ce4e883a191fad8dea1fd0d080#npm:6.5.3", {
+          "packageLocation": "./.yarn/__virtual__/react-final-form-virtual-82fa94d3d3/0/cache/react-final-form-npm-6.5.3-eb30c5d067-f05bcbea51.zip/node_modules/react-final-form/",
+          "packageDependencies": [
+            ["react-final-form", "virtual:821a6ac37b768345f65d1475545fad0c916795880294d71324baa52dfb29f7ff2c8b9afa74b27c80fbb9c7cc6240cdc5ec9de0ce4e883a191fad8dea1fd0d080#npm:6.5.3"],
             ["@babel/runtime", "npm:7.15.3"],
+            ["@types/final-form", null],
+            ["@types/react", "npm:17.0.24"],
+            ["final-form", "npm:4.20.2"],
+            ["react", "npm:17.0.2"]
+          ],
+          "packagePeers": [
+            "@types/final-form",
+            "@types/react",
+            "final-form",
+            "react"
+          ],
+          "linkType": "HARD",
+        }],
+        ["virtual:a142d2a7b82c7773e3af78a95524f9bd88567e8f6e7b929147325518a887f4e62fce41c86a4cb923054da1ee248a84dfdfea800bb1d4a52d4b340717af293ac5#npm:6.5.6", {
+          "packageLocation": "./.yarn/__virtual__/react-final-form-virtual-09eec76e7b/0/cache/react-final-form-npm-6.5.6-b291e12340-975acddfb6.zip/node_modules/react-final-form/",
+          "packageDependencies": [
+            ["react-final-form", "virtual:a142d2a7b82c7773e3af78a95524f9bd88567e8f6e7b929147325518a887f4e62fce41c86a4cb923054da1ee248a84dfdfea800bb1d4a52d4b340717af293ac5#npm:6.5.6"],
+            ["@babel/runtime", "npm:7.15.4"],
             ["@types/final-form", null],
             ["@types/react", "npm:17.0.24"],
             ["final-form", "npm:4.20.2"],
@@ -14972,7 +14980,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["final-form", "npm:4.20.2"],
             ["final-form-arrays", "virtual:a142d2a7b82c7773e3af78a95524f9bd88567e8f6e7b929147325518a887f4e62fce41c86a4cb923054da1ee248a84dfdfea800bb1d4a52d4b340717af293ac5#npm:3.0.2"],
             ["react", "npm:17.0.2"],
-            ["react-final-form", "virtual:a142d2a7b82c7773e3af78a95524f9bd88567e8f6e7b929147325518a887f4e62fce41c86a4cb923054da1ee248a84dfdfea800bb1d4a52d4b340717af293ac5#npm:6.5.3"]
+            ["react-final-form", "virtual:821a6ac37b768345f65d1475545fad0c916795880294d71324baa52dfb29f7ff2c8b9afa74b27c80fbb9c7cc6240cdc5ec9de0ce4e883a191fad8dea1fd0d080#npm:6.5.3"]
           ],
           "packagePeers": [
             "@types/final-form-arrays",
