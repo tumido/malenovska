@@ -2435,7 +2435,7 @@ __metadata:
     eslint: 7.32.0
     eslint-config-prettier: 8.3.0
     eslint-plugin-react: 7.26.0
-    final-form: 4.20.2
+    final-form: 4.20.4
     final-form-arrays: 3.0.2
     firebase: 9.1.0
     firebase-tools: 9.18.0
@@ -2517,7 +2517,7 @@ __metadata:
     eslint: 7.32.0
     eslint-config-prettier: 8.3.0
     eslint-plugin-react: 7.26.0
-    final-form: 4.20.2
+    final-form: 4.20.4
     firebase-tools: 9.18.0
     html-webpack-plugin: 5.3.2
     leaflet: 1.7.1
@@ -6530,7 +6530,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"final-form@npm:4.20.2, final-form@npm:^4.20.2":
+"final-form@npm:4.20.4":
+  version: 4.20.4
+  resolution: "final-form@npm:4.20.4"
+  dependencies:
+    "@babel/runtime": ^7.10.0
+  checksum: 1f6d4caaf5d1c4e8f8700eac4ffc169a4986527a9e4c45501c1894159910e7e1245f1cda9a2c4f7a79a13d480315b561d4855b858430945cf5b5f0d627fbb4b2
+  languageName: node
+  linkType: hard
+
+"final-form@npm:^4.20.2":
   version: 4.20.2
   resolution: "final-form@npm:4.20.2"
   dependencies:
