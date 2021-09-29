@@ -1834,16 +1834,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@firebase/component@npm:0.5.6":
-  version: 0.5.6
-  resolution: "@firebase/component@npm:0.5.6"
-  dependencies:
-    "@firebase/util": 1.3.0
-    tslib: ^2.1.0
-  checksum: 53ea07ba4fa4876ecabccff49c19dc6476bb3020c6ff8ca3d8401c5aebb48066811681878663e3e98bd6fbe727fde91a16a1da2d4e226c73be5d6cf5657ed9d7
-  languageName: node
-  linkType: hard
-
 "@firebase/component@npm:0.5.7":
   version: 0.5.7
   resolution: "@firebase/component@npm:0.5.7"
@@ -2202,15 +2192,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@firebase/util@npm:1.3.0":
-  version: 1.3.0
-  resolution: "@firebase/util@npm:1.3.0"
-  dependencies:
-    tslib: ^2.1.0
-  checksum: 9dcaac1532268c9ccd0d6bf2fc77b2575d8d4660a21f0b64fd105a423f8192c7084798a77211f66a25718afd1d0870430066b366b5c62539e3a9315839e46fcb
-  languageName: node
-  linkType: hard
-
 "@firebase/util@npm:1.4.0":
   version: 1.4.0
   resolution: "@firebase/util@npm:1.4.0"
@@ -2484,7 +2465,7 @@ __metadata:
     redux: 4.1.1
     redux-saga: 1.1.3
     style-loader: 3.3.0
-    webpack: 5.54.0
+    webpack: 5.55.1
     webpack-cli: 4.8.0
     webpack-dev-server: 4.3.0
     webpack-merge: 5.8.0
@@ -2561,7 +2542,7 @@ __metadata:
     redux-thunk: 2.3.0
     smoothscroll-polyfill: 0.4.4
     style-loader: 3.3.0
-    webpack: 5.54.0
+    webpack: 5.55.1
     webpack-cli: 4.8.0
     webpack-dev-server: 4.3.0
     webpack-merge: 5.8.0
@@ -9835,17 +9816,17 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"node-fetch@npm:2.6.1, node-fetch@npm:^2.2.0, node-fetch@npm:^2.3.0, node-fetch@npm:^2.6.0, node-fetch@npm:^2.6.1":
-  version: 2.6.1
-  resolution: "node-fetch@npm:2.6.1"
-  checksum: 91075bedd57879117e310fbcc36983ad5d699e522edb1ebcdc4ee5294c982843982652925c3532729fdc86b2d64a8a827797a745f332040d91823c8752ee4d7c
-  languageName: node
-  linkType: hard
-
 "node-fetch@npm:2.6.2":
   version: 2.6.2
   resolution: "node-fetch@npm:2.6.2"
   checksum: de367eae1dfbc0e12283c1cf92256ea7fba7eac8655e2e51ebb217727162396fc6cf24689ef9fc6accf075e3991e2ffaa061f7cfaa958215329649b2297ff06d
+  languageName: node
+  linkType: hard
+
+"node-fetch@npm:^2.2.0, node-fetch@npm:^2.3.0, node-fetch@npm:^2.6.0, node-fetch@npm:^2.6.1":
+  version: 2.6.1
+  resolution: "node-fetch@npm:2.6.1"
+  checksum: 91075bedd57879117e310fbcc36983ad5d699e522edb1ebcdc4ee5294c982843982652925c3532729fdc86b2d64a8a827797a745f332040d91823c8752ee4d7c
   languageName: node
   linkType: hard
 
@@ -13783,9 +13764,9 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"webpack@npm:5.54.0":
-  version: 5.54.0
-  resolution: "webpack@npm:5.54.0"
+"webpack@npm:5.55.1":
+  version: 5.55.1
+  resolution: "webpack@npm:5.55.1"
   dependencies:
     "@types/eslint-scope": ^3.7.0
     "@types/estree": ^0.0.50
@@ -13816,7 +13797,7 @@ resolve@^2.0.0-next.3:
       optional: true
   bin:
     webpack: bin/webpack.js
-  checksum: aa75ccf1fcd0cb67e886bcfa7944637018657905e23e053a31cb999c61731395c1a7395023b60dced793cb0b5ee9f4184c6f109a2758e154d9c8f8941346128b
+  checksum: 70b447f76d4320bd82229cf7b787c6067c40d35142295408dd662eaa3bdf0d97f587d7913b981e4cc25cff08bb14307b85c18ed4a7b270b22e6586c5770d3f1e
   languageName: node
   linkType: hard
 
