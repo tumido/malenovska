@@ -1,13 +1,13 @@
-const { merge } = require('webpack-merge');
-const path = require('path');
-const webpack = require('webpack');
-const common = require('./webpack.common.js');
+const { merge } = require("webpack-merge");
+const path = require("path");
+const webpack = require("webpack");
+const common = require("./webpack.common.js");
 
 module.exports = merge(common, {
-  mode: 'development',
-  devtool: 'inline-source-map',
+  mode: "development",
+  devtool: "inline-source-map",
   devServer: {
-    static: './dist',
+    static: "./dist",
     port: 8081,
     hot: true,
     client: {
@@ -16,7 +16,5 @@ module.exports = merge(common, {
     },
     historyApiFallback: true,
   },
-  plugins: [
-    new webpack.HotModuleReplacementPlugin(),
-  ],
+  plugins: [new webpack.HotModuleReplacementPlugin()],
 });

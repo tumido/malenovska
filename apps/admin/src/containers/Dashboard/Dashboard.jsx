@@ -1,75 +1,92 @@
 import React from "react";
-import { Box, Card, CardContent, Grid, Typography } from "@material-ui/core";
-import { Skeleton } from "@material-ui/lab";
-import { makeStyles } from "@material-ui/core/styles";
-import { useGetOne, useGetList, EditButton } from "react-admin";
 
-const useStyles = makeStyles((theme) => ({
-  card: {
-    minHeight: 52,
-  },
-  main: {
-    overflow: "inherit",
-    padding: 16,
-  },
-}));
+import { Grid } from "@material-ui/core";
+import { useQueryWithStore, EditButton } from "react-admin";
 
-const DashboardCard = ({ label, value }) => {
-  const classes = useStyles();
+import { Card, PieChart } from "../../components";
 
-  return (
-    <Card className={classes.card}>
-      <CardContent className={classes.main}>
-        <Box textAlign="right">
-          <Typography color="textSecondary" gutterBottom>
-            {label}
-          </Typography>
-          <Typography variant="h5" component="h2">
-            {value || <Skeleton animation="wave" />}
-          </Typography>
-        </Box>
-      </CardContent>
-    </Card>
+const useGetList = (resource, event, count = 1000) =>
+  useQueryWithStore(
+    {
+      type: "getList",
+      resource,
+      payload: {
+        pagination: { page: 1, perPage: count },
+        sort: {},
+        filter: { event },
+      },
+    },
+    !Boolean(event) ? { enabled: Boolean(event) } : undefined
   );
-};
+
+const useGetOne = (resource, id) =>
+  useQueryWithStore(
+    {
+      type: "getOne",
+      resource,
+      payload: { id },
+    },
+    !Boolean(id) ? { enabled: false } : undefined
+  );
 
 const Dashboard = () => {
   const { data: config } = useGetOne("config", "config");
-  const { data: event } = useGetOne("events", config?.event || "");
-  const { data: participantsData, ids: participantIds } = useGetList(
-    "participants",
-    { page: 1, perPage: 1000 },
-    {},
-    { event: config?.event || "" }
+  const { data: event } = useGetOne("events", config?.event);
+  const { data: people } = useGetList("participants", config?.event);
+  const { data: races } = useGetList("races", config?.event);
+
+  const aggPeopleByRace = (people || []).reduce(
+    (acc, p) => ({ ...acc, ...{ [p.race]: (acc[p.race] || 0) + 1 } }),
+    {}
   );
+  const raceDistrib = (races || []).map((r) => ({
+    label: r.name,
+    color: r.color,
+    value: aggPeopleByRace[r.id],
+  }));
 
   return (
     <Grid container spacing={2}>
-      <Grid item>
-        <DashboardCard label="Aktivní událost" value={event?.name} />
+      <Grid item container spacing={2}>
+        <Grid item lg={2}>
+          <Card
+            label="Aktivní událost"
+            to={config && `/events/${config?.event}`}
+            value={event?.name}
+          />
+        </Grid>
+        <Grid item lg={2}>
+          <Card
+            label="Přihlášených účastníků"
+            to={{
+              pathname: "/participants",
+              search: config
+                ? `filter=${JSON.stringify({ event: config?.event })}`
+                : "",
+            }}
+            value={(people || []).length}
+          />
+        </Grid>
+        <Grid item lg={2}>
+          <Card
+            label="Afterparty"
+            value={(people || []).filter((p) => p.afterparty).length}
+          />
+        </Grid>
+        <Grid item lg={2}>
+          <Card
+            label="Přespání"
+            value={(people || []).filter((p) => p.sleepover).length}
+          />
+        </Grid>
+        <Grid item style={{ marginLeft: "auto" }}>
+          <EditButton basePath="config" label="" record={{ id: "config" }} />
+        </Grid>
       </Grid>
-      <Grid item>
-        <DashboardCard
-          label="Přihlášených účastníků"
-          value={(participantIds || []).length}
-        />
-      </Grid>
-      <Grid item>
-        <DashboardCard
-          label="Afterparty"
-          value={
-            (participantIds.map((id) => participantsData[id]) || []).filter(
-              (p) => p.afterparty
-            ).length
-          }
-        />
-      </Grid>
-      <Grid item>
-        <EditButton
-          basePath="config"
-          label="Nastavení"
-          record={{ id: "config" }}
-        />
+      <Grid item container spacing={2}>
+        <Grid item lg={4}>
+          <PieChart data={raceDistrib} />
+        </Grid>
       </Grid>
     </Grid>
   );
