@@ -26,7 +26,6 @@ const Readout = ({ races, participants }) => {
 
         return (
           <React.Fragment>
-            <ColorBadge variant="line" color={race.color} />
             <ArticleCardHeader
               image={race.image && race.image.src}
               title={
@@ -36,7 +35,6 @@ const Readout = ({ races, participants }) => {
                     label={`${registeredToRace} / ${race.limit}`}
                     className={classes.chip}
                   />
-                  <ColorBadge variant="fab" color={race.color} />
                 </React.Fragment>
               }
             />

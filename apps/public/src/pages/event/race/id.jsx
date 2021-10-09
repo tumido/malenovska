@@ -72,23 +72,27 @@ const Race = ({
           },
         ]}
       />
-      <ColorBadge variant="line" color={race[0].color} />
       <ArticleCardHeader
         image={race[0].image && race[0].image.src}
-        title={
-          <React.Fragment>
-            {race[0].name}
-            <Hidden xsDown>
-              <ColorBadge variant="fab" color={race[0].color} />
-            </Hidden>
-          </React.Fragment>
-        }
+        title={<React.Fragment>{race[0].name}</React.Fragment>}
       />
       <CardContent>
         <Typography variant="h5" gutterBottom>
           Charakteristika strany
         </Typography>
         <Markdown content={race[0].requirements} />
+        <Typography variant="body1" gutterBottom>
+          Kostým pro každou stranu je laděn do jiných barevných odstínů pro
+          snadnější orientaci v boji.
+        </Typography>
+        <Typography variant="body1" gutterBottom>
+          Barva této strany je:
+          <ColorBadge
+            variant="fab"
+            colorName={race[0].colorName}
+            color={race[0].color}
+          />
+        </Typography>
         <Box marginY={2}>
           <Divider variant="middle" />
         </Box>

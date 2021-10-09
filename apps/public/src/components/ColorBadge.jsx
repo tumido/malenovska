@@ -1,20 +1,36 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import { Fab, Box, Tooltip } from "@material-ui/core";
+import { Typography, Paper } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
-import { PaletteOutlined } from "@material-ui/icons";
-
 const useStyles = makeStyles({
-  fab: ({ color }) => ({
+  chip: ({ color }) => ({
     background: color,
-    color: "white",
-    float: "right",
     "&:hover": {
       background: color,
     },
+    height: "1.8em",
+    padding: ".3em .8em",
+    display: "inline-block",
+    marginBottom: "-.2em",
+    marginLeft: ".5em",
   }),
+  text: {
+    "&:first-letter": {
+      textTransform: "capitalize",
+    },
+    color: "transparent",
+    filter: "invert(1) grayscale(1) contrast(9)",
+    backgroundClip: "text",
+    "-webkit-background-clip": "text",
+    background: "inherit",
+  },
+  icon: {
+    height: "1.5em",
+    width: "1.5em",
+    color: "white",
+  },
   line: ({ color }) => ({
     backgroundColor: color,
     display: "box",
@@ -23,43 +39,22 @@ const useStyles = makeStyles({
     width: "100%",
     color: "white",
   }),
-  tooltip: {
-    backgroundColor: "#111",
-    maxWidth: "none",
-    fontSize: "1.1em",
-    fontWeight: "normal",
-  },
 });
 
-const ColorBadge = ({ color, variant, placement = "left" }) => {
+const ColorBadge = ({ color, colorName }) => {
   const styles = useStyles({ color });
 
   if (!color) {
     return null;
   }
 
-  if (variant === "fab") {
-    return (
-      <Tooltip
-        title="Charakteristická barva pro tuto stranu"
-        interactive
-        classes={{ tooltip: styles.tooltip }}
-        placement={placement}
-        aria-label="race-color"
-      >
-        <Fab
-          className={styles.fab}
-          disableFocusRipple
-          disableRipple
-          component="div"
-        >
-          <PaletteOutlined />
-        </Fab>
-      </Tooltip>
-    );
-  } else if (variant === "line") {
-    return <Box className={styles.line} />;
-  }
+  return (
+    <Paper elevation={3} className={styles.chip}>
+      <Typography className={styles.text} variant="body1">
+        {colorName}
+      </Typography>
+    </Paper>
+  );
 };
 
 ColorBadge.propTypes = {

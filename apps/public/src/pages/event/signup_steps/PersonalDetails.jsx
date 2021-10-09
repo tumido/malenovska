@@ -192,13 +192,23 @@ const PersonalDetails = ({ races }) => {
           const race = races.filter(({ id }) => id === values.race)[0];
           return (
             <React.Fragment>
-              <ColorBadge variant="line" color={race.color} />
               <CardContent>
                 <Typography gutterBottom variant="h4" component="h2">
                   Charakteristika strany
                 </Typography>
                 <Markdown content={race.requirements} />
-                <ColorBadge variant="fab" color={race.color} />
+                <Typography variant="body1" gutterBottom>
+                  Kostým pro každou stranu je laděn do jiných barevných odstínů
+                  pro snadnější orientaci v boji.
+                </Typography>
+                <Typography variant="body1" gutterBottom>
+                  Barva této strany je:
+                  <ColorBadge
+                    variant="fab"
+                    colorName={race.colorName}
+                    color={race.color}
+                  />
+                </Typography>
               </CardContent>
             </React.Fragment>
           );
