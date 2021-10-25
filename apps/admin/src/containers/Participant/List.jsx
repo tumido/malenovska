@@ -41,13 +41,16 @@ const ParticipantFilter = (props) => (
 const getData = async (participants, races) => {
   return await Promise.all(
     participants.map((p) =>
-      getPrivateSubDocument(p).then(({ age }) => [
+      getPrivateSubDocument(p).then(({ age, email }) => [
         races[p.race].name,
         p.group,
         p.firstName,
         p.nickName,
         p.lastName,
+        p.afterparty,
+        p.sleepover,
         age,
+        email,
       ])
     )
   );
@@ -58,7 +61,17 @@ const exporter = (participants, fetchRelatedRecords) => {
     getData(participants, races).then((data) => {
       const csv = convertToCSV({
         data,
-        fields: ["Strana", "Skupina", "Jméno", "Přezdívka", "Příjmení", "Věk"],
+        fields: [
+          "Strana",
+          "Skupina",
+          "Jméno",
+          "Přezdívka",
+          "Příjmení",
+          "Afterparty",
+          "Přespání",
+          "Věk",
+          "E-mail",
+        ],
       });
       downloadCSV(csv, "registrace");
     });
