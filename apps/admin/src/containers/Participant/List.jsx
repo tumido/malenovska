@@ -5,6 +5,7 @@ import {
   Filter,
   ReferenceInput,
   SelectInput,
+  SearchInput,
   TextField,
   ReferenceField,
   FunctionField,
@@ -35,6 +36,7 @@ const ParticipantFilter = (props) => (
     >
       <SelectInput source="name" />
     </ReferenceInput>
+    <SearchInput source="nickName" alwaysOn />
   </Filter>
 );
 
@@ -84,14 +86,14 @@ const List = (props) => (
     filters={<ParticipantFilter />}
     exporter={exporter}
     {...props}
+    perPage={25}
   >
     <Datagrid>
       <FunctionField
         label="Jméno"
-        render={(r) =>
-          r.firstName + (r.nickname ? ` "${r.nickName}" ` : " ") + r.lastName
-        }
+        render={(r) => `${r.firstName} ${r.lastName}`}
       />
+      <TextField label="Přezdívka" source="nickName" />
       <ReferenceField label="Událost" source="event" reference="events">
         <TextField source="name" />
       </ReferenceField>
