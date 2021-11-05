@@ -15,6 +15,9 @@ const Confirmation = lazy(() => import("./pages/event/confirmation"));
 export const useEventRouter = (event) => {
   const tomorrow = new Date();
   tomorrow.setDate(tomorrow.getDate() + 1);
+  tomorrow.setUTCHours(23);
+  tomorrow.setUTCMinutes(59);
+  const eventInFuture = Number(event.date.toDate()) < Number(tomorrow);
 
   return [
     {
@@ -74,7 +77,7 @@ export const useEventRouter = (event) => {
       className: "material-icons-outlined",
       icon: "collections_outline",
       path: `/${event.id}/gallery`,
-      disabled: event.date.toDate() > tomorrow,
+      disabled: eventInFuture,
       component: Gallery,
     },
     {
@@ -86,7 +89,8 @@ export const useEventRouter = (event) => {
       icon: "person_add",
       path: `/${event.id}/signup`,
       disabled:
-        !event.registrationAvailable && process.env.NODE_ENV !== "development",
+        (!event.registrationAvailable || eventInFuture) &&
+        process.env.NODE_ENV !== "development",
       component: RegistrationNew,
     },
     {
@@ -94,7 +98,7 @@ export const useEventRouter = (event) => {
       title: "Účastníci",
       icon: "how_to_reg",
       path: `/${event.id}/attendees`,
-      disabled: event.date.toDate() < tomorrow,
+      disabled: !eventInFuture,
       component: Attendees,
     },
     {
@@ -103,3 +107,6 @@ export const useEventRouter = (event) => {
     },
   ];
 };
+
+1636203480000;
+1636243164621;
