@@ -13,11 +13,12 @@ const Attendees = lazy(() => import("./pages/event/attendees"));
 const Confirmation = lazy(() => import("./pages/event/confirmation"));
 
 export const useEventRouter = (event) => {
-  const tomorrow = new Date();
-  tomorrow.setDate(tomorrow.getDate() + 1);
-  tomorrow.setUTCHours(23);
-  tomorrow.setUTCMinutes(59);
-  const eventInFuture = Number(event.date.toDate()) < Number(tomorrow);
+  const yesterday = new Date();
+  yesterday.setDate(yesterday.getDate() - 1);
+  yesterday.setUTCHours(23);
+  yesterday.setUTCMinutes(59);
+  const eventInFuture = event.date.toDate() > yesterday; // Should flip day before event
+  console.log(process.env.NODE_ENV);
 
   return [
     {
@@ -89,8 +90,9 @@ export const useEventRouter = (event) => {
       icon: "person_add",
       path: `/${event.id}/signup`,
       disabled:
-        (!event.registrationAvailable || eventInFuture) &&
-        process.env.NODE_ENV !== "development",
+        process.env.NODE_ENV === "development"
+          ? false
+          : !eventInFuture || !event.registrationAvailable,
       component: RegistrationNew,
     },
     {
