@@ -16,17 +16,4 @@ malenovska-service-account.json
 firebase-export.json
 assets/images/background_backup.jpg
 
-.cache
-**/yarn-error.log
-.parcel-cache
-parcel-bundle-reports
-
-.yarn/*
-!.yarn/cache
-!.yarn/patches
-!.yarn/plugins
-!.yarn/releases
-!.yarn/sdks
-!.yarn/versions
-
 backup
