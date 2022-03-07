@@ -2529,7 +2529,7 @@ __metadata:
     react-final-form: 6.5.6
     react-helmet: 6.1.0
     react-hot-loader: 4.13.0
-    react-leaflet: 3.2.1
+    react-leaflet: 3.2.5
     react-redux: 7.2.5
     react-redux-firebase: 3.10.0
     react-router: 5.2.1
@@ -2835,14 +2835,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-leaflet/core@npm:^1.1.0":
-  version: 1.1.0
-  resolution: "@react-leaflet/core@npm:1.1.0"
+"@react-leaflet/core@npm:^1.1.1":
+  version: 1.1.1
+  resolution: "@react-leaflet/core@npm:1.1.1"
   peerDependencies:
     leaflet: ^1.7.1
     react: ^17.0.1
     react-dom: ^17.0.1
-  checksum: 314b689b047622e87a128cc5c0b345ac86d355fda92648b696a540d831f86eee63eb9639c6329e50d3b2602b9c937a412b5991661c470dc7b5f19e05e69adc94
+  checksum: 2fc4a80e5524f9437ac6cef0f95e63388f2df6ecc5107fef85fd097eb2455436e796d41a4c43cdcbb983a4132403646823ba1dc0d953e866eb80808cbfaf0232
   languageName: node
   linkType: hard
 
@@ -11279,16 +11279,16 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"react-leaflet@npm:3.2.1":
-  version: 3.2.1
-  resolution: "react-leaflet@npm:3.2.1"
+"react-leaflet@npm:3.2.5":
+  version: 3.2.5
+  resolution: "react-leaflet@npm:3.2.5"
   dependencies:
-    "@react-leaflet/core": ^1.1.0
+    "@react-leaflet/core": ^1.1.1
   peerDependencies:
     leaflet: ^1.7.1
     react: ^17.0.1
     react-dom: ^17.0.1
-  checksum: 40cdb1e63b82fcbe6d9fc18c1cfa22c681c34f0c35b25540f1cf9049032e9b98152753d7370e90ac7f190b34f37a236d1792cbf84988091312b965e07ef7afe5
+  checksum: 503b7cee8acc12e0e2c5e7675432e7ef5742463e3e5420282ce60a9efd306430caefae3cb282c976e3df7665f19aef5b49cdce44a034979b4ea3ee968c2621d2
   languageName: node
   linkType: hard
 
