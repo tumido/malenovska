@@ -2454,7 +2454,7 @@ __metadata:
     react-admin-date-inputs: "https://github.com/WiXSL/react-admin-date-inputs.git#commit=3e6eee77e98f9c1acbfc8d972d3bbb4af54e26c5"
     react-admin-firebase: 3.2.24
     react-dom: 17.0.2
-    react-final-form: 6.5.6
+    react-final-form: 6.5.9
     react-helmet: 6.1.0
     react-hot-loader: 4.13.0
     react-is: 17.0.2
@@ -2526,7 +2526,7 @@ __metadata:
     prop-types: 15.7.2
     react: 17.0.2
     react-dom: 17.0.2
-    react-final-form: 6.5.6
+    react-final-form: 6.5.9
     react-helmet: 6.1.0
     react-hot-loader: 4.13.0
     react-leaflet: 3.2.1
@@ -11204,15 +11204,15 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"react-final-form@npm:6.5.6":
-  version: 6.5.6
-  resolution: "react-final-form@npm:6.5.6"
+"react-final-form@npm:6.5.9":
+  version: 6.5.9
+  resolution: "react-final-form@npm:6.5.9"
   dependencies:
     "@babel/runtime": ^7.15.4
   peerDependencies:
-    final-form: 4.20.4
-    react: ^16.8.0 || ^17.0.0
-  checksum: 975acddfb68179d31153a6bac111634e48269058bc011d53b72ea6e8ead53cc6eab8671b3f5ac3e21d3430f1f1b3f4be46573bed9f2312210cbdba518771bc93
+    final-form: ^4.20.4
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+  checksum: 2ab79b1b0230545af1b93b324e2ce61992087beda344f762e1c1306867c177ca6258651e992515fa6681a790f94380a388c18e898ffb20468562e62c83c6b289
   languageName: node
   linkType: hard
 
