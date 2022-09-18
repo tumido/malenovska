@@ -2,8 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import { FormSpy } from "react-final-form";
 
-import { Chip, CardContent } from "@material-ui/core";
-import { makeStyles } from "@material-ui/styles";
+import { Chip, CardContent } from "@mui/material";
+import { makeStyles } from "@mui/material/styles";
 
 import { Markdown, ColorBadge, ArticleCardHeader } from "../../../components";
 

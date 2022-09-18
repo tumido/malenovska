@@ -1,8 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import { Grid, Chip, Box } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import { Grid, Chip, Box } from "@mui/material";
+import { makeStyles } from "@mui/material/styles";
 
 import SmallArticleCard from "./SmallArticleCard";
 import { participantsForRace } from "../utilities/filters";

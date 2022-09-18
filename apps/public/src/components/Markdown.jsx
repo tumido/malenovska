@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import BaseMarkdown from "markdown-to-jsx";
-import { Typography } from "@material-ui/core";
+import { Typography } from "@mui/material";
 
 const overrides = {
   h1: {

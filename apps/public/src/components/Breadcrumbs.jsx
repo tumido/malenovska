@@ -4,8 +4,8 @@ import {
   Typography,
   Breadcrumbs as BreadcrumbsBase,
   Link,
-} from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+} from "@mui/material";
+import { makeStyles } from "@mui/material/styles";
 import { Link as RouterLink } from "react-router-dom";
 import { useTopBanner } from "../contexts/TopBannerContext";
 

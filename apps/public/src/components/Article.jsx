@@ -1,25 +1,19 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import { Container, Card, CardContent, Box } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
-import { Skeleton } from "@material-ui/lab";
+import { Container, Card, CardContent, Box } from "@mui/material";
+import { Skeleton } from "@mui/lab";
 
 import { ScrollTop, ArticleCardHeader } from ".";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    [theme.breakpoints.down("sm")]: {
-      paddingLeft: 0,
-      paddingRight: 0,
-    },
-  },
-}));
 
 const Article = ({ scrollTop = true, children, isLoading = false }) => {
-  const styles = useStyles();
   return (
-    <Container maxWidth="md" className={styles.root}>
+    <Container maxWidth="md" sx={(theme) => ({ [theme.breakpoints.down("sm")]: {
+          paddingLeft: 0,
+          paddingRight: 0,
+        },
+    })}>
       <Box width="100%">
         <Card>
           {children && !isLoading ? (

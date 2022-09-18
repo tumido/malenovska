@@ -9,7 +9,7 @@ import {
   ListItemText,
   ButtonBase,
   Avatar,
-} from "@material-ui/core";
+} from "@mui/material";
 import {
   FacebookShareButton,
   FacebookIcon,
@@ -21,7 +21,7 @@ import {
   WhatsappIcon,
 } from "react-share";
 
-import { FileCopy } from "@material-ui/icons";
+import { FileCopy } from "@mui/icons-material";
 import copy from "clipboard-copy";
 
 const CopyToClipboardButton = React.forwardRef(

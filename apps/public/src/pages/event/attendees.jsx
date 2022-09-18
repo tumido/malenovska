@@ -11,9 +11,9 @@ import {
   TablePagination,
   Typography,
   CardContent,
-} from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
-import { Skeleton } from "@material-ui/lab";
+} from "@mui/material";
+import { makeStyles } from "@mui/material/styles";
+import { Skeleton } from "@mui/lab";
 
 import {
   Article,

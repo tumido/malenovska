@@ -6,7 +6,7 @@ import {
   FormControl,
   FormControlLabel,
   FormHelperText,
-} from "@material-ui/core";
+} from "@mui/material";
 
 const CheckboxFormField = ({
   input,

@@ -9,11 +9,11 @@ import {
 } from "react-redux-firebase";
 import { useSnackbar } from "notistack";
 
-import { Grid, Hidden, Container, Button } from "@material-ui/core";
-import { Alert } from "@material-ui/lab";
-import { makeStyles } from "@material-ui/core/styles";
-import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
-import ErrorOutlineIcon from "@material-ui/icons/ErrorOutline";
+import { Grid, Hidden, Container, Button } from "@mui/material";
+import { Alert } from "@mui/lab";
+import { makeStyles } from "@mui/material/styles";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 
 import {
   Article,

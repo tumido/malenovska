@@ -1,24 +1,30 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import { useFirestoreConnect, isLoaded } from "react-redux-firebase";
 
 import {
-  GridList,
-  GridListTile,
-  GridListTileBar,
+  ImageList,
+  ImageListItem,
+  ImageListItemBar,
   Link,
   Container,
   Typography,
-} from "@material-ui/core";
-import withWidth, { isWidthUp } from "@material-ui/core/withWidth";
+  useTheme,
+} from "@mui/material";
 
 import { Banner } from "../../components";
 import { Helmet } from "react-helmet";
 import { useEvent } from "../../contexts/EventContext";
 
-const Gallery = ({ width }) => {
+const useIsWidthUp = (breakpoint) => {
+  const theme = useTheme();
+  return useMediaQuery(theme.breakpoints.up(breakpoint));
+}
+
+const Gallery = () => {
   const [event] = useEvent();
+  const isSmUp = useIsWidthUp("sm");
+
   useFirestoreConnect(() => [
     {
       collection: "galleries",
@@ -34,7 +40,7 @@ const Gallery = ({ width }) => {
   const getGridItemCols = (length, idx) => {
     if (idx === length - 1) {
       // There are 2 elements per row
-      if (isWidthUp("sm", width)) {
+      if (isSmUp) {
         // On large screens, where there are 3 elements per row, span to 3 if even, 2 if odd
         return idx % 2 ? 2 : 3;
       } else {
@@ -44,7 +50,7 @@ const Gallery = ({ width }) => {
     }
 
     // returns a series 1 2 2 1 1 2 2 1 1 2 2... on 3 elem layout, return 1 on 2 elem layout
-    return isWidthUp("sm", width) ? (Math.ceil(idx / 2) % 2) + 1 : 1;
+    return isSmUp ? (Math.ceil(idx / 2) % 2) + 1 : 1;
   };
 
   if (!isLoaded(galleries)) {
@@ -72,9 +78,9 @@ const Gallery = ({ width }) => {
           Fotogalerie, sdílená alba, památníčky... prostě, co se našlo.
         </Typography>
       </Banner>
-      <GridList cellHeight={300} cols={isWidthUp("sm", width) ? 3 : 2}>
+      <ImageList cellHeight={300} cols={isSmUp ? 3 : 2}>
         {galleries.map((tile, idx) => (
-          <GridListTile
+          <ImageListItem
             cols={getGridItemCols(galleries.length, idx)}
             component={Link}
             key={tile.url}
@@ -86,19 +92,15 @@ const Gallery = ({ width }) => {
               src={tile.cover && tile.cover.src}
               alt={`${event.name} od ${tile.author}`}
             />
-            <GridListTileBar
+            <GridListItemBar
               title={tile.name}
               subtitle={<span>Autor: {tile.author}</span>}
             />
-          </GridListTile>
+          </ImageListItem>
         ))}
-      </GridList>
+      </ImageList>
     </Container>
   );
 };
 
-Gallery.propTypes = {
-  width: PropTypes.string,
-};
-
-export default withWidth()(Gallery);
+export default Gallery;

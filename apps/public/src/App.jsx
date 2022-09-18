@@ -1,12 +1,11 @@
 import React, { lazy, Suspense } from "react";
 import { Helmet } from "react-helmet";
-import { Switch, Route, Redirect } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useFirestoreConnect, isLoaded } from "react-redux-firebase";
 
-import { CssBaseline, NoSsr } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
-import { ThemeProvider } from "@material-ui/styles";
+import { CssBaseline, NoSsr } from "@mui/material";
+import { styled, ThemeProvider } from "@mui/material/styles";
 
 import BgImage from "@malenovska/common/assets/images/background.jpg";
 import DefaultOgImage from "@malenovska/common/assets/images/og_image.jpg";
@@ -18,7 +17,7 @@ const NotFound = lazy(() => import("./pages/404"));
 const Landing = lazy(() => import("./pages/choose"));
 const Public = lazy(() => import("./pages"));
 
-const useStyles = makeStyles((theme) => ({
+const Div = styled('div')((theme) => ({
   content: {
     display: "flex",
     flexDirection: "column",
@@ -28,20 +27,16 @@ const useStyles = makeStyles((theme) => ({
       background: `linear-gradient(to bottom, transparent 80%, #000 100%), url(${BgImage}) repeat-x top center/cover fixed`,
     },
   },
-}));
+}))
 
-const ThemedLoading = () => {
-  const classes = useStyles();
-
-  return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <div className={classes.content}>
-        <Loading />
-      </div>
-    </ThemeProvider>
-  );
-};
+const ThemedLoading = () =>  (
+  <ThemeProvider theme={theme}>
+    <CssBaseline />
+    <Div>
+      <Loading />
+    </Div>
+  </ThemeProvider>
+);
 
 const App = () => {
   useFirestoreConnect(() => [{ collection: "events" }]);
@@ -63,23 +58,23 @@ const App = () => {
           meta={[{ property: "og:image", content: DefaultOgImage }]}
         />
         <Suspense fallback={<ThemedLoading />}>
-          <Switch>
+          <Routes>
             {isLoaded(events) &&
               events.map((event) => (
                 <Route
                   key={`route_${event.id}`}
                   path={"/" + event.id}
-                  render={(props) => <Public {...props} event={event} />}
+                  element={<Public event={event} />}
                 />
               ))}
             <Route
               exact
               path="/"
-              render={() => <Redirect to={`/${config.config.event}`} />}
+              element={<Navigate to={`/${config.config.event}`} replace />}
             />
             <Route exact path="/choose" component={Landing} />
             <Route component={NotFound} />
-          </Switch>
+          </Routes>
         </Suspense>
       </ThemeProvider>
     </NoSsr>

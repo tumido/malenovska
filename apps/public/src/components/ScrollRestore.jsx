@@ -1,7 +1,9 @@
 import React from "react";
-import { withRouter } from "react-router";
+import { useLocation } from "react-router";
 
-const ScrollRestore = ({ children, location: { pathname } }) => {
+const ScrollRestore = ({ children }) => {
+
+  const {pathname} = useLocation();
   React.useEffect(() => {
     window.scrollTo(0, 0);
   }, [pathname]);
@@ -9,4 +11,4 @@ const ScrollRestore = ({ children, location: { pathname } }) => {
   return children || null;
 };
 
-export default withRouter(ScrollRestore);
+export default ScrollRestore;

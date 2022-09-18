@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { Link, Redirect } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { isLoaded, useFirestoreConnect } from "react-redux-firebase";
 import PropTypes from "prop-types";
 
@@ -10,9 +10,9 @@ import {
   CardContent,
   IconButton,
   CardActions,
-} from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
-import { ShareOutlined } from "@material-ui/icons";
+} from "@mui/material";
+import { makeStyles } from "@mui/material/styles";
+import { ShareOutlined } from "@mui/icons-material";
 
 import {
   Markdown,
@@ -67,7 +67,7 @@ const Legend = ({
   }
 
   if (!legend.length || legend[0].event !== event.id) {
-    return <Redirect to="/not-found" />;
+    return <Mavigate to="/not-found" />;
   }
 
   return (

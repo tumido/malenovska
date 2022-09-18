@@ -1,8 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Box, CardMedia, Typography } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
-import { Skeleton } from "@material-ui/lab";
+import { Box, CardMedia, Typography } from "@mui/material";
+import { makeStyles } from "@mui/material/styles";
+import { Skeleton } from "@mui/lab";
 
 const useStyles = makeStyles((theme) => ({
   image: {

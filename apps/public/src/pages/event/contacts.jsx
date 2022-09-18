@@ -8,8 +8,8 @@ import {
   Box,
   Button,
   Icon,
-} from "@material-ui/core";
-import { TodayOutlined, EventOutlined, MailOutlined } from "@material-ui/icons";
+} from "@mui/material";
+import { TodayOutlined, EventOutlined, MailOutlined } from "@mui/icons-material";
 
 import { Article, ArticleCardHeader, Banner, Markdown } from "../../components";
 import { Helmet } from "react-helmet";

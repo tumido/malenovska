@@ -13,9 +13,8 @@ import {
   CardContent,
   Link,
   Button,
-} from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
-import { ThemeProvider } from "@material-ui/styles";
+} from "@mui/material";
+import { makeStyles, ThemeProvider  } from "@mui/material/styles";
 
 import BgImage from "@malenovska/common/assets/images/background.jpg";
 

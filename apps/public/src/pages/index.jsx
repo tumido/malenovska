@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Helmet } from "react-helmet";
-import { Switch, Route, Redirect } from "react-router-dom";
+import { Route, Redirect, useParams, Routes, Navigate } from "react-router-dom";
 import { SnackbarProvider } from "notistack";
 
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@mui/material/styles";
 import BgImage from "@malenovska/common/assets/images/background.jpg";
 
 import { Header, Footer, Loading, ScrollRestore } from "../components";
@@ -35,8 +35,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Home = ({ event }) => {
+const Home = () => {
   const classes = useStyles();
+  const {event} = useParams();
 
   if (!event) {
     return (
@@ -61,7 +62,7 @@ const Home = ({ event }) => {
               <div className={classes.content}>
                 <div id="top" />
                 <main>
-                  <Switch>
+                  <Routes>
                     {navigation.map((i) => {
                       if (i.path && i.component)
                         return (
@@ -72,13 +73,10 @@ const Home = ({ event }) => {
                           />
                         );
                     })}
-                    <Redirect
-                      exact
-                      from={`/${event.id}`}
-                      to={`/${event.id}/legends`}
+                    <Route path="" element={<Navigate to='legends' />}
                     />
-                    <Redirect to="/not-found" />
-                  </Switch>
+                    <Route path="*" element={<Navigate to="/not-found" />} />
+                  </Routes>
                 </main>
                 <Footer />
               </div>

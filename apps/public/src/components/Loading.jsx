@@ -1,12 +1,12 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@mui/material/styles";
+import { styled } from "@mui/material/styles";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    display: "flex",
-    alignItems: "center",
-  },
-  fullscreen: {
+const Div = styled('div')((theme) => ({
+  display: "flex",
+  alignItems: "center",
+
+  '& .fullscreen': {
     position: "absolute",
     left: 0,
     right: 0,
@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "rgba(0,0,0, 0.8)",
     zIndex: 1300,
   },
-  spinner: {
+  '& .spinner': {
     display: "block",
     position: "relative",
     width: "100px",
@@ -66,9 +66,9 @@ const Loading = ({ isFloating }) => {
   const classes = useStyles();
 
   return (
-    <div className={`${classes.root} ${!isFloating && classes.fullscreen}`}>
-      <div className={classes.spinner} />
-    </div>
+    <Div className={!isFloating && 'fullscreen'}>
+      <div className='spinner' />
+    </Div>
   );
 };
 

@@ -1,7 +1,7 @@
 import { createFirestoreInstance } from 'redux-firestore';
-import { firebase } from '@firebase/app';
-import '@firebase/firestore';
-import '@firebase/storage';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/firestore';
+import 'firebase/compat/storage';
 
 import { firebaseConfig } from '@malenovska/common/utilities/firebase';
 

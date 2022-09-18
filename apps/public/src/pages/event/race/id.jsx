@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { Redirect } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { isLoaded, useFirestoreConnect } from "react-redux-firebase";
 import PropTypes from "prop-types";
 
@@ -11,8 +11,7 @@ import {
   Typography,
   Box,
   Divider,
-  Hidden,
-} from "@material-ui/core";
+} from "@mui/material";
 
 import {
   Article,
@@ -21,7 +20,7 @@ import {
   ShareDialog,
   ColorBadge,
 } from "../../../components";
-import { ShareOutlined } from "@material-ui/icons";
+import { ShareOutlined } from "@mui/icons-material";
 import { Helmet } from "react-helmet";
 import { useEvent } from "../../../contexts/EventContext";
 import { useTopBanner } from "../../../contexts/TopBannerContext";
@@ -58,7 +57,7 @@ const Race = ({
   }
 
   if (!race.length || race[0].event !== event.id) {
-    return <Redirect to="/not-found" />;
+    return <Navigate to="/not-found" />;
   }
 
   return (

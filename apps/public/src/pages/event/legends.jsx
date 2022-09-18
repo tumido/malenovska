@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { useFirestoreConnect, isLoaded, isEmpty } from "react-redux-firebase";
 import PropTypes from "prop-types";
 
-import { Grid, Container } from "@material-ui/core";
+import { Grid, Container } from "@mui/material";
 
 import { SmallArticleCard, Markdown, Banner } from "../../components";
 import { Helmet } from "react-helmet";

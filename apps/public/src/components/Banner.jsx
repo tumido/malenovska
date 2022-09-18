@@ -1,11 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import { Grid, Container, Chip, Typography } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
-import { ThemeProvider } from "@material-ui/styles";
+import { Grid, Container, Chip, Typography } from "@mui/material";
+import { makeStyles,ThemeProvider } from "@mui/material/styles";
 
-import { Breadcrumbs, Logo, EventAvailabilityChip } from ".";
+import { Logo, EventAvailabilityChip } from ".";
 import { useEvent } from "../contexts/EventContext";
 import { darkTheme } from "../utilities/theme";
 

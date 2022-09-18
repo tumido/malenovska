@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import { Chip, Icon } from "@material-ui/core";
+import { Chip, Icon } from "@mui/material";
 
 import { timestampToDateStr } from "../utilities/firebase";
 import { useEvent } from "../contexts/EventContext";

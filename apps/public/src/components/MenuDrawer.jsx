@@ -11,10 +11,9 @@ import {
   ListItemText,
   ListItemIcon,
   Icon,
-} from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
-import { grey } from "@material-ui/core/colors";
-import { ThemeProvider } from "@material-ui/styles";
+} from "@mui/material";
+import { makeStyles, ThemeProvider } from "@mui/material/styles";
+import { grey } from "@mui/material/colors";
 
 import { darkTheme } from "../utilities/theme";
 

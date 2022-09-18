@@ -8,8 +8,8 @@ import {
   CardContent,
   Typography,
   Box,
-} from "@material-ui/core";
-import { Skeleton } from "@material-ui/lab";
+} from "@mui/material";
+import { Skeleton } from "@mui/lab";
 
 import ArticleCardHeader from "./ArticleCardHeader";
 

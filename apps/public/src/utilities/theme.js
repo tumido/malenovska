@@ -1,6 +1,6 @@
-import { createTheme } from '@material-ui/core/styles';
-import { deepOrange, grey } from '@material-ui/core/colors';
-import { csCZ } from '@material-ui/core/locale';
+import { createTheme } from '@mui/material/styles';
+import { deepOrange, grey } from '@mui/material/colors';
+import { csCZ } from '@mui/material/locale';
 
 const palette = {
   secondary: deepOrange,

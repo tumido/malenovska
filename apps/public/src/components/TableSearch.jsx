@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Icon, InputBase } from "@material-ui/core";
-import { alpha, makeStyles } from "@material-ui/core/styles";
+import { Icon, InputBase } from "@mui/material";
+import { alpha, makeStyles } from "@mui/material/styles";
 
 const useStyles = makeStyles((theme) => ({
   search: {

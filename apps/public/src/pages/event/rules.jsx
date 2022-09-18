@@ -1,6 +1,6 @@
 import React from "react";
 
-import { CardContent } from "@material-ui/core";
+import { CardContent } from "@mui/material";
 
 import { Article, ArticleCardHeader, Banner, Markdown } from "../../components";
 import { Helmet } from "react-helmet";

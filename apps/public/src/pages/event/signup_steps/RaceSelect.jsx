@@ -2,8 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Field } from "react-final-form";
 
-import { Typography, Grid, Container } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import { Typography, Grid, Container } from "@mui/material";
+import { makeStyles } from "@mui/material/styles";
 import { Markdown, CardFormField } from "../../../components";
 
 import validate from "./validators";

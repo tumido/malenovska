@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { withRouter } from "react-router";
+import { useLocation } from "react-router";
 
 import {
   AppBar,
@@ -11,10 +11,9 @@ import {
   Icon,
   SwipeableDrawer,
   Typography,
-} from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
-import { ThemeProvider } from "@material-ui/styles";
-import { grey } from "@material-ui/core/colors";
+} from "@mui/material";
+import { makeStyles, ThemeProvider } from "@mui/material/styles";
+import { grey } from "@mui/material/colors";
 
 import { Breadcrumbs, MenuDrawer } from ".";
 import { useTopBanner } from "../contexts/TopBannerContext";
@@ -60,9 +59,10 @@ const useStyles = makeStyles((theme) => ({
 
 const iOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
 
-const Header = ({ navigation, location: { pathname } }) => {
+const Header = ({navigation}) => {
   const classes = useStyles();
   const { banner } = useTopBanner();
+  const {pathname} = useLocation();
 
   const [drawerOpen, setDrawerOpen] = useState(false);
 
@@ -164,10 +164,7 @@ Header.propTypes = {
       className: PropTypes.string,
       disabled: PropTypes.bool,
     })
-  ).isRequired,
-  location: PropTypes.shape({
-    pathname: PropTypes.string.isRequired,
-  }).isRequired,
+  ).isRequired
 };
 
-export default withRouter(Header);
+export default Header;

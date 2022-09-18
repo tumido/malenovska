@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { useFirestoreConnect, isLoaded, isEmpty } from "react-redux-firebase";
 
-import { Grid, Container } from "@material-ui/core";
+import { Grid, Container } from "@mui/material";
 
 import { SmallArticleCard, Banner } from "../../components";
 import { Helmet } from "react-helmet";

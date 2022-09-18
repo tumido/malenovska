@@ -1,7 +1,7 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@mui/material/styles";
 
-import { IconButton, Icon, CircularProgress } from "@material-ui/core";
+import { IconButton, Icon, CircularProgress } from "@mui/material";
 
 const useStyles = makeStyles((theme) => ({
   action: {
