@@ -2429,7 +2429,7 @@ __metadata:
     babel-loader: 8.2.2
     babel-plugin-import: 1.13.3
     connected-react-router: 6.9.1
-    core-js: 3.18.1
+    core-js: 3.25.2
     css-loader: 6.3.0
     date-fns: 2.24.0
     eslint: 7.32.0
@@ -2512,7 +2512,7 @@ __metadata:
     babel-plugin-import: 1.13.3
     clipboard-copy: 4.0.1
     clsx: 1.1.1
-    core-js: 3.18.1
+    core-js: 3.25.2
     css-loader: 6.3.0
     eslint: 7.32.0
     eslint-config-prettier: 8.3.0
@@ -4967,10 +4967,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"core-js@npm:3.18.1":
-  version: 3.18.1
-  resolution: "core-js@npm:3.18.1"
-  checksum: 89cac0fe657df722d10b0e658ee76af12a614c0a75fe3fb11e87c2e3f27f6d7e609e3bf40748da5d8feb055b0535766a583ff1d1ac89dba57105f6f1ad64dc21
+"core-js@npm:3.25.2":
+  version: 3.25.2
+  resolution: "core-js@npm:3.25.2"
+  checksum: e93c6c645d44d98973efb07750975552ad405f080f5a563a99972ff6b2c5c6ee25705f55accd363f5dccd51e9e5f56be25e2be6c14a7294da65763e0e5659c02
   languageName: node
   linkType: hard
 

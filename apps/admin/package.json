@@ -28,7 +28,7 @@
     "@material-ui/icons": "4.11.2",
     "@material-ui/pickers": "3.3.10",
     "connected-react-router": "6.9.1",
-    "core-js": "3.18.1",
+    "core-js": "3.25.2",
     "date-fns": "2.24.0",
     "final-form": "4.20.4",
     "final-form-arrays": "3.0.2",

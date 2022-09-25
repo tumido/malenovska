@@ -3989,7 +3989,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["babel-loader", "virtual:a142d2a7b82c7773e3af78a95524f9bd88567e8f6e7b929147325518a887f4e62fce41c86a4cb923054da1ee248a84dfdfea800bb1d4a52d4b340717af293ac5#npm:8.2.2"],
             ["babel-plugin-import", "npm:1.13.3"],
             ["connected-react-router", "virtual:a142d2a7b82c7773e3af78a95524f9bd88567e8f6e7b929147325518a887f4e62fce41c86a4cb923054da1ee248a84dfdfea800bb1d4a52d4b340717af293ac5#npm:6.9.1"],
-            ["core-js", "npm:3.18.1"],
+            ["core-js", "npm:3.25.2"],
             ["css-loader", "virtual:a142d2a7b82c7773e3af78a95524f9bd88567e8f6e7b929147325518a887f4e62fce41c86a4cb923054da1ee248a84dfdfea800bb1d4a52d4b340717af293ac5#npm:6.3.0"],
             ["date-fns", "npm:2.24.0"],
             ["eslint", "npm:7.32.0"],
@@ -4076,7 +4076,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["babel-plugin-import", "npm:1.13.3"],
             ["clipboard-copy", "npm:4.0.1"],
             ["clsx", "npm:1.1.1"],
-            ["core-js", "npm:3.18.1"],
+            ["core-js", "npm:3.25.2"],
             ["css-loader", "virtual:a35b4ba410c3139ca5af980d60694f59079a1830291574e50958f861253d4da2463a6be48b9043f6413252d528e9c47ef55d929121ef1a77d874844f33299548#npm:6.3.0"],
             ["eslint", "npm:7.32.0"],
             ["eslint-config-prettier", "virtual:01625856f9344d35532f7d6da587cd3ecabf22ba0d20e8e54e2c72a41d28897d9df3c6d4f23c9d53bbbede8fa1d869ca1de814bd03c80636cd0e54a87efb7c26#npm:8.3.0"],
@@ -7183,10 +7183,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "HARD",
         }],
-        ["npm:3.18.1", {
-          "packageLocation": "./.yarn/unplugged/core-js-npm-3.18.1-17afc1fe9c/node_modules/core-js/",
+        ["npm:3.25.2", {
+          "packageLocation": "./.yarn/unplugged/core-js-npm-3.25.2-923ea16673/node_modules/core-js/",
           "packageDependencies": [
-            ["core-js", "npm:3.18.1"]
+            ["core-js", "npm:3.25.2"]
           ],
           "linkType": "HARD",
         }],
