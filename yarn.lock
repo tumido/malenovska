@@ -2425,7 +2425,7 @@ __metadata:
     "@material-ui/core": 4.12.3
     "@material-ui/icons": 4.11.2
     "@material-ui/pickers": 3.3.10
-    "@types/react": 17.0.25
+    "@types/react": 17.0.50
     babel-loader: 8.2.2
     babel-plugin-import: 1.13.3
     connected-react-router: 6.9.1
@@ -2507,7 +2507,7 @@ __metadata:
     "@material-ui/lab": 4.0.0-alpha.60
     "@material-ui/styles": 4.11.4
     "@material-ui/system": 4.12.1
-    "@types/react": 17.0.25
+    "@types/react": 17.0.50
     babel-loader: 8.2.2
     babel-plugin-import: 1.13.3
     clipboard-copy: 4.0.1
@@ -3167,14 +3167,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:17.0.25":
-  version: 17.0.25
-  resolution: "@types/react@npm:17.0.25"
+"@types/react@npm:17.0.50":
+  version: 17.0.50
+  resolution: "@types/react@npm:17.0.50"
   dependencies:
     "@types/prop-types": "*"
     "@types/scheduler": "*"
     csstype: ^3.0.2
-  checksum: a5838a943e73c7ab2c188a6e16918d3120ca04e52f03d98d68dd1fe019503c301b1b3fbac0b6330be2b7d4ffba6e227fe43a0a2e716fe9f79000d5e43308039a
+  checksum: b5629dff7c2f3e9fcba95a19b2b3bfd78d7cacc33ba5fc26413dba653d34afcac3b93ddabe563e8062382688a1eac7db68e93739bb8e712d27637a03aaafbbb8
   languageName: node
   linkType: hard
 
