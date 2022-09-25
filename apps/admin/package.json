@@ -20,7 +20,7 @@
     "@babel/runtime": "7.15.4",
     "@babel/runtime-corejs3": "7.15.4",
     "@date-io/core": "2.11.0",
-    "@firebase/app": "0.7.1",
+    "@firebase/app": "0.7.33",
     "@firebase/auth": "0.18.0",
     "@firebase/util": "1.4.0",
     "@malenovska/common": "1.0.0",
