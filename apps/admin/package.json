@@ -32,7 +32,7 @@
     "date-fns": "2.24.0",
     "final-form": "4.20.4",
     "final-form-arrays": "3.0.2",
-    "firebase": "9.1.0",
+    "firebase": "9.10.0",
     "firebase-tools": "9.19.0",
     "history": "4.10.1",
     "jsonexport": "3.2.0",
