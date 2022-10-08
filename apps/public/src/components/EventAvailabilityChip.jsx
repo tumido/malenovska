@@ -6,21 +6,21 @@ import { Chip, Icon } from "@mui/material";
 import { timestampToDateStr } from "../utilities/firebase";
 import { useEvent } from "../contexts/EventContext";
 
-const EventAvailabilityChip = ({ className }) => {
+const EventAvailabilityChip = ({ sx }) => {
   const [event] = useEvent();
 
   return !event.date ||
     !event.date.toDate ||
     event.date.toDate() < new Date() ? (
     <Chip
-      className={className}
+      sx={sx}
       color="primary"
       label="Proběhlo"
       icon={<Icon>hourglass_empty</Icon>}
     />
   ) : (
     <Chip
-      className={className}
+      sx={sx}
       label={timestampToDateStr(event.date)}
       color="secondary"
       icon={<Icon>favorite_border</Icon>}

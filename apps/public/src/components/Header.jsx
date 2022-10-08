@@ -11,8 +11,9 @@ import {
   Icon,
   SwipeableDrawer,
   Typography,
+  styled,
 } from "@mui/material";
-import { makeStyles, ThemeProvider } from "@mui/material/styles";
+import { ThemeProvider } from "@mui/material/styles";
 import { grey } from "@mui/material/colors";
 
 import { Breadcrumbs, MenuDrawer } from ".";
@@ -21,46 +22,36 @@ import { darkTheme } from "../utilities/theme";
 
 const drawerWidth = 300;
 
-const useStyles = makeStyles((theme) => ({
-  drawer: {
-    [theme.breakpoints.up("md")]: {
-      width: drawerWidth,
-      flexShrink: 0,
-    },
-  },
-  paper: {
-    width: drawerWidth,
-    backgroundColor: grey[900],
-    color: "#fff",
-  },
-  appBar: {
-    right: "unset",
-    width: "unset",
-    marginTop: "10px",
-    borderBottomRightRadius: "10px",
-    borderTopRightRadius: "10px",
-  },
-  appBarShift: {
-    width: `calc(100% - ${drawerWidth}px)`,
-    marginLeft: drawerWidth,
-    transition: theme.transitions.create(["margin", "width"], {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
-  banner: {
-    display: "block",
-    padding: 8,
-    textAlign: "center",
-    backgroundColor: theme.palette.secondary.dark,
-    color: "white",
-  },
-}));
+const paperStyle = {
+  width: drawerWidth,
+  backgroundColor: grey[900],
+  color: "#fff",
+}
+
+const appBarStyle = {
+  right: 'unset',
+  width: "unset",
+  marginTop: "10px",
+  borderBottomRightRadius: "10px",
+  borderTopRightRadius: "10px",
+}
+
+const bannerStyle = {
+  display: "block",
+  padding: 8,
+  textAlign: "center",
+  backgroundColor: 'secondary.dark',
+  color: "white",
+}
 
 const iOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
 
+const Nav = styled('nav')({
+  width: { md: drawerWidth },
+  flexShrink: { md: 0 }
+})
+
 const Header = ({navigation}) => {
-  const classes = useStyles();
   const { banner } = useTopBanner();
   const {pathname} = useLocation();
 
@@ -79,12 +70,12 @@ const Header = ({navigation}) => {
       <Hidden mdUp>
         <AppBar
           position="fixed"
-          // className={classes.appBar}
+          sx={appBarStyle}
           color="primary"
           elevation={0}
         >
           {banner && (
-            <Typography variant="body2" className={classes.banner} noWrap>
+            <Typography variant="body2" sx={bannerStyle} noWrap>
               {banner}
             </Typography>
           )}
@@ -108,16 +99,23 @@ const Header = ({navigation}) => {
           <AppBar
             position="fixed"
             color="secondary"
-            className={classes.appBarShift}
+            sx={{
+              width: `calc(100% - ${drawerWidth}px)`,
+              ml: drawerWidth,
+              transition: (t) => t.transitions.create(["margin", "width"], {
+                easing: theme.transitions.easing.easeOut,
+                duration: theme.transitions.duration.enteringScreen,
+              })
+            }}
             elevation={0}
           >
-            <Typography variant="body2" className={classes.banner} noWrap>
+            <Typography variant="body2" sx={bannerStyle} noWrap>
               {banner}
             </Typography>
           </AppBar>
         </Hidden>
       )}
-      <nav className={classes.drawer}>
+      <Nav>
         <Hidden mdUp implementation="css">
           <SwipeableDrawer
             variant="temporary"
@@ -126,7 +124,7 @@ const Header = ({navigation}) => {
             open={drawerOpen}
             onOpen={handleDrawerOpen}
             onClose={handleDrawerClose}
-            classes={{ paper: classes.paper }}
+            sx={paperStyle}
             ModalProps={{
               keepMounted: true /* Better open performance on mobile */,
             }}
@@ -141,7 +139,7 @@ const Header = ({navigation}) => {
         <Hidden smDown implementation="css">
           <Drawer
             variant="permanent"
-            classes={{ paper: classes.paper }}
+            sx={paperStyle}
             ModalProps={{
               keepMounted: true /* Better open performance on mobile */,
             }}
@@ -150,7 +148,7 @@ const Header = ({navigation}) => {
             <MenuDrawer navigation={navigation} pathname={pathname} />
           </Drawer>
         </Hidden>
-      </nav>
+      </Nav>
     </React.Fragment>
   );
 };

@@ -1,8 +1,8 @@
 import React from "react";
-import { useSelector } from "react-redux";
 import { Link as RouterLink } from "react-router-dom";
 
-import { useFirestoreConnect, isLoaded } from "react-redux-firebase";
+import { getFirestore, collection, query, where } from 'firebase/firestore';
+import { useCollectionData } from 'react-firebase-hooks/firestore';
 
 import {
   Hidden,
@@ -12,9 +12,9 @@ import {
   CardActionArea,
   CardContent,
   Link,
-  Button,
+  Stack,
 } from "@mui/material";
-import { makeStyles, ThemeProvider  } from "@mui/material/styles";
+import { ThemeProvider  } from "@mui/material/styles";
 
 import BgImage from "@malenovska/common/assets/images/background.jpg";
 
@@ -22,48 +22,19 @@ import { darkTheme } from "../utilities/theme";
 import { Logo, EventAvailabilityChip, Markdown } from "../components";
 import { EventProvider, useEvent } from "../contexts/EventContext";
 
-const useStyles = makeStyles((theme) => ({
-  h1: {
-    fontWeight: 600,
-    fontSize: "9rem",
-  },
-  root: {
-    minHeight: "100vh",
-    background: `url(${BgImage}) no-repeat center center fixed`,
-    backgroundSize: "cover",
-  },
-  logo: {
-    color: "#fff",
-  },
-  eventList: {
-    [theme.breakpoints.up("md")]: {
-      minHeight: "100vh",
-    },
-    backgroundColor: "rgba(0, 0, 0, .75)",
-    margin: 0,
-  },
-  event: {
-    minWidth: "100%",
-  },
-  chip: {
-    float: "right",
-    marginLeft: theme.spacing(1),
-  },
-}));
 
 const EventItem = () => {
-  const classes = useStyles();
   const [event] = useEvent();
 
   return (
-    <Grid item className={classes.event}>
-      <Link component={RouterLink} underline="none" to={event.id}>
+    <Grid item sx={{ minWidth: "100%" }}>
+      <Link component={RouterLink} underline="none" to={"/" + event.id}>
         <Card>
           <CardActionArea>
             <CardContent>
               <Typography gutterBottom variant="h5">
                 {event.name}
-                <EventAvailabilityChip className={classes.chip} />
+                <EventAvailabilityChip sx={{ ml: 2 }}/>
               </Typography>
               <Typography
                 gutterBottom
@@ -88,25 +59,17 @@ const getYear = (date) =>
 const cmpYear = (year, today) => year === today.getFullYear();
 
 const Choose = () => {
-  const classes = useStyles();
-  useFirestoreConnect(() => [
-    {
-      collection: "events",
-      where: ["display", "==", true],
-    },
-  ]);
-
-  const events = useSelector(({ firestore }) => firestore.ordered.events);
+  const [events, eventsLoading, eventsError] = useCollectionData(query(collection(getFirestore(), 'events'), where("display", "==", true)));
 
   const today = new Date();
 
-  const thisYear = !isLoaded(events)
+  const thisYear = eventsLoading || eventsError
     ? []
     : events
         .filter(({ date, display }) => display && cmpYear(getYear(date), today))
         .sort(cmpDate);
 
-  const pastYears = !isLoaded(events)
+  const pastYears = eventsLoading || eventsError
     ? []
     : events
         .filter(
@@ -120,54 +83,57 @@ const Choose = () => {
         container
         justifyContent="center"
         alignItems="stretch"
-        className={classes.root}
+        sx={{
+          minHeight: "100vh",
+          background: `url(${BgImage}) no-repeat center center fixed`,
+          backgroundSize: "cover",
+        }}
       >
         <Grid
           item
           sm={12}
           md={4}
           lg={3}
-          container
-          spacing={4}
-          direction="column"
-          justifyContent="center"
-          alignItems="center"
-          className={classes.eventList}
         >
-          <Typography variant="overline" color="textSecondary">
-            Malenovské události roku {today.getFullYear()}
-          </Typography>
-          {thisYear.map((event) => (
-            <EventProvider key={event.id} event={event}>
-              <EventItem />
-            </EventProvider>
-          ))}
-          <Typography variant="overline" color="textSecondary">
-            V letech minulých
-          </Typography>
-          {pastYears.map((event) => (
-            <EventProvider key={event.id} event={event}>
-              <EventItem />
-            </EventProvider>
-          ))}
+          <Stack spacing={2} 
+  justifyContent="center"
+  alignItems="center" sx={{ padding: (t) => t.spacing(2),
+            minHeight: "100vh",
+            backgroundColor: "rgba(0, 0, 0, .75)"}}>
+            <Typography variant="overline" color="primary.dark">
+              Malenovské události roku {today.getFullYear()}
+            </Typography>
+            {thisYear.map((event) => (
+              <EventProvider key={event.id} event={event}>
+                <EventItem />
+              </EventProvider>
+            ))}
+            <Typography variant="overline" color="primary.dark">
+              V letech minulých
+            </Typography>
+            {pastYears.map((event) => (
+              <EventProvider key={event.id} event={event}>
+                <EventItem />
+              </EventProvider>
+            ))}
+          </Stack>
         </Grid>
         <Hidden smDown>
           <Grid
             item
-            xs={12}
             md={8}
             lg={9}
             container
             direction="column"
             justifyContent="center"
             alignItems="center"
-            className={classes.logo}
+            sx={{ color: "#fff" }}
           >
-            <Typography gutterBottom variant="h1" className={classes.h1}>
+            <Typography gutterBottom variant="h1" sx={{ fontWeight: 600, fontSize: "9rem" }}>
               Malen
               <Logo
                 size="5rem"
-                bgColor={darkTheme.palette.text.primary}
+                bgColor="#fff"
                 fgColor="#000"
               />
               vská

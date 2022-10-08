@@ -5,27 +5,25 @@ import {
   Breadcrumbs as BreadcrumbsBase,
   Link,
 } from "@mui/material";
-import { makeStyles } from "@mui/material/styles";
 import { Link as RouterLink } from "react-router-dom";
 import { useTopBanner } from "../contexts/TopBannerContext";
 
-const useStyles = makeStyles(() => ({
-  ol: {
-    flexWrap: "nowrap",
-  },
-  li: {
-    whiteSpace: "nowrap",
-  },
-}));
+// const useStyles = makeStyles(() => ({
+//   ol: {
+//     flexWrap: "nowrap",
+//   },
+//   li: {
+//     whiteSpace: "nowrap",
+//   },
+// }));
 
 export const Breadcrumbs = React.forwardRef(
   ({ variant = "h2", className }, ref) => {
     const { breadcrumbs } = useTopBanner();
-    const classes = useStyles();
 
     if (!breadcrumbs || breadcrumbs.length === 0) return <div ref={ref} />;
     return (
-      <BreadcrumbsBase ref={ref} classes={classes}>
+      <BreadcrumbsBase ref={ref}>
         {breadcrumbs.slice(0, breadcrumbs.length - 1).map((b) => (
           <Link
             key={b.to}

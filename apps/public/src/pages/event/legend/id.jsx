@@ -1,7 +1,5 @@
 import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
 import { Link, Navigate } from "react-router-dom";
-import { isLoaded, useFirestoreConnect } from "react-redux-firebase";
 import PropTypes from "prop-types";
 
 import {
@@ -24,6 +22,8 @@ import { timestampToDateStr } from "../../../utilities/firebase";
 import { Helmet } from "react-helmet";
 import { useEvent } from "../../../contexts/EventContext";
 import { useTopBanner } from "../../../contexts/TopBannerContext";
+import { useDocumentData } from "react-firebase-hooks/firestore";
+import { doc } from "firebase/firestore";
 
 const useStyles = makeStyles((theme) => ({
   margin: {
@@ -41,14 +41,7 @@ const Legend = ({
   const [event] = useEvent();
   const { setBreadcrumbs } = useTopBanner();
 
-  useFirestoreConnect(() => [
-    {
-      collection: "legends",
-      doc: id,
-      storeAs: id,
-    },
-  ]);
-  const legend = useSelector(({ firestore }) => firestore.ordered[id]);
+  const [legend, legendLoading, legendError] = useDocumentData(doc('legends', id));
 
   useEffect(() => {
     setBreadcrumbs(
@@ -60,31 +53,31 @@ const Legend = ({
         : []
     );
     return () => setBreadcrumbs([]);
-  }, [legend]);
+  }, [legend, legendLoading, legendError]);
 
-  if (!isLoaded(legend)) {
+  if (legendLoading || legendError) {
     return <Article />;
   }
 
-  if (!legend.length || legend[0].event !== event.id) {
-    return <Mavigate to="/not-found" />;
+  if (legend.event !== event.id) {
+    return <Navigate to="/not-found" />;
   }
 
   return (
     <Article>
       <Helmet
-        title={legend[0].title}
+        title={legend.title}
         meta={[
           {
             property: "og:image",
-            content: legend[0].image && legend[0].image.src,
+            content: legend.image && legend.image.src,
           },
-          { property: "og:description", content: legend[0].perex },
+          { property: "og:description", content: legend.perex },
         ]}
       />
       <ArticleCardHeader
-        title={legend[0].title}
-        image={legend[0].image && legend[0].image.src}
+        title={legend.title}
+        image={legend.image && legend.image.src}
       />
       <CardContent>
         <Chip
@@ -95,15 +88,15 @@ const Legend = ({
           component={Link}
           clickable
         />
-        {legend[0].publishedAt && (
+        {legend.publishedAt && (
           <Chip
-            label={timestampToDateStr(legend[0].publishedAt)}
+            label={timestampToDateStr(legend.publishedAt)}
             variant="outlined"
             className={classes.margin}
           />
         )}
         <Box className={classes.margin}>
-          <Markdown content={legend[0].content} />
+          <Markdown content={legend.content} />
         </Box>
       </CardContent>
       <CardActions>
@@ -114,7 +107,7 @@ const Legend = ({
       <ShareDialog
         open={shareDialogOpen}
         onClose={() => setShareDialogOpen(false)}
-        title={legend[0].title}
+        title={legend.title}
         eventName={event.name}
       />
     </Article>

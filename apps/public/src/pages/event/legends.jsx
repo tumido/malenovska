@@ -1,6 +1,4 @@
 import React from "react";
-import { useSelector } from "react-redux";
-import { useFirestoreConnect, isLoaded, isEmpty } from "react-redux-firebase";
 import PropTypes from "prop-types";
 
 import { Grid, Container } from "@mui/material";
@@ -8,22 +6,15 @@ import { Grid, Container } from "@mui/material";
 import { SmallArticleCard, Markdown, Banner } from "../../components";
 import { Helmet } from "react-helmet";
 import { useEvent } from "../../contexts/EventContext";
+import { collection, getFirestore, orderBy, query, where } from "firebase/firestore";
+import { useCollectionData } from "react-firebase-hooks/firestore";
 
 const Legends = () => {
   const [event] = useEvent();
-  useFirestoreConnect(() => [
-    {
-      collection: "legends",
-      where: ["event", "==", event.id],
-      storeAs: `legends_${event.id}`,
-      orderBy: "publishedAt",
-    },
-  ]);
-  const legends = useSelector(
-    ({ firestore }) => firestore.ordered[`legends_${event.id}`]
-  );
 
-  const legendsList = isLoaded(legends) ? (
+  const [legends, legendsLoading, legendsError] = useCollectionData(query(collection(getFirestore(), 'legends'), where("event", "==", event.id)), orderBy('publishedAt'));
+
+  const legendsList = (!legendsLoading && !legendsError) ? (
     legends.map((l) => (
       <Grid item container xs={12} sm={6} lg={4} key={l.id}>
         <SmallArticleCard

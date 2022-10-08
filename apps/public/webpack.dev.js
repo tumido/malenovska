@@ -1,13 +1,13 @@
 const { merge } = require('webpack-merge');
 const webpack = require('webpack');
 const common = require('./webpack.common.js');
+const ReactRefreshPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 
 module.exports = merge(common, {
   mode: 'development',
   devtool: 'inline-source-map',
   devServer: {
     static: './dist',
-    hot: true,
     client: {
       progress: true,
       overlay: true,
@@ -15,7 +15,7 @@ module.exports = merge(common, {
     historyApiFallback: true,
   },
   plugins: [
-    new webpack.HotModuleReplacementPlugin(),
+    new ReactRefreshPlugin(),
     new webpack.EnvironmentPlugin({
       NODE_ENV: 'development',
       DEBUG: false

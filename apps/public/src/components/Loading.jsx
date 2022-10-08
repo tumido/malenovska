@@ -1,12 +1,11 @@
 import React from "react";
-import { makeStyles } from "@mui/material/styles";
 import { styled } from "@mui/material/styles";
 
-const Div = styled('div')((theme) => ({
+const Div = styled('div')(({theme}) => ({
   display: "flex",
   alignItems: "center",
 
-  '& .fullscreen': {
+  '&.fullscreen': {
     position: "absolute",
     left: 0,
     right: 0,
@@ -24,7 +23,7 @@ const Div = styled('div')((theme) => ({
     borderRadius: "50%",
     border: "3px solid transparent",
     borderTopColor: theme.palette.loading[0],
-    animation: "$spin 2s linear infinite",
+    animation: "spin 2s linear infinite",
 
     "&:before": {
       content: '""',
@@ -36,7 +35,7 @@ const Div = styled('div')((theme) => ({
       borderRadius: "50%",
       border: "3px solid transparent",
       borderTopColor: theme.palette.loading[1],
-      animation: "$spin 3s linear infinite",
+      animation: "spin 3s linear infinite",
     },
 
     "&:after": {
@@ -49,7 +48,7 @@ const Div = styled('div')((theme) => ({
       borderRadius: "50%",
       border: "3px solid transparent",
       borderTopColor: theme.palette.loading[2],
-      animation: "$spin 1.5s linear infinite",
+      animation: "spin 1.5s linear infinite",
     },
   },
   "@keyframes spin": {
@@ -62,14 +61,10 @@ const Div = styled('div')((theme) => ({
   },
 }));
 
-const Loading = ({ isFloating }) => {
-  const classes = useStyles();
-
-  return (
-    <Div className={!isFloating && 'fullscreen'}>
-      <div className='spinner' />
-    </Div>
-  );
-};
+const Loading = ({ isFloating }) => (
+  <Div className={!isFloating && 'fullscreen'}>
+    <div className='spinner' />
+  </Div>
+);
 
 export default Loading;

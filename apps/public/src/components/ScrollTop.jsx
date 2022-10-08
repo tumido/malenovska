@@ -1,19 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Zoom, Icon, Fab, useScrollTrigger, Tooltip } from "@mui/material";
-import { makeStyles } from "@mui/material/styles";
+import { Zoom, Icon, Fab, useScrollTrigger, Tooltip, styled } from "@mui/material";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    position: "fixed",
-    bottom: theme.spacing(2),
-    right: theme.spacing(2),
-  },
-}));
+const Div = styled('div')({
+  position: "fixed",
+  bottom: t => t.spacing(2),
+  right: t => t.spacing(2),
+})
 
 const ScrollTop = ({ anchor }) => {
-  const classes = useStyles();
-
   const trigger = useScrollTrigger({
     disableHysteresis: true,
     threshold: 100,
@@ -31,7 +26,7 @@ const ScrollTop = ({ anchor }) => {
 
   return (
     <Zoom in={trigger}>
-      <div onClick={handleClick} role="presentation" className={classes.root}>
+      <Div onClick={handleClick} role="presentation">
         <Tooltip
           title="Na začátek stránky"
           aria-label="Scroll back to top"
@@ -41,7 +36,7 @@ const ScrollTop = ({ anchor }) => {
             <Icon>keyboard_arrow_up</Icon>
           </Fab>
         </Tooltip>
-      </div>
+      </Div>
     </Zoom>
   );
 };

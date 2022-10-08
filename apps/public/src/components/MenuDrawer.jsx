@@ -1,5 +1,4 @@
 import React from "react";
-import clsx from "clsx";
 
 import {
   Hidden,
@@ -11,8 +10,9 @@ import {
   ListItemText,
   ListItemIcon,
   Icon,
+  styled,
 } from "@mui/material";
-import { makeStyles, ThemeProvider } from "@mui/material/styles";
+import { ThemeProvider } from "@mui/material/styles";
 import { grey } from "@mui/material/colors";
 
 import { darkTheme } from "../utilities/theme";
@@ -20,45 +20,28 @@ import { darkTheme } from "../utilities/theme";
 import AdapterLink from "./AdapterLink";
 import { useEvent } from "../contexts/EventContext";
 
-const drawerWidth = 300;
+const iconStyle = ({theme}) => ({
+  display: "flex",
+  alignItems: "center",
+  padding: [0, 1],
+  // ...theme.mixins.toolbar,
+  justifyContent: "flex-end",
+})
 
-const useStyles = makeStyles((theme) => ({
-  divider: {
-    margin: "20px 0",
-  },
-  icon: {
-    display: "flex",
-    alignItems: "center",
-    padding: theme.spacing(0, 1),
-    ...theme.mixins.toolbar,
-    justifyContent: "flex-end",
-  },
-  drawerPaper: {
-    width: drawerWidth,
-    backgroundColor: grey[900],
-    color: "#fff",
-  },
-  secondary: {
-    color: grey[500],
-  },
-  block: {
-    display: "block",
-  },
-}));
+const Div = styled('div')(iconStyle)
 
 const MenuDrawer = ({ navigation, pathname, onClick }) => {
-  const classes = useStyles();
   const [event] = useEvent();
 
   return (
     <ThemeProvider theme={darkTheme}>
-      <div className={classes.icon}>
+      <Div>
         <Hidden mdUp>
           <IconButton onClick={onClick}>
             <Icon>chevron_left</Icon>
           </IconButton>
         </Hidden>
-      </div>
+      </Div>
       <div onClick={onClick}>
         <List>
           {navigation.map((item, idx) => {
@@ -77,7 +60,7 @@ const MenuDrawer = ({ navigation, pathname, onClick }) => {
                 >
                   <ListItemIcon>
                     <Icon
-                      className={clsx(`${classes.icon}, ${item.className}`)}
+                      sx={iconStyle}
                     >
                       {item.icon}
                     </Icon>
@@ -88,7 +71,7 @@ const MenuDrawer = ({ navigation, pathname, onClick }) => {
             }
             if (item.type === "divider")
               return (
-                <Divider key={`divider_${idx}`} className={classes.divider} />
+                <Divider key={`divider_${idx}`}  sx={{ mt: "20px", mb: "20px" }} />
               );
           })}
         </List>
@@ -96,18 +79,18 @@ const MenuDrawer = ({ navigation, pathname, onClick }) => {
       <List component="nav" aria-label="vyber udalosti">
         <ListItem button to="/choose" component={AdapterLink}>
           <ListItemIcon>
-            <Icon fontSize="large" className={classes.icon}>
+            <Icon fontSize="large" sx={iconStyle}>
               dashboard
             </Icon>
           </ListItemIcon>
           <ListItemText
-            secondaryTypographyProps={{ className: classes.secondary }}
+            secondaryTypographyProps={{ sx: { color: grey[500] } }}
             primary="Další ročníky"
             secondary={
               <React.Fragment>
                 <Typography
                   component="span"
-                  className={classes.block}
+                  sx={{ display: 'block' }}
                   variant="body2"
                 >
                   Právě prohlížíte:

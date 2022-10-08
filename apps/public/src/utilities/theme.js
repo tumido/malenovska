@@ -23,7 +23,7 @@ export const darkTheme = createTheme({
     primary: {
       main: grey[50]
     },
-    type: 'dark',
+    mode: 'dark',
     ...palette
   }
 }, csCZ);

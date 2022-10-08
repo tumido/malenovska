@@ -1,11 +1,12 @@
 import React, { lazy, Suspense } from "react";
 import { Helmet } from "react-helmet";
-import { Routes, Route, Navigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { useFirestoreConnect, isLoaded } from "react-redux-firebase";
+import { Routes, Route, Navigate, BrowserRouter } from "react-router-dom";
 
-import { CssBaseline, NoSsr } from "@mui/material";
-import { styled, ThemeProvider } from "@mui/material/styles";
+import { getFirestore, collection, doc } from 'firebase/firestore';
+import { useCollectionData, useDocumentData } from 'react-firebase-hooks/firestore';
+
+import { CssBaseline, NoSsr, ThemeProvider } from "@mui/material";
+import { styled } from "@mui/material/styles";
 
 import BgImage from "@malenovska/common/assets/images/background.jpg";
 import DefaultOgImage from "@malenovska/common/assets/images/og_image.jpg";
@@ -17,15 +18,13 @@ const NotFound = lazy(() => import("./pages/404"));
 const Landing = lazy(() => import("./pages/choose"));
 const Public = lazy(() => import("./pages"));
 
-const Div = styled('div')((theme) => ({
-  content: {
-    display: "flex",
-    flexDirection: "column",
-    flexGrow: 1,
-    minHeight: "100vh",
-    [theme.breakpoints.up("sm")]: {
-      background: `linear-gradient(to bottom, transparent 80%, #000 100%), url(${BgImage}) repeat-x top center/cover fixed`,
-    },
+const Div = styled('div')(({theme}) => ({
+  display: "flex",
+  flexDirection: "column",
+  flexGrow: 1,
+  minHeight: "100vh",
+  [theme.breakpoints.up("sm")]: {
+    background: `linear-gradient(to bottom, transparent 80%, #000 100%), url(${BgImage}) repeat-x top center/cover fixed`,
   },
 }))
 
@@ -39,12 +38,10 @@ const ThemedLoading = () =>  (
 );
 
 const App = () => {
-  useFirestoreConnect(() => [{ collection: "events" }]);
-  useFirestoreConnect(() => [{ collection: "config", doc: "config" }]);
-  const events = useSelector(({ firestore }) => firestore.ordered.events);
-  const config = useSelector(({ firestore }) => firestore.data.config);
+  const [events, eventsLoading, eventsError] = useCollectionData(collection(getFirestore(), 'events'));
+  const [config, configLoading, configError] = useDocumentData(doc(getFirestore(), 'config', 'config'));
 
-  if (!isLoaded(events) || !isLoaded(config)) {
+  if (eventsLoading || configLoading || eventsError || configError) {
     return <ThemedLoading />;
   }
 
@@ -58,23 +55,16 @@ const App = () => {
           meta={[{ property: "og:image", content: DefaultOgImage }]}
         />
         <Suspense fallback={<ThemedLoading />}>
-          <Routes>
-            {isLoaded(events) &&
-              events.map((event) => (
-                <Route
-                  key={`route_${event.id}`}
-                  path={"/" + event.id}
-                  element={<Public event={event} />}
-                />
+          <BrowserRouter>
+            <Routes>
+              {events.map((event) => (
+                <Route key={`route_${event.id}`} path={"/" + event.id} element={<Public event={event} />} />
               ))}
-            <Route
-              exact
-              path="/"
-              element={<Navigate to={`/${config.config.event}`} replace />}
-            />
-            <Route exact path="/choose" component={Landing} />
-            <Route component={NotFound} />
-          </Routes>
+              <Route path="/" element={<Navigate to={`/${config.event}`} replace />} />
+              <Route path="/choose" element={<Landing />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </BrowserRouter>
         </Suspense>
       </ThemeProvider>
     </NoSsr>

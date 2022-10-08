@@ -1,30 +1,21 @@
 import React from "react";
-import { makeStyles } from "@mui/material/styles";
 
 import { IconButton, Icon, CircularProgress } from "@mui/material";
 
-const useStyles = makeStyles((theme) => ({
-  action: {
-    padding: theme.spacing(1),
-  },
-}));
-
-export const NotificationAction = ({ action, onClose }) => {
-  const classes = useStyles();
-
-  return action === "close" ? (
+export const NotificationAction = ({ action, onClose }) =>
+  action === "close" ? (
     <IconButton
       key="close"
       aria-label="close"
       color="inherit"
       className={classes.action}
+      sx={{ p: 1 }}
       onClick={onClose}
     >
       <Icon>close</Icon>
     </IconButton>
   ) : action === "spinner" ? (
-    <CircularProgress color="secondary" className={classes.action} />
+    <CircularProgress color="secondary" sx={{ p: 1 }} />
   ) : null;
-};
 
 export default NotificationAction;

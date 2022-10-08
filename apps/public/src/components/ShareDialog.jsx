@@ -19,7 +19,7 @@ import {
   TwitterIcon,
   WhatsappShareButton,
   WhatsappIcon,
-} from "react-share";
+} from "next-share";
 
 import { FileCopy } from "@mui/icons-material";
 import copy from "clipboard-copy";
