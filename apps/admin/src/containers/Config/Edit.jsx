@@ -6,25 +6,21 @@ import {
   SelectInput,
 } from "react-admin";
 
-import { useStyles } from "../shared";
+import { inlineBlock } from "../shared";
 
-const Edit = (props) => {
-  const classes = useStyles();
-
-  return (
+const Edit = (props) => (
     <EditBase title="Nastavení" {...props}>
       <SimpleForm redirect="/">
         <ReferenceInput
           label="Událost"
           source="event"
           reference="events"
-          formClassName={classes.inlineBlock}
+          sx={ inlineBlock }
         >
           <SelectInput optionText="name" />
         </ReferenceInput>
       </SimpleForm>
     </EditBase>
   );
-};
 
 export default Edit;

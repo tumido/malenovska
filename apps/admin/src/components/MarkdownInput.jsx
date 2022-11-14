@@ -1,11 +1,11 @@
 import React from 'react';
-import ReactMde from 'react-mde';
+// import ReactMde from 'react-mde';
 import PropTypes from 'prop-types';
 import { addField } from 'ra-core';
-import FormControl from '@material-ui/core/FormControl';
-import { compiler } from 'markdown-to-jsx';
+import FormControl from '@mui/core/FormControl';
+// import { compiler } from 'markdown-to-jsx';
 
-import 'react-mde/lib/styles/css/react-mde-all.css';
+// import 'react-mde/lib/styles/css/react-mde-all.css';
 
 const MarkdownInputBase = ({ input: { value, onChange: handleChange }, addLabel, isRequired, basePath, ...props }) => {
   const [ activeTab, setActiveTab ] = React.useState('write');
@@ -18,12 +18,12 @@ const MarkdownInputBase = ({ input: { value, onChange: handleChange }, addLabel,
 
   return (
     <FormControl { ...props } className='ra-input-mde'>
-      <ReactMde
+      {/* <ReactMde
         onChange={ handleContentChange }
         onTabChange={ setActiveTab }
         value={ content }
         generateMarkdownPreview={ markdown => Promise.resolve(compiler(markdown)) }
-        selectedTab={ activeTab }/>
+        selectedTab={ activeTab }/> */}
     </FormControl>
   );
 };

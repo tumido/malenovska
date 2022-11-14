@@ -29,13 +29,11 @@ import PropTypes from "prop-types";
 import { DateInput, KeyboardTimeInput } from "react-admin-date-inputs";
 import { Icon } from "@material-ui/core";
 
-import MarkdownInput from "components/MarkdownInput";
+import MarkdownInput from "../../components/MarkdownInput";
 import { EventTitle } from "./shared";
-import { useStyles, setCacheForRecord, ConditionalField } from "../shared";
+import { inlineBlock, setCacheForRecord, ConditionalField } from "../shared";
 
 const Edit = (props) => {
-  const classes = useStyles();
-
   const notify = useNotify();
   const redirectTo = useRedirect();
   const onSuccess = setCacheForRecord({
@@ -60,28 +58,28 @@ const Edit = (props) => {
             label="ID"
             source="id"
             disabled
-            formClassName={classes.inlineBlock}
+            sx={ inlineBlock }
           />
           <TextInput
             label="Název"
             source="name"
             validate={required()}
-            formClassName={classes.inlineBlock}
+            sx={ inlineBlock }
           />
           <NumberInput
             label="Rok"
             source="year"
-            formClassName={classes.inlineBlock}
+            sx={ inlineBlock }
           />
           <DateInput
             label="Datum konání"
             source="date"
-            formClassName={classes.inlineBlock}
+            sx={ inlineBlock }
           />
           <SelectInput
             label="Tag"
             source="type"
-            formClassName={classes.inlineBlock}
+            sx={ inlineBlock }
             choices={[
               { id: true, name: "Bitva" },
               { id: false, name: "Šarvátka" },
@@ -156,27 +154,27 @@ const Edit = (props) => {
                   { id: "checkbox", name: "Checkbox" },
                   { id: "markdown", name: "Popisek" },
                 ]}
-                formClassName={classes.inlineBlock}
+                sx={ inlineBlock }
               />
               <NumberInput
                 label="Šířka"
                 source="size"
                 validate={[minValue(1), maxValue(12)]}
-                formClassName={classes.inlineBlock}
+                sx={ inlineBlock }
               />
               <ConditionalField
                 conditional={(r) => r.type !== "markdown"}
                 component={TextInput}
                 label="ID"
                 source="props.id"
-                formClassName={classes.inlineBlock}
+                sx={ inlineBlock }
               />
               <ConditionalField
                 conditional={(r) => r.type !== "markdown"}
                 component={TextInput}
                 label="Popisek"
                 source="props.label"
-                formClassName={classes.inlineBlock}
+                sx={ inlineBlock }
               />
               <ConditionalField
                 conditional={(r) => r.type === "markdown"}
@@ -193,24 +191,24 @@ const Edit = (props) => {
               <TextInput
                 label="Název"
                 source="name"
-                formClassName={classes.inlineBlock}
+                sx={ inlineBlock }
               />
               <TextInput
                 label="Popisek"
                 source="description"
-                formClassName={classes.inlineBlock}
+                sx={ inlineBlock }
               />
               <NumberInput
                 label="Souřadnice - šířka"
                 source="latitude"
                 validate={[minValue(-180), maxValue(180)]}
-                formClassName={classes.inlineBlock}
+                sx={ inlineBlock }
               />
               <NumberInput
                 label="Souřadnice - délka"
                 source="longitude"
                 validate={[minValue(-90), maxValue(90)]}
-                formClassName={classes.inlineBlock}
+                sx={ inlineBlock }
               />
             </SimpleFormIterator>
           </ArrayInput>
@@ -229,22 +227,22 @@ const Edit = (props) => {
           <TextInput
             label="FB událost"
             source="contact.facebook"
-            formClassName={classes.inlineBlock}
+            sx={ inlineBlock }
           />
           <TextInput
             label="Larpová databáze"
             source="contact.larpovadatabaze"
-            formClassName={classes.inlineBlock}
+            sx={ inlineBlock }
           />
           <TextInput
             label="LARP.cz"
             source="contact.larpcz"
-            formClassName={classes.inlineBlock}
+            sx={ inlineBlock }
           />
           <TextInput
             label="E-mail"
             source="contact.email"
-            formClassName={classes.inlineBlock}
+            sx={ inlineBlock }
           />
           <ImageInput label="Foto organizátorů" source="contactImage">
             <ImageField source="src" title="title" />
@@ -256,44 +254,44 @@ const Edit = (props) => {
             label="Začátek akce"
             source="onsiteStart"
             options={{ ampm: false }}
-            formClassName={classes.inlineBlock}
+            sx={ inlineBlock }
           />
           <KeyboardTimeInput
             label="Konec akce"
             source="onsiteEnd"
             options={{ ampm: false }}
-            formClassName={classes.inlineBlock}
+            sx={ inlineBlock }
           />
           <br />
           <KeyboardTimeInput
             label="Otevření registrace na místě"
             source="onsiteRegistrationOpen"
             options={{ ampm: false }}
-            formClassName={classes.inlineBlock}
+            sx={ inlineBlock }
           />
           <KeyboardTimeInput
             label="Uzavření registrace na místě"
             source="onsiteRegistrationClose"
             options={{ ampm: false }}
-            formClassName={classes.inlineBlock}
+            sx={ inlineBlock }
           />
           <KeyboardTimeInput
             label="Seznámení s pravidly"
             source="onsiteRules"
             options={{ ampm: false }}
-            formClassName={classes.inlineBlock}
+            sx={ inlineBlock }
           />
           <KeyboardTimeInput
             label="První quest"
             source="onsiteQuestStart"
             options={{ ampm: false }}
-            formClassName={classes.inlineBlock}
+            sx={ inlineBlock }
           />
           <KeyboardTimeInput
             label="Závěrečná bitva"
             source="onsiteLastQuest"
             options={{ ampm: false }}
-            formClassName={classes.inlineBlock}
+            sx={ inlineBlock }
           />
         </FormTab>
       </TabbedForm>

@@ -1,6 +1,6 @@
-import { createTheme } from "@material-ui/core/styles";
-import { grey, indigo } from "@material-ui/core/colors";
-import { csCZ } from "@material-ui/core/locale";
+import { createTheme } from "@mui/core/styles";
+import { grey, indigo } from "@mui/core/colors";
+import { csCZ } from "@mui/core/locale";
 
 export const adminTheme = createTheme(
   {

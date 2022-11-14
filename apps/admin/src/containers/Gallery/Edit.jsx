@@ -1,49 +1,74 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 import {
   Edit as EditBase,
   SimpleForm,
-  TextInput, ReferenceInput, SelectInput, ImageInput, ImageField,
-  useNotify, useRedirect,
-  required
-} from 'react-admin';
+  TextInput,
+  ReferenceInput,
+  SelectInput,
+  ImageInput,
+  ImageField,
+  useNotify,
+  useRedirect,
+  required,
+} from "react-admin";
 
-import { GalleryTitle } from './shared';
-import { useStyles, setCacheForRecord  } from '../shared';
+import { GalleryTitle } from "./shared";
+import { inlineBlock, setCacheForRecord } from "../shared";
 
 const Edit = (props) => {
-  const classes = useStyles();
-
   const notify = useNotify();
   const redirectTo = useRedirect();
   const onSuccess = setCacheForRecord({
-    collection: 'galleries',
-    records: [ 'cover' ],
+    collection: "galleries",
+    records: ["cover"],
     isCreate: false,
     basePath: props.basePath,
-    redirectTo, notify
+    redirectTo,
+    notify,
   });
 
   return (
-    <EditBase onSuccess={ onSuccess } undoable={ false } title={ <GalleryTitle /> } { ...props }>
+    <EditBase
+      onSuccess={onSuccess}
+      undoable={false}
+      title={<GalleryTitle />}
+      {...props}
+    >
       <SimpleForm>
-        <ReferenceInput label="Událost" source="event" reference="events" validate={ required() }  formClassName={ classes.inlineBlock }>
+        <ReferenceInput
+          label="Událost"
+          source="event"
+          reference="events"
+          validate={required()}
+          sx={inlineBlock}
+        >
           <SelectInput optionText="name" />
         </ReferenceInput>
-        <TextInput label='Název' source="name" validate={ required() }  formClassName={ classes.inlineBlock }/>
-        <TextInput label='Autor' source="author" validate={ required() } formClassName={ classes.inlineBlock }/>
-        <TextInput label='Odkaz' source="url" validate={ required() } fullWidth/>
-        <ImageInput label='Úvodní fotka' source='cover'>
+        <TextInput
+          label="Název"
+          source="name"
+          validate={required()}
+          sx={inlineBlock}
+        />
+        <TextInput
+          label="Autor"
+          source="author"
+          validate={required()}
+          sx={inlineBlock}
+        />
+        <TextInput label="Odkaz" source="url" validate={required()} fullWidth />
+        <ImageInput label="Úvodní fotka" source="cover">
           <ImageField source="src" />
         </ImageInput>
-        <TextInput label='Úvodní fotka jako odkaz' source="cover.src" />
+        <TextInput label="Úvodní fotka jako odkaz" source="cover.src" />
       </SimpleForm>
     </EditBase>
   );
 };
 
 Edit.propTypes = {
-  basePath: PropTypes.string
+  basePath: PropTypes.string,
 };
 
 export default Edit;

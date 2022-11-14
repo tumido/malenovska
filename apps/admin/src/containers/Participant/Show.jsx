@@ -9,10 +9,9 @@ import {
 } from "react-admin";
 
 import { ParticipantTitle, getPrivateSubDocument } from "./shared";
-import { useStyles } from "../shared";
+import { inlineBlock } from '../shared';
 
 const Show = (props) => {
-  const classes = useStyles();
   const [privateData, setPrivateData] = React.useState({});
 
   const { record } = useShowController(props);
@@ -24,12 +23,12 @@ const Show = (props) => {
   return (
     <ShowBase title={<ParticipantTitle />} {...props}>
       <SimpleForm>
-        <TextField label="ID" source="id" formClassName={classes.inlineBlock} />
+        <TextField label="ID" source="id" sx={inlineBlock} />
         <ReferenceField
           label="Událost"
           source="event"
           reference="events"
-          formClassName={classes.inlineBlock}
+          sx={inlineBlock}
         >
           <TextField source="name" />
         </ReferenceField>
@@ -37,7 +36,7 @@ const Show = (props) => {
           label="Strana"
           source="race"
           reference="races"
-          formClassName={classes.inlineBlock}
+          sx={inlineBlock}
         >
           <TextField source="name" />
         </ReferenceField>
@@ -45,27 +44,27 @@ const Show = (props) => {
         <TextField
           label="Jméno"
           source="firstName"
-          formClassName={classes.inlineBlock}
+          sx={inlineBlock}
         />
         <TextField
           label="Přezdívka"
           source="nickName"
-          formClassName={classes.inlineBlock}
+          sx={inlineBlock}
         />
         <TextField
           label="Příjmení"
           source="lastName"
-          formClassName={classes.inlineBlock}
+          sx={inlineBlock}
         />
         <FunctionField
           label="Věk"
           render={() => privateData.age}
-          formClassName={classes.inlineBlock}
+          sx={inlineBlock}
         />
         <FunctionField
           label="E-Mail"
           render={() => privateData.email}
-          formClassName={classes.inlineBlock}
+          sx={inlineBlock}
         />
         <br />
         <TextField label="Skupina" source="group" fullWidth />

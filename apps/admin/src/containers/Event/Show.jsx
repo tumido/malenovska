@@ -5,24 +5,21 @@ import {
   FunctionField, FileField, ImageField, NumberField, TextField, BooleanField, SelectField, ReferenceManyField, ReferenceField, UrlField,
   EditButton
 } from 'react-admin';
-import { Icon } from '@material-ui/core';
+import { Icon } from '@mui/core';
 
-import { MarkdownField, TimeField } from 'components';
+import { MarkdownField, TimeField } from '../../components';
 import { EventTitle } from './shared';
-import { useStyles, LocaleDateField } from '../shared';
+import { inlineBlock, LocaleDateField } from '../shared';
 
-const Show = (props) => {
-  const classes = useStyles();
-
-  return (
+const Show = (props) => (
     <ShowBase title={ <EventTitle /> } { ...props }>
       <TabbedForm>
         <FormTab label="Obecné">
-          <TextField label="ID" source="id" formClassName={ classes.inlineBlock } />
-          <TextField label='Název' source="name" formClassName={ classes.inlineBlock } />
-          <TextField label='Rok konání' source="year" formClassName={ classes.inlineBlock } />
-          <LocaleDateField label="Datum konání" source='date' formClassName={ classes.inlineBlock } />
-          <SelectField label='Tag' source="type" formClassName={ classes.inlineBlock }
+          <TextField label="ID" source="id" sx={ inlineBlock } />
+          <TextField label='Název' source="name" sx={ inlineBlock } />
+          <TextField label='Rok konání' source="year" sx={ inlineBlock } />
+          <LocaleDateField label="Datum konání" source='date' sx={ inlineBlock } />
+          <SelectField label='Tag' source="type" sx={ inlineBlock }
             choices={ [
               { id: true, name: 'Bitva' },
               { id: false, name: 'Šarvátka' }
@@ -67,35 +64,34 @@ const Show = (props) => {
           <MarkdownField label='Přihlášení účastníci' source="registrationList" />
         </FormTab>
         <FormTab label="Ostatní">
-          <FileField source="declaration.src" title="declaration.title" label="Potvrzení pro nezletilé" formClassName={ classes.inlineBlock } />
+          <FileField source="declaration.src" title="declaration.title" label="Potvrzení pro nezletilé" sx={ inlineBlock } />
           <NumberField
             label='Cena'
             source="price"
             locales="cs"
             options={ { style: 'currency', currency: 'CZK' } }
-            formClassName={ classes.inlineBlock } />
+            sx={ inlineBlock } />
         </FormTab>
         <FormTab label="Kontakty">
-          <UrlField label='FB událost' source="contact.facebook" formClassName={ classes.inlineBlock } />
-          <UrlField label='Larpová databáze' source="contact.larpovadatabaze" formClassName={ classes.inlineBlock } />
-          <UrlField label='LARP.cz' source="contact.larpcz" formClassName={ classes.inlineBlock } />
-          <UrlField label='E-mail' source="contact.email" formClassName={ classes.inlineBlock } />
+          <UrlField label='FB událost' source="contact.facebook" sx={ inlineBlock } />
+          <UrlField label='Larpová databáze' source="contact.larpovadatabaze" sx={ inlineBlock } />
+          <UrlField label='LARP.cz' source="contact.larpcz" sx={ inlineBlock } />
+          <UrlField label='E-mail' source="contact.email" sx={ inlineBlock } />
           <ImageField source="contactImage.src" title="title" />
           <MarkdownField label='O organizátorech' source="contactText" />
         </FormTab>
         <FormTab label="Harmonogram">
-          <TimeField label="Začátek akce" source='onsiteStart' formClassName={ classes.inlineBlock } />
-          <TimeField label="Konec akce" source='onsiteEnd' formClassName={ classes.inlineBlock } />
+          <TimeField label="Začátek akce" source='onsiteStart' sx={ inlineBlock } />
+          <TimeField label="Konec akce" source='onsiteEnd' sx={ inlineBlock } />
           <br />
-          <TimeField label="Otevření registrace na místě" source='onsiteRegistrationOpen' formClassName={ classes.inlineBlock } />
-          <TimeField label="Uzavření registrace na místě" source='onsiteRegistrationClose' formClassName={ classes.inlineBlock } />
-          <TimeField label="Seznámení s pravidly" source='onsiteRules' formClassName={ classes.inlineBlock } />
-          <TimeField label="První quest" source='onsiteQuestStart' formClassName={ classes.inlineBlock } />
-          <TimeField label="Závěrečná bitva" source='onsiteLastQuest' formClassName={ classes.inlineBlock } />
+          <TimeField label="Otevření registrace na místě" source='onsiteRegistrationOpen' sx={ inlineBlock } />
+          <TimeField label="Uzavření registrace na místě" source='onsiteRegistrationClose' sx={ inlineBlock } />
+          <TimeField label="Seznámení s pravidly" source='onsiteRules' sx={ inlineBlock } />
+          <TimeField label="První quest" source='onsiteQuestStart' sx={ inlineBlock } />
+          <TimeField label="Závěrečná bitva" source='onsiteLastQuest' sx={ inlineBlock } />
         </FormTab>
       </TabbedForm>
     </ShowBase>
   );
-};
 
 export default Show;

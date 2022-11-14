@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Chip from '@material-ui/core/Chip';
+import Chip from '@mui/core/Chip';
 
 export const EventTitle = ({ record }) => {
   return <span>Událost: {record ? `"${record.name}"` : ''}</span>;

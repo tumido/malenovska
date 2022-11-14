@@ -43,7 +43,6 @@ const LoginPage = () => <Login backgroundImage={BgImage} />;
 const App = () => (
   <React.Fragment>
     <Helmet defaultTitle="🛡️ Malenovská Strojovna">
-      <meta name="theme-color" content="#0e0a0a" />
       <link rel="shortcut icon" href={Favicon} />
     </Helmet>
     <Admin

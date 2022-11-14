@@ -8,30 +8,12 @@ import {
   CardContent,
   Typography,
   Divider,
-} from "@material-ui/core";
-import { Skeleton } from "@material-ui/lab";
-import { makeStyles } from "@material-ui/core/styles";
-
-const useStyles = makeStyles(() => ({
-  card: {
-    minHeight: 52,
-
-    "& a": {
-      textDecoration: "none",
-      color: "inherit",
-    },
-  },
-  main: {
-    overflow: "inherit",
-    padding: 16,
-  },
-}));
+} from "@mui/core";
+import { Skeleton } from "@mui/lab";
 
 const Card = ({ label, value, to, children }) => {
-  const classes = useStyles();
-
   const cardContent = (
-    <CardContent className={classes.main}>
+    <CardContent sx={{ overflow: "inherit", p: 16 }}>
       <Box textAlign="right">
         <Typography color="textSecondary" gutterBottom>
           {label}
@@ -43,7 +25,15 @@ const Card = ({ label, value, to, children }) => {
     </CardContent>
   );
   return (
-    <MuiCard className={classes.card}>
+    <MuiCard
+      sx={{
+        minHeight: 52,
+        "& a": {
+          textDecoration: "none",
+          color: "inherit",
+        },
+      }}
+    >
       {to ? <Link to={to}>{cardContent}</Link> : cardContent}
       {children && <Divider />}
       {children}

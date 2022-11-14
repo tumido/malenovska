@@ -8,8 +8,7 @@ import {
   useRecordContext,
 } from "react-admin";
 
-import firebase from "firebase/app";
-import { makeStyles } from "@material-ui/core/styles";
+import { getStorage } from "firebase/storage";
 
 export const EventFilter = (props) => (
   <Filter {...props}>
@@ -36,9 +35,7 @@ LocaleDateField.defaultProps = {
   addLabel: true,
 };
 
-export const useStyles = makeStyles({
-  inlineBlock: { display: "inline-flex", marginRight: "1rem" },
-});
+export const inlineBlock = { display: "inline-flex", marginRight: "1rem" }
 
 const metadata = {
   metadata: {

@@ -14,12 +14,10 @@ import {
   required,
 } from "react-admin";
 
-import MarkdownInput from "components/MarkdownInput";
-import { useStyles, setCacheForRecord } from "../shared";
+import MarkdownInput from "../../components/MarkdownInput";
+import { inlineBlock, setCacheForRecord } from "../shared";
 
 const Create = (props) => {
-  const classes = useStyles();
-
   const notify = useNotify();
   const redirectTo = useRedirect();
   const onSuccess = setCacheForRecord({
@@ -38,13 +36,13 @@ const Create = (props) => {
           label="Název"
           source="name"
           validate={required()}
-          formClassName={classes.inlineBlock}
+          sx={inlineBlock}
         />
         <ReferenceInput
           label="Událost"
           source="event"
           reference="events"
-          formClassName={classes.inlineBlock}
+          sx={inlineBlock}
         >
           <SelectInput optionText="name" />
         </ReferenceInput>
@@ -52,13 +50,13 @@ const Create = (props) => {
           label="Limit"
           source="limit"
           validate={required()}
-          formClassName={classes.inlineBlock}
+          sx={inlineBlock}
         />
         <NumberInput
           label="Pořadí v registraci"
           source="priority"
           defaultValue="1"
-          formClassName={classes.inlineBlock}
+          sx={inlineBlock}
         />
         <TextInput
           label="Barva"
