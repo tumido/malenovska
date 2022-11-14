@@ -46,16 +46,14 @@ const Legends = () => {
         <Markdown content={event.description} />
       </Banner>
       <Container maxWidth="lg">
-        {!isEmpty(legendsList) && (
-          <Grid
-            container
-            spacing={2}
-            justifyContent="center"
-            alignItems="stretch"
-          >
-            {legendsList}
-          </Grid>
-        )}
+        <Grid
+          container
+          spacing={2}
+          justifyContent="center"
+          alignItems="stretch"
+        >
+          {legendsList}
+        </Grid>
       </Container>
     </React.Fragment>
   );

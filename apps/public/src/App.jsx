@@ -58,7 +58,7 @@ const App = () => {
           <BrowserRouter>
             <Routes>
               {events.map((event) => (
-                <Route key={`route_${event.id}`} path={"/" + event.id} element={<Public event={event} />} />
+                <Route key={`route_${event.id}`} path={`/${event.id}/*`} element={<Public event={event} />} />
               ))}
               <Route path="/" element={<Navigate to={`/${config.event}`} replace />} />
               <Route path="/choose" element={<Landing />} />

@@ -9,7 +9,7 @@ import { ScrollTop, ArticleCardHeader } from ".";
 
 const Article = ({ scrollTop = true, children, isLoading = false }) => {
   return (
-    <Container maxWidth="md" sx={(theme) => ({ [theme.breakpoints.down("sm")]: {
+    <Container maxWidth="lg" sx={(theme) => ({ [theme.breakpoints.down("sm")]: {
           paddingLeft: 0,
           paddingRight: 0,
         },

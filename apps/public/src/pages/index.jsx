@@ -17,12 +17,20 @@ const Div = styled('div')(({theme}) => ({
     flexGrow: 1,
     minHeight: "100vh",
     width: "100%",
-    pt: { xs: 10, sm: 20 },
-    background: { sm: `linear-gradient(to bottom, transparent 80%, #000 100%), url(${BgImage}) repeat-x top center fixed`},
+    [theme.breakpoints.up("sm")]: {
+      paddingTop: "20px",
+    },
+    paddingTop: "10px",
+    background: `linear-gradient(to bottom, transparent 80%, #000 100%), url(${BgImage}) repeat-x top center fixed`,
+    backgroundColor: '#000',
     "& main": {
       flexGrow: 1,
     }
 }));
+
+const Root = styled('div')({
+  display: "flex",
+})
 
 const Home = ({event}) => {
 
@@ -41,30 +49,34 @@ const Home = ({event}) => {
           <title>{`${event.name} ${event.year}`}</title>
         </Helmet>
         <EventProvider event={event}>
+          <Root>
           <TopBannerProvider>
             <Header navigation={navigation} />
             <Div>
               <div id="top" />
               <main>
-                {/* <Routes>
+                <Routes>
                   {navigation.map((i) => {
-                    if (i.path && i.component)
-                      return (
-                        <Route
-                          key={i.path}
-                          path={i.path}
-                          component={i.component}
-                        />
-                      );
+                    if (!i.path || !i.component) {
+                      return null
+                    }
+                    const Component = i.component
+                    return (
+                      <Route
+                        key={i.path}
+                        path={i.path}
+                        element={<Component />}
+                      />
+                    );
                   })}
-                  <Route path="" element={<Navigate to='legends' />}
-                  />
+                  <Route path="" element={<Navigate to='legends' />} />
                   <Route path="*" element={<Navigate to="/not-found" />} />
-                </Routes> */}
+                </Routes>
               </main>
               <Footer />
             </Div>
           </TopBannerProvider>
+          </Root>
         </EventProvider>
       </SnackbarProvider>
     </ScrollRestore>

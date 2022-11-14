@@ -25,13 +25,13 @@ export const useEventRouter = (event) => {
       type: "visible",
       title: "Legendy a příběhy",
       icon: "receipt",
-      path: `/${event.id}/legends`,
-      owns: [`/${event.id}/legend/`],
+      path: "legends",
+      owns: [`/${event.id}/legend`],
       component: Legends,
     },
     {
       type: "hidden",
-      path: `/${event.id}/legend/:id`,
+      path: "legend/:id",
       component: LegendId,
     },
     // {
@@ -81,9 +81,9 @@ export const useEventRouter = (event) => {
     //   disabled: eventInFuture,
     //   component: Gallery,
     // },
-    // {
-    //   type: "divider",
-    // },
+    {
+      type: "divider",
+    },
     // {
     //   type: "visible",
     //   title: "Nová registrace",

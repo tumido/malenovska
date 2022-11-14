@@ -20,10 +20,10 @@ export const theme = createTheme({
 
 export const darkTheme = createTheme({
   palette: {
-    primary: {
-      main: grey[50]
-    },
     mode: 'dark',
+    primary: {
+      main: grey[50],
+    },
     ...palette
   }
 }, csCZ);

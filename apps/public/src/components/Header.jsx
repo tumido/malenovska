@@ -23,17 +23,10 @@ import { darkTheme } from "../utilities/theme";
 const drawerWidth = 300;
 
 const paperStyle = {
-  width: drawerWidth,
   backgroundColor: grey[900],
+  backgroundImage: 'unset',
+  width: drawerWidth,
   color: "#fff",
-}
-
-const appBarStyle = {
-  right: 'unset',
-  width: "unset",
-  marginTop: "10px",
-  borderBottomRightRadius: "10px",
-  borderTopRightRadius: "10px",
 }
 
 const bannerStyle = {
@@ -47,8 +40,7 @@ const bannerStyle = {
 const iOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
 
 const Nav = styled('nav')({
-  width: { md: drawerWidth },
-  flexShrink: { md: 0 }
+  flexShrink: 0
 })
 
 const Header = ({navigation}) => {
@@ -67,10 +59,9 @@ const Header = ({navigation}) => {
 
   return (
     <React.Fragment>
-      <Hidden mdUp>
+      <Hidden lgUp>
         <AppBar
           position="fixed"
-          sx={appBarStyle}
           color="primary"
           elevation={0}
         >
@@ -95,7 +86,7 @@ const Header = ({navigation}) => {
         </AppBar>
       </Hidden>
       {banner && (
-        <Hidden smDown>
+        <Hidden mdDown>
           <AppBar
             position="fixed"
             color="secondary"
@@ -116,38 +107,41 @@ const Header = ({navigation}) => {
         </Hidden>
       )}
       <Nav>
-        <Hidden mdUp implementation="css">
-          <SwipeableDrawer
-            variant="temporary"
-            disableBackdropTransition={!iOS}
-            disableDiscovery={iOS}
-            open={drawerOpen}
-            onOpen={handleDrawerOpen}
-            onClose={handleDrawerClose}
-            sx={paperStyle}
-            ModalProps={{
-              keepMounted: true /* Better open performance on mobile */,
-            }}
-          >
-            <MenuDrawer
-              navigation={navigation}
-              pathname={pathname}
-              onClick={handleDrawerClose}
-            />
-          </SwipeableDrawer>
-        </Hidden>
-        <Hidden smDown implementation="css">
-          <Drawer
-            variant="permanent"
-            sx={paperStyle}
-            ModalProps={{
-              keepMounted: true /* Better open performance on mobile */,
-            }}
-            open
-          >
-            <MenuDrawer navigation={navigation} pathname={pathname} />
-          </Drawer>
-        </Hidden>
+        <ThemeProvider theme={darkTheme}>
+          <Hidden lgUp implementation="css">
+            <SwipeableDrawer
+              variant="temporary"
+              disableBackdropTransition={!iOS}
+              disableDiscovery={iOS}
+              open={drawerOpen}
+              onOpen={handleDrawerOpen}
+              onClose={handleDrawerClose}
+              PaperProps={{sx: paperStyle}}
+              ModalProps={{
+                keepMounted: true /* Better open performance on mobile */,
+              }}
+            >
+              <MenuDrawer
+                navigation={navigation}
+                pathname={pathname}
+                onClick={handleDrawerClose}
+              />
+            </SwipeableDrawer>
+          </Hidden>
+          <Hidden lgDown implementation="css">
+            <Drawer
+              variant="permanent"
+              anchor="left"
+              sx={{flexShrink: 0, ...paperStyle}}
+              PaperProps={{sx: paperStyle}}
+              ModalProps={{
+                keepMounted: true /* Better open performance on mobile */,
+              }}
+            >
+              <MenuDrawer navigation={navigation} pathname={pathname} />
+            </Drawer>
+          </Hidden>
+        </ThemeProvider>
       </Nav>
     </React.Fragment>
   );

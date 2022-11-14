@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
-import { Link, Navigate } from "react-router-dom";
-import PropTypes from "prop-types";
+import { Link, Navigate, useParams } from "react-router-dom";
 
 import {
   Chip,
@@ -8,8 +7,8 @@ import {
   CardContent,
   IconButton,
   CardActions,
+  Container,
 } from "@mui/material";
-import { makeStyles } from "@mui/material/styles";
 import { ShareOutlined } from "@mui/icons-material";
 
 import {
@@ -23,32 +22,23 @@ import { Helmet } from "react-helmet";
 import { useEvent } from "../../../contexts/EventContext";
 import { useTopBanner } from "../../../contexts/TopBannerContext";
 import { useDocumentData } from "react-firebase-hooks/firestore";
-import { doc } from "firebase/firestore";
+import { doc, getFirestore } from "firebase/firestore";
 
-const useStyles = makeStyles((theme) => ({
-  margin: {
-    margin: theme.spacing(1),
-  },
-}));
 
-const Legend = ({
-  match: {
-    params: { id },
-  },
-}) => {
-  const classes = useStyles();
+const Legend = () => {
   const [shareDialogOpen, setShareDialogOpen] = React.useState(false);
   const [event] = useEvent();
   const { setBreadcrumbs } = useTopBanner();
+  const { id } = useParams();
 
-  const [legend, legendLoading, legendError] = useDocumentData(doc('legends', id));
+  const [legend, legendLoading, legendError] = useDocumentData(doc(getFirestore(), 'legends', id));
 
   useEffect(() => {
     setBreadcrumbs(
       legend
         ? [
             { to: `/${event.id}/legends`, name: "Legendy" },
-            { name: legend[0].title },
+            { name: legend.title },
           ]
         : []
     );
@@ -80,24 +70,26 @@ const Legend = ({
         image={legend.image && legend.image.src}
       />
       <CardContent>
-        <Chip
-          label={event.name}
-          variant="outlined"
-          className={classes.margin}
-          to={`/${event.id}`}
-          component={Link}
-          clickable
-        />
-        {legend.publishedAt && (
+        <Container maxWidth='md'>
           <Chip
-            label={timestampToDateStr(legend.publishedAt)}
+            label={event.name}
             variant="outlined"
-            className={classes.margin}
+            sx={{m: 1}}
+            to={`/${event.id}`}
+            component={Link}
+            clickable
           />
-        )}
-        <Box className={classes.margin}>
-          <Markdown content={legend.content} />
-        </Box>
+          {legend.publishedAt && (
+            <Chip
+              label={timestampToDateStr(legend.publishedAt)}
+              variant="outlined"
+              sx={{m: 1}}
+            />
+          )}
+          <Box sx={{mt: 4}}>
+            <Markdown content={legend.content} />
+          </Box>
+        </Container>
       </CardContent>
       <CardActions>
         <IconButton aria-label="share" onClick={() => setShareDialogOpen(true)}>
@@ -112,14 +104,6 @@ const Legend = ({
       />
     </Article>
   );
-};
-
-Legend.propTypes = {
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      id: PropTypes.string.isRequired,
-    }).isRequired,
-  }).isRequired,
 };
 
 export default Legend;

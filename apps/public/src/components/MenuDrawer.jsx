@@ -12,29 +12,25 @@ import {
   Icon,
   styled,
 } from "@mui/material";
-import { ThemeProvider } from "@mui/material/styles";
 import { grey } from "@mui/material/colors";
 
-import { darkTheme } from "../utilities/theme";
 
 import AdapterLink from "./AdapterLink";
 import { useEvent } from "../contexts/EventContext";
+import ColorBadge from "./ColorBadge";
 
-const iconStyle = ({theme}) => ({
-  display: "flex",
-  alignItems: "center",
-  padding: [0, 1],
-  // ...theme.mixins.toolbar,
-  justifyContent: "flex-end",
-})
+const iconStyle = {
+  height: '1em',
+  width: '1em',
+}
 
-const Div = styled('div')(iconStyle)
+const Div = styled('div')(({theme}) => theme.mixins.toolbar)
 
 const MenuDrawer = ({ navigation, pathname, onClick }) => {
   const [event] = useEvent();
 
   return (
-    <ThemeProvider theme={darkTheme}>
+    <>
       <Div>
         <Hidden mdUp>
           <IconButton onClick={onClick}>
@@ -57,6 +53,7 @@ const MenuDrawer = ({ navigation, pathname, onClick }) => {
                   disabled={!item.path || item.disabled}
                   to={item.path || "/"}
                   component={AdapterLink}
+                  sx={theme => theme.mixins.toolbar}
                 >
                   <ListItemIcon>
                     <Icon
@@ -76,10 +73,10 @@ const MenuDrawer = ({ navigation, pathname, onClick }) => {
           })}
         </List>
       </div>
-      <List component="nav" aria-label="vyber udalosti">
+      <List component="div" aria-label="vyber udalosti">
         <ListItem button to="/choose" component={AdapterLink}>
           <ListItemIcon>
-            <Icon fontSize="large" sx={iconStyle}>
+            <Icon sx={iconStyle}>
               dashboard
             </Icon>
           </ListItemIcon>
@@ -101,7 +98,7 @@ const MenuDrawer = ({ navigation, pathname, onClick }) => {
           />
         </ListItem>
       </List>
-    </ThemeProvider>
+    </>
   );
 };
 

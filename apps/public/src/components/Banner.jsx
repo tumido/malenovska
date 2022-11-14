@@ -32,7 +32,7 @@ const Banner = ({ title, children, showDetails = false }) => {
           pt: "10vh",
           minHeight: "25vh",
           color: "#fff",
-          mb: 30,
+          mb: "30px",
         })}
       >
         <Grid item>
