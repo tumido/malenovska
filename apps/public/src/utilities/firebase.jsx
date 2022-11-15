@@ -1,30 +1,17 @@
-import { createFirestoreInstance } from 'redux-firestore';
-import { firebase } from '@firebase/app';
-import '@firebase/firestore';
-import '@firebase/storage';
-
+import { getApps, initializeApp } from "firebase/app";
+import { getFirestore, enableIndexedDbPersistence } from "firebase/firestore";
 import { firebaseConfig } from '@malenovska/common/utilities/firebase';
 
-const rrfConfig = {
-  userProfile: 'users',
-  useFirestoreForProfile: true
-};
-
-export const rrfProps = (store) => ({
-  firebase,
-  config: rrfConfig,
-  dispatch: store.dispatch,
-  createFirestoreInstance
-});
-
 export const initializeFirebase = () => {
-  firebase.initializeApp(firebaseConfig);
-  firebase.firestore();
+  if (getApps().length < 1) {
+    const app = initializeApp(firebaseConfig);
+    getFirestore(app)
+  }
 };
 
 /* eslint-disable no-console */
 export const enableFirebasePersistence = () => (
-  firebase.firestore().enablePersistence()
+  enableIndexedDbPersistence(getFirestore())
   .then(() => {
     console.log('Firestore offline access and persistance enabled.');
   })

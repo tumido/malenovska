@@ -1,77 +1,71 @@
-import React, { lazy, Suspense } from 'react';
-import { Helmet } from 'react-helmet';
-import { Switch, Route } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { useFirestoreConnect, isLoaded } from 'react-redux-firebase';
+import React, { lazy, Suspense } from "react";
+import { Helmet } from "react-helmet";
+import { Routes, Route, Navigate, BrowserRouter } from "react-router-dom";
 
-import { CssBaseline, NoSsr } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
-import { ThemeProvider } from '@material-ui/styles';
+import { getFirestore, collection, doc } from 'firebase/firestore';
+import { useCollectionData, useDocumentData } from 'react-firebase-hooks/firestore';
 
-import BgImage from '@malenovska/common/assets/images/background.jpg';
-import DefaultOgImage from '@malenovska/common/assets/images/og_image.jpg';
+import { CssBaseline, NoSsr, ThemeProvider } from "@mui/material";
+import { styled } from "@mui/material/styles";
 
-import { Loading } from 'components';
-import { theme } from './utilities/theme';
+import BgImage from "@malenovska/common/assets/images/background.jpg";
+import DefaultOgImage from "@malenovska/common/assets/images/og_image.jpg";
 
-const NotFound = lazy(() => import('containers/NotFound'));
-const Landing = lazy(() => import('containers/Landing'));
-const Public = lazy(() => import('containers/Public'));
+import { Loading } from "./components";
+import { theme } from "./utilities/theme";
 
-const useStyles = makeStyles(() => ({
-  content: {
-    display: 'flex',
-    flexDirection: 'column',
-    flexGrow: 1,
-    background: `linear-gradient(to bottom, transparent 80%, #000 100%), url(${BgImage}) repeat-x top center/cover fixed`,
-    minHeight: '100vh'
-  }
-}));
+const NotFound = lazy(() => import("./pages/404"));
+const Landing = lazy(() => import("./pages/choose"));
+const Public = lazy(() => import("./pages"));
 
-const ThemedLoading = () => {
-  const classes = useStyles();
+const Div = styled('div')(({theme}) => ({
+  display: "flex",
+  flexDirection: "column",
+  flexGrow: 1,
+  minHeight: "100vh",
+  [theme.breakpoints.up("sm")]: {
+    background: `linear-gradient(to bottom, transparent 80%, #000 100%), url(${BgImage}) no-repeat center center fixed`,
+    backgroundSize: "cover",
+  },
+}))
 
-  return (
-    <ThemeProvider theme={ theme }>
-      <CssBaseline />
-      <div className={ classes.content }>
-        <Loading />
-      </div>
-    </ThemeProvider>
-  );
-};
+const ThemedLoading = () =>  (
+  <ThemeProvider theme={theme}>
+    <CssBaseline />
+    <Div>
+      <Loading />
+    </Div>
+  </ThemeProvider>
+);
 
 const App = () => {
-  useFirestoreConnect(() => ([{ collection: 'events' }]));
-  const events = useSelector(({ firestore }) => firestore.ordered.events);
+  const [events, eventsLoading, eventsError] = useCollectionData(collection(getFirestore(), 'events'));
+  const [config, configLoading, configError] = useDocumentData(doc(getFirestore(), 'config', 'config'));
 
-  if (!isLoaded(events)) {
+  if (eventsLoading || configLoading || eventsError || configError) {
     return <ThemedLoading />;
   }
 
   return (
     <NoSsr>
-      <ThemeProvider theme={ theme }>
+      <ThemeProvider theme={theme}>
         <CssBaseline />
         <Helmet
-          defaultTitle={ `Malenovská ${ new Date().getFullYear()}` }
-          titleTemplate={ `Malenovská ${ new Date().getFullYear()} - %s` }
-          meta={ [
-            { property: 'og:image', content: DefaultOgImage }
-          ] }
+          defaultTitle={`Malenovská ${new Date().getFullYear()}`}
+          titleTemplate={`Malenovská ${new Date().getFullYear()} - %s`}
+          meta={[{ property: "og:image", content: DefaultOgImage }]}
         />
-        <Suspense fallback={ <ThemedLoading /> }>
-          <Switch>
-            { isLoaded(events) && events.map((event) => (
-              <Route
-                key={ `route_${event.id}` }
-                path={ '/' + event.id }
-                render={ (props) => <Public { ...props } event={ event }/> }
-              />
-            ))}
-            <Route exact path='/' component={ Landing } />
-            <Route component={ NotFound } />
-          </Switch>
+        <Suspense fallback={<ThemedLoading />}>
+          <BrowserRouter>
+            <Routes>
+              {events.map((event) => (
+                <Route key={`route_${event.id}`} path={`/${event.id}/*`} element={<Public event={event} />} />
+              ))}
+              <Route path="/" element={<Navigate to={`/${config.event}`} replace />} />
+              <Route path="/choose" element={<Landing />} />
+              <Route path="*" element={<Div><NotFound /></Div>} />
+            </Routes>
+          </BrowserRouter>
         </Suspense>
       </ThemeProvider>
     </NoSsr>
