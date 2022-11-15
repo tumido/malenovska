@@ -1,16 +1,12 @@
-import { takeEvery } from 'redux-saga/effects';
-import firebase from 'firebase/app';
+import { takeEvery } from "redux-saga/effects";
+import { getFirestore, collection, getDocs } from "firebase/firestore";
 
 export function* deleteParticipantSubCollection() {
-  yield takeEvery('RA/CRUD_DELETE', ({ meta, payload }) => {
-    const firestore = firebase.app().firestore();
-
-    if (meta.resource === 'participants') {
-      firestore
-      .doc(`participants/${payload.id}`)
-      .collection('private')
-      .get()
-      .then(p => p.forEach(d => d.ref.delete()));
+  yield takeEvery("RA/CRUD_DELETE", ({ meta, payload }) => {
+    if (meta.resource === "participants") {
+      getDocs(
+        collection(getFirestore(), "participants", payload.id, "private")
+      ).then((p) => p.forEach((d) => d.ref.delete()));
     }
   });
 }

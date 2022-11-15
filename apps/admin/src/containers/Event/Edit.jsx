@@ -14,6 +14,8 @@ import {
   FunctionField,
   FileField,
   ImageField,
+  DateInput,
+  TimeInput,
   TextField,
   ReferenceManyField,
   ReferenceField,
@@ -26,8 +28,7 @@ import {
   maxValue,
 } from "react-admin";
 import PropTypes from "prop-types";
-import { DateInput, KeyboardTimeInput } from "react-admin-date-inputs";
-import { Icon } from "@material-ui/core";
+import Icon from "@mui/material/Icon";
 
 import MarkdownInput from "../../components/MarkdownInput";
 import { EventTitle } from "./shared";
@@ -250,44 +251,44 @@ const Edit = (props) => {
           <MarkdownInput label="O organizátorech" source="contactText" />
         </FormTab>
         <FormTab label="Harmonogram">
-          <KeyboardTimeInput
+          <TimeInput
             label="Začátek akce"
             source="onsiteStart"
             options={{ ampm: false }}
             sx={ inlineBlock }
           />
-          <KeyboardTimeInput
+          <TimeInput
             label="Konec akce"
             source="onsiteEnd"
             options={{ ampm: false }}
             sx={ inlineBlock }
           />
           <br />
-          <KeyboardTimeInput
+          <TimeInput
             label="Otevření registrace na místě"
             source="onsiteRegistrationOpen"
             options={{ ampm: false }}
             sx={ inlineBlock }
           />
-          <KeyboardTimeInput
+          <TimeInput
             label="Uzavření registrace na místě"
             source="onsiteRegistrationClose"
             options={{ ampm: false }}
             sx={ inlineBlock }
           />
-          <KeyboardTimeInput
+          <TimeInput
             label="Seznámení s pravidly"
             source="onsiteRules"
             options={{ ampm: false }}
             sx={ inlineBlock }
           />
-          <KeyboardTimeInput
+          <TimeInput
             label="První quest"
             source="onsiteQuestStart"
             options={{ ampm: false }}
             sx={ inlineBlock }
           />
-          <KeyboardTimeInput
+          <TimeInput
             label="Závěrečná bitva"
             source="onsiteLastQuest"
             options={{ ampm: false }}

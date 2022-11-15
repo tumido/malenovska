@@ -8,8 +8,8 @@ import {
   CardContent,
   Typography,
   Divider,
-} from "@mui/core";
-import { Skeleton } from "@mui/lab";
+  Skeleton,
+} from "@mui/material";
 
 const Card = ({ label, value, to, children }) => {
   const cardContent = (

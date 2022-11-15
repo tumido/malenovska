@@ -6,7 +6,7 @@ import {
   EditButton, ShowButton
 } from 'react-admin';
 
-import Icon from '@mui/core/Icon';
+import Icon from '@mui/material/Icon';
 
 import { EventFilter, LocaleDateField } from '../shared';
 

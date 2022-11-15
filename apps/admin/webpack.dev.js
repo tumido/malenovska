@@ -19,6 +19,6 @@ module.exports = merge(common, {
     new webpack.EnvironmentPlugin({
       NODE_ENV: 'development',
       DEBUG: false
-    })
+    }),
   ],
 });

@@ -1,15 +1,20 @@
 import React from 'react';
-// import ReactMde from 'react-mde';
-import PropTypes from 'prop-types';
-import { addField } from 'ra-core';
-import FormControl from '@mui/core/FormControl';
-// import { compiler } from 'markdown-to-jsx';
+import { Mde } from 'fc-mde';
+import Showdown from 'showdown';
+import { useController } from 'react-hook-form';
+import FormControl from '@mui/material/FormControl';
 
-// import 'react-mde/lib/styles/css/react-mde-all.css';
+const converter = new Showdown.Converter({
+  tables: true,
+  simplifiedAutoLink: true,
+  strikethrough: true,
+  tasklists: true,
+});
 
-const MarkdownInputBase = ({ input: { value, onChange: handleChange }, addLabel, isRequired, basePath, ...props }) => {
+const MarkdownInput = () => {
+  const input = useController({ defaultValue: '' });
   const [ activeTab, setActiveTab ] = React.useState('write');
-  const [ content, setContent ] = React.useState(value);
+  const [ content, setContent ] = React.useState(input.value);
 
   const handleContentChange = value => {
     setContent(value);
@@ -17,33 +22,15 @@ const MarkdownInputBase = ({ input: { value, onChange: handleChange }, addLabel,
   };
 
   return (
-    <FormControl { ...props } className='ra-input-mde'>
-      {/* <ReactMde
-        onChange={ handleContentChange }
+    <FormControl { ...input.props }>
+      <Mde
+        setText={ handleContentChange }
         onTabChange={ setActiveTab }
-        value={ content }
-        generateMarkdownPreview={ markdown => Promise.resolve(compiler(markdown)) }
-        selectedTab={ activeTab }/> */}
+        text={ content }
+        generateMarkdownPreview={ async (markdown) => converter.makeHtml(markdown) }
+        selectedTab={ activeTab }/>
     </FormControl>
   );
-};
-
-MarkdownInputBase.propTypes = {
-  input: PropTypes.shape({
-    value: PropTypes.string.isRequired,
-    onChange: PropTypes.func.isRequired
-  }).isRequired,
-  props: PropTypes.object,
-  addLabel: PropTypes.any,
-  isRequired: PropTypes.any,
-  basePath: PropTypes.any
-};
-
-const MarkdownInput = addField(MarkdownInputBase);
-
-MarkdownInput.defaultProps = {
-  addLabel: true,
-  fullWidth: true
 };
 
 export default MarkdownInput;

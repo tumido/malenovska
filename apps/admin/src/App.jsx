@@ -13,9 +13,7 @@ import {
   Group,
   Person,
   CameraEnhance,
-} from "@material-ui/icons";
-
-import "@firebase/auth";
+} from "@mui/icons-material";
 
 import { adminTheme } from "./utilities/theme";
 import { czechMessages } from "./utilities/i18n";
@@ -24,13 +22,13 @@ import BgImage from "@malenovska/common/assets/images/background.jpg";
 import Favicon from "@malenovska/common/assets/images/favicon-32x32.png";
 import { firebaseConfig } from "@malenovska/common/utilities/firebase";
 
-import legend from "containers/Legend";
-import event from "containers/Event";
-import race from "containers/Race";
-import config from "containers/Config";
-import Dashboard from "containers/Dashboard";
-import participant from "containers/Participant";
-import gallery from "containers/Gallery";
+import legend from "./containers/Legend";
+import event from "./containers/Event";
+import race from "./containers/Race";
+import config from "./containers/Config";
+import Dashboard from "./containers/Dashboard";
+import participant from "./containers/Participant";
+import gallery from "./containers/Gallery";
 
 const options = {};
 

@@ -9,12 +9,12 @@ import {
   SelectInput,
   ImageInput,
   ImageField,
+  DateInput,
   useNotify,
   useRedirect,
   maxLength,
   required,
 } from "react-admin";
-import { DateInput } from "react-admin-date-inputs";
 
 import MarkdownInput from "../../components/MarkdownInput";
 import SaveWithTransformToolbar from "../../components/SaveWithTransformToolbar";

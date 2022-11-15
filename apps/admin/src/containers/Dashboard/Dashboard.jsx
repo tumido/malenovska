@@ -1,39 +1,21 @@
 import React from "react";
 
-import { Grid } from "@material-ui/core";
-import { useQueryWithStore, EditButton } from "react-admin";
+import Grid from "@mui/material/Grid";
+import { useGetList, useGetOne, EditButton } from "react-admin";
 
 import { Card, PieChart } from "../../components";
 
-const useGetList = (resource, event, count = 1000) =>
-  useQueryWithStore(
-    {
-      type: "getList",
-      resource,
-      payload: {
-        pagination: { page: 1, perPage: count },
-        sort: {},
-        filter: { event },
-      },
-    },
-    !Boolean(event) ? { enabled: Boolean(event) } : undefined
-  );
-
-const useGetOne = (resource, id) =>
-  useQueryWithStore(
-    {
-      type: "getOne",
-      resource,
-      payload: { id },
-    },
-    !Boolean(id) ? { enabled: false } : undefined
-  );
-
 const Dashboard = () => {
-  const { data: config } = useGetOne("config", "config");
-  const { data: event } = useGetOne("events", config?.event);
-  const { data: people } = useGetList("participants", config?.event);
-  const { data: races } = useGetList("races", config?.event);
+  const { data: config } = useGetOne("config", { id: "config" });
+  const { data: event } = useGetOne("events", { id: config?.event });
+  const { data: people } = useGetList("participants", {
+    pagination: { page: 1, perPage: 1000 },
+    filter: { event: config?.event },
+  });
+  const { data: races } = useGetList("races", {
+    pagination: { page: 1, perPage: 1000 },
+    filter: { event: config?.event },
+  });
 
   const aggPeopleByRace = (people || []).reduce(
     (acc, p) => ({ ...acc, ...{ [p.race]: (acc[p.race] || 0) + 1 } }),

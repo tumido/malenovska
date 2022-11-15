@@ -10,13 +10,14 @@ import {
   SelectInput,
   FileInput,
   ImageInput,
+  DateInput,
+  TimeInput,
   FileField,
   ImageField,
   useNotify,
   useRedirect,
   required,
 } from "react-admin";
-import { DateInput, KeyboardTimeInput } from "react-admin-date-inputs";
 
 import MarkdownInput from "../../components/MarkdownInput";
 
@@ -113,44 +114,44 @@ const Create = (props) => {
           <MarkdownInput label="O organizátorech" source="contactText" />
         </FormTab>
         <FormTab label="Harmonogram">
-          <KeyboardTimeInput
+          <TimeInput
             label="Začátek akce"
             source="onsiteStart"
             options={{ ampm: false }}
             sx={inlineBlock}
           />
-          <KeyboardTimeInput
+          <TimeInput
             label="Konec akce"
             source="onsiteEnd"
             options={{ ampm: false }}
             sx={inlineBlock}
           />
           <br />
-          <KeyboardTimeInput
+          <TimeInput
             label="Otevření registrace na místě"
             source="onsiteRegistrationOpen"
             options={{ ampm: false }}
             sx={inlineBlock}
           />
-          <KeyboardTimeInput
+          <TimeInput
             label="Uzavření registrace na místě"
             source="onsiteRegistrationClose"
             options={{ ampm: false }}
             sx={inlineBlock}
           />
-          <KeyboardTimeInput
+          <TimeInput
             label="Seznámení s pravidly"
             source="onsiteRules"
             options={{ ampm: false }}
             sx={inlineBlock}
           />
-          <KeyboardTimeInput
+          <TimeInput
             label="První quest"
             source="onsiteQuestStart"
             options={{ ampm: false }}
             sx={inlineBlock}
           />
-          <KeyboardTimeInput
+          <TimeInput
             label="Závěrečná bitva"
             source="onsiteLastQuest"
             options={{ ampm: false }}

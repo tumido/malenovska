@@ -5,7 +5,7 @@ import {
   FunctionField, FileField, ImageField, NumberField, TextField, BooleanField, SelectField, ReferenceManyField, ReferenceField, UrlField,
   EditButton
 } from 'react-admin';
-import { Icon } from '@mui/core';
+import Icon from '@mui/material/Icon';
 
 import { MarkdownField, TimeField } from '../../components';
 import { EventTitle } from './shared';

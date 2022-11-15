@@ -9,7 +9,7 @@ import {
   Sector,
 } from "recharts";
 import { truncate } from "lodash/string";
-import { Card, CardContent } from "@mui/core";
+import { Card, CardContent } from "@mui/material";
 
 const Shape = (props) => {
   const RADIAN = Math.PI / 180;

@@ -11,9 +11,9 @@ import {
   useNotify,
   useRedirect,
   maxLength,
+  DateInput,
   required,
 } from "react-admin";
-import { DateInput } from "react-admin-date-inputs";
 
 import MarkdownInput from "../../components/MarkdownInput";
 import { LegendTitle } from "./shared";

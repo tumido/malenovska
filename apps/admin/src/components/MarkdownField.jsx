@@ -1,38 +1,28 @@
 import React from 'react';
-// import ReactMde from 'react-mde';
-import PropTypes from 'prop-types';
-import { addField } from 'ra-core';
-import FormControl from '@mui/core/FormControl';
-// import { compiler } from 'markdown-to-jsx';
+import { Mde } from 'fc-mde';
+import Showdown from 'showdown';
+import { useRecordContext } from 'react-admin';
+import FormControl from '@mui/material/FormControl';
 
-import 'react-mde/lib/styles/css/react-mde-all.css';
+const converter = new Showdown.Converter({
+  tables: true,
+  simplifiedAutoLink: true,
+  strikethrough: true,
+  tasklists: true,
+});
 
-const MarkdownFieldBase = ({ input: { value }, addLabel, isRequired, basePath, ...props }) => (
-  <FormControl { ...props } className='ra-input-mde'>
-    {/* <ReactMde
-      value={ value }
-      selectedTab='preview'
-      generateMarkdownPreview={ markdown => Promise.resolve(compiler(markdown)) }
-      readOnly={ true }
-    /> */}
-  </FormControl>
-);
-
-MarkdownFieldBase.propTypes = {
-  input: PropTypes.shape({
-    value: PropTypes.string.isRequired
-  }).isRequired,
-  props: PropTypes.object,
-  addLabel: PropTypes.any,
-  isRequired: PropTypes.any,
-  basePath: PropTypes.any
+const MarkdownField = (props) => {
+  const record = useRecordContext(props);
+  return (
+    <FormControl {...props} className='ra-input-mde'>
+      <Mde
+        text={record[props.source]}
+        selectedTab='preview'
+        generateMarkdownPreview={async (markdown) => converter.makeHtml(markdown)}
+        readOnly={true} />
+    </FormControl>
+  );
 };
 
-const MarkdownField = addField(MarkdownFieldBase);
-
-MarkdownField.defaultProps = {
-  addLabel: true,
-  fullWidth: true
-};
 
 export default MarkdownField;
