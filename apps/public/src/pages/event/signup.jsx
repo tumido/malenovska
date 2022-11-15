@@ -1,5 +1,4 @@
 import React, { lazy, useState } from "react";
-import PropTypes from "prop-types";
 import { collection, doc, getFirestore, writeBatch, query, where } from "firebase/firestore";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import { useSnackbar } from "notistack";
@@ -171,7 +170,7 @@ const New = () => {
   const isLoading = racesLoading || participantsLoading;
 
   if (!event.registrationAvailable) {
-    if (process.env.NODE_ENV === "development") {
+    if (process?.env?.NODE_ENV === "development") {
       setTopBanner("DEV-mode");
     } else {
       return <NotFound />;
@@ -303,11 +302,6 @@ const New = () => {
       )}
     </React.Fragment>
   );
-};
-
-New.propTypes = {
-  registerNewParticipant: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
 };
 
 export default New;

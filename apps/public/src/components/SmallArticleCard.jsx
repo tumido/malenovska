@@ -8,8 +8,8 @@ import {
   CardContent,
   Typography,
   Box,
+  Skeleton,
 } from "@mui/material";
-import { Skeleton } from "@mui/lab";
 
 import ArticleCardHeader from "./ArticleCardHeader";
 

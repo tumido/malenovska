@@ -46,6 +46,7 @@ const Nav = styled('nav')({
 const Header = ({navigation}) => {
   const { banner } = useTopBanner();
   const {pathname} = useLocation();
+  console.log(banner)
 
   const [drawerOpen, setDrawerOpen] = useState(false);
 
