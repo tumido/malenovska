@@ -1,34 +1,31 @@
 import React from "react";
-import { useSelector } from "react-redux";
-import { useFirestoreConnect, isLoaded, isEmpty } from "react-redux-firebase";
-
 import { Grid, Container } from "@mui/material";
-
 import { SmallArticleCard, Banner } from "../../components";
 import { Helmet } from "react-helmet";
 import { useEvent } from "../../contexts/EventContext";
+import {
+  collection,
+  getFirestore,
+  orderBy,
+  query,
+  where,
+} from "firebase/firestore";
+import { useCollectionData } from "react-firebase-hooks/firestore";
 
 const Races = () => {
   const [event] = useEvent();
-  useFirestoreConnect(() => [
-    {
-      collection: "races",
-      where: ["event", "==", event.id],
-      storeAs: `${event.id}_races`,
-      orderBy: "priority",
-    },
-  ]);
 
-  const races = useSelector(
-    ({ firestore }) => firestore.ordered[`${event.id}_races`]
+  const [races, loading, error] = useCollectionData(
+    query(collection(getFirestore(), "races"), where("event", "==", event.id)),
+    orderBy("priority")
   );
 
-  if (!isLoaded(races)) {
+  if (loading) {
     return null;
   }
 
   const raceCards = races.map((r) => (
-    <Grid item xs={12} sm={6} key={r.id}>
+    <Grid item sx={{ width: { xs: "100%", md: "50%", xl: "650px" }}} key={r.id}>
       <SmallArticleCard
         title={r.name}
         image={r.image}
@@ -41,13 +38,9 @@ const Races = () => {
     <React.Fragment>
       <Helmet title="Bojující strany" />
       <Banner title="Strany" />
-      <Container maxWidth="lg">
-        {!isEmpty(races) && (
-          <Grid container direction="row" spacing={2}>
-            {raceCards}
-          </Grid>
-        )}
-      </Container>
+      <Grid container direction="row" justifyContent="center" spacing={2}>
+        {raceCards}
+      </Grid>
     </React.Fragment>
   );
 };

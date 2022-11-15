@@ -1,4 +1,4 @@
-import React from "react";
+import React, { lazy } from "react";
 import { Helmet } from "react-helmet";
 import { Route, Routes, Navigate } from "react-router-dom";
 import { SnackbarProvider } from "notistack";
@@ -11,6 +11,8 @@ import { EventProvider } from "../contexts/EventContext";
 import { TopBannerProvider } from "../contexts/TopBannerContext";
 import { styled } from "@mui/material";
 
+const NotFound = lazy(() => import("./404"));
+
 const Div = styled('div')(({theme}) => ({
     display: "flex",
     flexDirection: "column",
@@ -21,7 +23,8 @@ const Div = styled('div')(({theme}) => ({
       paddingTop: "20px",
     },
     paddingTop: "10px",
-    background: `linear-gradient(to bottom, transparent 80%, #000 100%), url(${BgImage}) repeat-x top center fixed`,
+    background: `linear-gradient(to bottom, transparent 80%, #000 100%), url(${BgImage}) no-repeat center center fixed`,
+    backgroundSize: "cover",
     backgroundColor: '#000',
     "& main": {
       flexGrow: 1,
@@ -70,7 +73,7 @@ const Home = ({event}) => {
                     );
                   })}
                   <Route path="" element={<Navigate to='legends' />} />
-                  <Route path="*" element={<Navigate to="/not-found" />} />
+                  <Route path="*" element={<NotFound />} />
                 </Routes>
               </main>
               <Footer />

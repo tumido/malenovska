@@ -11,8 +11,8 @@ import {
   IconButton,
   Tooltip,
   Box,
+  Container,
 } from "@mui/material";
-import { makeStyles } from "@mui/material/styles";
 
 import { Map, Banner } from "../../components";
 import {
@@ -22,50 +22,8 @@ import {
 import { Helmet } from "react-helmet";
 import { useEvent } from "../../contexts/EventContext";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    [theme.breakpoints.down("sm")]: {
-      padding: 0,
-    },
-    padding: 20,
-  },
-  info: {
-    [theme.breakpoints.up("sm")]: {
-      paddingLeft: 24,
-      paddingRight: 24,
-    },
-    padding: 16,
-    paddingTop: 0,
-  },
-  heading: {
-    marginTop: "1.7em",
-  },
-  color0: {
-    color: theme.palette.loading[0],
-  },
-  color1: {
-    color: theme.palette.loading[1],
-  },
-  color2: {
-    color: theme.palette.loading[2],
-  },
-  tableFixed: {
-    tableLayout: "fixed",
-  },
-  columnActions: {
-    width: 88,
-  },
-  columnMarker: {
-    width: "1.5rem",
-  },
-  clickableRow: {
-    cursor: "pointer",
-  },
-}));
-
 const Info = () => {
   const [event] = useEvent();
-  const classes = useStyles();
   const [center, setCenter] = useState();
 
   const timesToRender = [
@@ -80,11 +38,11 @@ const Info = () => {
     <React.Fragment>
       <Helmet title="To důležité" />
       <Banner title="To důležité" />
-      <div className={classes.root}>
+      <Container maxWidth="xl" sx={{p: {xs: 0, sm: "20px"}}}>
         <Paper>
           <Grid container>
-            <Grid item xs={12} lg={3} className={classes.info}>
-              <Typography gutterBottom className={classes.heading} variant="h5">
+            <Grid item xs={12} lg={3} sx={{ p: "16px", px: {sm: "24px"}, pt: 0 }}>
+              <Typography gutterBottom sx={{mt: "1.7em"}} variant="h5">
                 K registraci
               </Typography>
               <Table>
@@ -103,7 +61,7 @@ const Info = () => {
                   </TableRow>
                 </TableBody>
               </Table>
-              <Typography gutterBottom className={classes.heading} variant="h5">
+              <Typography gutterBottom sx={{mt: "1.7em"}} variant="h5">
                 Do kalendáře
               </Typography>
               <Table>
@@ -116,10 +74,10 @@ const Info = () => {
                   ))}
                 </TableBody>
               </Table>
-              <Typography gutterBottom className={classes.heading} variant="h5">
+              <Typography gutterBottom sx={{mt: "1.7em"}} variant="h5">
                 Do navigace
               </Typography>
-              <Table size="small" className={classes.tableFixed}>
+              <Table size="small" sx={{tableLayout: 'fixed'}}>
                 <TableBody>
                   {event.poi.map((row, index) => (
                     <TableRow
@@ -128,13 +86,13 @@ const Info = () => {
                       onClick={() => {
                         setCenter([row.latitude, row.longitude]);
                       }}
-                      className={classes.clickableRow}
+                      sx={{ cursor: "pointer" }}
                     >
                       <TableCell
                         padding="none"
-                        className={classes.columnMarker}
+                        sx={{width: "1.5rem"}}
                       >
-                        <Icon className={classes[`color${index % 3}`]}>
+                        <Icon sx={{ color: t => t.palette.loading[index % 3] }}>
                           location_on
                         </Icon>
                       </TableCell>
@@ -161,7 +119,7 @@ const Info = () => {
                       <TableCell
                         align="right"
                         padding="none"
-                        className={classes.columnActions}
+                        sx={{ width: "88px" }}
                       >
                         <Tooltip
                           title="Vycentrovat mapu"
@@ -195,7 +153,7 @@ const Info = () => {
             </Grid>
           </Grid>
         </Paper>
-      </div>
+      </Container>
     </React.Fragment>
   );
 };

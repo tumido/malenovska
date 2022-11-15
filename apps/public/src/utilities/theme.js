@@ -2,7 +2,7 @@ import { createTheme } from '@mui/material/styles';
 import { deepOrange, grey } from '@mui/material/colors';
 import { csCZ } from '@mui/material/locale';
 
-const palette = {
+export const palette = {
   secondary: deepOrange,
   loading: [
     'rgb(253, 38, 0)', 'rgb(241, 238, 16)', 'rgb(255, 145, 0)'

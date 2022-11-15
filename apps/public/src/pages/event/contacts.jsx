@@ -14,6 +14,7 @@ import { TodayOutlined, EventOutlined, MailOutlined } from "@mui/icons-material"
 import { Article, ArticleCardHeader, Banner, Markdown } from "../../components";
 import { Helmet } from "react-helmet";
 import { useEvent } from "../../contexts/EventContext";
+import { Container } from "@mui/system";
 
 const contactButtons = (event) => [
   {
@@ -50,31 +51,33 @@ const Contacts = () => {
           image={event.contactImage && event.contactImage.src}
         />
         <CardContent>
-          <Markdown content={event.contactText} />
-          <Box marginY={4}>
-            <Divider />
-          </Box>
-          <Typography variant="h5" gutterBottom component="h3">
-            Kontakty a odkazy pro současný ročník
-          </Typography>
-          <Box marginTop={4}>
-            <Grid container justifyContent="center" spacing={2}>
-              {contactButtons(event).map((c) => (
-                <Grid item key={c.href}>
-                  <Button
-                    variant="outlined"
-                    color="primary"
-                    target="_blank"
-                    href={c.href}
-                    disabled={!c.href}
-                    startIcon={c.startIcon}
-                  >
-                    {c.text}
-                  </Button>
-                </Grid>
-              ))}
-            </Grid>
-          </Box>
+          <Container maxWidth="md" sx={{my: 4}}>
+            <Markdown content={event.contactText} />
+          </Container>
+          <Divider />
+          <Container maxWidth="md" sx={{mt: 4}}>
+            <Typography variant="h5" gutterBottom component="h3">
+              Kontakty a odkazy pro současný ročník
+            </Typography>
+            <Box marginTop={4}>
+              <Grid container justifyContent="center" spacing={2}>
+                {contactButtons(event).map((c) => (
+                  <Grid item key={c.href}>
+                    <Button
+                      variant="outlined"
+                      color="primary"
+                      target="_blank"
+                      href={c.href}
+                      disabled={!c.href}
+                      startIcon={c.startIcon}
+                    >
+                      {c.text}
+                    </Button>
+                  </Grid>
+                ))}
+              </Grid>
+            </Box>
+          </Container>
         </CardContent>
       </Article>
     </React.Fragment>

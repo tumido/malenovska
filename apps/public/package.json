@@ -31,7 +31,6 @@
     "firebase": "9.14.0",
     "leaflet": "1.9.2",
     "markdown-to-jsx": "7.1.7",
-    "next-share": "0.19.0",
     "notistack": "2.0.8",
     "prop-types": "15.8.1",
     "react": "18.2.0",
@@ -42,6 +41,7 @@
     "react-leaflet": "4.1.0",
     "react-router": "6.4.3",
     "react-router-dom": "6.4.3",
+    "react-share": "4.4.1",
     "react-social-icons": "5.15.0",
     "smoothscroll-polyfill": "0.4.4",
     "whatwg-fetch": "3.6.2"

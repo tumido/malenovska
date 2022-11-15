@@ -1,6 +1,4 @@
 import React from "react";
-import { useSelector } from "react-redux";
-import { useFirestoreConnect, isLoaded } from "react-redux-firebase";
 
 import {
   ImageList,
@@ -15,6 +13,9 @@ import {
 import { Banner } from "../../components";
 import { Helmet } from "react-helmet";
 import { useEvent } from "../../contexts/EventContext";
+import { collection, getFirestore, query, where } from "firebase/firestore";
+import { useCollectionData } from "react-firebase-hooks/firestore";
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 const useIsWidthUp = (breakpoint) => {
   const theme = useTheme();
@@ -25,17 +26,7 @@ const Gallery = () => {
   const [event] = useEvent();
   const isSmUp = useIsWidthUp("sm");
 
-  useFirestoreConnect(() => [
-    {
-      collection: "galleries",
-      where: ["event", "==", event.id],
-      storeAs: `${event.id}_galleries`,
-    },
-  ]);
-
-  const galleries = useSelector(
-    ({ firestore }) => firestore.ordered[`${event.id}_galleries`]
-  );
+  const [galleries, loading, error] = useCollectionData(query(collection(getFirestore(), 'galleries'), where("event", "==", event.id)));
 
   const getGridItemCols = (length, idx) => {
     if (idx === length - 1) {
@@ -53,8 +44,8 @@ const Gallery = () => {
     return isSmUp ? (Math.ceil(idx / 2) % 2) + 1 : 1;
   };
 
-  if (!isLoaded(galleries)) {
-    return "";
+  if (loading || error) {
+    return null;
   }
 
   const randomGalleryItem =
@@ -78,7 +69,7 @@ const Gallery = () => {
           Fotogalerie, sdílená alba, památníčky... prostě, co se našlo.
         </Typography>
       </Banner>
-      <ImageList cellHeight={300} cols={isSmUp ? 3 : 2}>
+      <ImageList rowHeight={300} cols={isSmUp ? 3 : 2}>
         {galleries.map((tile, idx) => (
           <ImageListItem
             cols={getGridItemCols(galleries.length, idx)}
@@ -92,7 +83,7 @@ const Gallery = () => {
               src={tile.cover && tile.cover.src}
               alt={`${event.name} od ${tile.author}`}
             />
-            <GridListItemBar
+            <ImageListItemBar
               title={tile.name}
               subtitle={<span>Autor: {tile.author}</span>}
             />

@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import { Grid, Container } from "@mui/material";
+import { Grid } from "@mui/material";
 
 import { SmallArticleCard, Markdown, Banner } from "../../components";
 import { Helmet } from "react-helmet";
@@ -12,11 +12,11 @@ import { useCollectionData } from "react-firebase-hooks/firestore";
 const Legends = () => {
   const [event] = useEvent();
 
-  const [legends, legendsLoading, legendsError] = useCollectionData(query(collection(getFirestore(), 'legends'), where("event", "==", event.id)), orderBy('publishedAt'));
+  const [legends, loading, error] = useCollectionData(query(collection(getFirestore(), 'legends'), where("event", "==", event.id)), orderBy('publishedAt'));
 
-  const legendsList = (!legendsLoading && !legendsError) ? (
+  const legendsList = (!loading && !error) ? (
     legends.map((l) => (
-      <Grid item container xs={12} sm={6} lg={4} key={l.id}>
+      <Grid item container sx={{ width: { xs: "100%", md: "50%", xl: "650px" }}} key={l.id}>
         <SmallArticleCard
           title={l.title}
           body={l.perex}
@@ -27,13 +27,13 @@ const Legends = () => {
     ))
   ) : (
     <React.Fragment>
-      <Grid item container xs={12} sm={6} lg={4}>
+      <Grid item container sx={{ width: { xs: "100%", md: "50%", xl: "650px" }}}>
         <SmallArticleCard />
       </Grid>
-      <Grid item container xs={12} sm={6} lg={4}>
+      <Grid item container sx={{ width: { xs: "100%", md: "50%", xl: "650px" }}}>
         <SmallArticleCard />
       </Grid>
-      <Grid item container xs={12} sm={6} lg={4}>
+      <Grid item container sx={{ width: { xs: "100%", md: "50%", xl: "650px" }}}>
         <SmallArticleCard />
       </Grid>
     </React.Fragment>
@@ -45,16 +45,14 @@ const Legends = () => {
       <Banner title="Legendy">
         <Markdown content={event.description} />
       </Banner>
-      <Container maxWidth="lg">
-        <Grid
-          container
-          spacing={2}
-          justifyContent="center"
-          alignItems="stretch"
-        >
-          {legendsList}
-        </Grid>
-      </Container>
+      <Grid
+        container
+        spacing={2}
+        justifyContent="center"
+        alignItems="stretch"
+      >
+        {legendsList}
+      </Grid>
     </React.Fragment>
   );
 };

@@ -1,6 +1,6 @@
 import React from "react";
-import { useSelector } from "react-redux";
-import { isLoaded, useFirestoreConnect } from "react-redux-firebase";
+import { collection, getFirestore, query, where } from "firebase/firestore";
+import { useCollectionData } from "react-firebase-hooks/firestore";
 
 import {
   Container,
@@ -11,9 +11,9 @@ import {
   TablePagination,
   Typography,
   CardContent,
+  Skeleton,
+  styled,
 } from "@mui/material";
-import { makeStyles } from "@mui/material/styles";
-import { Skeleton } from "@mui/lab";
 
 import {
   Article,
@@ -26,16 +26,8 @@ import { stableSort, getSorting } from "../../utilities/sorting";
 import { Helmet } from "react-helmet";
 import { useEvent } from "../../contexts/EventContext";
 
-const useStyles = makeStyles(() => ({
-  table: {
-    whiteSpace: "normal",
-    wordWrap: "break-word",
-    minWidth: 750,
-  },
-  tableWrapper: {
-    overflowX: "auto",
-  },
-}));
+const Div = styled('div')({ overflowX: "auto" })
+
 
 const headers = [
   { id: "race", label: "Strana" },
@@ -53,7 +45,6 @@ const filterBySearch = (participant, filter) =>
   );
 
 const ListContent = () => {
-  const classes = useStyles();
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("race");
   const [page, setPage] = React.useState(0);
@@ -89,27 +80,18 @@ const ListContent = () => {
     ]);
   };
 
-  useFirestoreConnect(() => [
-    {
-      collection: "races",
-      where: ["event", "==", event.id],
-      storeAs: `${event.id}_races`,
-    },
-    {
-      collection: "participants",
-      where: ["event", "==", event.id],
-      storeAs: `${event.id}_participants`,
-    },
-  ]);
-
-  const races = useSelector(
-    ({ firestore }) => firestore.ordered[`${event.id}_races`]
-  );
-  const participants = useSelector(
-    ({ firestore }) => firestore.ordered[`${event.id}_participants`]
+  const [participants, participantsLoading, participantsError] =
+    useCollectionData(
+      query(
+        collection(getFirestore(), "participants"),
+        where("event", "==", event.id)
+      )
+    );
+  const [races, racesLoading, racesError] = useCollectionData(
+    query(collection(getFirestore(), "races"), where("event", "==", event.id))
   );
 
-  if (!isLoaded(participants) || !isLoaded(races)) {
+  if (participantsLoading || racesLoading || participantsError || racesError) {
     return (
       <Article>
         <Container>
@@ -117,8 +99,12 @@ const ListContent = () => {
             <Skeleton type="text" width={400} />
           </Typography>
         </Container>
-        <div className={classes.tableWrapper}>
-          <Table className={classes.table}>
+        <Div>
+          <Table sx={{
+            whiteSpace: "normal",
+            wordWrap: "break-word",
+            minWidth: 750
+          }}>
             <TableBody>
               {[...Array(10).keys()].map((index) => (
                 <TableRow key={index}>
@@ -141,7 +127,7 @@ const ListContent = () => {
               ))}
             </TableBody>
           </Table>
-        </div>
+        </Div>
       </Article>
     );
   }
@@ -164,8 +150,12 @@ const ListContent = () => {
         onFilterClick={handleFilterClick}
         filters={filterChips}
       />
-      <div className={classes.tableWrapper}>
-        <Table className={classes.table}>
+      <Div>
+        <Table sx={{
+          whiteSpace: "normal",
+          wordWrap: "break-word",
+          minWidth: 750
+        }}>
           <TableHead
             headers={headers}
             order={order}
@@ -193,7 +183,7 @@ const ListContent = () => {
             ))}
           </TableBody>
         </Table>
-      </div>
+      </Div>
       <TablePagination
         rowsPerPageOptions={[5, 10, 25]}
         component="div"

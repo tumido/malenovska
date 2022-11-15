@@ -13,6 +13,7 @@ import {
   Portal,
   CardContent,
   Typography,
+  Box,
 } from "@mui/material";
 import { Skeleton } from "@mui/lab";
 
@@ -108,7 +109,7 @@ const Wizard = ({
               container={portals.buttons}
               disablePortal={!portals.buttons}
             >
-              <div {...buttonsProps}>
+              <Box {...buttonsProps}>
                 <Button
                   size="large"
                   disabled={activeStep === 0}
@@ -126,11 +127,11 @@ const Wizard = ({
                 >
                   {buttonNextText()}
                 </Button>
-              </div>
+              </Box>
             </Portal>
           </Hidden>
 
-          <Hidden mdUp>
+          <Hidden smUp>
             <Portal
               container={portals.mobileStepper}
               disablePortal={!portals.mobileStepper}

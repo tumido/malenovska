@@ -1,11 +1,11 @@
-import React, { useEffect } from "react";
-import { Link, Navigate, useParams } from "react-router-dom";
+import React, { lazy, useEffect } from "react";
+import { Link, useParams } from "react-router-dom";
 
 import {
   Chip,
   Box,
   CardContent,
-  IconButton,
+  Button,
   CardActions,
   Container,
 } from "@mui/material";
@@ -24,6 +24,8 @@ import { useTopBanner } from "../../../contexts/TopBannerContext";
 import { useDocumentData } from "react-firebase-hooks/firestore";
 import { doc, getFirestore } from "firebase/firestore";
 
+const NotFound = lazy(() => import("../../404"));
+
 
 const Legend = () => {
   const [shareDialogOpen, setShareDialogOpen] = React.useState(false);
@@ -31,7 +33,7 @@ const Legend = () => {
   const { setBreadcrumbs } = useTopBanner();
   const { id } = useParams();
 
-  const [legend, legendLoading, legendError] = useDocumentData(doc(getFirestore(), 'legends', id));
+  const [legend, loading, error] = useDocumentData(doc(getFirestore(), 'legends', id));
 
   useEffect(() => {
     setBreadcrumbs(
@@ -43,14 +45,14 @@ const Legend = () => {
         : []
     );
     return () => setBreadcrumbs([]);
-  }, [legend, legendLoading, legendError]);
+  }, [legend, loading, error]);
 
-  if (legendLoading || legendError) {
+  if (loading || error) {
     return <Article />;
   }
 
   if (legend.event !== event.id) {
-    return <Navigate to="/not-found" />;
+    return <NotFound />;
   }
 
   return (
@@ -92,9 +94,9 @@ const Legend = () => {
         </Container>
       </CardContent>
       <CardActions>
-        <IconButton aria-label="share" onClick={() => setShareDialogOpen(true)}>
-          <ShareOutlined />
-        </IconButton>
+        <Button startIcon={<ShareOutlined />} aria-label="share" onClick={() => setShareDialogOpen(true)}>
+          Sdílet
+        </Button>
       </CardActions>
       <ShareDialog
         open={shareDialogOpen}

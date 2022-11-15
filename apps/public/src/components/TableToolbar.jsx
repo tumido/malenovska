@@ -1,36 +1,17 @@
 import React from "react";
-import { Toolbar } from "@mui/material";
-import { makeStyles } from "@mui/material/styles";
+import { Box, Toolbar } from "@mui/material";
 
 import TableSearch from "./TableSearch";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    paddingLeft: theme.spacing(1),
-    paddingRight: theme.spacing(1),
-  },
-  spacer: {
-    flex: "1 1 100%",
-  },
-  right: {},
-  left: {
-    flex: "0 0 auto",
-  },
-}));
-
-const TableToolbar = ({ onSearch }) => {
-  const classes = useStyles();
-
-  return (
-    <Toolbar className={classes.root}>
-      <div className={classes.left}></div>
-      <div className={classes.spacer} />
-      <div className={classes.right}>
-        <TableSearch onSearch={onSearch} />
-      </div>
-    </Toolbar>
-  );
-};
+const TableToolbar = ({ onSearch }) =>  (
+  <Toolbar sx={{ px: 1 }}>
+    <Box sx={{flex: "0 0 auto"}} />
+    <Box sx={{flex: "1 1 100%"}} />
+    <Box>
+      <TableSearch onSearch={onSearch} />
+    </Box>
+  </Toolbar>
+);
 
 TableToolbar.propTypes = {
   ...TableSearch.propTypes,

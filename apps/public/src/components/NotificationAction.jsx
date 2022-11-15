@@ -8,7 +8,6 @@ export const NotificationAction = ({ action, onClose }) =>
       key="close"
       aria-label="close"
       color="inherit"
-      className={classes.action}
       sx={{ p: 1 }}
       onClick={onClose}
     >

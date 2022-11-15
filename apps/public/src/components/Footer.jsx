@@ -25,9 +25,9 @@ const Footer = () => (
       Malenovská
     </Grid>
     <Grid item>Pod záštitou spolku Strážci Mezihoří, z.s.</Grid>
+    <Grid item>Konání akce umožnil podnik Lesy České Republiky, s. p.</Grid>
     <Grid item>
       <a href="https://reactjs.org/">React</a>,{" "}
-      <a href="https://redux.js.org/">Redux</a>,{" "}
       <a href="https://firebase.google.com/docs/firestore/">
         Google Cloud Firestore
       </a>

@@ -16,11 +16,9 @@ const NotFound = () => (
     alignItems="center"
     sx={{
       minHeight: "100vh",
-      background: `url(${BgImage}) no-repeat center center fixed`,
-      backgroundSize: "cover",
       color: "#fff",
       margin: 0,
-      width: "100vw",
+      width: "100%"
     }}
   >
     <Helmet title="Nenalezeno" />

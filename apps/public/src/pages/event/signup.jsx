@@ -1,17 +1,12 @@
-import React, { lazy, useState, useEffect } from "react";
-import { useSelector } from "react-redux";
-import { Redirect } from "react-router";
+import React, { lazy, useState } from "react";
 import PropTypes from "prop-types";
-import {
-  isLoaded,
-  useFirestoreConnect,
-  useFirestore,
-} from "react-redux-firebase";
+import { collection, doc, getFirestore, writeBatch, query, where } from "firebase/firestore";
+import { useCollectionData } from "react-firebase-hooks/firestore";
 import { useSnackbar } from "notistack";
+import { Helmet } from "react-helmet";
 
 import { Grid, Hidden, Container, Button } from "@mui/material";
 import { Alert } from "@mui/lab";
-import { makeStyles } from "@mui/material/styles";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 
@@ -22,42 +17,19 @@ import {
   Wizard,
   NotificationAction,
 } from "../../components";
-const PersonalDetails = lazy(() => import("./signup_steps/PersonalDetails"));
-const Readout = lazy(() => import("./signup_steps/Readout"));
-const RaceSelect = lazy(() => import("./signup_steps/RaceSelect"));
-import { Helmet } from "react-helmet";
 import { useEvent } from "../../contexts/EventContext";
 import { getRaceById, participantsForRace } from "../../utilities/filters";
 import { useTopBanner } from "../../contexts/TopBannerContext";
 
-const useStyles = makeStyles((theme) => ({
-  stepper: {
-    background: "transparent",
-  },
-  buttons: {
-    margin: 20,
-    "& > *": {
-      margin: 20,
-    },
-  },
-  buttonWrapper: {
-    alignSelf: "center",
-  },
-  success: {
-    color: theme.palette.success.main,
-    fontSize: 100,
-  },
-  error: {
-    color: theme.palette.error.main,
-    fontSize: 100,
-  },
-}));
+const PersonalDetails = lazy(() => import("./signup_steps/PersonalDetails"));
+const Readout = lazy(() => import("./signup_steps/Readout"));
+const RaceSelect = lazy(() => import("./signup_steps/RaceSelect"));
+const NotFound = lazy(() => import("../404"));
 
 const registerNewParticipant = async (
   data,
   participants,
   races,
-  firestore,
   enqueueSnackbar,
   closeSnackbar
 ) => {
@@ -103,11 +75,11 @@ const registerNewParticipant = async (
     };
   }
 
-  const batch = firestore.batch();
-  const personDoc = firestore.collection("participants").doc(pk);
+  const firestore = getFirestore();
+  const batch = writeBatch(firestore);
 
-  batch.set(personDoc, personDataPublic);
-  batch.set(personDoc.collection("private").doc("_"), personDataPrivate);
+  batch.set(doc(firestore, "participants", pk), personDataPublic);
+  batch.set(doc(firestore, "participants", pk, "private", "_"), personDataPrivate);
 
   const result = await (async () => {
     try {
@@ -148,31 +120,19 @@ const registerNewParticipant = async (
 };
 
 const New = () => {
-  const classes = useStyles();
   const [event] = useEvent();
   const { setTopBanner } = useTopBanner();
-  const firestore = useFirestore();
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
-  useFirestoreConnect(() => [
-    {
-      collection: "races",
-      where: ["event", "==", event.id],
-      storeAs: `${event.id}_races`,
-      orderBy: "priority",
-    },
-    {
-      collection: "participants",
-      where: ["event", "==", event.id],
-      storeAs: `${event.id}_participants`,
-    },
-  ]);
-
-  const races = useSelector(
-    ({ firestore }) => firestore.ordered[`${event.id}_races`]
-  );
-  const participants = useSelector(
-    ({ firestore }) => firestore.ordered[`${event.id}_participants`]
+  const [participants, participantsLoading, participantsError] =
+    useCollectionData(
+      query(
+        collection(getFirestore(), "participants"),
+        where("event", "==", event.id)
+      )
+    );
+  const [races, racesLoading, racesError] = useCollectionData(
+    query(collection(getFirestore(), "races"), where("event", "==", event.id))
   );
 
   const [stepperEl, setStepperEl] = React.useState(null);
@@ -197,7 +157,6 @@ const New = () => {
         { event: event.id, ...data },
         participants,
         races,
-        firestore,
         enqueueSnackbar,
         closeSnackbar
       )
@@ -209,13 +168,13 @@ const New = () => {
     setResult(false);
   };
 
-  const isLoading = !isLoaded(races) || !isLoaded(participants);
+  const isLoading = racesLoading || participantsLoading;
 
   if (!event.registrationAvailable) {
     if (process.env.NODE_ENV === "development") {
       setTopBanner("DEV-mode");
     } else {
-      return <Redirect to="/not-found" />;
+      return <NotFound />;
     }
   }
 
@@ -235,11 +194,11 @@ const New = () => {
                 onSubmit={handleSubmit}
                 subscription={{ submitting: true, pristine: true }}
                 stepperProps={{
-                  className: classes.stepper,
+                  sx: { background: "transparent", m: "20px" },
                   names: ["Výběr strany", "Legenda", "Osobní údaje"],
                 }}
                 buttonsProps={{
-                  className: classes.buttons,
+                  sx: { m: "20px", "& > *": { m: "20px" }}
                 }}
                 portals={{
                   stepper: stepperEl,
@@ -270,7 +229,7 @@ const New = () => {
             </Grid>
             <Grid
               item
-              className={classes.buttonWrapper}
+              alignSelf="center"
               ref={handleButtonsRef}
             />
           </Grid>
@@ -281,11 +240,11 @@ const New = () => {
             <Loading isFloating />
           ) : result.options.variant === "success" ? (
             <Grid container justifyContent="center">
-              <CheckCircleOutlineIcon className={classes.success} />
+              <CheckCircleOutlineIcon sx={{ color: t => t.palette.success.main, fontSize: "100px" }} />
             </Grid>
           ) : (
             <Grid container justifyContent="center">
-              <ErrorOutlineIcon className={classes.error} />
+              <ErrorOutlineIcon sx={{ color: t => t.palette.error.main, fontSize: "100px" }} />
             </Grid>
           )}
           <Grid

@@ -1,50 +1,34 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Icon, InputBase } from "@mui/material";
-import { alpha, makeStyles } from "@mui/material/styles";
+import { Icon, InputBase, inputBaseClasses } from "@mui/material";
+import { alpha } from "@mui/material/styles";
+import { styled } from "@mui/system";
 
-const useStyles = makeStyles((theme) => ({
-  search: {
-    position: "relative",
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: alpha(theme.palette.common.black, 0.05),
-    "&:hover": {
-      backgroundColor: alpha(theme.palette.common.black, 0.1),
-    },
-    width: "100%",
-    [theme.breakpoints.up("sm")]: {
-      width: "auto",
-    },
+
+const Search = styled('div')(({theme}) => ({
+  position: "relative",
+  borderRadius: theme.shape.borderRadius,
+  backgroundColor: alpha(theme.palette.common.black, 0.05),
+  "&:hover": {
+    backgroundColor: alpha(theme.palette.common.black, 0.1),
   },
-  searchIcon: {
-    width: theme.spacing(7),
-    height: "100%",
-    position: "absolute",
-    pointerEvents: "none",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
+  width: "100%",
+  [theme.breakpoints.up("sm")]: {
+    width: "auto",
   },
-  inputRoot: {
-    color: "inherit",
-  },
-  inputInput: {
-    padding: theme.spacing(1, 1, 1, 7),
-    transition: theme.transitions.create("width"),
-    width: "100%",
-    [theme.breakpoints.up("md")]: {
-      width: 100,
-    },
-    "&:focus": {
-      [theme.breakpoints.up("md")]: {
-        width: 170,
-      },
-    },
-  },
-}));
+}))
+
+const SearchIcon = styled('div')(({theme}) => ({
+  width: theme.spacing(7),
+  height: "100%",
+  position: "absolute",
+  pointerEvents: "none",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+}))
 
 const TableSearch = ({ onSearch = () => null }) => {
-  const classes = useStyles();
   const [value, setValue] = React.useState("");
 
   const handleEscKeyPress = (event) => {
@@ -60,22 +44,29 @@ const TableSearch = ({ onSearch = () => null }) => {
   };
 
   return (
-    <div className={classes.search}>
-      <div className={classes.searchIcon}>
+    <Search>
+      <SearchIcon>
         <Icon>search</Icon>
-      </div>
+      </SearchIcon>
       <InputBase
         placeholder="Hledat…"
-        classes={{
-          root: classes.inputRoot,
-          input: classes.inputInput,
+        sx={{ color: "inherit" }}
+        inputProps={{
+          "aria-label": "search",
+          sx: {
+            pl: 7,
+            transition: t => t.transitions.create("width"),
+            width: { xs: "100%", md: "100px" },
+            "&:focus": {
+              width: { md: "170px"},
+            }
+          }
         }}
-        inputProps={{ "aria-label": "search" }}
         onChange={handleChange}
         onKeyDown={handleEscKeyPress}
         value={value}
       />
-    </div>
+    </Search>
   );
 };
 

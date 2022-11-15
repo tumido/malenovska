@@ -24,7 +24,8 @@ const Div = styled('div')(({theme}) => ({
   flexGrow: 1,
   minHeight: "100vh",
   [theme.breakpoints.up("sm")]: {
-    background: `linear-gradient(to bottom, transparent 80%, #000 100%), url(${BgImage}) repeat-x top center/cover fixed`,
+    background: `linear-gradient(to bottom, transparent 80%, #000 100%), url(${BgImage}) no-repeat center center fixed`,
+    backgroundSize: "cover",
   },
 }))
 
@@ -62,7 +63,7 @@ const App = () => {
               ))}
               <Route path="/" element={<Navigate to={`/${config.event}`} replace />} />
               <Route path="/choose" element={<Landing />} />
-              <Route path="*" element={<NotFound />} />
+              <Route path="*" element={<Div><NotFound /></Div>} />
             </Routes>
           </BrowserRouter>
         </Suspense>

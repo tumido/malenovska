@@ -11,7 +11,6 @@ import {
   Box,
   Divider,
 } from "@mui/material";
-import { makeStyles } from "@mui/material/styles";
 import {
   TextFormField,
   ColorBadge,
@@ -20,18 +19,6 @@ import {
 } from "../../../components";
 import validate from "./validators";
 import { useEvent } from "../../../contexts/EventContext";
-
-const useStyles = makeStyles((theme) => ({
-  marginTop: {
-    marginTop: "2em",
-  },
-}));
-
-const CustomDivider = () => {
-  const classes = useStyles();
-
-  return <Divider className={classes.marginTop} />;
-};
 
 const Field = ({ type, align, props, size, raw, content }) => {
   const children =
@@ -150,9 +137,9 @@ const formFields = (races, extras = []) => [
       </FormSpy>
     ),
   },
-  { type: "raw", raw: <CustomDivider /> },
+  { type: "raw", raw: <Divider sx={{mt: "2em"}} /> },
   ...extras,
-  { type: "raw", raw: <CustomDivider /> },
+  { type: "raw", raw: <Divider sx={{mt: "2em"}} /> },
   {
     type: "text",
     props: {
@@ -182,7 +169,6 @@ const formFields = (races, extras = []) => [
 ];
 
 const PersonalDetails = ({ races }) => {
-  const classes = useStyles();
   const [event] = useEvent();
 
   return (
@@ -214,7 +200,7 @@ const PersonalDetails = ({ races }) => {
           );
         }}
       </FormSpy>
-      <Divider className={classes.marginTop} />
+      <Divider sx={{mt: "2em"}} />
       <CardContent>
         <Box paddingY={2}>
           <Typography variant="h4" component="h2">

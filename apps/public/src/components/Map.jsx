@@ -1,52 +1,14 @@
 import React, { useEffect } from "react";
 import { renderToString } from "react-dom/server";
 import PropTypes from "prop-types";
-import clsx from "clsx";
-import { MapContainer, Marker, TileLayer, useMap } from "react-leaflet";
+import { MapContainer as BaseMapContainer, Marker, TileLayer, useMap } from "react-leaflet";
 
 import { latLngBounds, divIcon } from "leaflet";
 import { Grid, Icon } from "@mui/material";
-import { makeStyles } from "@mui/material/styles";
 
 import "leaflet/dist/leaflet.css";
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    height: "100%",
-  },
-  map: {
-    minHeight: 400,
-    flexGrow: 1,
-    display: "flex",
-    "& .leaflet-marker-icon": {
-      filter: "drop-shadow(8px 8px 8px #000)",
-    },
-    "& .leaflet-pane": {
-      zIndex: 0,
-    },
-    "& .leaflet-popup-content-wrapper": {
-      borderRadius: 0,
-    },
-    "& .leaflet-popup-content": {
-      margin: "1rem",
-      fontSize: "1rem",
-      width: "100%",
-    },
-  },
-  color0: {
-    color: theme.palette.loading[0],
-  },
-  color1: {
-    color: theme.palette.loading[1],
-  },
-  color2: {
-    color: theme.palette.loading[2],
-  },
-  maximize: {
-    flexGrow: 1,
-    width: "100%",
-  },
-}));
+import { styled } from "@mui/system";
+import { palette } from "../utilities/theme";
 
 const Centerer = ({ center }) => {
   const map = useMap();
@@ -60,33 +22,55 @@ const Centerer = ({ center }) => {
   return null;
 };
 
-const Map = ({ markers, center, className }) => {
-  const classes = useStyles();
+const MapContainer = styled(BaseMapContainer)({
+  flexGrow: 1,
+  width: "100%",
+})
 
+const Map = ({ markers, center }) => {
   const markersToRender = markers.map((marker, index) => (
     <Marker
       key={`point_${index}`}
       position={[marker.latitude, marker.longitude]}
       icon={divIcon({
         html: renderToString(
-          <Icon fontSize="large" className={classes[`color${index % 3}`]}>
+          <Icon  style={{ fontSize: "48px", color: palette.loading[index % 3] }}>
             location_on
           </Icon>
         ),
-        className: "",
+        className: "", // Disables Leaflet to render a blank square
+        iconAnchor: [24, 48],
+        iconSize: [48,48]
       })}
     />
   ));
 
   return (
-    <Grid container className={clsx(`${classes.root} ${className}`)}>
-      <Grid item className={classes.map}>
+    <Grid container sx={{height: "100%"}}>
+      <Grid item sx={{
+        minHeight: "400px",
+        flexGrow: 1,
+        display: "flex",
+        "& .leaflet-marker-icon": {
+          filter: "drop-shadow(8px 8px 8px #000)",
+        },
+        "& .leaflet-pane": {
+          zIndex: 0,
+        },
+        "& .leaflet-popup-content-wrapper": {
+          borderRadius: 0,
+        },
+        "& .leaflet-popup-content": {
+          margin: "1rem",
+          fontSize: "1rem",
+          width: "100%",
+        }
+      }}>
         <MapContainer
           center={latLngBounds(
             markers.map((marker) => [marker.latitude, marker.longitude])
           ).getCenter()}
-          zoom={15}
-          className={classes.maximize}
+          zoom={14}
         >
           <Centerer center={center} />
           <TileLayer
@@ -107,7 +91,6 @@ const Map = ({ markers, center, className }) => {
 
 Map.propTypes = {
   markers: PropTypes.array,
-  className: PropTypes.string,
   center: PropTypes.array,
 };
 

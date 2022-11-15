@@ -25,7 +25,7 @@ const CardFormField = ({ input, race, participants }) => {
             </Box>
             <Chip
               label={`${registeredToRace} / ${race.limit}`}
-              sx={{float: 'right'}}
+              sx={{float: 'right', backgroundColor: t => t.palette.background.paper}}
             />
           </React.Fragment>
         }
@@ -33,7 +33,9 @@ const CardFormField = ({ input, race, participants }) => {
         actionAreaProps={{
           onClick: () => input.onChange(race.id),
           disabled: registeredToRace >= race.limit,
-          sx: { border: input.value === race.id ? (t => `2px solid ${t.palette.secondary.main}`) : "2px solid transparent"}
+          sx: {
+            border: input.value === race.id ? (t => `2px solid ${t.palette.secondary.main}`) : "2px solid transparent",
+          }
         }}
         cardProps={{
           elevation: input.value === race.id ? 12 : 4,

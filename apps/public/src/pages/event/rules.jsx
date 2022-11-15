@@ -1,6 +1,6 @@
 import React from "react";
 
-import { CardContent } from "@mui/material";
+import { CardContent, Container } from "@mui/material";
 
 import { Article, ArticleCardHeader, Banner, Markdown } from "../../components";
 import { Helmet } from "react-helmet";
@@ -15,11 +15,12 @@ const Rules = () => {
       <Banner title="Pravidla" />
       <Article>
         <ArticleCardHeader
-          // title="Pravidla"
           image={event.rulesImage && event.rulesImage.src}
         />
         <CardContent>
-          <Markdown content={event.rules} />
+          <Container maxWidth='md' sx={{mt: 4}}>
+            <Markdown content={event.rules} />
+          </Container>
         </CardContent>
       </Article>
     </React.Fragment>

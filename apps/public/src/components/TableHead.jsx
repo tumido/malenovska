@@ -5,29 +5,30 @@ import {
   TableHead as BaseTableHead,
   TableRow,
   TableCell,
-  TableSortLabel,
+  TableSortLabel as BaseTableSortLabel, tableSortLabelClasses
 } from "@mui/material";
-import { makeStyles } from "@mui/material/styles";
+import { styled } from "@mui/system";
 
-const useStyles = makeStyles(() => ({
-  visuallyHidden: {
-    border: 0,
-    clip: "rect(0 0 0 0)",
-    height: 1,
-    margin: -1,
-    overflow: "hidden",
-    padding: 0,
-    position: "absolute",
-    top: 20,
-    width: 1,
-  },
-  icon: {
+
+const TableSortLabel = styled(BaseTableSortLabel)(({theme}) => ({
+  [`&.${tableSortLabelClasses.icon}`]: {
     opacity: 0.25,
-  },
-}));
+  }
+}))
+
+const PretendedHidden = styled('span')({
+  border: 0,
+  clip: "rect(0 0 0 0)",
+  height: 1,
+  margin: -1,
+  overflow: "hidden",
+  padding: 0,
+  position: "absolute",
+  top: 20,
+  width: 1,
+})
 
 const TableHead = ({ order, orderBy, onRequestSort, headers }) => {
-  const classes = useStyles();
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
   };
@@ -44,13 +45,12 @@ const TableHead = ({ order, orderBy, onRequestSort, headers }) => {
               active={orderBy === cell.id}
               direction={order}
               onClick={createSortHandler(cell.id)}
-              classes={{ icon: classes.icon }}
             >
               {cell.label}
               {orderBy === cell.id ? (
-                <span className={classes.visuallyHidden}>
+                <PretendedHidden>
                   {order === "desc" ? "sorted descending" : "sorted ascending"}
-                </span>
+                </PretendedHidden>
               ) : null}
             </TableSortLabel>
           </TableCell>
