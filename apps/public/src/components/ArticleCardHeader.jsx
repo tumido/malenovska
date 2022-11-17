@@ -26,20 +26,29 @@ const ArticleCardHeader = ({ image, title, height, titleVariant = "h4" }) => {
           </Typography>
         )}
       </Box>
-    )
+    );
   }
 
-  const thumbnailUrl = new URL(image)
-  thumbnailUrl.pathname += (height && height < 400) ? "_650x650" : "_1200x1200"
+  const thumbnailUrl = new URL(image);
+  const delim = thumbnailUrl.pathname.lastIndexOf(".");
+  thumbnailUrl.pathname =
+    thumbnailUrl.pathname.slice(0, delim) +
+    (height && height < 400 ? "_650x650" : "_1200x1200") +
+    thumbnailUrl.pathname.slice(delim);
 
   const handleImageError = (e) => {
     e.target.onerror = null;
-    e.target.src = image
-  }
+    e.target.src = image;
+  };
 
   return (
     <Box sx={{ position: "relative" }}>
-      <CardMedia sx={{ height: height || 400 }} image={thumbnailUrl} component="img" onError={handleImageError}/>
+      <CardMedia
+        sx={{ height: height || 400 }}
+        image={thumbnailUrl}
+        component="img"
+        onError={handleImageError}
+      />
       {title && (
         <Typography
           sx={{

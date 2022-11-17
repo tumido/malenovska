@@ -14,6 +14,7 @@ import {
   Person,
   CameraEnhance,
 } from "@mui/icons-material";
+import { getStorage, ref, updateMetadata } from "firebase/storage";
 
 import { adminTheme } from "./utilities/theme";
 import { czechMessages } from "./utilities/i18n";
@@ -32,6 +33,27 @@ import gallery from "./containers/Gallery";
 const options = {};
 
 const dataProviderBase = FirebaseDataProvider(firebaseConfig, options);
+
+const updateFileMetadata = (originalResponse, params) => {
+  const storage = getStorage();
+  Object.keys(params.data).map((k) => {
+    if (
+      !params.data[k]?.src?.startsWith("https://firebasestorage.googleapis.com")
+    ) {
+      return;
+    }
+    const url = new URL(params.data[k].src);
+    const path = decodeURIComponent(
+      url.pathname.slice(url.pathname.lastIndexOf("/") + 1)
+    );
+    const fileRef = ref(storage, path);
+
+    updateMetadata(fileRef, { cacheControl: "public,max-age=31536000" });
+  });
+
+  return originalResponse;
+};
+
 const dataProvider = {
   ...dataProviderBase,
   delete: (resource, params) => {
@@ -42,8 +64,25 @@ const dataProvider = {
       dataProviderBase.delete(resource, { id: `${params.id}/private/_` }),
       dataProviderBase.delete(resource, params),
     ]);
-  }
+  },
+  create: (resource, params) => {
+    if (!["legends", "galleries", "events", "races"].includes(resource)) {
+      return dataProviderBase.create(resource, params);
+    }
+    return dataProviderBase
+      .create(resource, params)
+      .then((r) => updateFileMetadata(r, params));
+  },
+  update: (resource, params) => {
+    if (!["legends", "galleries", "events", "races"].includes(resource)) {
+      return dataProviderBase.update(resource, params);
+    }
+    return dataProviderBase
+      .update(resource, params)
+      .then((r) => updateFileMetadata(r, params));
+  },
 };
+
 const authProvider = FirebaseAuthProvider(firebaseConfig, options);
 const i18nProvider = polyglotI18nProvider(() => czechMessages, "cs");
 
