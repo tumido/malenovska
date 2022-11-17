@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import loadFonts from '@malenovska/common/utilities/fonts';
 
 import App from './App';
@@ -7,4 +7,5 @@ import './index.css';
 
 loadFonts();
 
-ReactDOM.render(<App />, document.getElementById('app'));
+const root = createRoot(document.getElementById('app'));
+root.render(<App />);

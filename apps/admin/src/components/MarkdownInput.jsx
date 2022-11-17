@@ -12,13 +12,8 @@ const converter = new Showdown.Converter({
 });
 
 const MarkdownInput = (props) => {
-  const { onChange, onBlur, ...rest } = props;
-  const {
-    field,
-    fieldState: { isTouched, invalid, error },
-    formState: { isSubmitted },
-    isRequired,
-  } = useInput({ onChange, onBlur, ...props });
+  const { onChange, onBlur, validate: _validate, ...rest } = props;
+  const { field } = useInput({ onChange, onBlur, ...props });
 
   const [activeTab, setActiveTab] = React.useState("write");
   const [content, setContent] = React.useState(field.value || "");

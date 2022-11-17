@@ -8,7 +8,8 @@ import {
 
 import Icon from '@mui/material/Icon';
 
-import { EventFilter, LocaleDateField } from '../shared';
+import { EventFilter } from "../../components/EventFilter";
+import { LocaleDateField } from "../../components/LocaleDateField";
 
 const List = (props) => (
   <ListBase

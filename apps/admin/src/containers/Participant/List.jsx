@@ -19,7 +19,7 @@ import { unparse as convertToCSV } from "papaparse/papaparse.min";
 import { truncate } from "lodash/string";
 
 import { getPrivateSubDocument } from "./shared";
-import { LocaleDateField } from "../shared";
+import { LocaleDateField } from "../../components/LocaleDateField";
 
 const ParticipantFilter = (props) => {
   const {filterValues} = useListContext()

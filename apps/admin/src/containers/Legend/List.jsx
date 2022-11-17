@@ -7,8 +7,8 @@ import {
 } from 'react-admin';
 import { truncate } from 'lodash/string';
 
-import { EventFilter } from '../shared';
-import { LocaleDateField } from '../shared';
+import { EventFilter } from "../../components/EventFilter";
+import { LocaleDateField } from "../../components/LocaleDateField";
 
 const List = (props) => (
   <ListBase

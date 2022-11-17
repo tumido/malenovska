@@ -6,8 +6,8 @@ import {
   TextField, ReferenceField,
   EditButton, ShowButton
 } from 'react-admin';
-import { LocaleDateField } from '../shared';
-import { EventFilter } from '../shared';
+import { LocaleDateField } from "../../components/LocaleDateField";
+import { EventFilter } from "../../components/EventFilter";
 
 const List = (props) => (
   <ListBase

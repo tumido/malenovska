@@ -8,7 +8,7 @@ import {
 import { truncate } from 'lodash/string';
 
 import { ChipField } from './shared';
-import { LocaleDateField } from '../shared';
+import { LocaleDateField } from "../../components/LocaleDateField";
 
 const List = (props) => (
   <ListBase title='Události' { ...props }>

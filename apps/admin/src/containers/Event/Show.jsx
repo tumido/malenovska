@@ -9,7 +9,8 @@ import Icon from '@mui/material/Icon';
 
 import { MarkdownField, TimeField } from '../../components';
 import { EventTitle } from './shared';
-import { inlineBlock, LocaleDateField } from '../shared';
+import { inlineBlock } from '../shared';
+import { LocaleDateField } from "../../components/LocaleDateField";
 
 const Show = (props) => (
     <ShowBase title={ <EventTitle /> } { ...props }>

@@ -44,7 +44,14 @@ const Card = ({ label, value, to, children }) => {
 Card.propTypes = {
   label: PropTypes.string.isRequired,
   value: PropTypes.node,
-  to: PropTypes.string,
+  to: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.shape({
+      pathname: PropTypes.string,
+      search: PropTypes.string,
+      hash: PropTypes.string,
+    }),
+  ]),
   children: PropTypes.node,
 };
 
