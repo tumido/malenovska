@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import {
   Edit as EditBase,
   SimpleForm,
@@ -9,35 +8,18 @@ import {
   ImageInput,
   NumberInput,
   ImageField,
-  useNotify,
-  useRedirect,
   required,
 } from "react-admin";
 
 import MarkdownInput from "../../components/MarkdownInput";
 import { RaceTitle } from "./shared";
-import { setCacheForRecord } from "../shared";
+import { inlineBlock } from "../shared";
+import Grid from "@mui/material/Grid";
 
-const Edit = (props) => {
-  const notify = useNotify();
-  const redirectTo = useRedirect();
-  const onSuccess = setCacheForRecord({
-    collection: "races",
-    records: ["image"],
-    isCreate: false,
-    basePath: props.basePath,
-    redirectTo,
-    notify,
-  });
-
-  return (
-    <EditBase
-      onSuccess={onSuccess}
-      undoable={false}
-      title={<RaceTitle />}
-      {...props}
-    >
-      <SimpleForm>
+const Edit = (props) => (
+  <EditBase undoable={false} title={<RaceTitle />} {...props}>
+    <SimpleForm>
+      <Grid container>
         <TextInput
           label="Název"
           source="name"
@@ -50,7 +32,7 @@ const Edit = (props) => {
           reference="events"
           sx={inlineBlock}
         >
-          <SelectInput optionText="name" />
+          <SelectInput optionText="name" sx={inlineBlock} />
         </ReferenceInput>
         <NumberInput
           label="Limit"
@@ -63,33 +45,39 @@ const Edit = (props) => {
           source="priority"
           sx={inlineBlock}
         />
+      </Grid>
+      <Grid container>
         <TextInput
           label="Barva"
           source="color"
           picker="Sketch"
           validate={required()}
+          sx={inlineBlock}
         />
         <TextInput
           label="Název barvy"
           source="colorName"
           validate={required()}
+          sx={inlineBlock}
         />
-        <MarkdownInput label="Legenda" source="legend" validate={required()} />
-        <MarkdownInput
-          label="Požadavky"
-          source="requirements"
-          validate={required()}
-        />
-        <ImageInput label="Obrázek" source="image">
-          <ImageField source="src" title="title" />
-        </ImageInput>
-      </SimpleForm>
-    </EditBase>
-  );
-};
-
-Edit.propTypes = {
-  basePath: PropTypes.string,
-};
+      </Grid>
+      <MarkdownInput
+        label="Legenda"
+        source="legend"
+        validate={required()}
+        fullWidth
+      />
+      <MarkdownInput
+        label="Požadavky"
+        source="requirements"
+        validate={required()}
+        fullWidth
+      />
+      <ImageInput label="Obrázek" source="image">
+        <ImageField source="src" title="title" />
+      </ImageInput>
+    </SimpleForm>
+  </EditBase>
+);
 
 export default Edit;

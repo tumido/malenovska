@@ -8,8 +8,6 @@ import {
   SelectInput,
   ImageInput,
   ImageField,
-  useNotify,
-  useRedirect,
   maxLength,
   DateInput,
   required,
@@ -17,28 +15,17 @@ import {
 
 import MarkdownInput from "../../components/MarkdownInput";
 import { LegendTitle } from "./shared";
-import { inlineBlock, setCacheForRecord } from "../shared";
+import { inlineBlock } from "../shared";
+import Grid from "@mui/material/Grid";
 
-const Edit = (props) => {
-  const notify = useNotify();
-  const redirectTo = useRedirect();
-  const onSuccess = setCacheForRecord({
-    collection: "legends",
-    records: ["image"],
-    isCreate: true,
-    basePath: props.basePath,
-    redirectTo,
-    notify,
-  });
-
-  return (
-    <EditBase
-      onSuccess={onSuccess}
-      undoable={false}
-      title={<LegendTitle />}
-      {...props}
-    >
-      <SimpleForm>
+const Edit = (props) => (
+  <EditBase
+    undoable={false}
+    title={<LegendTitle />}
+    {...props}
+  >
+    <SimpleForm>
+      <Grid container>
         <TextInput label="ID" source="id" disabled sx={inlineBlock} />
         <TextInput
           label="Název"
@@ -46,37 +33,33 @@ const Edit = (props) => {
           validate={required()}
           sx={inlineBlock}
         />
-        <ReferenceInput
-          label="Událost"
-          source="event"
-          reference="events"
-          sx={inlineBlock}
-        >
-          <SelectInput optionText="name" />
+        <ReferenceInput label="Událost" source="event" reference="events">
+          <SelectInput optionText="name" sx={inlineBlock} />
         </ReferenceInput>
         <DateInput
           label="Datum publikace"
           source="publishedAt"
           sx={inlineBlock}
         />
-        <TextInput
-          label="Perex"
-          source="perex"
-          defaultValue=""
-          validate={[required(), maxLength(200)]}
-          fullWidth
-        />
-        <MarkdownInput label="Obsah" source="content" validate={required()} />
-        <ImageInput source="image" label="Obrázek">
-          <ImageField source="src" title="title" />
-        </ImageInput>
-      </SimpleForm>
-    </EditBase>
-  );
-};
-
-Edit.propTypes = {
-  basePath: PropTypes.string,
-};
+      </Grid>
+      <TextInput
+        label="Perex"
+        source="perex"
+        defaultValue=""
+        validate={[required(), maxLength(200)]}
+        fullWidth
+      />
+      <MarkdownInput
+        label="Obsah"
+        source="content"
+        validate={required()}
+        fullWidth
+      />
+      <ImageInput source="image" label="Obrázek">
+        <ImageField source="src" title="title" />
+      </ImageInput>
+    </SimpleForm>
+  </EditBase>
+);
 
 export default Edit;

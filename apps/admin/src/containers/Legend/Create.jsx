@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import {
   Create as CreateBase,
   SimpleForm,
@@ -10,55 +9,32 @@ import {
   ImageInput,
   ImageField,
   DateInput,
-  useNotify,
-  useRedirect,
   maxLength,
   required,
 } from "react-admin";
 
 import MarkdownInput from "../../components/MarkdownInput";
 import SaveWithTransformToolbar from "../../components/SaveWithTransformToolbar";
+import Grid from "@mui/material/Grid";
 
-import { inlineBlock, setCacheForRecord } from "../shared";
+import { inlineBlock } from "../shared";
 
-const Create = (props) => {
-  const transform = ({ title }) =>
-    title && title.replace(/ /g, "_").toLowerCase().replace(/\W/g, "");
+const transform = (title) =>
+  title && title.replace(/ /g, "_").toLowerCase().replace(/\W/g, "");
 
-  const notify = useNotify();
-  const redirectTo = useRedirect();
-  const onSuccess = setCacheForRecord({
-    collection: "legends",
-    records: ["image"],
-    isCreate: true,
-    basePath: props.basePath,
-    redirectTo,
-    notify,
-  });
-
-  return (
-    <CreateBase onSuccess={onSuccess} title="Nová legenda" {...props}>
-      <SimpleForm
-        toolbar={
-          <SaveWithTransformToolbar
-            transform={(data) => ({
+const Create = (props) => (
+  <CreateBase title="Nová legenda" {...props} >
+    <SimpleForm
+      toolbar={
+        <SaveWithTransformToolbar
+          transform={(data) => ({
               ...data,
-              id: transform({ title: data.title }),
+              id: transform(data.title),
             })}
-          />
-        }
-      >
-        <FormDataConsumer sx={inlineBlock}>
-          {({ formData: { title }, ...rest }) => (
-            <TextInput
-              label="ID"
-              source="id"
-              value={transform({ title }) || ""}
-              {...rest}
-              disabled
-            />
-          )}
-        </FormDataConsumer>
+        />
+      }
+    >
+      <Grid container>
         <TextInput
           label="Název"
           source="title"
@@ -72,7 +48,7 @@ const Create = (props) => {
           reference="events"
           sx={inlineBlock}
         >
-          <SelectInput optionText="name" />
+          <SelectInput optionText="name" sx={inlineBlock} />
         </ReferenceInput>
         <DateInput
           label="Datum publikace"
@@ -80,24 +56,25 @@ const Create = (props) => {
           defaultValue={new Date()}
           sx={inlineBlock}
         />
-        <TextInput
-          label="Perex"
-          source="perex"
-          defaultValue=""
-          validate={[required(), maxLength(200)]}
-          fullWidth
-        />
-        <MarkdownInput label="Obsah" source="content" validate={required()} />
-        <ImageInput source="image" label="Obrázek">
-          <ImageField source="src" title="title" />
-        </ImageInput>
-      </SimpleForm>
-    </CreateBase>
-  );
-};
-
-Create.propTypes = {
-  basePath: PropTypes.string,
-};
+      </Grid>
+      <TextInput
+        label="Perex"
+        source="perex"
+        defaultValue=""
+        validate={[required(), maxLength(200)]}
+        fullWidth
+      />
+      <MarkdownInput
+        label="Obsah"
+        source="content"
+        validate={required()}
+        fullWidth
+      />
+      <ImageInput source="image" label="Obrázek">
+        <ImageField source="src" title="title" />
+      </ImageInput>
+    </SimpleForm>
+  </CreateBase>
+);
 
 export default Create;

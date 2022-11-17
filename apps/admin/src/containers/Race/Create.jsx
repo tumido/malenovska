@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import {
   Create as CreateBase,
   SimpleForm,
@@ -9,29 +8,17 @@ import {
   ImageInput,
   NumberInput,
   ImageField,
-  useNotify,
-  useRedirect,
   required,
 } from "react-admin";
 
 import MarkdownInput from "../../components/MarkdownInput";
-import { inlineBlock, setCacheForRecord } from "../shared";
+import { inlineBlock } from "../shared";
+import Grid from "@mui/material/Grid";
 
-const Create = (props) => {
-  const notify = useNotify();
-  const redirectTo = useRedirect();
-  const onSuccess = setCacheForRecord({
-    collection: "races",
-    records: ["image"],
-    isCreate: true,
-    basePath: props.basePath,
-    redirectTo,
-    notify,
-  });
-
-  return (
-    <CreateBase onSuccess={onSuccess} title="Nová strana" {...props}>
-      <SimpleForm>
+const Create = (props) => (
+  <CreateBase title="Nová strana" {...props}>
+    <SimpleForm>
+      <Grid container>
         <TextInput
           label="Název"
           source="name"
@@ -44,7 +31,7 @@ const Create = (props) => {
           reference="events"
           sx={inlineBlock}
         >
-          <SelectInput optionText="name" />
+          <SelectInput optionText="name" sx={inlineBlock} />
         </ReferenceInput>
         <NumberInput
           label="Limit"
@@ -58,33 +45,39 @@ const Create = (props) => {
           defaultValue="1"
           sx={inlineBlock}
         />
+      </Grid>
+      <Grid container>
         <TextInput
           label="Barva"
           source="color"
           picker="Sketch"
           validate={required()}
+          sx={inlineBlock}
         />
         <TextInput
           label="Název barvy"
           source="colorName"
           validate={required()}
+          sx={inlineBlock}
         />
-        <MarkdownInput label="Legenda" source="legend" validate={required()} />
-        <MarkdownInput
-          label="Požadavky"
-          source="requirements"
-          validate={required()}
-        />
-        <ImageInput source="image" label="Obrázek">
-          <ImageField source="src" title="title" />
-        </ImageInput>
-      </SimpleForm>
-    </CreateBase>
-  );
-};
-
-Create.propTypes = {
-  basePath: PropTypes.string,
-};
+      </Grid>
+      <MarkdownInput
+        label="Legenda"
+        source="legend"
+        validate={required()}
+        fullWidth
+      />
+      <MarkdownInput
+        label="Požadavky"
+        source="requirements"
+        validate={required()}
+        fullWidth
+      />
+      <ImageInput source="image" label="Obrázek">
+        <ImageField source="src" title="title" />
+      </ImageInput>
+    </SimpleForm>
+  </CreateBase>
+);
 
 export default Create;

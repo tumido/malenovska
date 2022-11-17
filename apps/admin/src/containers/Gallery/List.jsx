@@ -7,26 +7,12 @@ import {
   EditButton, ShowButton
 } from 'react-admin';
 import { LocaleDateField } from '../shared';
-
-const LegendFilter = (props) => (
-  <Filter { ...props }>
-    <ReferenceInput source='event' reference='events' label='Událost' alwaysOn>
-      <SelectInput source='name'/>
-    </ReferenceInput>
-    <FormDataConsumer>
-      {({ formData: { event }}) =>
-        <ReferenceInput source='race' reference='races' label='Strana' filter={ { event } }>
-          <SelectInput source='name'/>
-        </ReferenceInput>
-      }
-    </FormDataConsumer>
-  </Filter>
-);
+import { EventFilter } from '../shared';
 
 const List = (props) => (
   <ListBase
     title="Účastníci"
-    filters={ <LegendFilter /> }
+    filters={ <EventFilter /> }
     { ...props }
   >
     <Datagrid>

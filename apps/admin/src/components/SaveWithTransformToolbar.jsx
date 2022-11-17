@@ -4,12 +4,13 @@ import { Toolbar, SaveButton } from "react-admin";
 
 const SaveWithTransformToolbar = ({ transform, ...props }) => (
   <Toolbar {...props}>
-    <SaveButton transform={transform} />
+    <SaveButton type="button" transform={transform}/>
   </Toolbar>
 );
 
 SaveWithTransformToolbar.propTypes = {
   transform: PropTypes.func.isRequired,
+  mutationOptions: PropTypes.object,
 };
 
 export default SaveWithTransformToolbar;

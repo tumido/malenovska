@@ -1,7 +1,7 @@
 import React from "react";
 import {
   Show as ShowBase,
-  SimpleForm,
+  SimpleShowLayout,
   TextField,
   ReferenceField,
   NumberField,
@@ -15,7 +15,7 @@ import { inlineBlock } from "../shared";
 
 const Show = (props) => (
   <ShowBase title={<RaceTitle />} {...props}>
-    <SimpleForm>
+    <SimpleShowLayout>
       <TextField
         label="Název"
         source="name"
@@ -56,7 +56,7 @@ const Show = (props) => (
         validate={required()}
       />
       <ImageField source="image.src" title="image.title" />
-    </SimpleForm>
+    </SimpleShowLayout>
   </ShowBase>
 );
 

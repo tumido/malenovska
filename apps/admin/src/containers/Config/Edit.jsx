@@ -6,8 +6,6 @@ import {
   SelectInput,
 } from "react-admin";
 
-import { inlineBlock } from "../shared";
-
 const Edit = (props) => (
     <EditBase title="Nastavení" {...props}>
       <SimpleForm redirect="/">
@@ -15,7 +13,6 @@ const Edit = (props) => (
           label="Událost"
           source="event"
           reference="events"
-          sx={ inlineBlock }
         >
           <SelectInput optionText="name" />
         </ReferenceInput>

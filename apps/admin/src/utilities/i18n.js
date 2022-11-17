@@ -118,5 +118,8 @@ export const czechMessages = {
       oneOf: "Musí splňovat jedno z: %{options}",
       regex: "Musí být ve specifickém formátu (regexp): %{pattern}",
     },
+    configurable: {
+      customize: "Upravit"
+    }
   },
 };

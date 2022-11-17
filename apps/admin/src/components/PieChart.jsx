@@ -88,6 +88,9 @@ const PieChart = ({ data = [] }) => {
   const [active, setActive] = useState(0);
 
   const handleMouseEnter = (_, idx) => setActive(idx);
+
+  const getFillColor = (c) => ["#ffffff", "#fff", "white"].includes(c) ? "lightgrey" : c;
+
   return (
     <Card>
       <CardContent>
@@ -108,7 +111,7 @@ const PieChart = ({ data = [] }) => {
                 dataKey="value"
               >
                 {data.map((d, index) => (
-                  <Cell key={`cell-${index}`} fill={d.color} />
+                  <Cell key={`cell-${index}`} fill={getFillColor(d.color)} />
                 ))}
               </Pie>
               {/* <Legend

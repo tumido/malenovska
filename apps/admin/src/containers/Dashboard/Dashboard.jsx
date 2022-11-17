@@ -27,43 +27,52 @@ const Dashboard = () => {
     value: aggPeopleByRace[r.id],
   }));
 
+
+  const cards = [
+    {
+      label: "Aktivní událost",
+      to: config && `/events/${config?.event}`,
+      value: event?.name,
+    },
+    {
+      label: "Přihlášených účastníků",
+      to: {
+        pathname: "/participants",
+        search: config
+          ? `filter=${JSON.stringify({ event: config?.event })}`
+          : "",
+        },
+      value: (people || []).length
+    },
+    {
+      label: "Afterparty",
+      value: (people || []).filter((p) => p.afterparty).length
+    },
+    {
+      label: "Přespání",
+      value: (people || []).filter((p) => p.sleepover).length
+    },
+    {
+      label: "Jídlo",
+      value: (people || []).filter((p) => p.food).length
+    },
+    {
+      label: "Řidič",
+      value: (people || []).filter((p) => p.car).length
+    }
+  ]
+
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={2} sx={{ mt: 2 }}>
+      <Grid item style={{ marginLeft: "auto" }}>
+        <EditButton resource="config" label="Nastavení" record={{ id: "config" }} />
+      </Grid>
       <Grid item container spacing={2}>
-        <Grid item lg={2}>
-          <Card
-            label="Aktivní událost"
-            to={config && `/events/${config?.event}`}
-            value={event?.name}
-          />
-        </Grid>
-        <Grid item lg={2}>
-          <Card
-            label="Přihlášených účastníků"
-            to={{
-              pathname: "/participants",
-              search: config
-                ? `filter=${JSON.stringify({ event: config?.event })}`
-                : "",
-            }}
-            value={(people || []).length}
-          />
-        </Grid>
-        <Grid item lg={2}>
-          <Card
-            label="Afterparty"
-            value={(people || []).filter((p) => p.afterparty).length}
-          />
-        </Grid>
-        <Grid item lg={2}>
-          <Card
-            label="Přespání"
-            value={(people || []).filter((p) => p.sleepover).length}
-          />
-        </Grid>
-        <Grid item style={{ marginLeft: "auto" }}>
-          <EditButton basePath="config" label="" record={{ id: "config" }} />
-        </Grid>
+        {cards.map(c => (
+          <Grid item lg={2} md={12} key={c.label}>
+            <Card {...c} />
+          </Grid>
+        ))}
       </Grid>
       <Grid item container spacing={2}>
         <Grid item lg={4}>

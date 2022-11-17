@@ -1,7 +1,7 @@
 import React from "react";
 import {
   Show as ShowBase,
-  SimpleForm,
+  SimpleShowLayout,
   TextField,
   ReferenceField,
   FunctionField,
@@ -22,7 +22,7 @@ const Show = (props) => {
 
   return (
     <ShowBase title={<ParticipantTitle />} {...props}>
-      <SimpleForm>
+      <SimpleShowLayout>
         <TextField label="ID" source="id" sx={inlineBlock} />
         <ReferenceField
           label="Událost"
@@ -69,7 +69,7 @@ const Show = (props) => {
         <br />
         <TextField label="Skupina" source="group" fullWidth />
         <TextField label="Poznámka" source="note" fullWidth />
-      </SimpleForm>
+      </SimpleShowLayout>
     </ShowBase>
   );
 };

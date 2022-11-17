@@ -1,8 +1,8 @@
-import React from 'react';
-import { Mde } from 'fc-mde';
-import Showdown from 'showdown';
-import { useController } from 'react-hook-form';
-import FormControl from '@mui/material/FormControl';
+import React from "react";
+import { Mde } from "fc-mde";
+import Showdown from "showdown";
+import FormControl from "@mui/material/FormControl";
+import { useInput, Labeled } from "react-admin";
 
 const converter = new Showdown.Converter({
   tables: true,
@@ -11,25 +11,35 @@ const converter = new Showdown.Converter({
   tasklists: true,
 });
 
-const MarkdownInput = () => {
-  const input = useController({ defaultValue: '' });
-  const [ activeTab, setActiveTab ] = React.useState('write');
-  const [ content, setContent ] = React.useState(input.value);
+const MarkdownInput = (props) => {
+  const { onChange, onBlur, ...rest } = props;
+  const {
+    field,
+    fieldState: { isTouched, invalid, error },
+    formState: { isSubmitted },
+    isRequired,
+  } = useInput({ onChange, onBlur, ...props });
 
-  const handleContentChange = value => {
+  const [activeTab, setActiveTab] = React.useState("write");
+  const [content, setContent] = React.useState(field.value || "");
+
+  const handleContentChange = (value) => {
     setContent(value);
-    handleChange(value);
+    field.onChange(value);
   };
 
   return (
-    <FormControl { ...input.props }>
+    <Labeled label={field.label} {...rest} >
       <Mde
-        setText={ handleContentChange }
-        onTabChange={ setActiveTab }
-        text={ content }
-        generateMarkdownPreview={ async (markdown) => converter.makeHtml(markdown) }
-        selectedTab={ activeTab }/>
-    </FormControl>
+        setText={handleContentChange}
+        onTabChange={setActiveTab}
+        text={content}
+        generateMarkdownPreview={async (markdown) =>
+          converter.makeHtml(markdown)
+        }
+        selectedTab={activeTab}
+      />
+    </Labeled>
   );
 };
 

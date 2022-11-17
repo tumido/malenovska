@@ -13,7 +13,7 @@ import {
 
 const Card = ({ label, value, to, children }) => {
   const cardContent = (
-    <CardContent sx={{ overflow: "inherit", p: 16 }}>
+    <CardContent sx={{ overflow: "inherit" }}>
       <Box textAlign="right">
         <Typography color="textSecondary" gutterBottom>
           {label}

@@ -1,7 +1,7 @@
 import React from "react";
 import {
   Show as ShowBase,
-  SimpleForm,
+  SimpleShowLayout,
   TextField,
   ReferenceField,
   ImageField,
@@ -14,7 +14,7 @@ import { inlineBlock } from "../shared";
 
 const Show = (props) => (
   <ShowBase title={<LegendTitle />} {...props}>
-    <SimpleForm>
+    <SimpleShowLayout>
       <TextField label="ID" source="id" sx={inlineBlock} />
       <TextField label="Název" source="title" sx={inlineBlock} />
       <ReferenceField
@@ -28,7 +28,7 @@ const Show = (props) => (
       <TextField label="Perex" source="perex" defaultValue="" fullWidth />
       <MarkdownField label="Obsah" source="content" />
       <ImageField source="image.src" label="Obrázek" />
-    </SimpleForm>
+    </SimpleShowLayout>
   </ShowBase>
 );
 

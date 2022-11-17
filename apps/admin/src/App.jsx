@@ -17,7 +17,6 @@ import {
 
 import { adminTheme } from "./utilities/theme";
 import { czechMessages } from "./utilities/i18n";
-import { deleteParticipantSubCollection } from "./utilities/sagas";
 import BgImage from "@malenovska/common/assets/images/background.jpg";
 import Favicon from "@malenovska/common/assets/images/favicon-32x32.png";
 import { firebaseConfig } from "@malenovska/common/utilities/firebase";
@@ -32,8 +31,20 @@ import gallery from "./containers/Gallery";
 
 const options = {};
 
-const dataProvider = FirebaseDataProvider(firebaseConfig, options); // eslint-disable-line
-const authProvider = FirebaseAuthProvider(firebaseConfig, options); // eslint-disable-line
+const dataProviderBase = FirebaseDataProvider(firebaseConfig, options);
+const dataProvider = {
+  ...dataProviderBase,
+  delete: (resource, params) => {
+    if (resource !== "participants") {
+      return dataProviderBase.delete(resource, params);
+    }
+    return Promise.all([
+      dataProviderBase.delete(resource, { id: `${params.id}/private/_` }),
+      dataProviderBase.delete(resource, params),
+    ]);
+  }
+};
+const authProvider = FirebaseAuthProvider(firebaseConfig, options);
 const i18nProvider = polyglotI18nProvider(() => czechMessages, "cs");
 
 const LoginPage = () => <Login backgroundImage={BgImage} />;
@@ -51,7 +62,6 @@ const App = () => (
       theme={adminTheme}
       loginPage={LoginPage}
       title="Malenovská Strojovna"
-      customSagas={[deleteParticipantSubCollection]}
       disableTelemetry
       dashboard={Dashboard}
     >

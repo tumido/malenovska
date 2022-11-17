@@ -1,19 +1,15 @@
 import React from "react";
-import PropTypes from "prop-types";
 import format from "date-fns/format";
+import { Labeled, useRecordContext } from 'react-admin';
 
-const TimeField = ({ source, record = {} }) => (
-  <span>{record && record[source] && format(record[source], "HH:mm")}</span>
-);
+const TimeField = (props) => {
+  const record = useRecordContext(props);
 
-TimeField.propTypes = {
-  label: PropTypes.string,
-  record: PropTypes.objectOf(PropTypes.instanceOf(Date)),
-  source: PropTypes.string.isRequired,
-};
-
-TimeField.defaultProps = {
-  addLabel: true,
-};
+  return (
+    <Labeled label={props.label}>
+      <span>{record && record[props.source] && format(record[props.source], "HH:mm")}</span>
+    </Labeled>
+  )
+}
 
 export default TimeField;

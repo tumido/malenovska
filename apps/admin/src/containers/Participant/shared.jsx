@@ -15,7 +15,7 @@ ParticipantTitle.propTypes = {
   record: PropTypes.object,
 };
 
-export const getPrivateSubDocument = async (participant) => {
+export const getPrivateSubDocument = async (payload) => {
   const snapshot = await getDoc(
     doc(getFirestore(), "participants", payload.id, "private", "_")
   )

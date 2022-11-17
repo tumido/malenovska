@@ -13,6 +13,7 @@ import {
   EditButton,
   ShowButton,
   downloadCSV,
+  useListContext,
 } from "react-admin";
 import { unparse as convertToCSV } from "papaparse/papaparse.min";
 import { truncate } from "lodash/string";
@@ -20,25 +21,26 @@ import { truncate } from "lodash/string";
 import { getPrivateSubDocument } from "./shared";
 import { LocaleDateField } from "../shared";
 
-const ParticipantFilter = (props) => (
-  <Filter {...props}>
-    <ReferenceInput source="event" reference="events" label="Událost" alwaysOn>
-      <SelectInput source="name" />
-    </ReferenceInput>
-    <ReferenceInput
-      source="race"
-      reference="races"
-      label="Strana"
-      filter={
-        props.filterValues.event ? { event: props.filterValues.event } : {}
-      }
-      alwaysOn
-    >
-      <SelectInput source="name" />
-    </ReferenceInput>
-    <SearchInput source="nickName" alwaysOn />
-  </Filter>
-);
+const ParticipantFilter = (props) => {
+  const {filterValues} = useListContext()
+  return (
+    <Filter {...props}>
+      <ReferenceInput source="event" reference="events" label="Událost" alwaysOn>
+        <SelectInput source="name" label="Událost" optionText="name" />
+      </ReferenceInput>
+      <ReferenceInput
+        source="race"
+        reference="races"
+        label="Strana"
+        filter={{ event: filterValues.event }}
+        alwaysOn
+      >
+        <SelectInput source="name" optionText="name" label="Strana"/>
+      </ReferenceInput>
+      <SearchInput source="nickName" alwaysOn sx={{ "& > div": { mb: "4px" }}}/>
+    </Filter>
+  );
+};
 
 const getData = async (participants, races) => {
   return await Promise.all(
