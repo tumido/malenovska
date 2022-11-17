@@ -18,7 +18,6 @@ import {
 } from "../../components";
 import { useEvent } from "../../contexts/EventContext";
 import { getRaceById, participantsForRace } from "../../utilities/filters";
-import { useTopBanner } from "../../contexts/TopBannerContext";
 
 const PersonalDetails = lazy(() => import("./signup_steps/PersonalDetails"));
 const Readout = lazy(() => import("./signup_steps/Readout"));
@@ -120,7 +119,6 @@ const registerNewParticipant = async (
 
 const New = () => {
   const [event] = useEvent();
-  const { setTopBanner } = useTopBanner();
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
   const [participants, participantsLoading, participantsError] =
@@ -169,12 +167,8 @@ const New = () => {
 
   const isLoading = racesLoading || participantsLoading;
 
-  if (!event.registrationAvailable) {
-    if (process?.env?.NODE_ENV === "development") {
-      setTopBanner("DEV-mode");
-    } else {
+  if (!event.registrationAvailable && DEVELOPMENT !== true) {
       return <NotFound />;
-    }
   }
 
   return (

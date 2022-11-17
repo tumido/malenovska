@@ -31,7 +31,7 @@ const paperStyle = {
 
 const bannerStyle = {
   display: "block",
-  padding: 8,
+  padding: 1,
   textAlign: "center",
   backgroundColor: 'secondary.dark',
   color: "white",
@@ -60,18 +60,18 @@ const Header = ({navigation}) => {
 
   return (
     <React.Fragment>
-      <Hidden lgUp>
-        <AppBar
-          position="fixed"
-          color="primary"
-          elevation={0}
-        >
-          {banner && (
-            <Typography variant="body2" sx={bannerStyle} noWrap>
-              {banner}
-            </Typography>
-          )}
-          <ThemeProvider theme={darkTheme}>
+      <ThemeProvider theme={darkTheme}>
+        <Hidden lgUp>
+          <AppBar
+            position="fixed"
+            color="primary"
+            elevation={0}
+          >
+            {banner && (
+              <Typography variant="body2" sx={bannerStyle} noWrap>
+                {banner}
+              </Typography>
+            )}
             <Toolbar>
               <IconButton
                 color="inherit"
@@ -83,32 +83,30 @@ const Header = ({navigation}) => {
               </IconButton>
               <Breadcrumbs variant="h6" />
             </Toolbar>
-          </ThemeProvider>
-        </AppBar>
-      </Hidden>
-      {banner && (
-        <Hidden mdDown>
-          <AppBar
-            position="fixed"
-            color="secondary"
-            sx={{
-              width: `calc(100% - ${drawerWidth}px)`,
-              ml: drawerWidth,
-              transition: (t) => t.transitions.create(["margin", "width"], {
-                easing: theme.transitions.easing.easeOut,
-                duration: theme.transitions.duration.enteringScreen,
-              })
-            }}
-            elevation={0}
-          >
-            <Typography variant="body2" sx={bannerStyle} noWrap>
-              {banner}
-            </Typography>
           </AppBar>
         </Hidden>
-      )}
-      <Nav>
-        <ThemeProvider theme={darkTheme}>
+        {banner && (
+          <Hidden mdDown>
+            <AppBar
+              position="fixed"
+              color="secondary"
+              sx={{
+                width: `calc(100% - ${drawerWidth}px)`,
+                ml: drawerWidth,
+                transition: (t) => t.transitions.create(["margin", "width"], {
+                  easing: t.transitions.easing.easeOut,
+                  duration: t.transitions.duration.enteringScreen,
+                })
+              }}
+              elevation={0}
+            >
+              <Typography variant="body2" sx={bannerStyle} noWrap>
+                {banner}
+              </Typography>
+            </AppBar>
+          </Hidden>
+        )}
+        <Nav>
           <Hidden lgUp implementation="css">
             <SwipeableDrawer
               variant="temporary"
@@ -142,8 +140,8 @@ const Header = ({navigation}) => {
               <MenuDrawer navigation={navigation} pathname={pathname} />
             </Drawer>
           </Hidden>
-        </ThemeProvider>
-      </Nav>
+        </Nav>
+      </ThemeProvider>
     </React.Fragment>
   );
 };

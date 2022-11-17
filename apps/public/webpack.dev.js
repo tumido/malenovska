@@ -16,9 +16,9 @@ module.exports = merge(common, {
   },
   plugins: [
     new ReactRefreshPlugin(),
-    new webpack.EnvironmentPlugin({
-      NODE_ENV: 'development',
-      DEBUG: true
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify('development'),
+      DEVELOPMENT: "true",
     })
   ],
 });

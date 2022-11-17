@@ -8,6 +8,7 @@ import BgImage from "@malenovska/common/assets/images/background.jpg";
 import { Header, Footer, Loading, ScrollRestore } from "../components";
 import { useEventRouter } from "../router";
 import { EventProvider } from "../contexts/EventContext";
+import { useTopBanner } from "../contexts/TopBannerContext";
 import { TopBannerProvider } from "../contexts/TopBannerContext";
 import { styled } from "@mui/material";
 
@@ -35,6 +36,16 @@ const Root = styled('div')({
   display: "flex",
 })
 
+const Main = ({ children }) => {
+  const { setTopBanner } = useTopBanner();
+
+  if (DEVELOPMENT === true) {
+    setTopBanner("DEVELOPMENT");
+  }
+
+  return <main>{children}</main>
+}
+
 const Home = ({event}) => {
 
   if (!event) {
@@ -57,7 +68,7 @@ const Home = ({event}) => {
             <Header navigation={navigation} />
             <Div>
               <div id="top" />
-              <main>
+              <Main>
                 <Routes>
                   {navigation.map((i) => {
                     if (!i.path || !i.component) {
@@ -75,7 +86,7 @@ const Home = ({event}) => {
                   <Route path="" element={<Navigate to='legends' />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
-              </main>
+              </Main>
               <Footer />
             </Div>
           </TopBannerProvider>

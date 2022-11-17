@@ -89,7 +89,7 @@ export const useEventRouter = (event) => {
       icon: "person_add",
       path: 'signup',
       disabled:
-        process.env.NODE_ENV === "development"
+        DEVELOPMENT === true
           ? false
           : !eventInFuture || !event.registrationAvailable,
       component: RegistrationNew,
@@ -100,7 +100,7 @@ export const useEventRouter = (event) => {
       icon: "how_to_reg",
       path: `attendees`,
       disabled:
-        process.env.NODE_ENV === "development"
+        DEVELOPMENT === true
           ? false
           : !eventInFuture,
       component: Attendees,
