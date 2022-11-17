@@ -12,6 +12,7 @@ module.exports = merge(common, {
       progress: true,
       overlay: true,
     },
+    hot: true,
     historyApiFallback: true,
   },
   plugins: [
