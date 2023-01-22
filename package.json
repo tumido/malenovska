@@ -13,7 +13,7 @@
     "start:public": "npm run start --workspace=@malenovska/public"
   },
   "devDependencies": {
-    "firebase-tools": "11.20.0",
+    "firebase-tools": "11.21.0",
     "node-firestore-import-export": "1.1.0"
   },
   "version": "0.0.0",
