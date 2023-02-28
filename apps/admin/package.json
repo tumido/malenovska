@@ -24,7 +24,7 @@
     "react-admin-firebase": "4.0.12",
     "react-dom": "18.2.0",
     "react-helmet": "6.1.0",
-    "react-router-dom": "6.8.1",
+    "react-router-dom": "6.8.2",
     "recharts": "2.4.3"
   },
   "devDependencies": {
