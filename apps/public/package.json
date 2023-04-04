@@ -26,7 +26,7 @@
     "@mui/material": "5.11.15",
     "clipboard-copy": "4.0.1",
     "clsx": "1.2.1",
-    "core-js": "3.29.1",
+    "core-js": "3.30.0",
     "fc-mde": "1.0.0-alpha.46",
     "final-form": "4.20.9",
     "firebase": "9.19.1",
