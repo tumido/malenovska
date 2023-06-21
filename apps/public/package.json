@@ -61,7 +61,7 @@
     "babel-loader": "9.1.2",
     "babel-plugin-direct-import": "1.0.0",
     "css-loader": "6.8.1",
-    "eslint": "8.42.0",
+    "eslint": "8.43.0",
     "eslint-config-prettier": "8.8.0",
     "eslint-plugin-react": "7.32.2",
     "firebase-tools": "12.3.1",
