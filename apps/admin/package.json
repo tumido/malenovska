@@ -18,24 +18,24 @@
   },
   "dependencies": {
     "date-fns": "2.30.0",
-    "firebase": "9.22.2",
+    "firebase": "9.23.0",
     "lodash": "4.17.21",
     "react": "18.2.0",
     "react-admin-firebase": "4.1.2",
     "react-dom": "18.2.0",
     "react-helmet": "6.1.0",
-    "react-router-dom": "6.13.0",
-    "recharts": "2.7.1"
+    "react-router-dom": "6.14.1",
+    "recharts": "2.7.2"
   },
   "devDependencies": {
-    "@babel/core": "7.22.5",
-    "@babel/plugin-transform-runtime": "7.22.5",
-    "@babel/preset-env": "7.22.5",
+    "@babel/core": "7.22.8",
+    "@babel/plugin-transform-runtime": "7.22.7",
+    "@babel/preset-env": "7.22.7",
     "@babel/preset-react": "7.22.5",
-    "@babel/runtime": "7.22.5",
+    "@babel/runtime": "7.22.6",
     "@pmmmwh/react-refresh-webpack-plugin": "0.5.10",
     "html-webpack-plugin": "5.5.3",
-    "webpack": "5.87.0",
+    "webpack": "5.88.1",
     "webpack-cli": "5.1.4",
     "webpack-dev-server": "4.15.1",
     "webpack-merge": "5.9.0"
