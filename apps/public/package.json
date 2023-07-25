@@ -29,7 +29,7 @@
     "core-js": "3.31.1",
     "fc-mde": "1.0.0-alpha.51",
     "final-form": "4.20.9",
-    "firebase": "9.23.0",
+    "firebase": "10.1.0",
     "leaflet": "1.9.4",
     "markdown-to-jsx": "7.2.1",
     "notistack": "3.0.1",
