@@ -13,9 +13,9 @@
   },
   "sideEffects": "false",
   "devDependencies": {
-    "@babel/core": "7.22.8",
-    "@babel/eslint-parser": "7.22.7",
-    "@babel/preset-env": "7.22.7",
+    "@babel/core": "7.22.9",
+    "@babel/eslint-parser": "7.22.9",
+    "@babel/preset-env": "7.22.9",
     "@babel/preset-react": "7.22.5",
     "babel-plugin-import": "1.13.6",
     "eslint": "8.44.0",
