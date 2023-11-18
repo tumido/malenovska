@@ -6,37 +6,15 @@ import { getFirestore, collection, doc, query } from 'firebase/firestore';
 import { useQueryData, useDocumentData } from 'react-firehooks/firestore';
 
 import { CssBaseline, NoSsr, ThemeProvider } from "@mui/material";
-import { styled } from "@mui/material/styles";
 
-import BgImage from "@malenovska/common/assets/images/background.jpg";
 import DefaultOgImage from "@malenovska/common/assets/images/og_image.jpg";
 
-import { Loading } from "./components";
 import { theme } from "./utilities/theme";
+import { ThemedLoading, Div } from "./components/ThemedLoading";
 
 const NotFound = lazy(() => import("./pages/404"));
 const Landing = lazy(() => import("./pages/choose"));
 const Public = lazy(() => import("./pages"));
-
-const Div = styled('div')(({theme}) => ({
-  display: "flex",
-  flexDirection: "column",
-  flexGrow: 1,
-  minHeight: "100vh",
-  [theme.breakpoints.up("sm")]: {
-    background: `linear-gradient(to bottom, transparent 80%, #000 100%), url(${BgImage}) no-repeat center center fixed`,
-    backgroundSize: "cover",
-  },
-}))
-
-const ThemedLoading = () =>  (
-  <ThemeProvider theme={theme}>
-    <CssBaseline />
-    <Div>
-      <Loading />
-    </Div>
-  </ThemeProvider>
-);
 
 const App = () => {
   const [events, eventsLoading, eventsError] = useQueryData(query(collection(getFirestore(), 'events')));

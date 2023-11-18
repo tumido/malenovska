@@ -6,18 +6,16 @@ import {
   IconButton,
   Divider,
   List,
-  ListItem,
   ListItemText,
   ListItemIcon,
   Icon,
   styled,
+  ListItemButton,
 } from "@mui/material";
 import { grey } from "@mui/material/colors";
 
-
-import AdapterLink from "./AdapterLink";
 import { useEvent } from "../contexts/EventContext";
-import ColorBadge from "./ColorBadge";
+import { Link } from "react-router-dom";
 
 const iconStyle = {
   height: '1em',
@@ -38,43 +36,41 @@ const MenuDrawer = ({ navigation, pathname, onClick }) => {
           </IconButton>
         </Hidden>
       </Div>
-      <div onClick={onClick}>
-        <List>
-          {navigation.map((item, idx) => {
-            if (item.type === "visible") {
-              return (
-                <ListItem
-                  key={item.path || `item_${idx}`}
-                  button
-                  selected={
-                    pathname.startsWith(item.path) ||
-                    item.owns?.some((i) => pathname.startsWith(i))
-                  }
-                  disabled={!item.path || item.disabled}
-                  to={item.path || "/"}
-                  component={AdapterLink}
-                  sx={theme => theme.mixins.toolbar}
-                >
-                  <ListItemIcon>
-                    <Icon
-                      sx={iconStyle}
-                    >
-                      {item.icon}
-                    </Icon>
-                  </ListItemIcon>
-                  <ListItemText primary={item.title} />
-                </ListItem>
-              );
-            }
-            if (item.type === "divider")
-              return (
-                <Divider key={`divider_${idx}`}  sx={{ mt: "20px", mb: "20px" }} />
-              );
-          })}
-        </List>
-      </div>
+      <List>
+        {navigation.map((item, idx) => {
+          if (item.type === "visible") {
+            return (
+              <ListItemButton
+                key={item.path || `item_${idx}`}
+                selected={
+                  pathname.startsWith(item.path) ||
+                  item.owns?.some((i) => pathname.startsWith(i))
+                }
+                disabled={!item.path || item.disabled}
+                onClick={onClick}
+                to={item.path || "/"}
+                component={Link}
+                sx={theme => theme.mixins.toolbar}
+              >
+                <ListItemIcon>
+                  <Icon
+                    sx={iconStyle}
+                  >
+                    {item.icon}
+                  </Icon>
+                </ListItemIcon>
+                <ListItemText primary={item.title} />
+              </ListItemButton>
+            );
+          }
+          if (item.type === "divider")
+            return (
+              <Divider key={`divider_${idx}`}  sx={{ mt: "20px", mb: "20px" }} />
+            );
+        })}
+      </List>
       <List component="div" aria-label="vyber udalosti">
-        <ListItem button to="/choose" component={AdapterLink}>
+        <ListItemButton to="/choose" component={Link}>
           <ListItemIcon>
             <Icon sx={iconStyle}>
               dashboard
@@ -96,7 +92,7 @@ const MenuDrawer = ({ navigation, pathname, onClick }) => {
               </React.Fragment>
             }
           />
-        </ListItem>
+        </ListItemButton>
       </List>
     </>
   );

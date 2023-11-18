@@ -45,7 +45,7 @@ const ArticleCardHeader = ({ image, title, height, titleVariant = "h4" }) => {
     <Box sx={{ position: "relative" }}>
       <CardMedia
         sx={{ height: height || 400 }}
-        image={thumbnailUrl}
+        image={thumbnailUrl.toString()}
         component="img"
         onError={handleImageError}
       />

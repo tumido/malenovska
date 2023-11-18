@@ -1,4 +1,3 @@
-import AdapterLink from './AdapterLink';
 import Article from './Article';
 import ArticleCardHeader from './ArticleCardHeader';
 import Banner from './Banner';
@@ -24,10 +23,10 @@ import TableHead from './TableHead';
 import TableSearch from './TableSearch';
 import TableToolbar from './TableToolbar';
 import TextFormField from './TextFormField';
+import ThemedLoading from './ThemedLoading';
 import Wizard from './Wizard';
 
 export {
-  AdapterLink,
   Article,
   ArticleCardHeader,
   Banner,
@@ -53,5 +52,6 @@ export {
   TableSearch,
   TableToolbar,
   TextFormField,
+  ThemedLoading,
   Wizard
 };

@@ -109,15 +109,12 @@ const Header = ({navigation}) => {
           <Hidden lgUp implementation="css">
             <SwipeableDrawer
               variant="temporary"
-              disableBackdropTransition={!iOS}
-              disableDiscovery={iOS}
+              disableBackdropTransition={true}
+              disableDiscovery={true}
               open={drawerOpen}
               onOpen={handleDrawerOpen}
               onClose={handleDrawerClose}
               PaperProps={{sx: paperStyle}}
-              ModalProps={{
-                keepMounted: true /* Better open performance on mobile */,
-              }}
             >
               <MenuDrawer
                 navigation={navigation}
@@ -132,9 +129,6 @@ const Header = ({navigation}) => {
               anchor="left"
               sx={{flexShrink: 0, ...paperStyle}}
               PaperProps={{sx: paperStyle}}
-              ModalProps={{
-                keepMounted: true /* Better open performance on mobile */,
-              }}
             >
               <MenuDrawer navigation={navigation} pathname={pathname} />
             </Drawer>

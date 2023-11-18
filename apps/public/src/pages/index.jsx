@@ -1,11 +1,11 @@
-import React, { lazy } from "react";
+import React, { Suspense, lazy, useEffect } from "react";
 import { Helmet } from "react-helmet";
 import { Route, Routes, Navigate } from "react-router-dom";
 import { SnackbarProvider } from "notistack";
 
 import BgImage from "@malenovska/common/assets/images/background.jpg";
 
-import { Header, Footer, Loading, ScrollRestore } from "../components";
+import { Header, Footer, Loading, ScrollRestore, ThemedLoading } from "../components";
 import { useEventRouter } from "../router";
 import { EventProvider } from "../contexts/EventContext";
 import { useTopBanner } from "../contexts/TopBannerContext";
@@ -39,9 +39,11 @@ const Root = styled('div')({
 const Main = ({ children }) => {
   const { setTopBanner } = useTopBanner();
 
-  if (DEVELOPMENT === true) {
-    setTopBanner("DEVELOPMENT");
-  }
+  useEffect(() => {
+    if (DEVELOPMENT === true) {
+      setTopBanner("DEVELOPMENT");
+    }
+  }, [])
 
   return <main>{children}</main>
 }
@@ -68,6 +70,7 @@ const Home = ({event}) => {
             <Header navigation={navigation} />
             <Div>
               <div id="top" />
+             <Suspense fallback={<ThemedLoading />}>
               <Main>
                 <Routes>
                   {navigation.map((i) => {
@@ -87,6 +90,7 @@ const Home = ({event}) => {
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </Main>
+              </Suspense>
               <Footer />
             </Div>
           </TopBannerProvider>
