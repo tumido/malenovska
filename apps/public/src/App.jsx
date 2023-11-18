@@ -2,8 +2,8 @@ import React, { lazy, Suspense } from "react";
 import { Helmet } from "react-helmet";
 import { Routes, Route, Navigate, BrowserRouter } from "react-router-dom";
 
-import { getFirestore, collection, doc } from 'firebase/firestore';
-import { useCollectionData, useDocumentData } from 'react-firebase-hooks/firestore';
+import { getFirestore, collection, doc, query } from 'firebase/firestore';
+import { useQueryData, useDocumentData } from 'react-firehooks/firestore';
 
 import { CssBaseline, NoSsr, ThemeProvider } from "@mui/material";
 import { styled } from "@mui/material/styles";
@@ -39,7 +39,7 @@ const ThemedLoading = () =>  (
 );
 
 const App = () => {
-  const [events, eventsLoading, eventsError] = useCollectionData(collection(getFirestore(), 'events'));
+  const [events, eventsLoading, eventsError] = useQueryData(query(collection(getFirestore(), 'events')));
   const [config, configLoading, configError] = useDocumentData(doc(getFirestore(), 'config', 'config'));
 
   if (eventsLoading || configLoading || eventsError || configError) {

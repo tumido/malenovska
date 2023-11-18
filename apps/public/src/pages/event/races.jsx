@@ -10,12 +10,12 @@ import {
   query,
   where,
 } from "firebase/firestore";
-import { useCollectionData } from "react-firebase-hooks/firestore";
+import { useQueryData } from "react-firehooks/firestore";
 
 const Races = () => {
   const [event] = useEvent();
 
-  const [races, loading, error] = useCollectionData(
+  const [races, loading, error] = useQueryData(
     query(collection(getFirestore(), "races"), where("event", "==", event.id)),
     orderBy("priority")
   );

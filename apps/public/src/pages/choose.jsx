@@ -2,7 +2,7 @@ import React from "react";
 import { Link as RouterLink } from "react-router-dom";
 
 import { getFirestore, collection, query, where } from 'firebase/firestore';
-import { useCollectionData } from 'react-firebase-hooks/firestore';
+import { useQueryData } from 'react-firehooks/firestore';
 
 import {
   Hidden,
@@ -59,7 +59,7 @@ const getYear = (date) =>
 const cmpYear = (year, today) => year === today.getFullYear();
 
 const Choose = () => {
-  const [events, eventsLoading, eventsError] = useCollectionData(query(collection(getFirestore(), 'events'), where("display", "==", true)));
+  const [events, eventsLoading, eventsError] = useQueryData(query(collection(getFirestore(), 'events'), where("display", "==", true)));
 
   const today = new Date();
 

@@ -14,7 +14,7 @@ import { Banner } from "../../components";
 import { Helmet } from "react-helmet";
 import { useEvent } from "../../contexts/EventContext";
 import { collection, getFirestore, query, where } from "firebase/firestore";
-import { useCollectionData } from "react-firebase-hooks/firestore";
+import { useQueryData } from "react-firehooks/firestore";
 import useMediaQuery from '@mui/material/useMediaQuery';
 
 const useIsWidthUp = (breakpoint) => {
@@ -26,7 +26,7 @@ const Gallery = () => {
   const [event] = useEvent();
   const isSmUp = useIsWidthUp("sm");
 
-  const [galleries, loading, error] = useCollectionData(query(collection(getFirestore(), 'galleries'), where("event", "==", event.id)));
+  const [galleries, loading, error] = useQueryData(query(collection(getFirestore(), 'galleries'), where("event", "==", event.id)));
 
   const getGridItemCols = (length, idx) => {
     if (idx === length - 1) {

@@ -21,7 +21,7 @@ import {
 import { ShareOutlined } from "@mui/icons-material";
 import { Helmet } from "react-helmet";
 import { doc, getFirestore } from "firebase/firestore";
-import { useDocumentData } from "react-firebase-hooks/firestore";
+import { useDocumentData } from "react-firehooks/firestore";
 import { useEvent } from "../../../contexts/EventContext";
 import { useTopBanner } from "../../../contexts/TopBannerContext";
 

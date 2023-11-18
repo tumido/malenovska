@@ -1,6 +1,6 @@
 import React from "react";
 import { collection, getFirestore, query, where } from "firebase/firestore";
-import { useCollectionData } from "react-firebase-hooks/firestore";
+import { useQueryData } from "react-firehooks/firestore";
 
 import {
   Container,
@@ -81,13 +81,13 @@ const ListContent = () => {
   };
 
   const [participants, participantsLoading, participantsError] =
-    useCollectionData(
+    useQueryData(
       query(
         collection(getFirestore(), "participants"),
         where("event", "==", event.id)
       )
     );
-  const [races, racesLoading, racesError] = useCollectionData(
+  const [races, racesLoading, racesError] = useQueryData(
     query(collection(getFirestore(), "races"), where("event", "==", event.id))
   );
 

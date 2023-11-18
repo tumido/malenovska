@@ -21,7 +21,7 @@ import { timestampToDateStr } from "../../../utilities/firebase";
 import { Helmet } from "react-helmet";
 import { useEvent } from "../../../contexts/EventContext";
 import { useTopBanner } from "../../../contexts/TopBannerContext";
-import { useDocumentData } from "react-firebase-hooks/firestore";
+import { useDocumentData } from "react-firehooks/firestore";
 import { doc, getFirestore } from "firebase/firestore";
 
 const NotFound = lazy(() => import("../../404"));

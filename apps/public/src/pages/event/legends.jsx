@@ -7,12 +7,12 @@ import { SmallArticleCard, Markdown, Banner } from "../../components";
 import { Helmet } from "react-helmet";
 import { useEvent } from "../../contexts/EventContext";
 import { collection, getFirestore, orderBy, query, where } from "firebase/firestore";
-import { useCollectionData } from "react-firebase-hooks/firestore";
+import { useQueryData } from "react-firehooks/firestore";
 
 const Legends = () => {
   const [event] = useEvent();
 
-  const [legends, loading, error] = useCollectionData(query(collection(getFirestore(), 'legends'), where("event", "==", event.id)), orderBy('publishedAt'));
+  const [legends, loading, error] = useQueryData(query(collection(getFirestore(), 'legends'), where("event", "==", event.id)), orderBy('publishedAt'));
 
   const legendsList = (!loading && !error) ? (
     legends.map((l) => (

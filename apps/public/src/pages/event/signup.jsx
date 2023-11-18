@@ -1,6 +1,5 @@
 import React, { lazy, useState } from "react";
 import { collection, doc, getFirestore, writeBatch, query, where } from "firebase/firestore";
-import { useCollectionData } from "react-firebase-hooks/firestore";
 import { useSnackbar } from "notistack";
 import { Helmet } from "react-helmet";
 
@@ -8,6 +7,7 @@ import { Grid, Hidden, Container, Button } from "@mui/material";
 import { Alert } from "@mui/lab";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
+import { useQueryData } from "react-firehooks/firestore";
 
 import {
   Article,
@@ -122,13 +122,13 @@ const New = () => {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
   const [participants, participantsLoading, participantsError] =
-    useCollectionData(
+    useQueryData(
       query(
         collection(getFirestore(), "participants"),
         where("event", "==", event.id)
       )
     );
-  const [races, racesLoading, racesError] = useCollectionData(
+  const [races, racesLoading, racesError] = useQueryData(
     query(collection(getFirestore(), "races"), where("event", "==", event.id))
   );
 

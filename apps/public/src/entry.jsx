@@ -7,7 +7,7 @@ import { createRoot } from 'react-dom/client';
 
 import loadFonts from '@malenovska/common/utilities/fonts';
 
-import { enableFirebasePersistence, initializeFirebase } from './utilities/firebase';
+import { initializeFirebase } from './utilities/firebase';
 import App from './App';
 
 initializeFirebase();
@@ -28,7 +28,6 @@ const render = () => {
 
 if (module.hot) {
   module.hot.accept();
-  enableFirebasePersistence();
 }
 
 render();
