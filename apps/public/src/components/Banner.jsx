@@ -44,10 +44,9 @@ const Banner = ({ title, children, showDetails = false }) => {
                   fontWeight: 600,
                   color: "black",
                   mb: -2,
-                  [theme.breakpoints.down("xs")]: {
+                  [theme.breakpoints.down("sm")]: {
                     mb: 0,
-                    color: "#ccc",
-                    fontSize: "xx-large",
+                    fontSize: "15vw",
                   },
                 })}
               >
@@ -60,8 +59,8 @@ const Banner = ({ title, children, showDetails = false }) => {
             variant="h1"
             sx={(theme) => ({
               fontWeight: 600,
-              [theme.breakpoints.down("xs")]: {
-                fontSize: "xxx-large",
+              [theme.breakpoints.down("sm")]: {
+                fontSize: "15vw",
               },
             })}
           >

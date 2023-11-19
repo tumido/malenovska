@@ -77,7 +77,7 @@ const Gallery = () => {
             key={tile.url}
             href={tile.url}
             target="_blank"
-            style={{ padding: 0, backgroundColor: "lightgray" }}
+            style={{ padding: 0, backgroundColor: "lightgray", overflow: "hidden" }}
           >
             <img
               src={tile.cover && tile.cover.src}
