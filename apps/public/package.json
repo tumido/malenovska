@@ -64,7 +64,7 @@
     "eslint": "8.52.0",
     "eslint-config-prettier": "9.0.0",
     "eslint-plugin-react": "7.33.2",
-    "firebase-tools": "12.4.7",
+    "firebase-tools": "13.8.0",
     "html-webpack-plugin": "5.5.3",
     "react-refresh": "0.14.0",
     "style-loader": "3.3.3",
