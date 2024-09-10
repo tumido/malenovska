@@ -15,7 +15,7 @@ const Legends = () => {
   const [legends, loading, error] = useQueryData(query(collection(getFirestore(), 'legends'), where("event", "==", event.id)), orderBy('publishedAt'));
 
   const legendsList = (!loading && !error) ? (
-    legends.map((l) => (
+    legends.sort((a, b) => a?.publishedAt?._compareTo(b.publishedAt)).map((l) => (
       <Grid item container sx={{ width: { xs: "100%", md: "50%", xl: "650px" }}} key={l.id}>
         <SmallArticleCard
           title={l.title}

@@ -64,7 +64,7 @@ const Header = ({navigation}) => {
           <AppBar
             position="fixed"
             color="primary"
-            elevation={0}
+            sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
           >
             {banner && (
               <Typography variant="body2" sx={bannerStyle} noWrap>
@@ -90,14 +90,13 @@ const Header = ({navigation}) => {
               position="fixed"
               color="secondary"
               sx={{
-                width: `calc(100% - ${drawerWidth}px)`,
                 ml: drawerWidth,
                 transition: (t) => t.transitions.create(["margin", "width"], {
                   easing: t.transitions.easing.easeOut,
                   duration: t.transitions.duration.enteringScreen,
-                })
+                }),
+                zIndex: (theme) => theme.zIndex.drawer + 1
               }}
-              elevation={0}
             >
               <Typography variant="body2" sx={bannerStyle} noWrap>
                 {banner}

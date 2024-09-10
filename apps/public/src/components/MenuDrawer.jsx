@@ -24,6 +24,14 @@ const iconStyle = {
 
 const Div = styled('div')(({theme}) => theme.mixins.toolbar)
 
+const StyledListItemButton = styled(ListItemButton)(({theme}) => ({
+  borderLeft: '3px solid transparent',
+  '&.Mui-selected, &:hover': {
+    backgroundColor: 'unset',
+    borderColor: theme.palette.secondary.main
+  },
+}))
+
 const MenuDrawer = ({ navigation, pathname, onClick }) => {
   const [event] = useEvent();
 
@@ -40,10 +48,10 @@ const MenuDrawer = ({ navigation, pathname, onClick }) => {
         {navigation.map((item, idx) => {
           if (item.type === "visible") {
             return (
-              <ListItemButton
+              <StyledListItemButton
                 key={item.path || `item_${idx}`}
                 selected={
-                  pathname.startsWith(item.path) ||
+                  pathname.startsWith(`/${event.id}/${item.path}`) ||
                   item.owns?.some((i) => pathname.startsWith(i))
                 }
                 disabled={!item.path || item.disabled}
@@ -60,7 +68,7 @@ const MenuDrawer = ({ navigation, pathname, onClick }) => {
                   </Icon>
                 </ListItemIcon>
                 <ListItemText primary={item.title} />
-              </ListItemButton>
+              </StyledListItemButton>
             );
           }
           if (item.type === "divider")

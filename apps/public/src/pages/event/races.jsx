@@ -24,7 +24,7 @@ const Races = () => {
     return null;
   }
 
-  const raceCards = races.map((r) => (
+  const raceCards = races.sort((a, b) => a.priority - b.priority).map((r) => (
     <Grid item sx={{ width: { xs: "100%", md: "50%", xl: "650px" }}} key={r.id}>
       <SmallArticleCard
         title={r.name}

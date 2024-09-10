@@ -8,8 +8,6 @@ import BgImage from "@malenovska/common/assets/images/background.jpg";
 import { Header, Footer, Loading, ScrollRestore, ThemedLoading } from "../components";
 import { useEventRouter } from "../router";
 import { EventProvider } from "../contexts/EventContext";
-import { useTopBanner } from "../contexts/TopBannerContext";
-import { TopBannerProvider } from "../contexts/TopBannerContext";
 import { styled } from "@mui/material";
 
 const NotFound = lazy(() => import("./404"));
@@ -36,17 +34,6 @@ const Root = styled('div')({
   display: "flex",
 })
 
-const Main = ({ children }) => {
-  const { setTopBanner } = useTopBanner();
-
-  useEffect(() => {
-    if (DEVELOPMENT === true) {
-      setTopBanner("DEVELOPMENT");
-    }
-  }, [])
-
-  return <main>{children}</main>
-}
 
 const Home = ({event}) => {
 
@@ -66,34 +53,32 @@ const Home = ({event}) => {
         </Helmet>
         <EventProvider event={event}>
           <Root>
-          <TopBannerProvider>
             <Header navigation={navigation} />
             <Div>
               <div id="top" />
-             <Suspense fallback={<ThemedLoading />}>
-              <Main>
-                <Routes>
-                  {navigation.map((i) => {
-                    if (!i.path || !i.component) {
-                      return null
-                    }
-                    const Component = i.component
-                    return (
-                      <Route
-                        key={i.path}
-                        path={i.path}
-                        element={<Component />}
-                      />
-                    );
-                  })}
-                  <Route path="" element={<Navigate to='legends' />} />
-                  <Route path="*" element={<NotFound />} />
-                </Routes>
-              </Main>
+              <Suspense fallback={<ThemedLoading />}>
+                <main>
+                  <Routes>
+                    {navigation.map((i) => {
+                      if (!i.path || !i.component) {
+                        return null
+                      }
+                      const Component = i.component
+                      return (
+                        <Route
+                          key={i.path}
+                          path={i.path}
+                          element={<Component />}
+                        />
+                      );
+                    })}
+                    <Route path="" element={<Navigate to='legends' />} />
+                    <Route path="*" element={<NotFound />} />
+                  </Routes>
+                </main>
               </Suspense>
               <Footer />
             </Div>
-          </TopBannerProvider>
           </Root>
         </EventProvider>
       </SnackbarProvider>
