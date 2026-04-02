@@ -9,7 +9,7 @@ You are an expert frontend engineer specializing in React, Next.js, TypeScript, 
 - **Styling**: Tailwind CSS v4 with `@theme inline` for custom tokens
 - **Fonts**: Google Fonts via `next/font` (Amatic SC for display, Open Sans for body)
 - **Build**: Static export mode (`output: "export"`)
-- **Backend**: Firebase 10.x (Firestore, Auth, Storage) — modular v9+ API
+- **Backend**: Firebase 12.x (Firestore, Auth, Storage) — modular v9+ API
 - **Data fetching**: `react-firebase-hooks` (client-side, real-time)
 - **Forms**: `react-hook-form` for the signup wizard
 - **Notifications**: `notistack` for toast feedback
@@ -50,26 +50,38 @@ app/
 ├── not-found.tsx           # 404 page
 ├── choose/
 │   └── page.tsx            # Event selection page
-└── [eventId]/
-    ├── layout.tsx          # Event shell (nav, header, footer, EventContext)
-    ├── page.tsx            # Redirect to "legends"
-    ├── legends/page.tsx    # Legend card grid
-    ├── legend/[id]/page.tsx
-    ├── rules/page.tsx
-    ├── races/page.tsx
-    ├── race/[id]/page.tsx
-    ├── info/page.tsx       # Map + event details
-    ├── contacts/page.tsx
-    ├── gallery/page.tsx
-    ├── signup/page.tsx     # Multi-step wizard
-    ├── attendees/page.tsx  # Sortable/searchable table
-    └── confirmation/page.tsx
+├── [eventId]/
+│   ├── layout.tsx          # Event shell (nav, header, footer, EventContext)
+│   ├── page.tsx            # Redirect to "legends"
+│   ├── legends/page.tsx    # Legend card grid
+│   ├── legend/[id]/page.tsx
+│   ├── rules/page.tsx
+│   ├── races/page.tsx
+│   ├── race/[id]/page.tsx
+│   ├── info/page.tsx       # Map + event details
+│   ├── contacts/page.tsx
+│   ├── gallery/page.tsx
+│   ├── signup/page.tsx     # Multi-step wizard
+│   ├── attendees/page.tsx  # Sortable/searchable table
+│   └── confirmation/page.tsx
+└── admin/
+    ├── layout.tsx          # Auth gate + AdminShell
+    ├── page.tsx            # Dashboard (stats + pie chart)
+    ├── _components/        # Shared admin helpers (EventFilter)
+    ├── config/page.tsx     # Active event config
+    ├── events/             # CRUD: list, new, [id]
+    ├── legends/            # CRUD: list, new, [id]
+    ├── races/              # CRUD: list, new, [id]
+    ├── participants/       # List + [id] edit (no create)
+    └── galleries/          # CRUD: list, new, [id]
 
-components/               # Reusable UI components
-contexts/                 # React contexts (EventContext)
+components/               # Reusable public UI components
+components/admin/         # Admin components (DataTable, FormLayout, etc.)
+contexts/                 # React contexts (EventContext, AuthContext)
 lib/
 ├── firebase.ts           # Firebase init + typed helpers
 ├── types.ts              # Firestore document interfaces
+├── admin-firestore.ts    # Admin CRUD helpers (create, update, delete)
 ├── filters.ts            # Data filtering helpers
 ├── sorting.ts            # Table sorting helpers
 └── date.ts               # Timestamp formatters
@@ -152,7 +164,7 @@ export default function LegendsPage() {
 
 ### Static Export + Dynamic Routes
 
-- `generateStaticParams()` returns `[]` — no build-time pre-rendering
+- `generateStaticParams()` returns placeholder params (e.g., `[{ eventId: "_" }]`) — Next.js static export requires non-empty array
 - Firebase Hosting rewrite (`** → /index.html`) serves the SPA shell
 - Next.js client-side router resolves the `[eventId]` segment at runtime
 
@@ -224,7 +236,6 @@ const { register, formState: { errors } } = useFormContext();
 - Don't forget to handle loading and error states (every Firestore hook returns `[data, loading, error]`)
 - Don't use arbitrary value syntax like `bg-(--primary)` — use `bg-primary` instead
 - Don't hardcode raw hex colors — use Tailwind semantic tokens (`bg-primary` not `bg-[#212121]`), except for truly one-off values
-- Don't use MUI, Emotion, react-router, react-final-form, or any of the old stack dependencies
 - Don't use SSR data fetching (`getServerSideProps`, server actions) — this is a static export app
 
 ## Design System

@@ -1,25 +1,11 @@
 # General Instructions
 
-## Migration Context
+## Key Principles
 
-This project is being migrated from a Yarn workspaces monorepo (React + MUI + Webpack + Firebase) to a single Next.js 16+ app with Tailwind CSS v4, TypeScript, and static export. The full migration plan is at `~/.claude/plans/distributed-dazzling-grove.md`.
-
-### Key Principles
-
-- **Reference the old code** in `apps/public/src/` and `apps/admin/src/` when porting — preserve all functionality
-- **All new code is TypeScript** from the start — no `.jsx`, no deferred conversion
+- **All code is TypeScript** — no `.jsx`, no deferred conversion
 - **Static export** — no SSR, no server actions, all data fetching is client-side via Firebase
 - **Czech only** — no i18n system, hardcoded Czech labels
-- **Dark, atmospheric design** — see `frontend-react.md` for design tokens and visual patterns to preserve
-
-### When Porting a Component
-
-1. Read the original source file in `apps/public/src/` or `apps/admin/src/`
-2. Understand all MUI dependencies and map them to Tailwind equivalents
-3. Replace `react-router` patterns with Next.js App Router (`useParams`, `Link`, `useRouter`)
-4. Replace `react-final-form` with `react-hook-form` in form components
-5. Replace MUI icons with `lucide-react` equivalents
-6. Type all props and Firestore data with interfaces from `lib/types.ts`
+- **Dark, atmospheric design** (public app) — see `frontend-react.md` for design tokens and visual patterns
 
 ## Debugging
 

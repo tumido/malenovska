@@ -1,3 +1,4 @@
+import { memo } from "react";
 import Link from "next/link";
 import { ArticleCardHeader } from "@/components/ArticleCardHeader";
 import type { FirestoreImage } from "@/lib/types";
@@ -12,7 +13,7 @@ interface SmallArticleCardProps {
   onClick?: () => void;
 }
 
-export function SmallArticleCard({
+export const SmallArticleCard = memo(function SmallArticleCard({
   title,
   body,
   image,
@@ -64,4 +65,4 @@ export function SmallArticleCard({
   }
 
   return cardContent;
-}
+});

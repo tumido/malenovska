@@ -13,7 +13,7 @@ const eslintConfig = tseslint.config(
     },
   },
   {
-    ignores: ["apps/**", ".next/**", "out/**", "node_modules/**"],
+    ignores: [".next/**", "out/**", "node_modules/**"],
   }
 );
 

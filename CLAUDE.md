@@ -2,12 +2,6 @@
 
 Czech-language event management platform for LARP/roleplay events. Supports multiple events with registration, legends, races, rules, galleries, and an admin dashboard.
 
-## Project Status
-
-**Active migration** from a Yarn workspaces monorepo (React + MUI + Webpack) to Next.js 16+ with Tailwind CSS v4, TypeScript, and static export. See `~/.claude/plans/distributed-dazzling-grove.md` for the full plan.
-
-Old code lives in `apps/` (reference during porting). New code is being built at the repo root as a Next.js app.
-
 ## Quick Reference
 
 ```bash
@@ -20,15 +14,18 @@ npm run lint         # ESLint
 next build           # Static export build
 
 # Firebase
-firebase serve       # Local hosting preview
 firebase deploy      # Deploy to production
 ```
 
 ## Architecture
 
-- **Static export** (`output: "export"`) — no SSR, no server actions
-- **Client-side data** — all Firestore fetching via `react-firebase-hooks` in `"use client"` components
-- **Dynamic routes** — `app/[eventId]/` with `generateStaticParams()` returning `[]`; Firebase Hosting SPA rewrite (`** → /index.html`) serves the shell
+- **Framework**: Next.js 16+ with App Router, static export (`output: "export"`)
+- **Language**: TypeScript (strict mode)
+- **Styling**: Tailwind CSS v4 with `@theme inline` tokens
+- **Backend**: Firebase 12 (Firestore, Auth, Storage) — modular v9+ API
+- **Data fetching**: `react-firebase-hooks` in `"use client"` components — all client-side, no SSR
+- **Dynamic routes**: `app/[eventId]/` with `generateStaticParams()` returning placeholder params; Firebase Hosting SPA rewrite (`** → /index.html`) serves the shell
+- **Admin**: `app/admin/` route segment — auth-gated via Firebase Auth, same build/deploy as public app
 - **Czech only** — no i18n, hardcoded Czech labels
 
 ## Key Files
@@ -36,13 +33,17 @@ firebase deploy      # Deploy to production
 | File | Purpose |
 |------|---------|
 | `app/globals.css` | Tailwind v4 theme, custom utilities, design tokens |
+| `app/admin/layout.tsx` | Admin auth gate + shell |
 | `lib/firebase.ts` | Firebase init, Firestore instance |
 | `lib/types.ts` | TypeScript interfaces for Firestore documents |
+| `lib/admin-firestore.ts` | Admin CRUD helpers (create, update, delete with subcollection handling) |
+| `contexts/AuthContext.tsx` | Firebase Auth context for admin |
+| `components/admin/` | Admin-specific components (DataTable, FormLayout, FormFields, etc.) |
 | `next.config.ts` | Static export, unoptimized images, trailing slash |
-| `firebase.json` | Hosting config (public + admin targets) |
+| `firebase.json` | Hosting config — single target, `out/` directory |
 
 ## Rules
 
 Detailed coding guidelines are in `.claude/rules/`:
 - `frontend-react.md` — Tech stack, component patterns, Tailwind guidelines, design system
-- `instructions.md` — Migration protocol, debugging with MCP tools
+- `instructions.md` — Debugging with MCP tools

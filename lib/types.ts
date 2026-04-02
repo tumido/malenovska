@@ -60,14 +60,14 @@ export interface Event {
   contactImage?: FirestoreImage;
   contactText?: string;
 
-  // Schedule (time strings)
-  onsiteStart?: string;
-  onsiteEnd?: string;
-  onsiteRegistrationOpen?: string;
-  onsiteRegistrationClose?: string;
-  onsiteRules?: string;
-  onsiteQuestStart?: string;
-  onsiteLastQuest?: string;
+  // Schedule (Timestamps in legacy data, time strings from admin form)
+  onsiteStart?: Timestamp | string;
+  onsiteEnd?: Timestamp | string;
+  onsiteRegistrationOpen?: Timestamp | string;
+  onsiteRegistrationClose?: Timestamp | string;
+  onsiteRules?: Timestamp | string;
+  onsiteQuestStart?: Timestamp | string;
+  onsiteLastQuest?: Timestamp | string;
 
   lastupdate?: Timestamp;
 }

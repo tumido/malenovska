@@ -21,7 +21,7 @@ export function Banner({ title, children }: BannerProps) {
       )}
       <h1 className="font-display text-5xl font-bold md:text-7xl">
         {event.name.slice(0, splitAt)}
-        <Logo size="0.55em" />
+        <Logo size="0.65em" />
         {event.name.slice(splitAt + 1)}
       </h1>
       {children && <div className="mt-4 max-w-2xl text-center">{children}</div>}

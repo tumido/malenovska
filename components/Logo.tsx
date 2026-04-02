@@ -12,7 +12,11 @@ export function Logo({ fgColor = "#000", bgColor = "#fff", size }: LogoProps) {
       version="1.1"
       height={size}
       width={size}
-      style={{ objectFit: "contain", fillRule: "evenodd" }}
+      style={{
+        objectFit: "contain",
+        fillRule: "evenodd",
+        display: "inline-block",
+      }}
     >
       <circle r="500" cx="500" cy="500" style={{ fill: bgColor }} />
       <path

@@ -25,3 +25,7 @@ backup
 npm-debug.log
 .idea
 assets/images/background_backup.jpg
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts

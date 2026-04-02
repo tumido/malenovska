@@ -5,7 +5,7 @@ import { MapPin, ExternalLink, FileText } from "lucide-react";
 import { useEvent } from "@/contexts/EventContext";
 import { Banner } from "@/components/Banner";
 import { Map } from "@/components/Map";
-import { timestampToDateStr } from "@/lib/date";
+import { timestampToDateStr, toTimeStr } from "@/lib/date";
 
 const MARKER_COLORS = ["text-loading-red", "text-loading-yellow", "text-loading-orange"];
 
@@ -15,10 +15,10 @@ export default function InfoPage() {
 
   const timesToRender = [
     ["Datum akce", timestampToDateStr(event.date)],
-    ["Začátek akce", event.onsiteStart],
-    ["Otevření registrace", event.onsiteRegistrationOpen],
-    ["Uzavření registrace", event.onsiteRegistrationClose],
-    ["Konec akce", event.onsiteEnd],
+    ["Začátek akce", event.onsiteStart ? toTimeStr(event.onsiteStart) : undefined],
+    ["Otevření registrace", event.onsiteRegistrationOpen ? toTimeStr(event.onsiteRegistrationOpen) : undefined],
+    ["Uzavření registrace", event.onsiteRegistrationClose ? toTimeStr(event.onsiteRegistrationClose) : undefined],
+    ["Konec akce", event.onsiteEnd ? toTimeStr(event.onsiteEnd) : undefined],
   ];
 
   return (

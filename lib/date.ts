@@ -11,3 +11,9 @@ export function timestampToTimeStr(timestamp: Timestamp): string {
     hour12: false,
   });
 }
+
+/** Converts a Timestamp or time string to a display time string (HH:MM). */
+export function toTimeStr(value: Timestamp | string): string {
+  if (typeof value === "string") return value;
+  return timestampToTimeStr(value);
+}
