@@ -1,0 +1,116 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-primary: #212121;
+  --color-primary-light: #fafafa;
+  --color-secondary: #ff5722;
+  --color-secondary-dark: #e64a19;
+  --color-grey-400: #bdbdbd;
+  --color-grey-500: #9e9e9e;
+  --color-loading-red: rgb(253, 38, 0);
+  --color-loading-yellow: rgb(241, 238, 16);
+  --color-loading-orange: rgb(255, 145, 0);
+  --font-display: "Amatic SC", cursive;
+  --font-body: "Open Sans", sans-serif;
+}
+
+/* Base styles */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-black text-primary-light font-body antialiased;
+  min-height: 100vh;
+}
+
+/* Background image with gradient fade */
+@media (min-width: 640px) {
+  body {
+    background: linear-gradient(to bottom, transparent 80%, #000 100%),
+      url("/background.webp") no-repeat center center fixed;
+    background-size: cover;
+  }
+}
+
+/* Loading spinner animation */
+@keyframes spin-loading {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes color-cycle {
+  0%,
+  100% {
+    border-color: var(--color-loading-red);
+  }
+  33% {
+    border-color: var(--color-loading-yellow);
+  }
+  66% {
+    border-color: var(--color-loading-orange);
+  }
+}
+
+/* ColorBadge text inversion */
+.color-badge-text {
+  filter: invert(1) grayscale(1) contrast(9);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+/* Markdown content styling */
+.prose-malenovska h1,
+.prose-malenovska h2,
+.prose-malenovska h3 {
+  @apply font-display font-bold text-primary-light;
+}
+
+.prose-malenovska h1 {
+  @apply text-4xl mt-8 mb-4;
+}
+
+.prose-malenovska h2 {
+  @apply text-3xl mt-6 mb-3;
+}
+
+.prose-malenovska h3 {
+  @apply text-2xl mt-4 mb-2;
+}
+
+.prose-malenovska p {
+  @apply mb-4 leading-relaxed;
+}
+
+.prose-malenovska a {
+  @apply text-secondary hover:text-secondary-dark underline;
+}
+
+.prose-malenovska ul,
+.prose-malenovska ol {
+  @apply mb-4 pl-6;
+}
+
+.prose-malenovska ul {
+  @apply list-disc;
+}
+
+.prose-malenovska ol {
+  @apply list-decimal;
+}
+
+.prose-malenovska li {
+  @apply mb-1;
+}
+
+.prose-malenovska blockquote {
+  @apply border-l-4 border-secondary pl-4 italic my-4;
+}
+
+.prose-malenovska img {
+  @apply max-w-full rounded-lg my-4;
+}

@@ -1,0 +1,137 @@
+import { Timestamp } from "firebase/firestore";
+
+export interface FirestoreImage {
+  src: string;
+  title?: string;
+}
+
+export interface POI {
+  name: string;
+  description: string;
+  latitude: number;
+  longitude: number;
+}
+
+export interface RegistrationExtra {
+  type: "text" | "number" | "checkbox" | "markdown";
+  size?: number;
+  content?: string;
+  props?: {
+    id?: string;
+    label?: string;
+  };
+}
+
+export interface Event {
+  id: string;
+  name: string;
+  year: number;
+  date: Timestamp;
+  type: boolean; // true = Bitva, false = Šarvátka
+  display: boolean;
+  description: string;
+
+  // Rules
+  rules: string;
+  rulesImage?: FirestoreImage;
+
+  // Registration
+  registrationAvailable: boolean;
+  registrationBeforeAbove?: string;
+  registrationBeforeBelow?: string;
+  registrationAfter?: string;
+  registrationList?: string;
+  registrationExtras?: RegistrationExtra[];
+
+  // Map & location
+  poi: POI[];
+
+  // Pricing
+  price?: number;
+  declaration?: FirestoreImage;
+
+  // Contact
+  contact?: {
+    facebook?: string;
+    larpovadatabaze?: string;
+    larpcz?: string;
+    email?: string;
+  };
+  contactImage?: FirestoreImage;
+  contactText?: string;
+
+  // Schedule (time strings)
+  onsiteStart?: string;
+  onsiteEnd?: string;
+  onsiteRegistrationOpen?: string;
+  onsiteRegistrationClose?: string;
+  onsiteRules?: string;
+  onsiteQuestStart?: string;
+  onsiteLastQuest?: string;
+
+  lastupdate?: Timestamp;
+}
+
+export interface Legend {
+  id: string;
+  title: string;
+  event: string;
+  publishedAt: Timestamp;
+  perex: string;
+  content: string;
+  image?: FirestoreImage;
+  createdby?: string;
+  createdate?: Timestamp;
+  lastupdate?: Timestamp;
+}
+
+export interface Race {
+  id: string;
+  name: string;
+  event: string;
+  limit: number;
+  priority: number;
+  color: string;
+  colorName: string;
+  legend: string;
+  requirements: string;
+  image?: FirestoreImage;
+  createdby?: string;
+  createdate?: Timestamp;
+  lastupdate?: Timestamp;
+}
+
+export interface Participant {
+  id: string;
+  event: string;
+  race: string;
+  firstName: string;
+  nickName?: string;
+  lastName: string;
+  group?: string;
+  note?: string;
+  afterparty?: boolean;
+  sleepover?: boolean;
+  createdate?: Timestamp;
+  lastupdate?: Timestamp;
+}
+
+export interface ParticipantPrivate {
+  age: number;
+  email: string;
+}
+
+export interface Gallery {
+  id: string;
+  event: string;
+  name: string;
+  author: string;
+  url: string;
+  cover: FirestoreImage;
+  createdate?: Timestamp;
+  lastupdate?: Timestamp;
+}
+
+export interface Config {
+  event: string;
+}

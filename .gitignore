@@ -1,19 +1,27 @@
-# Don't check auto-generated stuff into git
-coverage
-dist
+# Dependencies
 node_modules
+
+# Next.js
+.next
+out
+
+# Build
+dist
+coverage
 stats.json
-.firebase
 .bundle-stats.json
+
+# Firebase
+.firebase
+malenovska-service-account.json
+firebase-export.json
+backup
+
+# Environment
+.env*.local
 
 # Cruft
 .DS_Store
 npm-debug.log
 .idea
-
-# Firestore service account
-malenovska-service-account.json
-firebase-export.json
 assets/images/background_backup.jpg
-
-backup
