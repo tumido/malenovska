@@ -21,7 +21,7 @@ const LegendDetailPage = () => {
   const [shareOpen, setShareOpen] = useState(false);
 
   const [legend, loading] = useDocumentData<Legend>(
-    doc(db, "legends", id) as DocumentReference<Legend>
+    doc(db, "legends", id) as DocumentReference<Legend>,
   );
 
   if (loading || !legend) return <Article />;
@@ -42,12 +42,12 @@ const LegendDetailPage = () => {
           <div className="mb-4 flex flex-wrap gap-2">
             <Link
               href={`/${event.id}`}
-              className="rounded-full border border-white/20 px-3 py-1 text-sm text-primary-light hover:bg-white/10"
+              className="rounded-full border border-primary px-3 py-1 text-sm text-primary hover:bg-white/10"
             >
               {event.name}
             </Link>
             {legend.publishedAt && (
-              <span className="rounded-full border border-white/20 px-3 py-1 text-sm text-primary-light">
+              <span className="rounded-full border border-primary px-3 py-1 text-sm text-primary">
                 {timestampToDateStr(legend.publishedAt)}
               </span>
             )}
@@ -57,10 +57,10 @@ const LegendDetailPage = () => {
           </div>
         </div>
       </div>
-      <div className="border-t border-white/10 px-6 py-3">
+      <div className="border-t border-primary/40 px-6 py-3">
         <button
           onClick={() => setShareOpen(true)}
-          className="flex items-center gap-2 text-sm text-grey-400 hover:text-white"
+          className="flex items-center gap-2 text-sm text-primary hover:text-primary/60"
         >
           <Share2 size={16} />
           Sdílet

@@ -10,7 +10,7 @@
   --color-loading-red: rgb(253, 38, 0);
   --color-loading-yellow: rgb(241, 238, 16);
   --color-loading-orange: rgb(255, 145, 0);
-  --font-display: "Amatic SC", cursive;
+  --font-display: "Roboto", sans-serif;
   --font-body: "Open Sans", sans-serif;
 }
 
@@ -27,7 +27,8 @@ body {
 /* Background image with gradient fade */
 @media (min-width: 640px) {
   body {
-    background: linear-gradient(to bottom, transparent 80%, #000 100%),
+    background:
+      linear-gradient(to bottom, transparent 80%, #000 100%),
       url("/background.webp") no-repeat center center fixed;
     background-size: cover;
   }
@@ -67,19 +68,19 @@ body {
 .prose-malenovska h1,
 .prose-malenovska h2,
 .prose-malenovska h3 {
-  @apply font-display font-bold text-primary-light;
+  @apply font-display font-bold text-primary;
 }
 
 .prose-malenovska h1 {
-  @apply text-4xl mt-8 mb-4;
+  @apply text-2xl mt-6 mb-3;
 }
 
 .prose-malenovska h2 {
-  @apply text-3xl mt-6 mb-3;
+  @apply text-xl mt-4 mb-2;
 }
 
 .prose-malenovska h3 {
-  @apply text-2xl mt-4 mb-2;
+  @apply text-xl mt-4 mb-2;
 }
 
 .prose-malenovska p {

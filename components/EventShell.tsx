@@ -16,7 +16,7 @@ export const EventShell = ({ children }: { children: React.ReactNode }) => {
   const { eventId } = useParams<{ eventId: string }>();
 
   const [events, loading] = useCollectionData<Event>(
-    query(collection(db, "events"), where("id", "==", eventId)) as Query<Event>
+    query(collection(db, "events"), where("id", "==", eventId)) as Query<Event>,
   );
 
   const event = events?.[0];
@@ -40,9 +40,11 @@ export const EventShell = ({ children }: { children: React.ReactNode }) => {
         navigation={navigation}
         banner={isDev ? "DEVELOPMENT" : undefined}
       />
-      <div className="flex min-h-screen flex-col pt-14 lg:ml-72 lg:pt-0">
+      <div className="flex flex-col pt-14 lg:ml-72 lg:pt-0">
         <div id="top" />
-        <main className="flex-1 px-4 pt-2 sm:pt-5">{children}</main>
+        <main className="flex-1 px-4 pt-2 sm:pt-5 min-h-screen">
+          {children}
+        </main>
         <Footer />
       </div>
       <ScrollTop />

@@ -35,12 +35,12 @@ export const SmallArticleCard = memo(function SmallArticleCard({
         title={title}
       />
       {body && (
-        <div className="bg-primary p-4">
-          <p className="text-sm text-primary-light">{body}</p>
+        <div className="bg-primary-light p-4">
+          <p className="text-sm text-primary">{body}</p>
         </div>
       )}
       {(!title || !image) && (
-        <div className="bg-primary p-4">
+        <div className="bg-primary-light p-4">
           <div className="mb-2 h-6 w-48 animate-pulse rounded bg-grey-500/20" />
           <div className="space-y-1">
             <div className="h-4 w-full animate-pulse rounded bg-grey-500/20" />
@@ -54,7 +54,11 @@ export const SmallArticleCard = memo(function SmallArticleCard({
 
   if (onClick) {
     return (
-      <button onClick={onClick} disabled={disabled} className="w-full text-left">
+      <button
+        onClick={onClick}
+        disabled={disabled}
+        className="w-full text-left"
+      >
         {cardContent}
       </button>
     );

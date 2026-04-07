@@ -8,7 +8,7 @@ export const ColorBadge = ({ color, colorName }: ColorBadgeProps) => {
 
   return (
     <span
-      className="ml-2 inline-block rounded px-3 py-1 shadow-md"
+      className="-mb-[0.2em] ml-2 inline-block rounded px-3 py-1 shadow-md"
       style={{ backgroundColor: color }}
     >
       <span
