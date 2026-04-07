@@ -1,8 +1,8 @@
 "use client";
 
-import { collection, orderBy, query, type Query } from "firebase/firestore";
+import { orderBy, query } from "firebase/firestore";
 import { useCollectionData } from "react-firebase-hooks/firestore";
-import { db } from "@/lib/firebase";
+import { typedCollection } from "@/lib/firebase";
 import { removeDocument } from "@/lib/admin-firestore";
 import DataTable from "@/components/admin/DataTable";
 import type { Event } from "@/lib/types";
@@ -40,8 +40,8 @@ const columns = [
 ];
 
 const EventsListPage = () => {
-  const [events, loading] = useCollectionData<Event>(
-    query(collection(db, "events"), orderBy("year", "desc")) as Query<Event>,
+  const [events, loading] = useCollectionData(
+    query(typedCollection<Event>("events"), orderBy("year", "desc")),
   );
 
   const handleDelete = async (event: Event) => {
@@ -50,27 +50,23 @@ const EventsListPage = () => {
   };
 
   return (
-    <div className="space-y-4">
-      <div className="flex items-center justify-between">
-        <h2 className="text-xl font-bold text-gray-900">Události</h2>
+    <DataTable
+      columns={columns}
+      data={events ?? []}
+      loading={loading}
+      basePath="/admin/events"
+      onDelete={handleDelete}
+      searchField="name"
+      searchPlaceholder="Hledat událost…"
+      headerAction={
         <Link
           href="/admin/events/new"
-          className="inline-flex items-center gap-2 rounded bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 transition-colors"
+          className="inline-flex items-center gap-2 rounded bg-secondary px-4 py-2 text-sm font-medium text-white hover:bg-secondary-dark transition-colors"
         >
           <Plus className="h-4 w-4" /> Nová událost
         </Link>
-      </div>
-
-      <DataTable
-        columns={columns}
-        data={events ?? []}
-        loading={loading}
-        basePath="/admin/events"
-        onDelete={handleDelete}
-        searchField="name"
-        searchPlaceholder="Hledat událost…"
-      />
-    </div>
+      }
+    />
   );
 };
 

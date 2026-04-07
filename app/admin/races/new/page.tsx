@@ -1,19 +1,26 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useCallback, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { createDocument } from "@/lib/admin-firestore";
 import FormLayout from "@/components/admin/FormLayout";
 import { InputField, ImageField } from "@/components/admin/FormFields";
 import { useEventFilter } from "../../_components/EventFilter";
 import MarkdownEditor from "@/components/admin/MarkdownEditor";
+import { useCloneData } from "@/lib/useCloneData";
 import type { Race } from "@/lib/types";
 
 const RaceCreatePage = () => {
   const router = useRouter();
-  const [form, setForm] = useState<Partial<Race>>({ priority: 1 });
+  const searchParams = useSearchParams();
+  const [form, setForm] = useState<Partial<Race>>(() => {
+    const event = searchParams.get("event");
+    return { priority: 1, ...(event ? { event } : {}) };
+  });
   const [saving, setSaving] = useState(false);
   const { events } = useEventFilter([]);
+  const setFormStable = useCallback((data: Partial<Race>) => setForm(data), []);
+  const { isClone } = useCloneData<Race>("races", setFormStable);
 
   const set = (patch: Partial<Race>) => setForm((p) => ({ ...p, ...patch }));
 
@@ -45,12 +52,12 @@ const RaceCreatePage = () => {
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <InputField label="Název" value={form.name ?? ""} onChange={(v) => set({ name: v })} required />
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Událost</label>
+              <label className="block text-sm font-medium text-gray-300 mb-1">Událost</label>
               <select
                 value={form.event ?? ""}
                 onChange={(e) => set({ event: e.target.value })}
                 required
-                className="w-full rounded border border-gray-300 px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                className="w-full rounded border border-gray-600 bg-neutral-900 px-3 py-2 text-sm text-primary-light focus:border-secondary focus:outline-none focus:ring-1 focus:ring-secondary"
               >
                 <option value="">Vyberte</option>
                 {events.map((ev) => (
@@ -73,7 +80,7 @@ const RaceCreatePage = () => {
 
   return (
     <FormLayout
-      title="Nová strana"
+      title={isClone ? "Klonovat stranu" : "Nová strana"}
       tabs={tabs}
       onSubmit={handleSave}
       onCancel={() => router.push("/admin/races")}

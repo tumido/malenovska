@@ -1,9 +1,9 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import { collection, query, where, Query } from "firebase/firestore";
+import { query, where } from "firebase/firestore";
 import { useCollectionData } from "react-firebase-hooks/firestore";
-import { db } from "@/lib/firebase";
+import { typedCollection } from "@/lib/firebase";
 import type { Event } from "@/lib/types";
 import { EventProvider } from "@/contexts/EventContext";
 import { Header } from "@/components/Header";
@@ -15,8 +15,8 @@ import { getNavigation } from "@/lib/navigation";
 export const EventShell = ({ children }: { children: React.ReactNode }) => {
   const { eventId } = useParams<{ eventId: string }>();
 
-  const [events, loading] = useCollectionData<Event>(
-    query(collection(db, "events"), where("id", "==", eventId)) as Query<Event>,
+  const [events, loading] = useCollectionData(
+    query(typedCollection<Event>("events"), where("id", "==", eventId)),
   );
 
   const event = events?.[0];

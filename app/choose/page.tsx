@@ -1,9 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { collection, query, where, Query } from "firebase/firestore";
+import { query, where } from "firebase/firestore";
 import { useCollectionData } from "react-firebase-hooks/firestore";
-import { db } from "@/lib/firebase";
+import { typedCollection } from "@/lib/firebase";
 import { Logo } from "@/components/Logo";
 import { EventAvailabilityChip } from "@/components/EventAvailabilityChip";
 import { Markdown } from "@/components/Markdown";
@@ -30,8 +30,8 @@ const EventItem = ({ event }: { event: Event }) => {
 };
 
 const ChoosePage = () => {
-  const [events, loading] = useCollectionData<Event>(
-    query(collection(db, "events"), where("display", "==", true)) as Query<Event>
+  const [events, loading] = useCollectionData(
+    query(typedCollection<Event>("events"), where("display", "==", true))
   );
 
   const today = new Date();

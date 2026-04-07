@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { doc, collection, query, where, type DocumentReference, type Query } from "firebase/firestore";
+import { doc, query, where, type DocumentReference } from "firebase/firestore";
 import { useDocumentData, useCollectionData } from "react-firebase-hooks/firestore";
-import { db } from "@/lib/firebase";
+import { db, typedCollection } from "@/lib/firebase";
 import { updateDocument, fetchParticipantPrivate } from "@/lib/admin-firestore";
 import FormLayout from "@/components/admin/FormLayout";
 import { InputField, CheckboxField } from "@/components/admin/FormFields";
@@ -22,9 +22,9 @@ const ParticipantEditPage = () => {
 
   // Load races filtered by participant's event
   const eventId = form.event ?? participant?.event ?? "";
-  const [races] = useCollectionData<Race>(
+  const [races] = useCollectionData(
     eventId
-      ? query(collection(db, "races"), where("event", "==", eventId)) as Query<Race>
+      ? query(typedCollection<Race>("races"), where("event", "==", eventId))
       : null,
   );
 
@@ -56,7 +56,7 @@ const ParticipantEditPage = () => {
     }
   };
 
-  if (loading) return <div className="text-gray-400">Načítání…</div>;
+  if (loading) return <div className="text-gray-500">Načítání…</div>;
 
   const tabs = [
     {
@@ -72,11 +72,11 @@ const ParticipantEditPage = () => {
             <InputField label="Přezdívka" value={form.nickName ?? ""} onChange={(v) => set({ nickName: v })} />
             <InputField label="Skupina" value={form.group ?? ""} onChange={(v) => set({ group: v })} />
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Strana</label>
+              <label className="block text-sm font-medium text-gray-300 mb-1">Strana</label>
               <select
                 value={form.race ?? ""}
                 onChange={(e) => set({ race: e.target.value })}
-                className="w-full rounded border border-gray-300 px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                className="w-full rounded border border-gray-600 bg-neutral-900 px-3 py-2 text-sm text-primary-light focus:border-secondary focus:outline-none focus:ring-1 focus:ring-secondary"
               >
                 <option value="">Vyberte</option>
                 {(races ?? []).map((r) => (
@@ -101,16 +101,16 @@ const ParticipantEditPage = () => {
           {privateData ? (
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Věk</label>
-                <p className="text-sm text-gray-900">{privateData.age ?? "–"}</p>
+                <label className="block text-sm font-medium text-gray-300 mb-1">Věk</label>
+                <p className="text-sm text-primary-light">{privateData.age ?? "–"}</p>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">E-mail</label>
-                <p className="text-sm text-gray-900">{privateData.email ?? "–"}</p>
+                <label className="block text-sm font-medium text-gray-300 mb-1">E-mail</label>
+                <p className="text-sm text-primary-light">{privateData.email ?? "–"}</p>
               </div>
             </div>
           ) : (
-            <p className="text-sm text-gray-400">Žádná soukromá data</p>
+            <p className="text-sm text-gray-500">Žádná soukromá data</p>
           )}
         </div>
       ),

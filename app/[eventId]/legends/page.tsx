@@ -1,8 +1,8 @@
 "use client";
 
-import { collection, query, where, orderBy, Query } from "firebase/firestore";
+import { query, where, orderBy } from "firebase/firestore";
 import { useCollectionData } from "react-firebase-hooks/firestore";
-import { db } from "@/lib/firebase";
+import { typedCollection } from "@/lib/firebase";
 import { useEvent } from "@/contexts/EventContext";
 import { Banner } from "@/components/Banner";
 import { Markdown } from "@/components/Markdown";
@@ -11,12 +11,12 @@ import type { Legend } from "@/lib/types";
 
 const LegendsPage = () => {
   const event = useEvent();
-  const [legends, loading] = useCollectionData<Legend>(
+  const [legends, loading] = useCollectionData(
     query(
-      collection(db, "legends"),
+      typedCollection<Legend>("legends"),
       where("event", "==", event.id),
       orderBy("publishedAt")
-    ) as Query<Legend>
+    )
   );
 
   return (

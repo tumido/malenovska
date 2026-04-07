@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { ChevronUp, ChevronDown, Pencil, Trash2, Eye, Search } from "lucide-react";
+import { ChevronUp, ChevronDown, Pencil, Trash2, Eye, Search, Copy } from "lucide-react";
 
 interface Column<T> {
   key: string;
@@ -17,10 +17,11 @@ interface DataTableProps<T extends { id: string }> {
   loading?: boolean;
   basePath: string;
   onDelete?: (row: T) => void;
-  actions?: ("show" | "edit" | "delete")[];
+  actions?: ("show" | "edit" | "clone" | "delete")[];
   searchField?: string;
   searchPlaceholder?: string;
   toolbar?: React.ReactNode;
+  headerAction?: React.ReactNode;
 }
 
 const DataTable = <T extends { id: string }>({
@@ -29,10 +30,11 @@ const DataTable = <T extends { id: string }>({
   loading,
   basePath,
   onDelete,
-  actions = ["edit", "delete"],
+  actions = ["edit", "clone", "delete"],
   searchField,
   searchPlaceholder = "Hledat…",
   toolbar,
+  headerAction,
 }: DataTableProps<T>) => {
   const [sortKey, setSortKey] = useState<string | null>(null);
   const [sortDir, setSortDir] = useState<"asc" | "desc">("asc");
@@ -72,27 +74,29 @@ const DataTable = <T extends { id: string }>({
       <div className="flex flex-wrap items-center gap-3">
         {searchField && (
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-500" />
             <input
               type="text"
+              name="search"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder={searchPlaceholder}
-              className="rounded border border-gray-300 py-1.5 pl-9 pr-3 text-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+              className="rounded border border-gray-600 bg-neutral-800 py-1.5 pl-9 pr-3 text-sm text-primary-light focus:border-secondary focus:outline-none focus:ring-1 focus:ring-secondary"
             />
           </div>
         )}
         {toolbar}
+        {headerAction && <div className="ml-auto">{headerAction}</div>}
       </div>
 
-      <div className="overflow-x-auto rounded-lg border border-gray-200 bg-white">
+      <div className="overflow-x-auto rounded-lg border border-gray-700 bg-neutral-800">
         <table className="w-full text-sm">
           <thead>
-            <tr className="border-b border-gray-200 bg-gray-50 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+            <tr className="border-b border-gray-700 bg-neutral-900 text-left text-xs font-medium uppercase tracking-wider text-gray-400">
               {columns.map((col) => (
                 <th
                   key={col.key}
-                  className={`px-4 py-3 ${col.sortable ? "cursor-pointer select-none hover:text-gray-700" : ""}`}
+                  className={`px-4 py-3 ${col.sortable ? "cursor-pointer select-none hover:text-gray-200" : ""}`}
                   onClick={col.sortable ? () => handleSort(col.key) : undefined}
                 >
                   <span className="inline-flex items-center gap-1">
@@ -106,22 +110,22 @@ const DataTable = <T extends { id: string }>({
               {actions.length > 0 && <th className="px-4 py-3 w-24" />}
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-100">
+          <tbody className="divide-y divide-gray-700">
             {loading ? (
               <tr>
-                <td colSpan={columns.length + (actions.length > 0 ? 1 : 0)} className="px-4 py-8 text-center text-gray-400">
+                <td colSpan={columns.length + (actions.length > 0 ? 1 : 0)} className="px-4 py-8 text-center text-gray-500">
                   Načítání…
                 </td>
               </tr>
             ) : filtered.length === 0 ? (
               <tr>
-                <td colSpan={columns.length + (actions.length > 0 ? 1 : 0)} className="px-4 py-8 text-center text-gray-400">
+                <td colSpan={columns.length + (actions.length > 0 ? 1 : 0)} className="px-4 py-8 text-center text-gray-500">
                   Žádné záznamy
                 </td>
               </tr>
             ) : (
               filtered.map((row) => (
-                <tr key={row.id} className="hover:bg-gray-50 transition-colors">
+                <tr key={row.id} className="hover:bg-neutral-700 transition-colors">
                   {columns.map((col) => (
                     <td key={col.key} className="px-4 py-3">
                       {col.render
@@ -135,7 +139,7 @@ const DataTable = <T extends { id: string }>({
                         {actions.includes("show") && (
                           <Link
                             href={`${basePath}/${row.id}`}
-                            className="rounded p-1 text-gray-400 hover:bg-gray-100 hover:text-gray-600"
+                            className="rounded p-1 text-gray-500 hover:bg-gray-700 hover:text-gray-300"
                             title="Zobrazit"
                           >
                             <Eye className="h-4 w-4" />
@@ -144,16 +148,25 @@ const DataTable = <T extends { id: string }>({
                         {actions.includes("edit") && (
                           <Link
                             href={`${basePath}/${row.id}`}
-                            className="rounded p-1 text-gray-400 hover:bg-gray-100 hover:text-indigo-600"
+                            className="rounded p-1 text-gray-500 hover:bg-gray-700 hover:text-secondary"
                             title="Upravit"
                           >
                             <Pencil className="h-4 w-4" />
                           </Link>
                         )}
+                        {actions.includes("clone") && (
+                          <Link
+                            href={`${basePath}/new?clone=${row.id}`}
+                            className="rounded p-1 text-gray-500 hover:bg-gray-700 hover:text-green-400"
+                            title="Klonovat"
+                          >
+                            <Copy className="h-4 w-4" />
+                          </Link>
+                        )}
                         {actions.includes("delete") && onDelete && (
                           <button
                             onClick={() => onDelete(row)}
-                            className="rounded p-1 text-gray-400 hover:bg-gray-100 hover:text-red-600"
+                            className="rounded p-1 text-gray-500 hover:bg-gray-700 hover:text-red-400"
                             title="Smazat"
                           >
                             <Trash2 className="h-4 w-4" />

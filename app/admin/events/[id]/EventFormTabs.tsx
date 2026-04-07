@@ -6,6 +6,7 @@ import {
   SelectField,
   CheckboxField,
   ImageField,
+  FileField,
 } from "@/components/admin/FormFields";
 import MarkdownEditor from "@/components/admin/MarkdownEditor";
 import type { Event, POI, RegistrationExtra } from "@/lib/types";
@@ -260,7 +261,7 @@ const EventFormTabs = ({
             onChange={(v) => update("price", Number(v))}
             type="number"
           />
-          <ImageField
+          <FileField
             label="Prohlášení (PDF)"
             value={form.declaration ?? { src: "" }}
             onChange={(v) => update("declaration", v)}
@@ -310,17 +311,17 @@ const POIEditor = ({
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h4 className="text-sm font-medium text-gray-700">Body zájmu (POI)</h4>
+        <h4 className="text-sm font-medium text-gray-300">Body zájmu (POI)</h4>
         <button
           type="button"
           onClick={add}
-          className="inline-flex items-center gap-1 text-sm text-indigo-600 hover:text-indigo-800"
+          className="inline-flex items-center gap-1 text-sm text-secondary hover:text-secondary-dark"
         >
           <Plus className="h-4 w-4" /> Přidat
         </button>
       </div>
       {pois.map((poi, i) => (
-        <div key={i} className="grid grid-cols-1 gap-3 rounded border border-gray-200 p-4 sm:grid-cols-2">
+        <div key={i} className="grid grid-cols-1 gap-3 rounded border border-gray-700 p-4 sm:grid-cols-2">
           <InputField
             label="Název"
             value={poi.name}
@@ -379,27 +380,27 @@ const RegistrationExtrasEditor = ({
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h4 className="text-sm font-medium text-gray-700">
+        <h4 className="text-sm font-medium text-gray-300">
           Dodatečná pole registrace
         </h4>
         <button
           type="button"
           onClick={add}
-          className="inline-flex items-center gap-1 text-sm text-indigo-600 hover:text-indigo-800"
+          className="inline-flex items-center gap-1 text-sm text-secondary hover:text-secondary-dark"
         >
           <Plus className="h-4 w-4" /> Přidat
         </button>
       </div>
       {extras.map((extra, i) => (
-        <div key={i} className="grid grid-cols-1 gap-3 rounded border border-gray-200 p-4 sm:grid-cols-4">
+        <div key={i} className="grid grid-cols-1 gap-3 rounded border border-gray-700 p-4 sm:grid-cols-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Typ</label>
+            <label className="block text-sm font-medium text-gray-300 mb-1">Typ</label>
             <select
               value={extra.type}
               onChange={(e) =>
                 update(i, { type: e.target.value as RegistrationExtra["type"] })
               }
-              className="w-full rounded border border-gray-300 px-3 py-2 text-sm"
+              className="w-full rounded border border-gray-600 bg-neutral-900 px-3 py-2 text-sm text-primary-light"
             >
               <option value="text">Text</option>
               <option value="number">Číslo</option>

@@ -5,6 +5,9 @@ import {
   persistentLocalCache,
   persistentMultipleTabManager,
   connectFirestoreEmulator,
+  collection as firestoreCollection,
+  type FirestoreDataConverter,
+  type QueryDocumentSnapshot,
 } from "firebase/firestore";
 import { getAuth, connectAuthEmulator } from "firebase/auth";
 import { getStorage, connectStorageEmulator } from "firebase/storage";
@@ -48,5 +51,22 @@ if (useEmulators && !g._emulatorsConnected) {
   connectStorageEmulator(storage, "localhost", 9199);
   g._emulatorsConnected = true;
 }
+
+// Singleton converter — must be a stable reference so react-firebase-hooks'
+// queryEqual check doesn't see a "new" query on every render.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const idConverter: FirestoreDataConverter<any> = {
+  toFirestore: (data) => {
+    const { id: _, ...rest } = data;
+    return rest;
+  },
+  fromFirestore: (snap: QueryDocumentSnapshot) => ({
+    ...snap.data(),
+    id: snap.id,
+  }),
+};
+
+export const typedCollection = <T extends { id: string }>(path: string) =>
+  firestoreCollection(db, path).withConverter(idConverter as FirestoreDataConverter<T>);
 
 export default app;

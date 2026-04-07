@@ -1,16 +1,16 @@
 "use client";
 
-import { collection, query, where, Query } from "firebase/firestore";
+import { query, where } from "firebase/firestore";
 import { useCollectionData } from "react-firebase-hooks/firestore";
-import { db } from "@/lib/firebase";
+import { typedCollection } from "@/lib/firebase";
 import { useEvent } from "@/contexts/EventContext";
 import { Banner } from "@/components/Banner";
 import type { Gallery } from "@/lib/types";
 
 const GalleryPage = () => {
   const event = useEvent();
-  const [galleries, loading] = useCollectionData<Gallery>(
-    query(collection(db, "galleries"), where("event", "==", event.id)) as Query<Gallery>
+  const [galleries, loading] = useCollectionData(
+    query(typedCollection<Gallery>("galleries"), where("event", "==", event.id))
   );
 
   if (loading || !galleries) return null;

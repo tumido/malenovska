@@ -1,8 +1,8 @@
 "use client";
 
-import { collection, query, where, orderBy, Query } from "firebase/firestore";
+import { query, where, orderBy } from "firebase/firestore";
 import { useCollectionData } from "react-firebase-hooks/firestore";
-import { db } from "@/lib/firebase";
+import { typedCollection } from "@/lib/firebase";
 import { useEvent } from "@/contexts/EventContext";
 import { Banner } from "@/components/Banner";
 import { SmallArticleCard } from "@/components/SmallArticleCard";
@@ -10,12 +10,12 @@ import type { Race } from "@/lib/types";
 
 const RacesPage = () => {
   const event = useEvent();
-  const [races, loading] = useCollectionData<Race>(
+  const [races, loading] = useCollectionData(
     query(
-      collection(db, "races"),
+      typedCollection<Race>("races"),
       where("event", "==", event.id),
       orderBy("priority")
-    ) as Query<Race>
+    )
   );
 
   if (loading || !races) return null;

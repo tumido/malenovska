@@ -42,7 +42,7 @@ const LegendEditPage = () => {
     }
   };
 
-  if (loading) return <div className="text-gray-400">Načítání…</div>;
+  if (loading) return <div className="text-gray-500">Načítání…</div>;
 
   const tabs = [
     {
@@ -59,11 +59,11 @@ const LegendEditPage = () => {
               required
             />
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Událost</label>
+              <label className="block text-sm font-medium text-gray-300 mb-1">Událost</label>
               <select
                 value={form.event ?? ""}
                 onChange={(e) => setForm((p) => ({ ...p, event: e.target.value }))}
-                className="w-full rounded border border-gray-300 px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                className="w-full rounded border border-gray-600 bg-neutral-900 px-3 py-2 text-sm text-primary-light focus:border-secondary focus:outline-none focus:ring-1 focus:ring-secondary"
               >
                 <option value="">Vyberte</option>
                 {events.map((ev) => (

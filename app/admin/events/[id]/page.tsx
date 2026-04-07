@@ -43,7 +43,7 @@ const EventEditPage = () => {
   };
 
   if (loading) {
-    return <div className="text-gray-400">Načítání…</div>;
+    return <div className="text-gray-500">Načítání…</div>;
   }
 
   return (

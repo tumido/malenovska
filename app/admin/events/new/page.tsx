@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createDocument } from "@/lib/admin-firestore";
 import EventFormTabs from "../[id]/EventFormTabs";
+import { useCloneData } from "@/lib/useCloneData";
 import type { Event } from "@/lib/types";
 
 const EventCreatePage = () => {
@@ -17,6 +18,8 @@ const EventCreatePage = () => {
     registrationExtras: [],
   });
   const [saving, setSaving] = useState(false);
+  const setFormStable = useCallback((data: Partial<Event>) => setForm(data), []);
+  const { isClone } = useCloneData<Event>("events", setFormStable);
 
   const update = (key: keyof Event, value: unknown) => {
     setForm((prev) => ({ ...prev, [key]: value }));
@@ -47,7 +50,7 @@ const EventCreatePage = () => {
       onSave={handleSave}
       onCancel={() => router.push("/admin/events")}
       saving={saving}
-      title="Nová událost"
+      title={isClone ? "Klonovat událost" : "Nová událost"}
     />
   );
 };

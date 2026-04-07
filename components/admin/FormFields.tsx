@@ -1,5 +1,7 @@
 "use client";
 
+import { FileText, ExternalLink } from "lucide-react";
+
 interface InputFieldProps {
   label: string;
   value: string | number;
@@ -25,7 +27,7 @@ export const InputField = ({
 }: InputFieldProps) => {
   return (
     <div>
-      <label className="block text-sm font-medium text-gray-700 mb-1">
+      <label className="block text-sm font-medium text-gray-300 mb-1">
         {label}
         {required && <span className="text-red-500 ml-0.5">*</span>}
       </label>
@@ -38,7 +40,7 @@ export const InputField = ({
         placeholder={placeholder}
         min={min}
         max={max}
-        className="w-full rounded border border-gray-300 px-3 py-2 text-sm text-gray-900 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 disabled:bg-gray-50 disabled:text-gray-500"
+        className="w-full rounded border border-gray-600 bg-neutral-900 px-3 py-2 text-sm text-primary-light focus:border-secondary focus:outline-none focus:ring-1 focus:ring-secondary disabled:bg-gray-800 disabled:text-gray-500"
       />
     </div>
   );
@@ -63,7 +65,7 @@ export const SelectField = ({
 }: SelectFieldProps) => {
   return (
     <div>
-      <label className="block text-sm font-medium text-gray-700 mb-1">
+      <label className="block text-sm font-medium text-gray-300 mb-1">
         {label}
         {required && <span className="text-red-500 ml-0.5">*</span>}
       </label>
@@ -71,7 +73,7 @@ export const SelectField = ({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         required={required}
-        className="w-full rounded border border-gray-300 px-3 py-2 text-sm text-gray-900 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+        className="w-full rounded border border-gray-600 bg-neutral-900 px-3 py-2 text-sm text-primary-light focus:border-secondary focus:outline-none focus:ring-1 focus:ring-secondary"
       >
         {placeholder && <option value="">{placeholder}</option>}
         {options.map((opt) => (
@@ -97,9 +99,9 @@ export const CheckboxField = ({ label, checked, onChange }: CheckboxFieldProps) 
         type="checkbox"
         checked={checked}
         onChange={(e) => onChange(e.target.checked)}
-        className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+        className="h-4 w-4 rounded border-gray-600 text-secondary focus:ring-secondary"
       />
-      <span className="text-sm text-gray-700">{label}</span>
+      <span className="text-sm text-gray-300">{label}</span>
     </label>
   );
 };
@@ -121,7 +123,7 @@ export const TextareaField = ({
 }: TextareaFieldProps) => {
   return (
     <div>
-      <label className="block text-sm font-medium text-gray-700 mb-1">
+      <label className="block text-sm font-medium text-gray-300 mb-1">
         {label}
         {required && <span className="text-red-500 ml-0.5">*</span>}
       </label>
@@ -130,7 +132,7 @@ export const TextareaField = ({
         onChange={(e) => onChange(e.target.value)}
         rows={rows}
         required={required}
-        className="w-full rounded border border-gray-300 px-3 py-2 text-sm text-gray-900 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 resize-y"
+        className="w-full rounded border border-gray-600 bg-neutral-900 px-3 py-2 text-sm text-primary-light focus:border-secondary focus:outline-none focus:ring-1 focus:ring-secondary resize-y"
       />
     </div>
   );
@@ -145,12 +147,12 @@ interface ImageFieldProps {
 export const ImageField = ({ label, value, onChange }: ImageFieldProps) => {
   return (
     <div className="space-y-2">
-      <label className="block text-sm font-medium text-gray-700">{label}</label>
+      <label className="block text-sm font-medium text-gray-300">{label}</label>
       {value.src && (
         <img
           src={value.src}
           alt={value.title || ""}
-          className="h-32 w-auto rounded border border-gray-200 object-cover"
+          className="h-32 w-auto rounded border border-gray-700 object-cover"
         />
       )}
       <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
@@ -159,14 +161,61 @@ export const ImageField = ({ label, value, onChange }: ImageFieldProps) => {
           value={value.src}
           onChange={(e) => onChange({ ...value, src: e.target.value })}
           placeholder="URL obrázku"
-          className="w-full rounded border border-gray-300 px-3 py-2 text-sm text-gray-900 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+          className="w-full rounded border border-gray-600 bg-neutral-900 px-3 py-2 text-sm text-primary-light focus:border-secondary focus:outline-none focus:ring-1 focus:ring-secondary"
         />
         <input
           type="text"
           value={value.title || ""}
           onChange={(e) => onChange({ ...value, title: e.target.value })}
           placeholder="Popisek"
-          className="w-full rounded border border-gray-300 px-3 py-2 text-sm text-gray-900 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+          className="w-full rounded border border-gray-600 bg-neutral-900 px-3 py-2 text-sm text-primary-light focus:border-secondary focus:outline-none focus:ring-1 focus:ring-secondary"
+        />
+      </div>
+    </div>
+  );
+};
+
+interface FileFieldProps {
+  label: string;
+  value: { src: string; title?: string };
+  onChange: (value: { src: string; title?: string }) => void;
+}
+
+export const FileField = ({ label, value, onChange }: FileFieldProps) => {
+  const filename = value.title || value.src.split("/").pop()?.split("?")[0] || "";
+
+  return (
+    <div className="space-y-2">
+      <label className="block text-sm font-medium text-gray-300">{label}</label>
+      {value.src && (
+        <div className="flex items-center gap-3 rounded border border-gray-700 bg-neutral-900 p-3">
+          <FileText className="h-8 w-8 shrink-0 text-gray-400" />
+          <span className="min-w-0 flex-1 truncate text-sm text-primary-light">{filename}</span>
+          <a
+            href={value.src}
+            target="_blank"
+            rel="external"
+            className="shrink-0 rounded p-1.5 text-gray-400 hover:text-secondary transition-colors"
+            title="Otevřít soubor"
+          >
+            <ExternalLink className="h-4 w-4" />
+          </a>
+        </div>
+      )}
+      <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+        <input
+          type="url"
+          value={value.src}
+          onChange={(e) => onChange({ ...value, src: e.target.value })}
+          placeholder="URL souboru"
+          className="w-full rounded border border-gray-600 bg-neutral-900 px-3 py-2 text-sm text-primary-light focus:border-secondary focus:outline-none focus:ring-1 focus:ring-secondary"
+        />
+        <input
+          type="text"
+          value={value.title || ""}
+          onChange={(e) => onChange({ ...value, title: e.target.value })}
+          placeholder="Název souboru"
+          className="w-full rounded border border-gray-600 bg-neutral-900 px-3 py-2 text-sm text-primary-light focus:border-secondary focus:outline-none focus:ring-1 focus:ring-secondary"
         />
       </div>
     </div>

@@ -2,6 +2,7 @@
 
 @theme inline {
   --color-primary: #212121;
+  --color-primary-dark: #141414;
   --color-primary-light: #fafafa;
   --color-secondary: #ff5722;
   --color-secondary-dark: #e64a19;
@@ -55,6 +56,12 @@ body {
   66% {
     border-color: var(--color-loading-orange);
   }
+}
+
+/* Remove focus outline from Recharts containers */
+.recharts-wrapper:focus,
+.recharts-surface:focus {
+  outline: none;
 }
 
 /* ColorBadge text inversion */

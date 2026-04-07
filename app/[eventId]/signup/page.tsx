@@ -2,9 +2,9 @@
 
 import { useState, useCallback } from "react";
 import Link from "next/link";
-import { collection, doc, query, where, writeBatch, Query } from "firebase/firestore";
+import { doc, query, where, writeBatch } from "firebase/firestore";
 import { useCollectionData } from "react-firebase-hooks/firestore";
-import { db } from "@/lib/firebase";
+import { db, typedCollection } from "@/lib/firebase";
 import { useEvent } from "@/contexts/EventContext";
 import { Banner } from "@/components/Banner";
 import { Article } from "@/components/Article";
@@ -43,11 +43,11 @@ const SignupPage = () => {
   const [submitted, setSubmitted] = useState(false);
   const [result, setResult] = useState<SubmitResult>(null);
 
-  const [participants, pLoading] = useCollectionData<Participant>(
-    query(collection(db, "participants"), where("event", "==", event.id)) as Query<Participant>
+  const [participants, pLoading] = useCollectionData(
+    query(typedCollection<Participant>("participants"), where("event", "==", event.id))
   );
-  const [races, rLoading] = useCollectionData<Race>(
-    query(collection(db, "races"), where("event", "==", event.id)) as Query<Race>
+  const [races, rLoading] = useCollectionData(
+    query(typedCollection<Race>("races"), where("event", "==", event.id))
   );
 
   const isLoading = pLoading || rLoading || !participants || !races;

@@ -1,12 +1,13 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useCallback, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { createDocument } from "@/lib/admin-firestore";
 import FormLayout from "@/components/admin/FormLayout";
 import { InputField, ImageField } from "@/components/admin/FormFields";
 import { useEventFilter } from "../../_components/EventFilter";
 import MarkdownEditor from "@/components/admin/MarkdownEditor";
+import { useCloneData } from "@/lib/useCloneData";
 import type { Legend } from "@/lib/types";
 import { Timestamp } from "firebase/firestore";
 
@@ -16,9 +17,15 @@ const slugify = (title: string): string => {
 
 const LegendCreatePage = () => {
   const router = useRouter();
-  const [form, setForm] = useState<Partial<Legend>>({});
+  const searchParams = useSearchParams();
+  const [form, setForm] = useState<Partial<Legend>>(() => {
+    const event = searchParams.get("event");
+    return event ? { event } : {};
+  });
   const [saving, setSaving] = useState(false);
   const { events } = useEventFilter([]);
+  const setFormStable = useCallback((data: Partial<Legend>) => setForm(data), []);
+  const { isClone } = useCloneData<Legend>("legends", setFormStable);
 
   const handleSave = async () => {
     if (!form.title || !form.event) {
@@ -55,12 +62,12 @@ const LegendCreatePage = () => {
               required
             />
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Událost</label>
+              <label className="block text-sm font-medium text-gray-300 mb-1">Událost</label>
               <select
                 value={form.event ?? ""}
                 onChange={(e) => setForm((p) => ({ ...p, event: e.target.value }))}
                 required
-                className="w-full rounded border border-gray-300 px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                className="w-full rounded border border-gray-600 bg-neutral-900 px-3 py-2 text-sm text-primary-light focus:border-secondary focus:outline-none focus:ring-1 focus:ring-secondary"
               >
                 <option value="">Vyberte</option>
                 {events.map((ev) => (
@@ -92,7 +99,7 @@ const LegendCreatePage = () => {
 
   return (
     <FormLayout
-      title="Nová legenda"
+      title={isClone ? "Klonovat legendu" : "Nová legenda"}
       tabs={tabs}
       onSubmit={handleSave}
       onCancel={() => router.push("/admin/legends")}

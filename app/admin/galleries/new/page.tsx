@@ -1,18 +1,25 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useCallback, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { createDocument } from "@/lib/admin-firestore";
 import FormLayout from "@/components/admin/FormLayout";
 import { InputField, ImageField } from "@/components/admin/FormFields";
 import { useEventFilter } from "../../_components/EventFilter";
+import { useCloneData } from "@/lib/useCloneData";
 import type { Gallery } from "@/lib/types";
 
 const GalleryCreatePage = () => {
   const router = useRouter();
-  const [form, setForm] = useState<Partial<Gallery>>({});
+  const searchParams = useSearchParams();
+  const [form, setForm] = useState<Partial<Gallery>>(() => {
+    const event = searchParams.get("event");
+    return event ? { event } : {};
+  });
   const [saving, setSaving] = useState(false);
   const { events } = useEventFilter([]);
+  const setFormStable = useCallback((data: Partial<Gallery>) => setForm(data), []);
+  const { isClone } = useCloneData<Gallery>("galleries", setFormStable);
 
   const set = (patch: Partial<Gallery>) => setForm((p) => ({ ...p, ...patch }));
 
@@ -44,12 +51,12 @@ const GalleryCreatePage = () => {
             <InputField label="Název" value={form.name ?? ""} onChange={(v) => set({ name: v })} required />
             <InputField label="Autor" value={form.author ?? ""} onChange={(v) => set({ author: v })} required />
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Událost</label>
+              <label className="block text-sm font-medium text-gray-300 mb-1">Událost</label>
               <select
                 value={form.event ?? ""}
                 onChange={(e) => set({ event: e.target.value })}
                 required
-                className="w-full rounded border border-gray-300 px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                className="w-full rounded border border-gray-600 bg-neutral-900 px-3 py-2 text-sm text-primary-light focus:border-secondary focus:outline-none focus:ring-1 focus:ring-secondary"
               >
                 <option value="">Vyberte</option>
                 {events.map((ev) => (
@@ -71,7 +78,7 @@ const GalleryCreatePage = () => {
 
   return (
     <FormLayout
-      title="Nová galerie"
+      title={isClone ? "Klonovat galerii" : "Nová galerie"}
       tabs={tabs}
       onSubmit={handleSave}
       onCancel={() => router.push("/admin/galleries")}

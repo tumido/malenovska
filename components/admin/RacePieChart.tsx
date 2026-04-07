@@ -1,6 +1,6 @@
 "use client";
 
-import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
+import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 import type { Race, Participant } from "@/lib/types";
 
 interface RacePieChartProps {
@@ -16,7 +16,7 @@ const RacePieChart = ({ races, participants }: RacePieChartProps) => {
   }));
 
   if (data.every((d) => d.value === 0)) {
-    return <p className="text-sm text-gray-400 text-center py-8">Žádní účastníci</p>;
+    return <p className="text-sm text-gray-500 text-center py-8">Žádní účastníci</p>;
   }
 
   return (
@@ -30,7 +30,12 @@ const RacePieChart = ({ races, participants }: RacePieChartProps) => {
           innerRadius={40}
           dataKey="value"
           nameKey="name"
-          label={({ name, value }) => `${name}: ${value}`}
+          label={({ x, y, name, value, textAnchor }) => (
+            <text x={x} y={y} textAnchor={textAnchor} fill="#fafafa" fontSize={14}>
+              {`${name}: ${value}`}
+            </text>
+          )}
+          labelLine={{ stroke: "#9e9e9e" }}
         >
           {data.map((entry, i) => (
             <Cell
@@ -39,7 +44,6 @@ const RacePieChart = ({ races, participants }: RacePieChartProps) => {
             />
           ))}
         </Pie>
-        <Tooltip />
       </PieChart>
     </ResponsiveContainer>
   );

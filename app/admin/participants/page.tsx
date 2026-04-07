@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { collection, query, where, type Query } from "firebase/firestore";
+import { query, where } from "firebase/firestore";
 import { useCollectionData } from "react-firebase-hooks/firestore";
-import { db } from "@/lib/firebase";
+import { typedCollection } from "@/lib/firebase";
 import { removeParticipant, fetchParticipantPrivate } from "@/lib/admin-firestore";
 import DataTable from "@/components/admin/DataTable";
 import type { Participant, Race } from "@/lib/types";
@@ -11,16 +11,16 @@ import { useEventFilter } from "../_components/EventFilter";
 import { Check, X, Download } from "lucide-react";
 
 const ParticipantsListPage = () => {
-  const [participants, loading] = useCollectionData<Participant>(
-    query(collection(db, "participants")) as Query<Participant>,
+  const [participants, loading] = useCollectionData(
+    query(typedCollection<Participant>("participants")),
   );
   const { filtered, toolbar, eventId } = useEventFilter(participants ?? []);
   const [raceFilter, setRaceFilter] = useState("");
 
   // Load races for the selected event for filtering and display
-  const [races] = useCollectionData<Race>(
+  const [races] = useCollectionData(
     eventId
-      ? query(collection(db, "races"), where("event", "==", eventId)) as Query<Race>
+      ? query(typedCollection<Race>("races"), where("event", "==", eventId))
       : null,
   );
 
@@ -110,7 +110,7 @@ const ParticipantsListPage = () => {
         <select
           value={raceFilter}
           onChange={(e) => setRaceFilter(e.target.value)}
-          className="rounded border border-gray-300 px-3 py-1.5 text-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+          className="rounded border border-gray-600 bg-neutral-800 px-3 py-1.5 text-sm text-primary-light focus:border-secondary focus:outline-none focus:ring-1 focus:ring-secondary"
         >
           <option value="">Všechny strany</option>
           {races.map((r) => (
@@ -120,7 +120,7 @@ const ParticipantsListPage = () => {
       )}
       <button
         onClick={handleExport}
-        className="inline-flex items-center gap-1 rounded border border-gray-300 px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+        className="inline-flex items-center gap-1 rounded border border-gray-600 px-3 py-1.5 text-sm text-gray-300 hover:bg-gray-700 transition-colors"
       >
         <Download className="h-4 w-4" /> CSV
       </button>
@@ -129,8 +129,6 @@ const ParticipantsListPage = () => {
 
   return (
     <div className="space-y-4">
-      <h2 className="text-xl font-bold text-gray-900">Účastníci</h2>
-
       <DataTable
         columns={columns}
         data={displayed}

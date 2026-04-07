@@ -1,8 +1,8 @@
 "use client";
 
-import { collection, orderBy, query, type Query } from "firebase/firestore";
+import { orderBy, query } from "firebase/firestore";
 import { useCollectionData } from "react-firebase-hooks/firestore";
-import { db } from "@/lib/firebase";
+import { typedCollection } from "@/lib/firebase";
 import { removeDocument } from "@/lib/admin-firestore";
 import DataTable from "@/components/admin/DataTable";
 import type { Gallery } from "@/lib/types";
@@ -17,8 +17,8 @@ const columns = [
 ];
 
 const GalleriesListPage = () => {
-  const [galleries, loading] = useCollectionData<Gallery>(
-    query(collection(db, "galleries"), orderBy("name")) as Query<Gallery>,
+  const [galleries, loading] = useCollectionData(
+    query(typedCollection<Gallery>("galleries"), orderBy("name")),
   );
   const { filtered, toolbar } = useEventFilter(galleries ?? []);
 
@@ -28,28 +28,24 @@ const GalleriesListPage = () => {
   };
 
   return (
-    <div className="space-y-4">
-      <div className="flex items-center justify-between">
-        <h2 className="text-xl font-bold text-gray-900">Galerie</h2>
+    <DataTable
+      columns={columns}
+      data={filtered}
+      loading={loading}
+      basePath="/admin/galleries"
+      onDelete={handleDelete}
+      searchField="name"
+      searchPlaceholder="Hledat galerii…"
+      toolbar={toolbar}
+      headerAction={
         <Link
           href="/admin/galleries/new"
-          className="inline-flex items-center gap-2 rounded bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 transition-colors"
+          className="inline-flex items-center gap-2 rounded bg-secondary px-4 py-2 text-sm font-medium text-white hover:bg-secondary-dark transition-colors"
         >
           <Plus className="h-4 w-4" /> Nová galerie
         </Link>
-      </div>
-
-      <DataTable
-        columns={columns}
-        data={filtered}
-        loading={loading}
-        basePath="/admin/galleries"
-        onDelete={handleDelete}
-        searchField="name"
-        searchPlaceholder="Hledat galerii…"
-        toolbar={toolbar}
-      />
-    </div>
+      }
+    />
   );
 };
 
