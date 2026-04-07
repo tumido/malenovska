@@ -8,7 +8,7 @@ import { InputField, ImageField } from "@/components/admin/FormFields";
 import { useEventFilter } from "../../_components/EventFilter";
 import type { Gallery } from "@/lib/types";
 
-export default function GalleryCreatePage() {
+const GalleryCreatePage = () => {
   const router = useRouter();
   const [form, setForm] = useState<Partial<Gallery>>({});
   const [saving, setSaving] = useState(false);
@@ -78,4 +78,6 @@ export default function GalleryCreatePage() {
       saving={saving}
     />
   );
-}
+};
+
+export default GalleryCreatePage;

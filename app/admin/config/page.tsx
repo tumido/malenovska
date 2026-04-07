@@ -7,7 +7,7 @@ import { useDocumentData, useCollectionData } from "react-firebase-hooks/firesto
 import { db } from "@/lib/firebase";
 import type { Config, Event } from "@/lib/types";
 
-export default function ConfigPage() {
+const ConfigPage = () => {
   const router = useRouter();
   const [config, loading] = useDocumentData<Config>(
     doc(db, "config", "config") as DocumentReference<Config>,
@@ -80,4 +80,6 @@ export default function ConfigPage() {
       </div>
     </div>
   );
-}
+};
+
+export default ConfigPage;

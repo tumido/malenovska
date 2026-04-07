@@ -10,7 +10,7 @@ interface HeaderProps {
   banner?: string;
 }
 
-export function Header({ navigation, banner }: HeaderProps) {
+export const Header = ({ navigation, banner }: HeaderProps) => {
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   const handleOpen = useCallback(() => setDrawerOpen(true), []);
@@ -72,4 +72,4 @@ export function Header({ navigation, banner }: HeaderProps) {
       </nav>
     </>
   );
-}
+};

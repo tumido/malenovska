@@ -10,7 +10,7 @@ interface HasEvent {
   event: string;
 }
 
-export function useEventFilter<T extends HasEvent>(data: T[]) {
+export const useEventFilter = <T extends HasEvent>(data: T[]) => {
   const [eventId, setEventId] = useState("");
   const [events] = useCollectionData<Event>(
     query(collection(db, "events"), orderBy("year", "desc")) as Query<Event>,
@@ -27,9 +27,9 @@ export function useEventFilter<T extends HasEvent>(data: T[]) {
   );
 
   return { filtered, toolbar, eventId, events: events ?? [] };
-}
+};
 
-export function EventFilterToolbar({
+export const EventFilterToolbar = ({
   events,
   value,
   onChange,
@@ -37,7 +37,7 @@ export function EventFilterToolbar({
   events: Event[];
   value: string;
   onChange: (value: string) => void;
-}) {
+}) => {
   return (
     <select
       value={value}
@@ -52,4 +52,4 @@ export function EventFilterToolbar({
       ))}
     </select>
   );
-}
+};

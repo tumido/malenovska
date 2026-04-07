@@ -12,11 +12,11 @@ interface NavigationDrawerProps {
   showCloseButton?: boolean;
 }
 
-export function NavigationDrawer({
+export const NavigationDrawer = ({
   navigation,
   onClose,
   showCloseButton,
-}: NavigationDrawerProps) {
+}: NavigationDrawerProps) => {
   const event = useEvent();
   const pathname = usePathname();
 
@@ -96,4 +96,4 @@ export function NavigationDrawer({
       </div>
     </div>
   );
-}
+};

@@ -24,7 +24,7 @@ export interface NavItem {
   disabled?: boolean;
 }
 
-export function getNavigation(event: Event): NavItem[] {
+export const getNavigation = (event: Event): NavItem[] => {
   const yesterday = new Date();
   yesterday.setDate(yesterday.getDate() - 1);
   yesterday.setUTCHours(23, 59, 0, 0);
@@ -108,6 +108,6 @@ export function getNavigation(event: Event): NavItem[] {
       path: "confirmation",
     },
   ];
-}
+};
 
 export { LayoutDashboard };

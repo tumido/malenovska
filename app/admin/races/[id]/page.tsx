@@ -12,7 +12,7 @@ import { useEventFilter } from "../../_components/EventFilter";
 import MarkdownEditor from "@/components/admin/MarkdownEditor";
 import type { Race } from "@/lib/types";
 
-export default function RaceEditPage() {
+const RaceEditPage = () => {
   const { id } = useParams<{ id: string }>();
   const router = useRouter();
   const [race, loading] = useDocumentData<Race>(
@@ -89,4 +89,6 @@ export default function RaceEditPage() {
       saving={saving}
     />
   );
-}
+};
+
+export default RaceEditPage;

@@ -21,7 +21,7 @@ interface ShareDialogProps {
   onClose: () => void;
 }
 
-export function ShareDialog({ title: shareTitle, eventName, open, onClose }: ShareDialogProps) {
+export const ShareDialog = ({ title: shareTitle, eventName, open, onClose }: ShareDialogProps) => {
   const title = `${eventName}: ${shareTitle}`;
 
   useEffect(() => {
@@ -81,4 +81,4 @@ export function ShareDialog({ title: shareTitle, eventName, open, onClose }: Sha
       </div>
     </>
   );
-}
+};

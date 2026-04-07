@@ -33,7 +33,7 @@ interface FormData {
 
 type SubmitResult = { message: string; variant: "success" | "error" } | null;
 
-export default function SignupPage() {
+const SignupPage = () => {
   const event = useEvent();
   const [step, setStep] = useState(0);
   const [formData, setFormData] = useState<FormData>({
@@ -234,11 +234,13 @@ export default function SignupPage() {
       </Article>
     </>
   );
-}
+};
 
-function Input({ label, value, onChange, error, placeholder, type = "text", readOnly, multiline }: {
+export default SignupPage;
+
+const Input = ({ label, value, onChange, error, placeholder, type = "text", readOnly, multiline }: {
   label: string; value: string; onChange?: (v: string) => void; error?: string; placeholder?: string; type?: string; readOnly?: boolean; multiline?: boolean;
-}) {
+}) => {
   const cls = `w-full rounded border-2 bg-transparent p-3 text-white placeholder-grey-500 outline-none transition-colors ${error ? "border-red-400" : "border-transparent focus:border-secondary"} ${readOnly ? "opacity-60" : ""}`;
   return (
     <div>
@@ -247,4 +249,4 @@ function Input({ label, value, onChange, error, placeholder, type = "text", read
       {error && <p className="mt-1 text-xs text-red-400">{error}</p>}
     </div>
   );
-}
+};

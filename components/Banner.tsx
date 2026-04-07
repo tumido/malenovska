@@ -8,7 +8,7 @@ interface BannerProps {
   children?: React.ReactNode;
 }
 
-export function Banner({ title, children }: BannerProps) {
+export const Banner = ({ title, children }: BannerProps) => {
   const event = useEvent();
   const splitAt = event.name.indexOf("o");
 
@@ -27,4 +27,4 @@ export function Banner({ title, children }: BannerProps) {
       {children && <div className="mt-4 max-w-2xl text-center">{children}</div>}
     </div>
   );
-}
+};

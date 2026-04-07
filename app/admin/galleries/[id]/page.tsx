@@ -11,7 +11,7 @@ import { InputField, ImageField } from "@/components/admin/FormFields";
 import { useEventFilter } from "../../_components/EventFilter";
 import type { Gallery } from "@/lib/types";
 
-export default function GalleryEditPage() {
+const GalleryEditPage = () => {
   const { id } = useParams<{ id: string }>();
   const router = useRouter();
   const [gallery, loading] = useDocumentData<Gallery>(
@@ -88,4 +88,6 @@ export default function GalleryEditPage() {
       saving={saving}
     />
   );
-}
+};
+
+export default GalleryEditPage;

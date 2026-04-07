@@ -30,7 +30,7 @@ const columns = [
   },
 ];
 
-export default function RacesListPage() {
+const RacesListPage = () => {
   const [races, loading] = useCollectionData<Race>(
     query(collection(db, "races"), orderBy("name")) as Query<Race>,
   );
@@ -65,4 +65,6 @@ export default function RacesListPage() {
       />
     </div>
   );
-}
+};
+
+export default RacesListPage;

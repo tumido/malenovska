@@ -39,7 +39,7 @@ const columns = [
   },
 ];
 
-export default function EventsListPage() {
+const EventsListPage = () => {
   const [events, loading] = useCollectionData<Event>(
     query(collection(db, "events"), orderBy("year", "desc")) as Query<Event>,
   );
@@ -72,4 +72,6 @@ export default function EventsListPage() {
       />
     </div>
   );
-}
+};
+
+export default EventsListPage;

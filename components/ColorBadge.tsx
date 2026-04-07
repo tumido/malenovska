@@ -3,7 +3,7 @@ interface ColorBadgeProps {
   colorName?: string;
 }
 
-export function ColorBadge({ color, colorName }: ColorBadgeProps) {
+export const ColorBadge = ({ color, colorName }: ColorBadgeProps) => {
   if (!color) return null;
 
   return (
@@ -19,4 +19,4 @@ export function ColorBadge({ color, colorName }: ColorBadgeProps) {
       </span>
     </span>
   );
-}
+};

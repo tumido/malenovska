@@ -12,12 +12,12 @@ interface SortableTableHeadProps {
   onRequestSort: (property: string) => void;
 }
 
-export function SortableTableHead({
+export const SortableTableHead = ({
   headers,
   order,
   orderBy,
   onRequestSort,
-}: SortableTableHeadProps) {
+}: SortableTableHeadProps) => {
   return (
     <thead>
       <tr className="border-b border-white/10">
@@ -46,4 +46,4 @@ export function SortableTableHead({
       </tr>
     </thead>
   );
-}
+};

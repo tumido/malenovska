@@ -8,7 +8,7 @@ import { db } from "@/lib/firebase";
 import type { Config } from "@/lib/types";
 import { Loading } from "@/components/Loading";
 
-export default function HomePage() {
+const HomePage = () => {
   const router = useRouter();
   const [config, loading] = useDocumentData<Config>(
     doc(db, "config", "config") as DocumentReference<Config>
@@ -29,4 +29,6 @@ export default function HomePage() {
       <p className="text-grey-400 text-lg">Nepodařilo se načíst konfiguraci.</p>
     </div>
   );
-}
+};
+
+export default HomePage;

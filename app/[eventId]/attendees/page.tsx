@@ -24,14 +24,14 @@ const headerKeys = headers.map((h) => h.id);
 
 type RowData = Record<string, string>;
 
-function filterBySearch(row: RowData, filter: string): boolean {
+const filterBySearch = (row: RowData, filter: string): boolean => {
   if (!filter) return true;
   return Object.entries(row).some(
     ([k, v]) => headerKeys.includes(k) && v?.toLowerCase().includes(filter)
   );
-}
+};
 
-export default function AttendeesPage() {
+const AttendeesPage = () => {
   const event = useEvent();
   const [order, setOrder] = useState<"asc" | "desc">("asc");
   const [orderBy, setOrderBy] = useState("race");
@@ -145,4 +145,6 @@ export default function AttendeesPage() {
       </Article>
     </>
   );
-}
+};
+
+export default AttendeesPage;

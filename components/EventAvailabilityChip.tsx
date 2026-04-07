@@ -4,7 +4,7 @@ import { Heart, Hourglass } from "lucide-react";
 import { useEvent } from "@/contexts/EventContext";
 import { timestampToDateStr } from "@/lib/date";
 
-export function EventAvailabilityChip({ className }: { className?: string }) {
+export const EventAvailabilityChip = ({ className }: { className?: string }) => {
   const event = useEvent();
 
   const isPast = !event.date?.toDate || event.date.toDate() < new Date();
@@ -20,4 +20,4 @@ export function EventAvailabilityChip({ className }: { className?: string }) {
       {timestampToDateStr(event.date)}
     </span>
   );
-}
+};

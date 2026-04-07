@@ -132,10 +132,11 @@ public/                   # Static assets (images, favicons)
 
 ### TypeScript Patterns
 
-1. **Use type guards** for complex union types
-2. **Avoid `any`** — use proper types or generics
-3. **Use `as const`** for literal type inference when needed
-4. **Type Firestore data** — always use interfaces from `lib/types.ts` with `useCollectionData<T>` and `useDocumentData<T>`
+1. **Always use arrow functions** — `const Foo = () => {}` not `function Foo() {}`, for components, handlers, helpers, and all other functions
+2. **Use type guards** for complex union types
+3. **Avoid `any`** — use proper types or generics
+4. **Use `as const`** for literal type inference when needed
+5. **Type Firestore data** — always use interfaces from `lib/types.ts` with `useCollectionData<T>` and `useDocumentData<T>`
 
 ### Data Fetching Pattern
 
@@ -149,7 +150,7 @@ import { collection, query, where, orderBy } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import type { Legend } from "@/lib/types";
 
-export default function LegendsPage() {
+const LegendsPage = () => {
   const { eventId } = useParams<{ eventId: string }>();
   const [legends, loading, error] = useCollectionData<Legend>(
     query(collection(db, "legends"), where("event", "==", eventId), orderBy("publishedAt"))
@@ -159,7 +160,9 @@ export default function LegendsPage() {
   if (error) return <ErrorState error={error} />;
 
   return /* render legends */;
-}
+};
+
+export default LegendsPage;
 ```
 
 ### Static Export + Dynamic Routes
@@ -237,6 +240,7 @@ const { register, formState: { errors } } = useFormContext();
 - Don't use arbitrary value syntax like `bg-(--primary)` — use `bg-primary` instead
 - Don't hardcode raw hex colors — use Tailwind semantic tokens (`bg-primary` not `bg-[#212121]`), except for truly one-off values
 - Don't use SSR data fetching (`getServerSideProps`, server actions) — this is a static export app
+- Don't use `function` declarations — always use arrow functions (`const fn = () => {}` not `function fn() {}`)
 
 ## Design System
 

@@ -10,7 +10,7 @@ import type { Participant, Race } from "@/lib/types";
 import { useEventFilter } from "../_components/EventFilter";
 import { Check, X, Download } from "lucide-react";
 
-export default function ParticipantsListPage() {
+const ParticipantsListPage = () => {
   const [participants, loading] = useCollectionData<Participant>(
     query(collection(db, "participants")) as Query<Participant>,
   );
@@ -144,4 +144,6 @@ export default function ParticipantsListPage() {
       />
     </div>
   );
-}
+};
+
+export default ParticipantsListPage;

@@ -6,7 +6,7 @@ import { createDocument } from "@/lib/admin-firestore";
 import EventFormTabs from "../[id]/EventFormTabs";
 import type { Event } from "@/lib/types";
 
-export default function EventCreatePage() {
+const EventCreatePage = () => {
   const router = useRouter();
   const [form, setForm] = useState<Partial<Event>>({
     display: false,
@@ -50,4 +50,6 @@ export default function EventCreatePage() {
       title="Nová událost"
     />
   );
-}
+};
+
+export default EventCreatePage;

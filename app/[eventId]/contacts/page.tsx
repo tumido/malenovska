@@ -7,7 +7,7 @@ import { Article } from "@/components/Article";
 import { ArticleCardHeader } from "@/components/ArticleCardHeader";
 import { Markdown } from "@/components/Markdown";
 
-export default function ContactsPage() {
+const ContactsPage = () => {
   const event = useEvent();
 
   const contactLinks = [
@@ -55,4 +55,6 @@ export default function ContactsPage() {
       </Article>
     </>
   );
-}
+};
+
+export default ContactsPage;

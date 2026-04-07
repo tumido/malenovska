@@ -16,7 +16,7 @@ const columns = [
   { key: "event", label: "Událost", sortable: true },
 ];
 
-export default function GalleriesListPage() {
+const GalleriesListPage = () => {
   const [galleries, loading] = useCollectionData<Gallery>(
     query(collection(db, "galleries"), orderBy("name")) as Query<Gallery>,
   );
@@ -51,4 +51,6 @@ export default function GalleriesListPage() {
       />
     </div>
   );
-}
+};
+
+export default GalleriesListPage;

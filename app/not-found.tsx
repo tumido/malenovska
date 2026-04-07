@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Logo } from "@/components/Logo";
 
-export default function NotFound() {
+const NotFound = () => {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center gap-6 text-center text-white">
       <h1 className="font-display text-8xl font-bold">
@@ -19,4 +19,6 @@ export default function NotFound() {
       </Link>
     </div>
   );
-}
+};
+
+export default NotFound;

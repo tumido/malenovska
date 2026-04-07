@@ -1,7 +1,9 @@
-export function generateStaticParams() {
+export const generateStaticParams = () => {
   return [{ id: "_" }];
-}
+};
 
-export default function RaceLayout({ children }: { children: React.ReactNode }) {
+const RaceLayout = ({ children }: { children: React.ReactNode }) => {
   return children;
-}
+};
+
+export default RaceLayout;

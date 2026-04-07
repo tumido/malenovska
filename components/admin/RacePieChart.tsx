@@ -8,7 +8,7 @@ interface RacePieChartProps {
   participants: Participant[];
 }
 
-export default function RacePieChart({ races, participants }: RacePieChartProps) {
+const RacePieChart = ({ races, participants }: RacePieChartProps) => {
   const data = races.map((race) => ({
     name: race.name,
     value: participants.filter((p) => p.race === race.id).length,
@@ -43,4 +43,6 @@ export default function RacePieChart({ races, participants }: RacePieChartProps)
       </PieChart>
     </ResponsiveContainer>
   );
-}
+};
+
+export default RacePieChart;

@@ -12,7 +12,7 @@ import { useEventFilter } from "../../_components/EventFilter";
 import MarkdownEditor from "@/components/admin/MarkdownEditor";
 import type { Legend } from "@/lib/types";
 
-export default function LegendEditPage() {
+const LegendEditPage = () => {
   const { id } = useParams<{ id: string }>();
   const router = useRouter();
   const [legend, loading] = useDocumentData<Legend>(
@@ -102,4 +102,6 @@ export default function LegendEditPage() {
       saving={saving}
     />
   );
-}
+};
+
+export default LegendEditPage;

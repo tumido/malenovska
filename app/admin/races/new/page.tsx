@@ -9,7 +9,7 @@ import { useEventFilter } from "../../_components/EventFilter";
 import MarkdownEditor from "@/components/admin/MarkdownEditor";
 import type { Race } from "@/lib/types";
 
-export default function RaceCreatePage() {
+const RaceCreatePage = () => {
   const router = useRouter();
   const [form, setForm] = useState<Partial<Race>>({ priority: 1 });
   const [saving, setSaving] = useState(false);
@@ -80,4 +80,6 @@ export default function RaceCreatePage() {
       saving={saving}
     />
   );
-}
+};
+
+export default RaceCreatePage;

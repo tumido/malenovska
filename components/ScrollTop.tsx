@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { ChevronUp } from "lucide-react";
 
-export function ScrollTop({ anchor = "#top" }: { anchor?: string }) {
+export const ScrollTop = ({ anchor = "#top" }: { anchor?: string }) => {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -31,4 +31,4 @@ export function ScrollTop({ anchor = "#top" }: { anchor?: string }) {
       <ChevronUp size={24} />
     </button>
   );
-}
+};

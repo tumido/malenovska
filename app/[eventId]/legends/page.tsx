@@ -9,7 +9,7 @@ import { Markdown } from "@/components/Markdown";
 import { SmallArticleCard } from "@/components/SmallArticleCard";
 import type { Legend } from "@/lib/types";
 
-export default function LegendsPage() {
+const LegendsPage = () => {
   const event = useEvent();
   const [legends, loading] = useCollectionData<Legend>(
     query(
@@ -41,4 +41,6 @@ export default function LegendsPage() {
       </div>
     </>
   );
-}
+};
+
+export default LegendsPage;

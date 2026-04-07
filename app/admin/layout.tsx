@@ -4,7 +4,7 @@ import { AuthProvider, useAuth } from "@/contexts/AuthContext";
 import AdminShell from "@/components/admin/AdminShell";
 import LoginPage from "./login";
 
-function AuthGate({ children }: { children: React.ReactNode }) {
+const AuthGate = ({ children }: { children: React.ReactNode }) => {
   const { user, loading } = useAuth();
 
   if (loading) {
@@ -18,12 +18,14 @@ function AuthGate({ children }: { children: React.ReactNode }) {
   if (!user) return <LoginPage />;
 
   return <AdminShell>{children}</AdminShell>;
-}
+};
 
-export default function AdminLayout({ children }: { children: React.ReactNode }) {
+const AdminLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <AuthProvider>
       <AuthGate>{children}</AuthGate>
     </AuthProvider>
   );
-}
+};
+
+export default AdminLayout;

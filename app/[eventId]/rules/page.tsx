@@ -6,7 +6,7 @@ import { Article } from "@/components/Article";
 import { ArticleCardHeader } from "@/components/ArticleCardHeader";
 import { Markdown } from "@/components/Markdown";
 
-export default function RulesPage() {
+const RulesPage = () => {
   const event = useEvent();
 
   return (
@@ -22,4 +22,6 @@ export default function RulesPage() {
       </Article>
     </>
   );
-}
+};
+
+export default RulesPage;

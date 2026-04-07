@@ -8,7 +8,7 @@ import { Banner } from "@/components/Banner";
 import { SmallArticleCard } from "@/components/SmallArticleCard";
 import type { Race } from "@/lib/types";
 
-export default function RacesPage() {
+const RacesPage = () => {
   const event = useEvent();
   const [races, loading] = useCollectionData<Race>(
     query(
@@ -35,4 +35,6 @@ export default function RacesPage() {
       </div>
     </>
   );
-}
+};
+
+export default RacesPage;

@@ -7,7 +7,7 @@ import { useEvent } from "@/contexts/EventContext";
 import { Banner } from "@/components/Banner";
 import type { Gallery } from "@/lib/types";
 
-export default function GalleryPage() {
+const GalleryPage = () => {
   const event = useEvent();
   const [galleries, loading] = useCollectionData<Gallery>(
     query(collection(db, "galleries"), where("event", "==", event.id)) as Query<Gallery>
@@ -45,4 +45,6 @@ export default function GalleryPage() {
       </div>
     </div>
   );
-}
+};
+
+export default GalleryPage;

@@ -9,7 +9,7 @@ import { timestampToDateStr, toTimeStr } from "@/lib/date";
 
 const MARKER_COLORS = ["text-loading-red", "text-loading-yellow", "text-loading-orange"];
 
-export default function InfoPage() {
+const InfoPage = () => {
   const event = useEvent();
   const [center, setCenter] = useState<[number, number] | undefined>();
 
@@ -103,4 +103,6 @@ export default function InfoPage() {
       </div>
     </>
   );
-}
+};
+
+export default InfoPage;

@@ -12,7 +12,7 @@ interface InputFieldProps {
   max?: number;
 }
 
-export function InputField({
+export const InputField = ({
   label,
   value,
   onChange,
@@ -22,7 +22,7 @@ export function InputField({
   placeholder,
   min,
   max,
-}: InputFieldProps) {
+}: InputFieldProps) => {
   return (
     <div>
       <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -42,7 +42,7 @@ export function InputField({
       />
     </div>
   );
-}
+};
 
 interface SelectFieldProps {
   label: string;
@@ -53,14 +53,14 @@ interface SelectFieldProps {
   placeholder?: string;
 }
 
-export function SelectField({
+export const SelectField = ({
   label,
   value,
   onChange,
   options,
   required,
   placeholder,
-}: SelectFieldProps) {
+}: SelectFieldProps) => {
   return (
     <div>
       <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -82,7 +82,7 @@ export function SelectField({
       </select>
     </div>
   );
-}
+};
 
 interface CheckboxFieldProps {
   label: string;
@@ -90,7 +90,7 @@ interface CheckboxFieldProps {
   onChange: (checked: boolean) => void;
 }
 
-export function CheckboxField({ label, checked, onChange }: CheckboxFieldProps) {
+export const CheckboxField = ({ label, checked, onChange }: CheckboxFieldProps) => {
   return (
     <label className="flex items-center gap-2 cursor-pointer">
       <input
@@ -102,7 +102,7 @@ export function CheckboxField({ label, checked, onChange }: CheckboxFieldProps) 
       <span className="text-sm text-gray-700">{label}</span>
     </label>
   );
-}
+};
 
 interface TextareaFieldProps {
   label: string;
@@ -112,13 +112,13 @@ interface TextareaFieldProps {
   required?: boolean;
 }
 
-export function TextareaField({
+export const TextareaField = ({
   label,
   value,
   onChange,
   rows = 4,
   required,
-}: TextareaFieldProps) {
+}: TextareaFieldProps) => {
   return (
     <div>
       <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -134,7 +134,7 @@ export function TextareaField({
       />
     </div>
   );
-}
+};
 
 interface ImageFieldProps {
   label: string;
@@ -142,7 +142,7 @@ interface ImageFieldProps {
   onChange: (value: { src: string; title?: string }) => void;
 }
 
-export function ImageField({ label, value, onChange }: ImageFieldProps) {
+export const ImageField = ({ label, value, onChange }: ImageFieldProps) => {
   return (
     <div className="space-y-2">
       <label className="block text-sm font-medium text-gray-700">{label}</label>
@@ -171,7 +171,7 @@ export function ImageField({ label, value, onChange }: ImageFieldProps) {
       </div>
     </div>
   );
-}
+};
 
 interface EventSelectProps {
   label: string;
@@ -182,13 +182,13 @@ interface EventSelectProps {
   disabled?: boolean;
 }
 
-export function EventSelect({
+export const EventSelect = ({
   label,
   value,
   onChange,
   events,
   required,
-}: EventSelectProps) {
+}: EventSelectProps) => {
   return (
     <SelectField
       label={label}
@@ -202,4 +202,4 @@ export function EventSelect({
       }))}
     />
   );
-}
+};

@@ -22,7 +22,7 @@ interface EventFormTabsProps {
   isEdit?: boolean;
 }
 
-export default function EventFormTabs({
+const EventFormTabs = ({
   form,
   update,
   onSave,
@@ -30,7 +30,7 @@ export default function EventFormTabs({
   saving,
   title,
   isEdit,
-}: EventFormTabsProps) {
+}: EventFormTabsProps) => {
   const tabs = [
     {
       key: "general",
@@ -289,16 +289,18 @@ export default function EventFormTabs({
       saving={saving}
     />
   );
-}
+};
+
+export default EventFormTabs;
 
 /** POI array editor */
-function POIEditor({
+const POIEditor = ({
   pois,
   onChange,
 }: {
   pois: POI[];
   onChange: (pois: POI[]) => void;
-}) {
+}) => {
   const add = () =>
     onChange([...pois, { name: "", description: "", latitude: 0, longitude: 0 }]);
   const remove = (i: number) => onChange(pois.filter((_, idx) => idx !== i));
@@ -358,16 +360,16 @@ function POIEditor({
       ))}
     </div>
   );
-}
+};
 
 /** Registration extras array editor */
-function RegistrationExtrasEditor({
+const RegistrationExtrasEditor = ({
   extras,
   onChange,
 }: {
   extras: RegistrationExtra[];
   onChange: (extras: RegistrationExtra[]) => void;
-}) {
+}) => {
   const add = () =>
     onChange([...extras, { type: "text", size: 12, props: { id: "", label: "" } }]);
   const remove = (i: number) => onChange(extras.filter((_, idx) => idx !== i));
@@ -452,19 +454,19 @@ function RegistrationExtrasEditor({
       ))}
     </div>
   );
-}
+};
 
 /** Helper to format Firestore Timestamp or Date for date input */
-function formatDate(date: unknown): string {
+const formatDate = (date: unknown): string => {
   if (!date) return "";
   if (typeof date === "object" && "toDate" in (date as Record<string, unknown>)) {
     return (date as { toDate: () => Date }).toDate().toISOString().split("T")[0];
   }
   if (date instanceof Date) return date.toISOString().split("T")[0];
   return String(date);
-}
+};
 
 /** Convert date string to Firestore-compatible value */
-function toTimestamp(dateStr: string): unknown {
+const toTimestamp = (dateStr: string): unknown => {
   return new Date(dateStr + "T00:00:00");
-}
+};

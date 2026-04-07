@@ -33,14 +33,16 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+const RootLayout = ({
   children,
 }: {
   children: React.ReactNode;
-}) {
+}) => {
   return (
     <html lang="cs" className={`${amaticSC.variable} ${openSans.variable}`}>
       <body>{children}</body>
     </html>
   );
-}
+};
+
+export default RootLayout;

@@ -20,7 +20,7 @@ const columns = [
   },
 ];
 
-export default function LegendsListPage() {
+const LegendsListPage = () => {
   const [legends, loading] = useCollectionData<Legend>(
     query(collection(db, "legends"), orderBy("title")) as Query<Legend>,
   );
@@ -55,4 +55,6 @@ export default function LegendsListPage() {
       />
     </div>
   );
-}
+};
+
+export default LegendsListPage;

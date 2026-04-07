@@ -9,7 +9,7 @@ import { updateDocument } from "@/lib/admin-firestore";
 import EventFormTabs from "./EventFormTabs";
 import type { Event } from "@/lib/types";
 
-export default function EventEditPage() {
+const EventEditPage = () => {
   const { id } = useParams<{ id: string }>();
   const router = useRouter();
   const [event, loading] = useDocumentData<Event>(
@@ -57,4 +57,6 @@ export default function EventEditPage() {
       isEdit
     />
   );
-}
+};
+
+export default EventEditPage;

@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useEvent } from "@/contexts/EventContext";
 import { Loading } from "@/components/Loading";
 
-export default function ConfirmationPage() {
+const ConfirmationPage = () => {
   const event = useEvent();
   const router = useRouter();
 
@@ -22,4 +22,6 @@ export default function ConfirmationPage() {
   }, [event, router]);
 
   return <Loading />;
-}
+};
+
+export default ConfirmationPage;

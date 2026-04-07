@@ -10,7 +10,7 @@ import FormLayout from "@/components/admin/FormLayout";
 import { InputField, CheckboxField } from "@/components/admin/FormFields";
 import type { Participant, Race } from "@/lib/types";
 
-export default function ParticipantEditPage() {
+const ParticipantEditPage = () => {
   const { id } = useParams<{ id: string }>();
   const router = useRouter();
   const [participant, loading] = useDocumentData<Participant>(
@@ -126,4 +126,6 @@ export default function ParticipantEditPage() {
       saving={saving}
     />
   );
-}
+};
+
+export default ParticipantEditPage;

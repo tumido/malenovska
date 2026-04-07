@@ -1,5 +1,7 @@
 import { RedirectToLegends } from "./RedirectToLegends";
 
-export default function EventIndexPage() {
+const EventIndexPage = () => {
   return <RedirectToLegends />;
-}
+};
+
+export default EventIndexPage;

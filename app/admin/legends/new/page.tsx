@@ -10,11 +10,11 @@ import MarkdownEditor from "@/components/admin/MarkdownEditor";
 import type { Legend } from "@/lib/types";
 import { Timestamp } from "firebase/firestore";
 
-function slugify(title: string): string {
+const slugify = (title: string): string => {
   return title.replace(/ /g, "_").toLowerCase().replace(/\W/g, "");
-}
+};
 
-export default function LegendCreatePage() {
+const LegendCreatePage = () => {
   const router = useRouter();
   const [form, setForm] = useState<Partial<Legend>>({});
   const [saving, setSaving] = useState(false);
@@ -99,4 +99,6 @@ export default function LegendCreatePage() {
       saving={saving}
     />
   );
-}
+};
+
+export default LegendCreatePage;

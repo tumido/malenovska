@@ -14,7 +14,7 @@ import { ShareDialog } from "@/components/ShareDialog";
 import { Share2 } from "lucide-react";
 import type { Race } from "@/lib/types";
 
-export default function RaceDetailPage() {
+const RaceDetailPage = () => {
   const event = useEvent();
   const { id } = useParams<{ id: string }>();
   const [shareOpen, setShareOpen] = useState(false);
@@ -72,4 +72,6 @@ export default function RaceDetailPage() {
       />
     </Article>
   );
-}
+};
+
+export default RaceDetailPage;

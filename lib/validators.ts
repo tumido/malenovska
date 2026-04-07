@@ -11,17 +11,17 @@ const isEmail = (): ValidatorFn => (value) =>
 const isGreater = (limit: number): ValidatorFn => (value) =>
   Number(value) >= limit ? undefined : `Musí být větší než ${limit}`;
 
-function composeValidators(...validators: ValidatorFn[]): ValidatorFn {
+const composeValidators = (...validators: ValidatorFn[]): ValidatorFn => {
   return (value) =>
     validators.reduce<string | undefined>(
       (error, validator) => error || validator(value),
       undefined
     );
-}
+};
 
 type ValidatorSpec = string | [string, (string | number)[]];
 
-export function validate(names: ValidatorSpec[]): ValidatorFn {
+export const validate = (names: ValidatorSpec[]): ValidatorFn => {
   return composeValidators(
     ...names.map((n) => {
       const [name, args] = typeof n === "string" ? [n, []] : n;
@@ -37,4 +37,4 @@ export function validate(names: ValidatorSpec[]): ValidatorFn {
       }
     })
   );
-}
+};

@@ -5,7 +5,7 @@ interface ArticleCardHeaderProps {
   titleVariant?: "large" | "small";
 }
 
-function getThumbnailUrl(image: string, height?: number): string {
+const getThumbnailUrl = (image: string, height?: number): string => {
   try {
     const url = new URL(image);
     const delim = url.pathname.lastIndexOf(".");
@@ -15,14 +15,14 @@ function getThumbnailUrl(image: string, height?: number): string {
   } catch {
     return image;
   }
-}
+};
 
-export function ArticleCardHeader({
+export const ArticleCardHeader = ({
   image,
   title,
   height = 400,
   titleVariant = "large",
-}: ArticleCardHeaderProps) {
+}: ArticleCardHeaderProps) => {
   const titleClass = titleVariant === "small" ? "text-xl" : "text-2xl md:text-3xl";
 
   return (
@@ -48,4 +48,4 @@ export function ArticleCardHeader({
       )}
     </div>
   );
-}
+};

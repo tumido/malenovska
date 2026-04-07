@@ -16,7 +16,7 @@ interface FormLayoutProps {
   saving?: boolean;
 }
 
-export default function FormLayout({ title, tabs, onSubmit, onCancel, saving }: FormLayoutProps) {
+const FormLayout = ({ title, tabs, onSubmit, onCancel, saving }: FormLayoutProps) => {
   const [activeTab, setActiveTab] = useState(tabs[0]?.key ?? "");
 
   return (
@@ -67,4 +67,6 @@ export default function FormLayout({ title, tabs, onSubmit, onCancel, saving }: 
       </div>
     </div>
   );
-}
+};
+
+export default FormLayout;

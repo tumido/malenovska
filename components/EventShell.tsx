@@ -12,7 +12,7 @@ import { ScrollTop } from "@/components/ScrollTop";
 import { Loading } from "@/components/Loading";
 import { getNavigation } from "@/lib/navigation";
 
-export function EventShell({ children }: { children: React.ReactNode }) {
+export const EventShell = ({ children }: { children: React.ReactNode }) => {
   const { eventId } = useParams<{ eventId: string }>();
 
   const [events, loading] = useCollectionData<Event>(
@@ -48,4 +48,4 @@ export function EventShell({ children }: { children: React.ReactNode }) {
       <ScrollTop />
     </EventProvider>
   );
-}
+};

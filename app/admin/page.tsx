@@ -7,7 +7,7 @@ import StatsCard from "@/components/admin/StatsCard";
 import RacePieChart from "@/components/admin/RacePieChart";
 import type { Config, Event, Participant, Race } from "@/lib/types";
 
-export default function DashboardPage() {
+const DashboardPage = () => {
   const [config] = useDocumentData<Config>(
     doc(db, "config", "config") as DocumentReference<Config>,
   );
@@ -70,4 +70,6 @@ export default function DashboardPage() {
       )}
     </div>
   );
-}
+};
+
+export default DashboardPage;

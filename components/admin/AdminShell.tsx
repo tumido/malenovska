@@ -27,11 +27,11 @@ const navItems = [
   { href: "/admin/config", label: "Nastavení", icon: Settings },
 ];
 
-export default function AdminShell({
+const AdminShell = ({
   children,
 }: {
   children: React.ReactNode;
-}) {
+}) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const pathname = usePathname();
   const { signOut } = useAuth();
@@ -111,4 +111,6 @@ export default function AdminShell({
       </div>
     </div>
   );
-}
+};
+
+export default AdminShell;

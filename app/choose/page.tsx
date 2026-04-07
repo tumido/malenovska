@@ -10,7 +10,7 @@ import { Markdown } from "@/components/Markdown";
 import { EventProvider } from "@/contexts/EventContext";
 import type { Event } from "@/lib/types";
 
-function EventItem({ event }: { event: Event }) {
+const EventItem = ({ event }: { event: Event }) => {
   return (
     <EventProvider event={event}>
       <Link href={`/${event.id}`} className="block w-full">
@@ -27,9 +27,9 @@ function EventItem({ event }: { event: Event }) {
       </Link>
     </EventProvider>
   );
-}
+};
 
-export default function ChoosePage() {
+const ChoosePage = () => {
   const [events, loading] = useCollectionData<Event>(
     query(collection(db, "events"), where("display", "==", true)) as Query<Event>
   );
@@ -70,4 +70,6 @@ export default function ChoosePage() {
       </div>
     </div>
   );
-}
+};
+
+export default ChoosePage;

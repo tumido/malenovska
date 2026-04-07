@@ -11,12 +11,12 @@ interface MarkdownEditorProps {
   rows?: number;
 }
 
-export default function MarkdownEditor({
+const MarkdownEditor = ({
   value,
   onChange,
   label,
   rows = 12,
-}: MarkdownEditorProps) {
+}: MarkdownEditorProps) => {
   const [preview, setPreview] = useState(false);
 
   return (
@@ -61,4 +61,6 @@ export default function MarkdownEditor({
       </div>
     </div>
   );
-}
+};
+
+export default MarkdownEditor;

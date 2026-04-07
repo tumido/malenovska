@@ -8,20 +8,20 @@ import "leaflet/dist/leaflet.css";
 
 const MARKER_COLORS = ["rgb(253, 38, 0)", "rgb(241, 238, 16)", "rgb(255, 145, 0)"];
 
-function Centerer({ center }: { center?: [number, number] }) {
+const Centerer = ({ center }: { center?: [number, number] }) => {
   const map = useMap();
   useEffect(() => {
     if (center) map.setView(center);
   }, [center, map]);
   return null;
-}
+};
 
 interface MapInnerProps {
   markers: POI[];
   center?: [number, number];
 }
 
-export default function MapInner({ markers, center }: MapInnerProps) {
+const MapInner = ({ markers, center }: MapInnerProps) => {
   const bounds = latLngBounds(
     markers.map((m) => [m.latitude, m.longitude] as [number, number])
   );
@@ -51,4 +51,6 @@ export default function MapInner({ markers, center }: MapInnerProps) {
       ))}
     </MapContainer>
   );
-}
+};
+
+export default MapInner;

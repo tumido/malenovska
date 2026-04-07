@@ -1,13 +1,15 @@
 import { EventShell } from "@/components/EventShell";
 
-export function generateStaticParams() {
+export const generateStaticParams = () => {
   return [{ eventId: "_" }];
-}
+};
 
-export default function EventLayout({
+const EventLayout = ({
   children,
 }: {
   children: React.ReactNode;
-}) {
+}) => {
   return <EventShell>{children}</EventShell>;
-}
+};
+
+export default EventLayout;

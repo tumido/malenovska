@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 
-export function RedirectToLegends() {
+export const RedirectToLegends = () => {
   const { eventId } = useParams<{ eventId: string }>();
   const router = useRouter();
 
@@ -12,4 +12,4 @@ export function RedirectToLegends() {
   }, [eventId, router]);
 
   return null;
-}
+};

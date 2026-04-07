@@ -9,22 +9,22 @@ type EventContextType = {
 
 const EventContext = createContext<EventContextType | null>(null);
 
-export function useEvent(): Event {
+export const useEvent = (): Event => {
   const ctx = useContext(EventContext);
   if (!ctx) throw new Error("useEvent must be used within EventProvider");
   return ctx.event;
-}
+};
 
-export function EventProvider({
+export const EventProvider = ({
   children,
   event,
 }: {
   children: React.ReactNode;
   event: Event;
-}) {
+}) => {
   return (
     <EventContext.Provider value={{ event }}>
       {children}
     </EventContext.Provider>
   );
-}
+};

@@ -4,7 +4,7 @@ interface ArticleProps {
   children?: React.ReactNode;
 }
 
-export function Article({ children }: ArticleProps) {
+export const Article = ({ children }: ArticleProps) => {
   return (
     <div className="mx-auto max-w-5xl px-0 sm:px-4">
       <div className="overflow-hidden rounded-none bg-primary shadow-lg sm:rounded-lg">
@@ -19,4 +19,4 @@ export function Article({ children }: ArticleProps) {
       </div>
     </div>
   );
-}
+};

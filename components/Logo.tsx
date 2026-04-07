@@ -4,7 +4,7 @@ interface LogoProps {
   size?: number | string;
 }
 
-export function Logo({ fgColor = "#000", bgColor = "#fff", size }: LogoProps) {
+export const Logo = ({ fgColor = "#000", bgColor = "#fff", size }: LogoProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -33,4 +33,4 @@ export function Logo({ fgColor = "#000", bgColor = "#fff", size }: LogoProps) {
       />
     </svg>
   );
-}
+};

@@ -9,7 +9,7 @@ interface StatsCardProps {
   loading?: boolean;
 }
 
-export default function StatsCard({ label, value, href, loading }: StatsCardProps) {
+const StatsCard = ({ label, value, href, loading }: StatsCardProps) => {
   const content = (
     <div className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm hover:shadow transition-shadow">
       <p className="text-sm font-medium text-gray-500">{label}</p>
@@ -25,4 +25,6 @@ export default function StatsCard({ label, value, href, loading }: StatsCardProp
     return <Link href={href}>{content}</Link>;
   }
   return content;
-}
+};
+
+export default StatsCard;

@@ -23,7 +23,7 @@ interface DataTableProps<T extends { id: string }> {
   toolbar?: React.ReactNode;
 }
 
-export default function DataTable<T extends { id: string }>({
+const DataTable = <T extends { id: string }>({
   columns,
   data,
   loading,
@@ -33,7 +33,7 @@ export default function DataTable<T extends { id: string }>({
   searchField,
   searchPlaceholder = "Hledat…",
   toolbar,
-}: DataTableProps<T>) {
+}: DataTableProps<T>) => {
   const [sortKey, setSortKey] = useState<string | null>(null);
   const [sortDir, setSortDir] = useState<"asc" | "desc">("asc");
   const [search, setSearch] = useState("");
@@ -170,4 +170,6 @@ export default function DataTable<T extends { id: string }>({
       </div>
     </div>
   );
-}
+};
+
+export default DataTable;

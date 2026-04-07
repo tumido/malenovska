@@ -15,7 +15,7 @@ import { Share2 } from "lucide-react";
 import { timestampToDateStr } from "@/lib/date";
 import type { Legend } from "@/lib/types";
 
-export default function LegendDetailPage() {
+const LegendDetailPage = () => {
   const event = useEvent();
   const { id } = useParams<{ id: string }>();
   const [shareOpen, setShareOpen] = useState(false);
@@ -74,4 +74,6 @@ export default function LegendDetailPage() {
       />
     </Article>
   );
-}
+};
+
+export default LegendDetailPage;

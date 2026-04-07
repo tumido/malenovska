@@ -7,7 +7,7 @@ interface TableSearchProps {
   onSearch: (value: string) => void;
 }
 
-export function TableSearch({ onSearch }: TableSearchProps) {
+export const TableSearch = ({ onSearch }: TableSearchProps) => {
   const [value, setValue] = useState("");
 
   useEffect(() => onSearch(value), [value, onSearch]);
@@ -28,4 +28,4 @@ export function TableSearch({ onSearch }: TableSearchProps) {
       />
     </div>
   );
-}
+};
