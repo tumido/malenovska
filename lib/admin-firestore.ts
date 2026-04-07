@@ -13,8 +13,8 @@ import {
   type QueryConstraint,
   type DocumentData,
 } from "firebase/firestore";
-import { getStorage, ref, updateMetadata } from "firebase/storage";
-import { db } from "@/lib/firebase";
+import { ref, updateMetadata } from "firebase/storage";
+import { db, storage } from "@/lib/firebase";
 import type { FirestoreImage } from "@/lib/types";
 
 /** Create a document with auto-timestamp */
@@ -100,7 +100,6 @@ export const orderedBy = (field: string, dir: "asc" | "desc" = "asc") => {
 
 /** Set cache-control on Firebase Storage images after create/update */
 const updateImageMetadata = async (data: DocumentData) => {
-  const storage = getStorage();
   for (const value of Object.values(data)) {
     if (isFirestoreImage(value) && isStorageUrl(value.src)) {
       try {

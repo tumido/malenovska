@@ -19,51 +19,104 @@
   </a>
 </div>
 
-# Malenovska React site
+# Malenovska.cz
 
-A React-Redux site with bindings to Google Firestore
+Event management platform for Czech LARP/roleplay events. Supports multiple events with registration, legends, races, rules, galleries, and an admin dashboard.
 
-## Developer Setup
+## Tech Stack
 
-Since we are deploying multiple applications, this repo is organized as a monorepo using Yarn Workspaces.
+- **Next.js 16+** (App Router, static export)
+- **TypeScript** (strict mode)
+- **Tailwind CSS v4**
+- **Firebase 12** (Firestore, Auth, Storage)
+- **Client-side data fetching** via `react-firebase-hooks`
 
-1. Install [Yarn](https://yarnpkg.com/)
-2. Install local dependencies
+## Getting Started
 
-    ```sh
-    yarn install
+```bash
+npm install
+npm run dev
+```
+
+## Local Development with Firebase Emulators
+
+Run the app against local Firebase emulators instead of production.
+
+### Prerequisites
+
+- [Firebase CLI](https://firebase.google.com/docs/cli) (included as `firebase-tools` in devDependencies)
+- Java Runtime (required by Firestore/Storage emulators)
+
+### Setup
+
+1. Create `.env.local` in the project root (already gitignored):
+
+    ```
+    NEXT_PUBLIC_USE_EMULATORS=true
     ```
 
-Each application lives in their own folder in `apps/`:
+2. Start the emulators and dev server in two terminals:
 
-- `public` - The public facing site
-- `admin` - Internal website administration
-- `common` - Shared code and assets library
+    ```bash
+    # Terminal 1 — Firebase emulators
+    npm run emulators
 
-To manage application locally use:
+    # Terminal 2 — Next.js dev server (connects to emulators)
+    npm run dev:local
+    ```
 
-```sh
-# Let's use the public app for example:
+3. Open the **Emulator UI** at [localhost:4000](http://localhost:4000) to inspect data, manage auth users, and browse storage.
 
-# Start a devel server with hotplugging
-yarn workspace @malenovska/public start
+### Seeding Emulator with Production Data
 
-# Build dist
-yarn workspace @malenovska/public build
+To dump production Firestore data and seed it into the emulator:
 
-# Perform build and then start the prod server
-yarn workspace @malenovska/public start:prod
+1. Download a service account key from **Firebase Console > Project Settings > Service Accounts > Generate new private key**
+2. Save it as `malenovska-service-account.json` in the project root (already gitignored)
+3. Run the dump and seed:
 
-# Deploy single application
-yarn workspace @malenovska/public deploy
+    ```bash
+    # Dump production data to emulator-data/seed.json
+    npm run emulators:dump
+
+    # Start emulators (fresh, no persisted state)
+    npm run emulators:fresh
+
+    # In another terminal, seed the emulator
+    npm run emulators:seed
+    ```
+
+Emulator state is persisted to `emulator-data/` between restarts when using `npm run emulators`. Use `npm run emulators:fresh` to start with a clean slate.
+
+### Emulator Ports
+
+| Service   | Port  |
+|-----------|-------|
+| Firestore | 8080  |
+| Auth      | 9099  |
+| Storage   | 9199  |
+| UI        | 4000  |
+
+## Scripts
+
+| Script | Description |
+|--------|-------------|
+| `npm run dev` | Next.js dev server (uses production Firebase) |
+| `npm run dev:local` | Next.js dev server (uses local emulators) |
+| `npm run build` | Production build (static export) |
+| `npm run lint` | ESLint |
+| `npm run emulators` | Start emulators with persistent state |
+| `npm run emulators:fresh` | Start emulators with empty state |
+| `npm run emulators:dump` | Dump production Firestore to `emulator-data/seed.json` |
+| `npm run emulators:seed` | Seed running emulator from dump file |
+| `npm run deploy` | Deploy to Firebase Hosting |
+| `npm run deploy:rules` | Deploy Firestore security rules |
+
+## Deployment
+
+```bash
+npm run build
+npm run deploy
 ```
 
-If you desire manage all the applications at once, use:
-
-```sh
-# Build and deploy
-yarn deploy
-
-# Start dev servers in parallel
-yarn start
-```
+The app is statically exported to `out/` and served via Firebase Hosting with SPA rewrites.

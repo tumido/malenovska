@@ -15,7 +15,10 @@ stats.json
 .firebase
 malenovska-service-account.json
 firebase-export.json
+emulator-data
 backup
+firebase-debug.log
+firestore-debug.log
 
 # Environment
 .env*.local
