@@ -45,18 +45,6 @@ body {
   }
 }
 
-@keyframes color-cycle {
-  0%,
-  100% {
-    border-color: var(--color-loading-red);
-  }
-  33% {
-    border-color: var(--color-loading-yellow);
-  }
-  66% {
-    border-color: var(--color-loading-orange);
-  }
-}
 
 /* Remove focus outline from Recharts containers */
 .recharts-wrapper:focus,

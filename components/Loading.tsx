@@ -3,27 +3,21 @@
 export const Loading = () => {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80">
-      <div className="relative h-[100px] w-[100px]">
+      <div className="relative h-32 w-32">
         {/* Outer circle */}
         <div
-          className="absolute inset-0 rounded-full border-3 border-t-transparent"
-          style={{
-            animation: "spin-loading 2s linear infinite, color-cycle 6s ease-in-out infinite",
-          }}
+          className="absolute inset-0 rounded-full border-4 border-transparent"
+          style={{ borderTopColor: "rgb(253, 38, 0)", animation: "spin-loading 2s linear infinite" }}
         />
         {/* Middle circle */}
         <div
-          className="absolute inset-4 rounded-full border-3 border-t-transparent"
-          style={{
-            animation: "spin-loading 3s linear infinite reverse, color-cycle 6s ease-in-out infinite 2s",
-          }}
+          className="absolute inset-4 rounded-full border-4 border-transparent"
+          style={{ borderTopColor: "rgb(241, 238, 16)", animation: "spin-loading 3s linear infinite reverse" }}
         />
         {/* Inner circle */}
         <div
-          className="absolute inset-8 rounded-full border-3 border-t-transparent"
-          style={{
-            animation: "spin-loading 1.5s linear infinite, color-cycle 6s ease-in-out infinite 4s",
-          }}
+          className="absolute inset-8 rounded-full border-4 border-transparent"
+          style={{ borderTopColor: "rgb(255, 145, 0)", animation: "spin-loading 1.5s linear infinite" }}
         />
       </div>
     </div>
