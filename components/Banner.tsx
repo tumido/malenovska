@@ -13,7 +13,7 @@ export const Banner = ({ title, children }: BannerProps) => {
   const splitAt = event.name.indexOf("o");
 
   return (
-    <div className="mb-8 flex min-h-[25vh] flex-col items-center justify-center pt-[10vh] text-white max-w-7xl mx-auto">
+    <div className="mb-8 flex min-h-[25vh] flex-col items-center pt-[10vh] text-white max-w-7xl mx-auto">
       <div>
         {title && (
           <p className="-mb-2 font-display text-3xl font-semibold text-black md:text-6xl">

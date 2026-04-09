@@ -45,7 +45,7 @@ export const metadata: Metadata = {
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <html lang="cs" className={`${openSans.variable} ${roboto.variable}`}>
+    <html lang="cs" data-scroll-behavior="smooth" className={`${openSans.variable} ${roboto.variable}`}>
       <body>{children}</body>
     </html>
   );

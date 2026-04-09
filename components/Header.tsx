@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, memo } from "react";
 import { Menu } from "lucide-react";
 import { NavigationDrawer } from "@/components/NavigationDrawer";
 import type { NavItem } from "@/lib/navigation";
@@ -10,7 +10,7 @@ interface HeaderProps {
   banner?: string;
 }
 
-export const Header = ({ navigation, banner }: HeaderProps) => {
+export const Header = memo(({ navigation, banner }: HeaderProps) => {
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   const handleOpen = useCallback(() => setDrawerOpen(true), []);
@@ -72,4 +72,4 @@ export const Header = ({ navigation, banner }: HeaderProps) => {
       </nav>
     </>
   );
-};
+});

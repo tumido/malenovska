@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext } from "react";
+import { createContext, useContext, useMemo } from "react";
 import type { Event } from "@/lib/types";
 
 type EventContextType = {
@@ -22,8 +22,10 @@ export const EventProvider = ({
   children: React.ReactNode;
   event: Event;
 }) => {
+  const value = useMemo(() => ({ event }), [event]);
+
   return (
-    <EventContext.Provider value={{ event }}>
+    <EventContext.Provider value={value}>
       {children}
     </EventContext.Provider>
   );

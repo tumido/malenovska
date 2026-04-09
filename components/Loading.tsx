@@ -2,7 +2,7 @@
 
 export const Loading = () => {
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80">
+    <div className="flex items-center justify-center min-h-[50vh]">
       <div className="relative h-32 w-32">
         {/* Outer circle */}
         <div

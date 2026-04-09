@@ -21,7 +21,11 @@ const HomePage = () => {
   }, [config, router]);
 
   if (loading || config) {
-    return <Loading />;
+    return (
+      <div className="fixed inset-0 bg-black/80">
+        <Loading />
+      </div>
+    );
   }
 
   return (
