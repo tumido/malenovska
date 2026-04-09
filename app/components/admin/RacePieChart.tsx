@@ -24,24 +24,21 @@ const RacePieChart = ({ races, participants }: RacePieChartProps) => {
   const total = data.reduce((sum, d) => sum + d.value, 0);
   const nonZero = data.filter((d) => d.value > 0);
 
-  const CX = 225;
-  const CY = 150;
-  const OUTER_R = 100;
-  const INNER_R = 40;
-  const LABEL_R = OUTER_R + 25;
+  const CX = 100;
+  const CY = 100;
+  const OUTER_R = 90;
+  const INNER_R = 36;
 
   let angle = -Math.PI / 2;
   const slices = nonZero.map((d) => {
     const span = (d.value / total) * 2 * Math.PI;
     const startAngle = angle;
     const endAngle = angle + span;
-    const midAngle = angle + span / 2;
     angle = endAngle;
     return {
       ...d,
       startAngle,
       endAngle,
-      midAngle,
       largeArc: span > Math.PI ? 1 : 0,
     };
   });
@@ -61,55 +58,39 @@ const RacePieChart = ({ races, participants }: RacePieChartProps) => {
   };
 
   return (
-    <svg
-      viewBox="0 0 450 300"
-      className="w-full max-h-[300px]"
-      overflow="visible"
-    >
-      {slices.length === 1 ? (
-        <>
-          <circle
-            cx={CX}
-            cy={CY}
-            r={OUTER_R}
-            fill={fixColor(slices[0].color)}
-          />
-          <circle cx={CX} cy={CY} r={INNER_R} className="fill-neutral-800" />
-        </>
-      ) : (
-        slices.map((s, i) => (
-          <path key={i} d={donutPath(s)} fill={fixColor(s.color)} />
-        ))
-      )}
-      {slices.map((s, i) => {
-        const lx = CX + LABEL_R * Math.cos(s.midAngle);
-        const ly = CY + LABEL_R * Math.sin(s.midAngle);
-        const anchor = lx > CX ? "start" : "end";
-        const lineX = CX + (OUTER_R + 5) * Math.cos(s.midAngle);
-        const lineY = CY + (OUTER_R + 5) * Math.sin(s.midAngle);
-        return (
-          <g key={`l${i}`}>
-            <line
-              x1={lineX}
-              y1={lineY}
-              x2={lx}
-              y2={ly}
-              stroke="#9e9e9e"
-              strokeWidth={1}
+    <div>
+      <svg viewBox="0 0 200 200" className="mx-auto w-full max-w-50">
+        {slices.length === 1 ? (
+          <>
+            <circle
+              cx={CX}
+              cy={CY}
+              r={OUTER_R}
+              fill={fixColor(slices[0].color)}
             />
-            <text
-              x={lx + (anchor === "start" ? 4 : -4)}
-              y={ly + 5}
-              textAnchor={anchor}
-              fill="#fafafa"
-              fontSize={14}
-            >
-              {s.name}: {s.value}
-            </text>
-          </g>
-        );
-      })}
-    </svg>
+            <circle cx={CX} cy={CY} r={INNER_R} className="fill-neutral-800" />
+          </>
+        ) : (
+          slices.map((s, i) => (
+            <path key={i} d={donutPath(s)} fill={fixColor(s.color)} />
+          ))
+        )}
+      </svg>
+      <div className="mt-3 flex flex-wrap justify-center gap-x-4 gap-y-1.5">
+        {nonZero.map((d, i) => (
+          <div
+            key={i}
+            className="flex items-center gap-1.5 text-sm text-primary-light"
+          >
+            <span
+              className="inline-block h-3 w-3 shrink-0 rounded-sm"
+              style={{ backgroundColor: fixColor(d.color) }}
+            />
+            {d.name}: {d.value}
+          </div>
+        ))}
+      </div>
+    </div>
   );
 };
 

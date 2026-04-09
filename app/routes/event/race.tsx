@@ -54,10 +54,10 @@ const RaceDetailPage = () => {
           <Markdown content={race.legend} />
         </div>
       </div>
-      <div className="border-t border-white/10 px-6 py-3">
+      <div className="border-t border-primary/40 px-6 py-3">
         <button
           onClick={() => setShareOpen(true)}
-          className="flex items-center gap-2 text-sm text-grey-400 hover:text-white"
+          className="flex items-center gap-2 text-sm text-primary hover:text-primary/60"
         >
           <Share2 size={16} />
           Sdílet

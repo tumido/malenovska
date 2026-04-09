@@ -24,11 +24,7 @@ const navItems = [
   { href: "/admin/config", label: "Nastavení", icon: Settings },
 ];
 
-const AdminShell = ({
-  children,
-}: {
-  children: React.ReactNode;
-}) => {
+const AdminShell = ({ children }: { children: React.ReactNode }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { pathname } = useLocation();
   const { signOut } = useAuth();
@@ -64,7 +60,10 @@ const AdminShell = ({
           </button>
         </div>
 
-        <nav className="flex-1 overflow-y-auto" onClick={() => setSidebarOpen(false)}>
+        <nav
+          className="flex-1 overflow-y-auto"
+          onClick={() => setSidebarOpen(false)}
+        >
           <ul className="py-2">
             {navItems.map(({ href, label, icon: Icon }) => (
               <li key={href}>
@@ -84,7 +83,10 @@ const AdminShell = ({
           </ul>
         </nav>
 
-        <div className="border-t border-white/20 p-4" onClick={() => setSidebarOpen(false)}>
+        <div
+          className="border-t border-white/20 p-4"
+          onClick={() => setSidebarOpen(false)}
+        >
           <button
             onClick={signOut}
             className="flex w-full items-center gap-6 px-5 py-5 text-white hover:text-secondary transition-colors"
@@ -133,7 +135,11 @@ const AdminShell = ({
       {/* Main content */}
       <div className="flex flex-1 flex-col overflow-hidden lg:pl-72">
         <header className="fixed top-0 left-0 right-0 z-40 flex h-14 items-center gap-4 bg-primary px-4 lg:hidden">
-          <button onClick={() => setSidebarOpen(true)} className="rounded-full p-2 text-white hover:bg-white/10" aria-label="Otevřít menu">
+          <button
+            onClick={() => setSidebarOpen(true)}
+            className="rounded-full p-2 text-white hover:bg-white/10"
+            aria-label="Otevřít menu"
+          >
             <Menu className="h-6 w-6" />
           </button>
           <h1 className="text-lg font-semibold text-primary-light">
@@ -141,7 +147,9 @@ const AdminShell = ({
           </h1>
         </header>
 
-        <main className="flex-1 overflow-y-auto p-4 pt-18 lg:p-6 lg:pt-6">{children}</main>
+        <main className="flex-1 overflow-y-auto p-4 pt-18 lg:p-6 lg:pt-6">
+          {children}
+        </main>
       </div>
     </div>
   );

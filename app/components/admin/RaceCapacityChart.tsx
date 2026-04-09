@@ -42,9 +42,9 @@ const RaceCapacityChart = ({ races, participants }: RaceCapacityChartProps) => {
 
   const ROW_H = 40;
   const BAR_H = 16;
-  const NAME_W = 120;
+  const NAME_W = 170;
   const BAR_START = NAME_W + 10;
-  const W = 400;
+  const W = 450;
   const LABEL_W = 55;
   const BAR_W = W - BAR_START - LABEL_W;
   const H = data.length * ROW_H + 20;

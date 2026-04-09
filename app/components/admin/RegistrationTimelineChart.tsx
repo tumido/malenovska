@@ -15,9 +15,9 @@ interface DataPoint {
   byRace: Record<string, number>;
 }
 
-const W = 600;
+const W = 450;
 const H = 250;
-const PAD = { top: 20, right: 15, bottom: 30, left: 45 };
+const PAD = { top: 20, right: 15, bottom: 30, left: 35 };
 const chartW = W - PAD.left - PAD.right;
 const chartH = H - PAD.top - PAD.bottom;
 
@@ -169,7 +169,7 @@ const RegistrationTimelineChart = ({
   const activePoint = activeIdx !== null ? data[activeIdx] : null;
 
   return (
-    <div className="relative" style={{ aspectRatio: `${W} / ${H}` }}>
+    <div className="relative overflow-visible" style={{ aspectRatio: `${W} / ${H}` }}>
       <svg
         viewBox={`0 0 ${W} ${H}`}
         className="h-full w-full"
@@ -280,7 +280,7 @@ const RegistrationTimelineChart = ({
       {/* Tooltip */}
       {activePoint && (
         <div
-          className="pointer-events-none absolute z-10 rounded-lg border border-gray-600 bg-neutral-900 px-3 py-2 text-sm shadow-lg"
+          className="pointer-events-none absolute z-10 whitespace-nowrap rounded-lg border border-gray-600 bg-neutral-900 px-3 py-2 text-sm shadow-lg"
           style={{
             left: `${(xScale(activePoint.timestamp) / W) * 100}%`,
             top: `${(yScale(activePoint.total) / H) * 100}%`,

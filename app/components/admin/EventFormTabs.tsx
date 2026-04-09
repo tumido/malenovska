@@ -398,65 +398,67 @@ const RegistrationExtrasEditor = ({
         </button>
       </div>
       {extras.map((extra, i) => (
-        <div key={i} className="grid grid-cols-1 gap-3 rounded border border-gray-700 p-4 sm:grid-cols-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-300 mb-1">Typ</label>
-            <select
-              value={extra.type}
-              onChange={(e) =>
-                update(i, { type: e.target.value as RegistrationExtra["type"] })
-              }
-              className="w-full rounded border border-gray-600 bg-neutral-900 px-3 py-2 text-sm text-primary-light"
-            >
-              <option value="text">Text</option>
-              <option value="number">Číslo</option>
-              <option value="checkbox">Zaškrtávací</option>
-              <option value="markdown">Markdown</option>
-            </select>
-          </div>
-          <InputField
-            label="Velikost (1-12)"
-            value={extra.size ?? 12}
-            onChange={(v) => update(i, { size: Number(v) })}
-            type="number"
-            min={1}
-            max={12}
-          />
-          {extra.type === "markdown" ? (
-            <div className="sm:col-span-2">
-              <InputField
-                label="Obsah"
-                value={extra.content ?? ""}
-                onChange={(v) => update(i, { content: v })}
-              />
+        <div key={i} className="space-y-3 rounded border border-gray-700 p-4">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-1">Typ</label>
+              <select
+                value={extra.type}
+                onChange={(e) =>
+                  update(i, { type: e.target.value as RegistrationExtra["type"] })
+                }
+                className="w-full rounded border border-gray-600 bg-neutral-900 px-3 py-2 text-sm text-primary-light"
+              >
+                <option value="text">Text</option>
+                <option value="number">Číslo</option>
+                <option value="checkbox">Zaškrtávací</option>
+                <option value="markdown">Markdown</option>
+              </select>
             </div>
-          ) : (
-            <>
-              <InputField
-                label="ID pole"
-                value={extra.props?.id ?? ""}
-                onChange={(v) =>
-                  update(i, { props: { ...extra.props, id: v } })
-                }
-              />
-              <InputField
-                label="Popisek"
-                value={extra.props?.label ?? ""}
-                onChange={(v) =>
-                  update(i, { props: { ...extra.props, label: v } })
-                }
-              />
-            </>
-          )}
-          <div className="sm:col-span-4 flex justify-end">
-            <button
-              type="button"
-              onClick={() => remove(i)}
-              className="text-sm text-red-500 hover:text-red-700"
-            >
-              <Trash2 className="h-4 w-4" />
-            </button>
+            <InputField
+              label="Velikost (1-12)"
+              value={extra.size ?? 12}
+              onChange={(v) => update(i, { size: Number(v) })}
+              type="number"
+              min={1}
+              max={12}
+            />
+            {extra.type !== "markdown" && (
+              <>
+                <InputField
+                  label="ID pole"
+                  value={extra.props?.id ?? ""}
+                  onChange={(v) =>
+                    update(i, { props: { ...extra.props, id: v } })
+                  }
+                />
+                <InputField
+                  label="Popisek"
+                  value={extra.props?.label ?? ""}
+                  onChange={(v) =>
+                    update(i, { props: { ...extra.props, label: v } })
+                  }
+                />
+              </>
+            )}
+            <div className={`${extra.type === "markdown" ? "sm:col-span-2" : "sm:col-span-4"} flex items-end justify-end`}>
+              <button
+                type="button"
+                onClick={() => remove(i)}
+                className="text-sm text-red-500 hover:text-red-700 pb-2"
+              >
+                <Trash2 className="h-4 w-4" />
+              </button>
+            </div>
           </div>
+          {extra.type === "markdown" && (
+            <MarkdownEditor
+              label="Obsah"
+              value={extra.content ?? ""}
+              onChange={(v) => update(i, { content: v })}
+              rows={6}
+            />
+          )}
         </div>
       ))}
     </div>
