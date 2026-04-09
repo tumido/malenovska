@@ -24,6 +24,7 @@ interface MarkdownEditorProps {
   onChange: (value: string) => void;
   label?: string;
   rows?: number;
+  previewTransform?: (value: string) => string;
 }
 
 interface ToolbarAction {
@@ -131,6 +132,7 @@ const MarkdownEditor = ({
   onChange,
   label,
   rows = 12,
+  previewTransform,
 }: MarkdownEditorProps) => {
   const [preview, setPreview] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -198,7 +200,7 @@ const MarkdownEditor = ({
 
         {preview ? (
           <div className="prose prose-sm prose-invert max-w-none p-4 min-h-[200px]">
-            <Markdown>{value || ""}</Markdown>
+            <Markdown>{previewTransform ? previewTransform(value || "") : (value || "")}</Markdown>
           </div>
         ) : (
           <textarea

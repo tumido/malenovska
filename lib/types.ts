@@ -69,6 +69,11 @@ export interface Event {
   onsiteQuestStart?: Timestamp | string;
   onsiteLastQuest?: Timestamp | string;
 
+  // Email templates
+  emailSubject?: string;
+  emailBody?: string;
+  emailUnder18?: string;
+
   lastupdate?: Timestamp;
 }
 

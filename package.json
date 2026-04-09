@@ -9,11 +9,13 @@
     "lint": "eslint .",
     "emulators": "firebase emulators:start --import=./emulator-data --export-on-exit=./emulator-data",
     "emulators:fresh": "firebase emulators:start",
-    "emulators:dump": "node scripts/firestore-dump.mjs",
-    "emulators:seed": "node scripts/firestore-seed.mjs",
+    "emulators:dump": "node scripts/firestore-dump.mjs && node scripts/storage-dump.mjs",
+    "emulators:seed": "node scripts/firestore-seed.mjs && node scripts/storage-seed.mjs",
     "dev:local": "NEXT_PUBLIC_USE_EMULATORS=true next dev --turbopack",
-    "deploy": "firebase deploy --only hosting",
-    "deploy:rules": "firebase deploy --only firestore:rules"
+    "deploy:hosting": "firebase deploy --only hosting",
+    "deploy:functions": "firebase deploy --only functions",
+    "deploy:rules": "firebase deploy --only firestore:rules",
+    "deploy": "firebase deploy"
   },
   "dependencies": {
     "clipboard-copy": "^4.0.1",

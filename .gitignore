@@ -12,6 +12,7 @@ stats.json
 .bundle-stats.json
 
 # Firebase
+functions/lib
 .firebase
 malenovska-service-account.json
 firebase-export.json

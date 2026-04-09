@@ -1,0 +1,29 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Start Firebase Emulators",
+      "type": "shell",
+      "command": "npm run emulators",
+      "isBackground": true,
+      "problemMatcher": {
+        "pattern": {
+          "regexp": "^$"
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": "^i\\s+emulators:",
+          "endsPattern": "All emulators ready"
+        }
+      }
+    },
+    {
+      "label": "Stop Firebase Emulators",
+      "type": "shell",
+      "command": "curl -s -X DELETE http://localhost:4400 && echo 'Emulators stopped gracefully' || echo 'Emulators not running'",
+      "presentation": {
+        "reveal": "silent"
+      }
+    }
+  ]
+}

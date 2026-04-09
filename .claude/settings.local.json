@@ -8,7 +8,8 @@
       "Bash(npx eslint:*)",
       "Bash(npx next:*)",
       "WebSearch",
-      "WebFetch(domain:github.com)"
+      "WebFetch(domain:github.com)",
+      "Bash(echo \"EXIT: $?\")"
     ]
   }
 }

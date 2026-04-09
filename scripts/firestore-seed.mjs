@@ -24,8 +24,19 @@ const db = getFirestore(app);
 
 const COLLECTIONS = ["events", "legends", "races", "participants", "galleries"];
 
+const STORAGE_PROD_HOST = "https://firebasestorage.googleapis.com";
+const STORAGE_EMULATOR_HOST = "http://localhost:9199";
+
+const rewriteStorageUrl = (url) => {
+  if (typeof url === "string" && url.includes("firebasestorage.googleapis.com")) {
+    return url.replace(STORAGE_PROD_HOST, STORAGE_EMULATOR_HOST);
+  }
+  return url;
+};
+
 const deserializeValue = (val) => {
   if (val === null || val === undefined) return val;
+  if (typeof val === "string") return rewriteStorageUrl(val);
   if (val?.__type === "timestamp") {
     return new Timestamp(val.seconds, val.nanoseconds);
   }
@@ -78,6 +89,23 @@ const seedParticipantPrivate = async (subs) => {
   }
 };
 
+const EMULATOR_HOST = "localhost:8080";
+const PROJECT_ID = "malenovska-305f8";
+
+const setBackgroundTriggers = async (enabled) => {
+  const action = enabled ? "enableBackgroundTriggers" : "disableBackgroundTriggers";
+  try {
+    const res = await fetch(
+      `http://${EMULATOR_HOST}/emulator/v1/projects/${PROJECT_ID}/databases/(default)/${action}`,
+      { method: "PUT" },
+    );
+    if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
+    console.log(`  Background triggers ${enabled ? "enabled" : "disabled"}.`);
+  } catch {
+    console.warn(`  Could not ${action} (functions emulator may not be running).`);
+  }
+};
+
 const main = async () => {
   const seedPath = process.argv[2] || "emulator-data/seed.json";
 
@@ -91,6 +119,8 @@ const main = async () => {
   }
 
   console.log(`Seeding emulator from ${seedPath} (exported ${data.__exportedAt})...\n`);
+
+  await setBackgroundTriggers(false);
 
   for (const name of COLLECTIONS) {
     if (data[name]) await seedCollection(name, data[name]);
@@ -121,6 +151,8 @@ const main = async () => {
       throw err;
     }
   }
+
+  await setBackgroundTriggers(true);
 
   console.log("\nDone! Emulator is seeded.");
   process.exit(0);

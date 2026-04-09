@@ -7,14 +7,25 @@ Czech-language event management platform for LARP/roleplay events. Supports mult
 ```bash
 # Development
 npm run dev          # Next.js dev server with Turbopack
+npm run dev:local    # Dev server with emulators (NEXT_PUBLIC_USE_EMULATORS=true)
 
 # Checks
-npx tsc --noEmit     # TypeScript
+npx tsc --noEmit     # TypeScript (root project)
 npm run lint         # ESLint
 next build           # Static export build
+cd functions && npx tsc --noEmit  # TypeScript (functions)
 
-# Firebase
-firebase deploy      # Deploy to production
+# Firebase Emulators
+npm run emulators         # Start with persistent data (import/export)
+npm run emulators:fresh   # Start with clean state
+npm run emulators:dump    # Dump production Firestore + Storage to emulator-data/
+npm run emulators:seed    # Seed emulators from dump (rewrites Storage URLs to localhost)
+
+# Deploy
+npm run deploy:hosting    # Deploy hosting only
+npm run deploy:functions  # Deploy Cloud Functions only
+npm run deploy:rules      # Deploy Firestore rules only
+npm run deploy            # Deploy everything
 ```
 
 ## Architecture
@@ -26,6 +37,7 @@ firebase deploy      # Deploy to production
 - **Data fetching**: `react-firebase-hooks` in `"use client"` components — all client-side, no SSR
 - **Dynamic routes**: `app/[eventId]/` with `generateStaticParams()` returning placeholder params; Firebase Hosting SPA rewrite (`** → /index.html`) serves the shell
 - **Admin**: `app/admin/` route segment — auth-gated via Firebase Auth, same build/deploy as public app
+- **Cloud Functions**: `functions/` directory — TypeScript, Node 22, Firebase Functions v7 (gen 2). Firestore-triggered functions for email confirmations and Discord notifications
 - **Czech only** — no i18n, hardcoded Czech labels
 
 ## Key Files
@@ -40,7 +52,15 @@ firebase deploy      # Deploy to production
 | `contexts/AuthContext.tsx` | Firebase Auth context for admin |
 | `components/admin/` | Admin-specific components (DataTable, FormLayout, FormFields, etc.) |
 | `next.config.ts` | Static export, unoptimized images, trailing slash |
-| `firebase.json` | Hosting config — single target, `out/` directory |
+| `firebase.json` | Hosting, functions, emulators config |
+| `functions/src/index.ts` | Cloud Functions entry — 3 Firestore-triggered functions |
+| `functions/src/templates.ts` | Email template rendering with `{{variable}}` substitution |
+| `functions/src/email.ts` | Gmail OAuth2 email sending via nodemailer |
+| `functions/src/discord.ts` | Discord webhook notifications |
+| `scripts/firestore-dump.mjs` | Dump production Firestore to JSON |
+| `scripts/firestore-seed.mjs` | Seed Firestore emulator (rewrites Storage URLs) |
+| `scripts/storage-dump.mjs` | Download production Storage files |
+| `scripts/storage-seed.mjs` | Upload files to Storage emulator |
 
 ## Rules
 

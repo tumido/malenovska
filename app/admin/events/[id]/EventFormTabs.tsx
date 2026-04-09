@@ -11,7 +11,8 @@ import {
 import MarkdownEditor from "@/components/admin/MarkdownEditor";
 import type { Event, POI, RegistrationExtra } from "@/lib/types";
 import { toTimeStr } from "@/lib/date";
-import { Trash2, Plus } from "lucide-react";
+import { Trash2, Plus, CircleHelp } from "lucide-react";
+import { useState, useCallback } from "react";
 
 interface EventFormTabsProps {
   form: Partial<Event>;
@@ -270,6 +271,13 @@ const EventFormTabs = ({
       ),
     },
     {
+      key: "email",
+      label: "E-mail",
+      content: (
+        <EmailTab form={form} update={update} />
+      ),
+    },
+    {
       key: "map",
       label: "Mapa",
       content: (
@@ -470,4 +478,111 @@ const formatDate = (date: unknown): string => {
 /** Convert date string to Firestore-compatible value */
 const toTimestamp = (dateStr: string): unknown => {
   return new Date(dateStr + "T00:00:00");
+};
+
+/** Email template variables reference */
+const EMAIL_VARIABLES = [
+  { variable: "{{name}}", description: "Celé jméno účastníka" },
+  { variable: "{{group}}", description: "Skupina" },
+  { variable: "{{race}}", description: "Název strany" },
+  { variable: "{{age}}", description: "Věk" },
+  { variable: "{{event}}", description: "Název události" },
+  { variable: "{{year}}", description: "Rok" },
+  { variable: "{{date}}", description: "Datum události" },
+  { variable: "{{event_email}}", description: "E-mail události" },
+  { variable: "{{confirmation_url}}", description: "Odkaz na stránku s prohlášením" },
+] as const;
+
+/** Replace {{variables}} with sample data for preview */
+const substitutePreview = (template: string, sampleData: Record<string, string>): string =>
+  template.replace(/\{\{(\w+)\}\}/g, (match, key: string) => sampleData[key] ?? match);
+
+/** Email template editing tab */
+const EmailTab = ({
+  form,
+  update,
+}: {
+  form: Partial<Event>;
+  update: (key: keyof Event, value: unknown) => void;
+}) => {
+  const [helpOpen, setHelpOpen] = useState(false);
+
+  const sampleData: Record<string, string> = {
+    name: "Mirek (Mirek) Dušín",
+    group: "Rychlé Šípy",
+    race: "Lidé",
+    age: "15",
+    event: form.name ?? "Malenovská",
+    year: String(form.year ?? new Date().getFullYear()),
+    date: "1. 6. 2026",
+    event_email: `${form.id ?? "malenovska"}@malenovska.cz`,
+    confirmation_url: `https://www.malenovska.cz/${form.id ?? "malenovska"}/confirmation`,
+  };
+
+  const previewTransform = useCallback(
+    (value: string) => substitutePreview(value, sampleData),
+    [form.name, form.year, form.id], // intentionally partial deps — only re-create when event identity changes
+  );
+
+  return (
+    <div className="space-y-4">
+      <div className="flex items-center gap-2">
+        <h4 className="text-sm font-medium text-gray-300">Šablony e-mailů</h4>
+        <div className="relative">
+          <button
+            type="button"
+            onClick={() => setHelpOpen(!helpOpen)}
+            className="text-gray-400 hover:text-secondary transition-colors"
+            title="Dostupné proměnné"
+          >
+            <CircleHelp className="h-4 w-4" />
+          </button>
+          {helpOpen && (
+            <>
+              <div className="fixed inset-0 z-40" onClick={() => setHelpOpen(false)} />
+              <div className="absolute left-0 top-full z-50 mt-2 w-80 rounded border border-gray-600 bg-neutral-800 p-4 shadow-xl">
+                <h5 className="mb-2 text-sm font-medium text-gray-200">Dostupné proměnné</h5>
+                <p className="mb-3 text-xs text-gray-400">
+                  Vložte do šablony pro automatické nahrazení. V náhledu se zobrazí ukázková data.
+                </p>
+                <table className="w-full text-xs">
+                  <tbody>
+                    {EMAIL_VARIABLES.map(({ variable, description }) => (
+                      <tr key={variable} className="border-t border-gray-700">
+                        <td className="py-1.5 pr-3 font-mono text-secondary">{variable}</td>
+                        <td className="py-1.5 text-gray-300">{description}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </>
+          )}
+        </div>
+      </div>
+
+      <InputField
+        label="Předmět"
+        value={form.emailSubject ?? ""}
+        onChange={(v) => update("emailSubject", v)}
+        placeholder="{{event}}: Registrace byla úspěšná"
+      />
+
+      <MarkdownEditor
+        label="Tělo e-mailu"
+        value={form.emailBody ?? ""}
+        onChange={(v) => update("emailBody", v)}
+        rows={15}
+        previewTransform={previewTransform}
+      />
+
+      <MarkdownEditor
+        label="Doplněk pro nezletilé (připojí se pokud je věk < 18)"
+        value={form.emailUnder18 ?? ""}
+        onChange={(v) => update("emailUnder18", v)}
+        rows={6}
+        previewTransform={previewTransform}
+      />
+    </div>
+  );
 };
