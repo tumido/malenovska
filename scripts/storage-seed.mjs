@@ -19,7 +19,7 @@ process.env.FIREBASE_STORAGE_EMULATOR_HOST = "localhost:9199";
 
 const app = initializeApp({
   projectId: "malenovska-305f8",
-  storageBucket: "malenovska-305f8.appspot.com",
+  storageBucket: "malenovska-305f8",
 });
 
 const bucket = getStorage(app).bucket();

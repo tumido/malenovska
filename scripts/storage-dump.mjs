@@ -22,7 +22,7 @@ const serviceAccount = JSON.parse(
 
 const app = initializeApp({
   credential: cert(serviceAccount),
-  storageBucket: "malenovska-305f8.appspot.com",
+  storageBucket: "malenovska-305f8",
 });
 
 const bucket = getStorage(app).bucket();

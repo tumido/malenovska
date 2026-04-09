@@ -24,12 +24,22 @@ const db = getFirestore(app);
 
 const COLLECTIONS = ["events", "legends", "races", "participants", "galleries"];
 
-const STORAGE_PROD_HOST = "https://firebasestorage.googleapis.com";
+const STORAGE_PROD_HOSTS = [
+  "https://firebasestorage.googleapis.com",
+  "https://storage.googleapis.com",
+];
 const STORAGE_EMULATOR_HOST = "http://localhost:9199";
 
 const rewriteStorageUrl = (url) => {
-  if (typeof url === "string" && url.includes("firebasestorage.googleapis.com")) {
-    return url.replace(STORAGE_PROD_HOST, STORAGE_EMULATOR_HOST);
+  if (typeof url !== "string") return url;
+  for (const host of STORAGE_PROD_HOSTS) {
+    if (url.includes(host.replace("https://", ""))) {
+      return url.replace(host, STORAGE_EMULATOR_HOST);
+    }
+  }
+  // Also handle old bucket name in URLs (in case dump predates migration)
+  if (url.includes("malenovska-305f8.appspot.com")) {
+    return url.replace("malenovska-305f8.appspot.com", "malenovska-305f8");
   }
   return url;
 };

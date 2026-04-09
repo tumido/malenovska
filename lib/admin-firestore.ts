@@ -120,10 +120,15 @@ const isFirestoreImage = (val: unknown): val is FirestoreImage => {
 };
 
 const isStorageUrl = (url: string): boolean => {
-  return url.includes("firebasestorage.googleapis.com");
+  return url.includes("firebasestorage.googleapis.com") || url.includes("storage.googleapis.com");
 };
 
 const extractStoragePath = (url: string): string => {
-  const match = url.match(/\/o\/(.+?)\?/);
-  return match ? decodeURIComponent(match[1]) : "";
+  // firebasestorage.googleapis.com format: /v0/b/BUCKET/o/PATH?...
+  const firebaseMatch = url.match(/\/o\/(.+?)\?/);
+  if (firebaseMatch) return decodeURIComponent(firebaseMatch[1]);
+  // storage.googleapis.com format: /BUCKET/PATH
+  const gcsMatch = url.match(/storage\.googleapis\.com\/[^/]+\/(.+?)(\?|$)/);
+  if (gcsMatch) return decodeURIComponent(gcsMatch[1]);
+  return "";
 };
