@@ -1,19 +1,19 @@
 # Frontend Development
 
-You are an expert frontend engineer specializing in React, Next.js, TypeScript, and Tailwind CSS. Apply these patterns and principles when working on this codebase.
+You are an expert frontend engineer specializing in React, TypeScript, and Tailwind CSS. Apply these patterns and principles when working on this codebase.
 
 ## Tech Stack
 
-- **Framework**: Next.js 16+ with App Router
+- **Framework**: Vite + React Router v7 (framework mode, `ssr: false` — SPA)
 - **Language**: TypeScript (strict mode)
 - **Styling**: Tailwind CSS v4 with `@theme inline` for custom tokens
-- **Fonts**: Google Fonts via `next/font` (Amatic SC for display, Open Sans for body)
-- **Build**: Static export mode (`output: "export"`)
+- **Fonts**: Google Fonts via `<link>` tags in `root.tsx` (Roboto for display, Open Sans for body)
+- **Build**: SPA mode — Vite builds to `build/client/`, served via Firebase Hosting rewrite (`** → /index.html`)
 - **Backend**: Firebase 12.x (Firestore, Auth, Storage) — modular v9+ API
 - **Data fetching**: `react-firebase-hooks` (client-side, real-time)
 - **Forms**: `react-hook-form` for the signup wizard
 - **Notifications**: `notistack` for toast feedback
-- **Maps**: `react-leaflet` + `leaflet` (dynamic import, no SSR)
+- **Maps**: `react-leaflet` + `leaflet` (`React.lazy()` + `<Suspense>`, no SSR)
 - **Icons**: `lucide-react` (tree-shakeable)
 - **Markdown**: `markdown-to-jsx`
 - **Language**: Czech only (no i18n system)
@@ -23,13 +23,11 @@ You are an expert frontend engineer specializing in React, Next.js, TypeScript, 
 ### Component Structure
 
 ```tsx
-"use client"; // Only when needed (hooks, interactivity)
-
-import { useParams } from "next/navigation";
-// Group imports: React/Next → Internal → Types
+import { useParams } from "react-router";
+// Group imports: React/React Router → Internal → Types
 
 export const ComponentName = () => {
-  const params = useParams();
+  const { eventId } = useParams();
   // Hooks first, then derived state, then handlers
 
   return (
@@ -44,48 +42,69 @@ export const ComponentName = () => {
 
 ```plain
 app/
-├── layout.tsx              # Root layout (fonts, Firebase provider, metadata)
-├── page.tsx                # "/" → redirect to current event
-├── globals.css             # Tailwind config + custom utilities
-├── not-found.tsx           # 404 page
-├── choose/
-│   └── page.tsx            # Event selection page
-├── [eventId]/
-│   ├── layout.tsx          # Event shell (nav, header, footer, EventContext)
-│   ├── page.tsx            # Redirect to "legends"
-│   ├── legends/page.tsx    # Legend card grid
-│   ├── legend/[id]/page.tsx
-│   ├── rules/page.tsx
-│   ├── races/page.tsx
-│   ├── race/[id]/page.tsx
-│   ├── info/page.tsx       # Map + event details
-│   ├── contacts/page.tsx
-│   ├── gallery/page.tsx
-│   ├── signup/page.tsx     # Multi-step wizard
-│   ├── attendees/page.tsx  # Sortable/searchable table
-│   └── confirmation/page.tsx
-└── admin/
-    ├── layout.tsx          # Auth gate + AdminShell
-    ├── page.tsx            # Dashboard (stats + pie chart)
-    ├── _components/        # Shared admin helpers (EventFilter)
-    ├── config/page.tsx     # Active event config
-    ├── events/             # CRUD: list, new, [id]
-    ├── legends/            # CRUD: list, new, [id]
-    ├── races/              # CRUD: list, new, [id]
-    ├── participants/       # List + [id] edit (no create)
-    └── galleries/          # CRUD: list, new, [id]
-
-components/               # Reusable public UI components
-components/admin/         # Admin components (DataTable, FormLayout, etc.)
-contexts/                 # React contexts (EventContext, AuthContext)
-lib/
-├── firebase.ts           # Firebase init + typed helpers
-├── types.ts              # Firestore document interfaces
-├── admin-firestore.ts    # Admin CRUD helpers (create, update, delete)
-├── filters.ts            # Data filtering helpers
-├── sorting.ts            # Table sorting helpers
-└── date.ts               # Timestamp formatters
+├── root.tsx              # HTML shell (fonts, meta, scripts, <Outlet />)
+├── routes.ts             # Route config (layouts, routes, catch-all 404)
+├── app.css               # Tailwind config + custom utilities
+├── env.d.ts              # Vite env type declarations
+├── routes/
+│   ├── home.tsx          # "/" → redirect to current event
+│   ├── choose.tsx        # Event selection page
+│   ├── not-found.tsx     # 404 page
+│   ├── event-layout.tsx  # Event shell (nav, header, footer)
+│   ├── admin-layout.tsx  # Admin auth gate + shell
+│   ├── event/
+│   │   ├── index.tsx     # Redirect to "legends"
+│   │   ├── legends.tsx   # Legend card grid
+│   │   ├── legend.tsx    # Single legend detail
+│   │   ├── races.tsx     # Race card grid
+│   │   ├── race.tsx      # Single race detail
+│   │   ├── rules.tsx     # Rules page
+│   │   ├── info.tsx      # Map + event details
+│   │   ├── contacts.tsx  # Contact info
+│   │   ├── gallery.tsx   # Photo gallery
+│   │   ├── signup.tsx    # Multi-step wizard
+│   │   ├── attendees.tsx # Sortable/searchable table
+│   │   └── confirmation.tsx
+│   └── admin/
+│       ├── login.tsx
+│       ├── dashboard.tsx # Stats + pie chart
+│       ├── config.tsx    # Active event config
+│       ├── events/       # CRUD: list, new, edit
+│       ├── legends/      # CRUD: list, new, edit
+│       ├── races/        # CRUD: list, new, edit
+│       ├── participants/ # List + edit (no create)
+│       └── galleries/    # List + new (no edit)
+├── components/           # Reusable UI components
+│   ├── admin/            # Admin components (DataTable, FormLayout, etc.)
+│   └── ...               # Public components
+├── contexts/             # React contexts (EventContext, AuthContext)
+└── lib/
+    ├── firebase.ts       # Firebase init + typed helpers
+    ├── types.ts          # Firestore document interfaces
+    ├── admin-firestore.ts # Admin CRUD helpers
+    ├── filters.ts        # Data filtering helpers
+    ├── sorting.ts        # Table sorting helpers
+    ├── navigation.ts     # Navigation helpers
+    └── date.ts           # Timestamp formatters
 public/                   # Static assets (images, favicons)
+```
+
+### Routing
+
+Routes are defined in `app/routes.ts` using React Router helpers (`route()`, `layout()`, `index()`). Route components live in `app/routes/`. Layouts use `<Outlet />` from `react-router`.
+
+```tsx
+// app/routes.ts
+import { type RouteConfig, route, layout, index } from "@react-router/dev/routes";
+
+export default [
+  index("routes/home.tsx"),
+  layout("routes/event-layout.tsx", [
+    route(":eventId", "routes/event/index.tsx"),
+    route(":eventId/legends", "routes/event/legends.tsx"),
+    // ...
+  ]),
+] satisfies RouteConfig;
 ```
 
 ### Tailwind CSS Guidelines
@@ -98,7 +117,7 @@ public/                   # Static assets (images, favicons)
      --color-primary-light: #fafafa;
      --color-secondary: #ff5722; /* deepOrange[500] */
      --color-secondary-dark: #e64a19; /* deepOrange[700] */
-     --font-display: "Amatic SC", cursive;
+     --font-display: "Roboto", sans-serif;
      --font-body: "Open Sans", sans-serif;
    }
    ```
@@ -113,20 +132,20 @@ public/                   # Static assets (images, favicons)
 5. **Use direct utility classes, not arbitrary value syntax**:
 
    ```tsx
-   // ✓ Correct - use semantic utility classes
+   // Correct
    className = "bg-primary text-white";
 
-   // ✗ Avoid - arbitrary value syntax with CSS variables
+   // Avoid
    className = "bg-(--primary) text-(--white)";
    ```
 
 6. **Use Tailwind tokens, not raw hex**:
 
    ```tsx
-   // ✓ Correct - semantic tokens
+   // Correct
    className = "bg-primary text-white";
 
-   // ✗ Avoid - hardcoded hex values
+   // Avoid
    className = "bg-[#212121] text-[#fff]";
    ```
 
@@ -136,24 +155,23 @@ public/                   # Static assets (images, favicons)
 2. **Use type guards** for complex union types
 3. **Avoid `any`** — use proper types or generics
 4. **Use `as const`** for literal type inference when needed
-5. **Type Firestore data** — always use interfaces from `lib/types.ts` with `useCollectionData<T>` and `useDocumentData<T>`
+5. **Type Firestore data** — always use interfaces from `@/lib/types` with `useCollectionData<T>` and `useDocumentData<T>`
 
 ### Data Fetching Pattern
 
-All pages under `[eventId]` are `"use client"` and fetch data at runtime from Firestore. There is no SSR/SSG data fetching — the app is a static export with client-side hydration.
+All pages fetch data at runtime from Firestore. There is no SSR — the app is a Vite SPA with client-side routing.
 
 ```tsx
-"use client";
-
+import { useParams } from "react-router";
 import { useCollectionData } from "react-firebase-hooks/firestore";
-import { collection, query, where, orderBy } from "firebase/firestore";
-import { db } from "@/lib/firebase";
+import { query, where, orderBy } from "firebase/firestore";
+import { typedCollection } from "@/lib/firebase";
 import type { Legend } from "@/lib/types";
 
 const LegendsPage = () => {
-  const { eventId } = useParams<{ eventId: string }>();
+  const { eventId } = useParams();
   const [legends, loading, error] = useCollectionData<Legend>(
-    query(collection(db, "legends"), where("event", "==", eventId), orderBy("publishedAt"))
+    query(typedCollection<Legend>("legends"), where("event", "==", eventId), orderBy("publishedAt"))
   );
 
   if (loading) return <Loading />;
@@ -165,11 +183,13 @@ const LegendsPage = () => {
 export default LegendsPage;
 ```
 
-### Static Export + Dynamic Routes
+### Navigation
 
-- `generateStaticParams()` returns placeholder params (e.g., `[{ eventId: "_" }]`) — Next.js static export requires non-empty array
-- Firebase Hosting rewrite (`** → /index.html`) serves the SPA shell
-- Next.js client-side router resolves the `[eventId]` segment at runtime
+- Use `Link` from `react-router` with `to` prop (not `href`)
+- Use `useNavigate()` for programmatic navigation
+- Use `useParams()` for route params (returns `string | undefined`, use `!` assertion when guaranteed)
+- Use `useLocation()` for current path
+- Use `useSearchParams()` — returns `[URLSearchParams, SetURLSearchParams]` tuple
 
 ### Form System (react-hook-form)
 
@@ -182,7 +202,7 @@ const methods = useForm({ shouldUnregister: false });
 
 // In form fields:
 const { register, formState: { errors } } = useFormContext();
-<input {...register("firstName", { required: "Vyplňte" })} className="border-2 border-transparent focus:border-secondary p-3 w-full" />
+<input {...register("firstName", { required: "Vyplnte" })} className="border-2 border-transparent focus:border-secondary p-3 w-full" />
 ```
 
 ### Component Patterns
@@ -193,7 +213,7 @@ const { register, formState: { errors } } = useFormContext();
 
 ### Styling Conventions
 
-1. **Class order**: Layout → Spacing → Sizing → Typography → Colors → Effects
+1. **Class order**: Layout -> Spacing -> Sizing -> Typography -> Colors -> Effects
 
    ```tsx
    className = "flex flex-col gap-4 p-8 text-xl font-bold text-white bg-primary rounded-lg shadow-lg";
@@ -221,12 +241,11 @@ const { register, formState: { errors } } = useFormContext();
 
 ### Do
 
-- Use `"use client"` only when component needs client-side features (most pages need it for Firebase hooks)
 - Keep components pure and side-effect free when possible
-- Prefer `Link` from `next/link` for internal navigation
+- Prefer `Link` from `react-router` for internal navigation
 - Use `target="_blank" rel="external"` for external links
 - Add `title` and `aria-*` attributes for accessibility
-- Use `next/dynamic` with `ssr: false` for components that need `window`/DOM (e.g., Leaflet map)
+- Use `React.lazy()` + `<Suspense>` for components that need `window`/DOM (e.g., Leaflet map)
 - Handle loading states with `<Loading />` component
 - Use `lucide-react` icons — tree-shakeable, ~200B per icon
 
@@ -239,7 +258,7 @@ const { register, formState: { errors } } = useFormContext();
 - Don't forget to handle loading and error states (every Firestore hook returns `[data, loading, error]`)
 - Don't use arbitrary value syntax like `bg-(--primary)` — use `bg-primary` instead
 - Don't hardcode raw hex colors — use Tailwind semantic tokens (`bg-primary` not `bg-[#212121]`), except for truly one-off values
-- Don't use SSR data fetching (`getServerSideProps`, server actions) — this is a static export app
+- Don't use SSR data fetching — this is an SPA
 - Don't use `function` declarations — always use arrow functions (`const fn = () => {}` not `function fn() {}`)
 
 ## Design System
@@ -284,12 +303,10 @@ The app has a **dark, atmospheric Material-inspired aesthetic** — not pop art,
 
 | Token | Font Family | Weights | Usage |
 |-------|-------------|---------|-------|
-| `display` | Amatic SC | 700 | Headings, titles |
+| `display` | Roboto | 700 | Headings, titles |
 | `body` | Open Sans | 400, 700 | Body text, UI |
 
-### Key Visual Patterns to Port
-
-These patterns from the existing MUI app should be preserved in Tailwind:
+### Key Visual Patterns
 
 1. **Background gradient**: `linear-gradient(to bottom, transparent 80%, #000 100%)` over a fixed background image
 2. **Card header overlays**: `rgba(0,0,0,0.3)` with `backdrop-blur-sm` on the bottom of card images
@@ -298,7 +315,7 @@ These patterns from the existing MUI app should be preserved in Tailwind:
 5. **Map markers**: Drop shadow via `filter: drop-shadow(8px 8px 8px #000)`
 6. **ColorBadge**: Dynamic background color with inverted text using CSS filters (`invert(1) grayscale(1) contrast(9)` with `background-clip: text`)
 7. **Logo**: SVG component with configurable `fgColor`/`bgColor` props
-8. **Header**: No shadow (`elevation={0}` equivalent), smooth margin/width transitions when drawer opens
+8. **Header**: No shadow, smooth margin/width transitions when drawer opens
 
 ## Testing Changes
 
@@ -306,6 +323,6 @@ After making changes, verify:
 
 1. No TypeScript errors (`npx tsc --noEmit`)
 2. Linting passes (`npm run lint`)
-3. Build succeeds (`next build`)
+3. Build succeeds (`npm run build`)
 4. Visual check in browser (see @.claude/rules/instructions.md )
 5. Responsive behavior at different breakpoints

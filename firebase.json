@@ -31,7 +31,7 @@
     "singleProjectMode": true
   },
   "hosting": {
-    "public": "out",
+    "public": "build/client",
     "ignore": [
       "firebase.json",
       "**/.*",
@@ -54,7 +54,7 @@
         ]
       },
       {
-        "source": "_next/static/**",
+        "source": "assets/**",
         "headers": [
           {
             "key": "Cache-Control",

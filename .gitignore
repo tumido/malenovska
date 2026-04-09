@@ -1,9 +1,9 @@
 # Dependencies
 node_modules
 
-# Next.js
-.next
-out
+# React Router / Vite
+.react-router
+build
 
 # Build
 dist
@@ -32,4 +32,3 @@ assets/images/background_backup.jpg
 
 # typescript
 *.tsbuildinfo
-next-env.d.ts

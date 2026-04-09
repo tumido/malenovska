@@ -2,14 +2,14 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Next.js: debug",
+      "name": "Dev",
       "type": "node-terminal",
       "request": "launch",
       "command": "npm run dev:local",
       "preLaunchTask": "Start Firebase Emulators",
       "postDebugTask": "Stop Firebase Emulators",
       "serverReadyAction": {
-        "pattern": "- Local:.+(https?://.+)",
+        "pattern": "➜  Local:.+(https?://.+)",
         "action": "startDebugging",
         "name": "Launch Chrome session"
       }
@@ -18,8 +18,10 @@
       "name": "Launch Chrome session",
       "request": "launch",
       "type": "chrome",
-      "url": "http://localhost:3000",
-      "runtimeArgs": ["--remote-debugging-port=9222"]
+      "url": "http://localhost:5173",
+      "runtimeArgs": [
+        "--remote-debugging-port=9222"
+      ]
     }
   ]
 }

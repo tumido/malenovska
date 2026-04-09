@@ -3,38 +3,40 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
-    "build": "next build",
-    "start": "next start",
+    "dev": "react-router dev",
+    "dev:local": "VITE_USE_EMULATORS=true react-router dev",
+    "build": "react-router build",
+    "start": "npx serve build/client -s",
     "lint": "eslint .",
+    "typegen": "react-router typegen",
     "emulators": "firebase emulators:start --import=./emulator-data --export-on-exit=./emulator-data",
     "emulators:fresh": "firebase emulators:start",
     "emulators:dump": "node scripts/firestore-dump.mjs && node scripts/storage-dump.mjs",
     "emulators:seed": "node scripts/firestore-seed.mjs && node scripts/storage-seed.mjs",
-    "dev:local": "NEXT_PUBLIC_USE_EMULATORS=true next dev --turbopack",
+    "deploy": "firebase deploy",
     "deploy:hosting": "firebase deploy --only hosting",
     "deploy:functions": "firebase deploy --only functions",
-    "deploy:rules": "firebase deploy --only firestore:rules",
-    "deploy": "firebase deploy"
+    "deploy:rules": "firebase deploy --only firestore:rules"
   },
   "dependencies": {
+    "@react-router/node": "^7.14.0",
     "clipboard-copy": "^4.0.1",
     "firebase": "^12.11.0",
+    "isbot": "^5",
     "leaflet": "^1.9.4",
     "lucide-react": "^1.7.0",
     "markdown-to-jsx": "^9.7.13",
-    "next": "^16.2.2",
     "notistack": "^3.0.2",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
     "react-firebase-hooks": "^5.1.1",
     "react-hook-form": "^7.72.0",
     "react-leaflet": "^5.0.0",
-    "react-share": "^5.3.0",
-    "recharts": "^3.8.1"
+    "react-router": "^7.6.1",
+    "react-share": "^5.3.0"
   },
   "devDependencies": {
-    "@next/eslint-plugin-next": "^16.2.2",
+    "@react-router/dev": "^7.6.1",
     "@tailwindcss/postcss": "^4.2.2",
     "@types/leaflet": "^1.9.14",
     "@types/node": "^22.13.0",
@@ -44,7 +46,9 @@
     "firebase-admin": "^13.7.0",
     "firebase-tools": "^13.29.1",
     "tailwindcss": "^4.2.2",
-    "typescript": "^6.0.2",
-    "typescript-eslint": "^8.58.0"
+    "typescript": "^5.8.0",
+    "typescript-eslint": "^8.58.0",
+    "vite": "^6.3.5",
+    "vite-tsconfig-paths": "^6.1.1"
   }
 }
