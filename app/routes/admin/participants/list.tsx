@@ -1,19 +1,24 @@
 import { useState } from "react";
-import { query, where } from "firebase/firestore";
-import { useCollectionData } from "react-firebase-hooks/firestore";
-import { typedCollection } from "@/lib/firebase";
-import { removeParticipant, fetchParticipantPrivate } from "@/lib/admin-firestore";
+import { useSearchParams } from "react-router";
+import { doc, query, where, type DocumentReference } from "firebase/firestore";
+import { useCollectionData, useDocumentData } from "react-firebase-hooks/firestore";
+import { db, typedCollection } from "@/lib/firebase";
+import { removeParticipant } from "@/lib/admin-firestore";
+import { exportParticipantsCsv } from "@/lib/export-csv";
 import DataTable from "@/components/admin/DataTable";
-import type { Participant, Race } from "@/lib/types";
+import type { Event, Participant, Race } from "@/lib/types";
 import { useEventFilter } from "@/components/admin/EventFilter";
-import { Check, X, Download } from "lucide-react";
+import { Download } from "lucide-react";
 
 const ParticipantsListPage = () => {
   const [participants, loading] = useCollectionData(
     query(typedCollection<Participant>("participants")),
   );
   const { filtered, toolbar, eventId } = useEventFilter(participants ?? []);
+  const [searchParams, setSearchParams] = useSearchParams();
   const [raceFilter, setRaceFilter] = useState("");
+  const fieldFilter = searchParams.get("field") ?? "";
+  const groupFilter = searchParams.get("group") ?? "";
 
   // Load races for the selected event for filtering and display
   const [races] = useCollectionData(
@@ -22,11 +27,27 @@ const ParticipantsListPage = () => {
       : null,
   );
 
+  const [event] = useDocumentData<Event>(
+    eventId ? (doc(db, "events", eventId) as DocumentReference<Event>) : null,
+  );
+  const fieldExtras = event?.registrationExtras?.filter(
+    (e) => (e.type === "checkbox" || e.type === "text" || e.type === "number") && e.props?.id,
+  ) ?? [];
+  const checkboxExtras = event?.registrationExtras?.filter(
+    (e) => e.type === "checkbox" && e.props?.id,
+  ) ?? [];
+
   const raceMap = new Map((races ?? []).map((r) => [r.id, r]));
 
   let displayed = filtered;
   if (raceFilter) {
     displayed = displayed.filter((p) => p.race === raceFilter);
+  }
+  if (fieldFilter) {
+    displayed = displayed.filter((p) => p[fieldFilter] === true);
+  }
+  if (groupFilter) {
+    displayed = displayed.filter((p) => p.group === groupFilter);
   }
 
   const columns = [
@@ -44,18 +65,6 @@ const ParticipantsListPage = () => {
       sortable: true,
       render: (p: Participant) => raceMap.get(p.race)?.name ?? p.race,
     },
-    {
-      key: "afterparty",
-      label: "Afterparty",
-      render: (p: Participant) =>
-        p.afterparty ? <Check className="h-4 w-4 text-green-600" /> : <X className="h-4 w-4 text-gray-300" />,
-    },
-    {
-      key: "sleepover",
-      label: "Přespání",
-      render: (p: Participant) =>
-        p.sleepover ? <Check className="h-4 w-4 text-green-600" /> : <X className="h-4 w-4 text-gray-300" />,
-    },
   ];
 
   const handleDelete = async (participant: Participant) => {
@@ -63,47 +72,55 @@ const ParticipantsListPage = () => {
     await removeParticipant(participant.id);
   };
 
-  const handleExport = async () => {
+  const handleExport = () => {
     if (!eventId) {
       alert("Nejprve vyberte událost");
       return;
     }
-    const participantsToExport = displayed;
-    const eventRaces = races ?? [];
-    const raceNames = new Map(eventRaces.map((r) => [r.id, r.name]));
-
-    const rows: string[][] = [
-      ["Strana", "Skupina", "Jméno", "Přezdívka", "Příjmení", "Afterparty", "Přespání", "Věk", "E-mail"],
-    ];
-
-    for (const p of participantsToExport) {
-      const priv = await fetchParticipantPrivate(p.id);
-      rows.push([
-        raceNames.get(p.race) ?? p.race,
-        p.group ?? "",
-        p.firstName,
-        p.nickName ?? "",
-        p.lastName,
-        p.afterparty ? "Ano" : "Ne",
-        p.sleepover ? "Ano" : "Ne",
-        priv?.age?.toString() ?? "",
-        priv?.email ?? "",
-      ]);
-    }
-
-    const csv = rows.map((r) => r.map((c) => `"${c.replace(/"/g, '""')}"`).join(",")).join("\n");
-    const blob = new Blob(["﻿" + csv], { type: "text/csv;charset=utf-8" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "registrace.csv";
-    a.click();
-    URL.revokeObjectURL(url);
+    exportParticipantsCsv(displayed, races ?? [], fieldExtras);
   };
+
+  const setFilter = (key: string, value: string) => {
+    const next = new URLSearchParams(searchParams);
+    if (value) {
+      next.set(key, value);
+    } else {
+      next.delete(key);
+    }
+    setSearchParams(next);
+  };
+
+  const uniqueGroups = [...new Set(
+    filtered.map((p) => (p.group as string) ?? "").filter(Boolean),
+  )].sort();
 
   const extraToolbar = (
     <>
       {toolbar}
+      {eventId && checkboxExtras.length > 0 && (
+        <select
+          value={fieldFilter}
+          onChange={(e) => setFilter("field", e.target.value)}
+          className="rounded border border-gray-600 bg-neutral-800 px-3 py-1.5 text-sm text-primary-light focus:border-secondary focus:outline-none focus:ring-1 focus:ring-secondary"
+        >
+          <option value="">Všechny údaje</option>
+          {checkboxExtras.map((e) => (
+            <option key={e.props!.id} value={e.props!.id!}>{e.props!.label ?? e.props!.id!}</option>
+          ))}
+        </select>
+      )}
+      {eventId && uniqueGroups.length > 0 && (
+        <select
+          value={groupFilter}
+          onChange={(e) => setFilter("group", e.target.value)}
+          className="rounded border border-gray-600 bg-neutral-800 px-3 py-1.5 text-sm text-primary-light focus:border-secondary focus:outline-none focus:ring-1 focus:ring-secondary"
+        >
+          <option value="">Všechny skupiny</option>
+          {uniqueGroups.map((g) => (
+            <option key={g} value={g}>{g}</option>
+          ))}
+        </select>
+      )}
       {eventId && races && (
         <select
           value={raceFilter}

@@ -6,7 +6,7 @@ import { db, typedCollection } from "@/lib/firebase";
 import { updateDocument, fetchParticipantPrivate, removeParticipant } from "@/lib/admin-firestore";
 import FormLayout from "@/components/admin/FormLayout";
 import { InputField, CheckboxField } from "@/components/admin/FormFields";
-import type { Participant, Race } from "@/lib/types";
+import type { Event, Participant, Race } from "@/lib/types";
 
 const ParticipantEditPage = () => {
   const { id } = useParams();
@@ -25,6 +25,13 @@ const ParticipantEditPage = () => {
       ? query(typedCollection<Race>("races"), where("event", "==", eventId))
       : null,
   );
+  const [event] = useDocumentData<Event>(
+    eventId ? (doc(db, "events", eventId) as DocumentReference<Event>) : null,
+  );
+
+  const fieldExtras = event?.registrationExtras?.filter(
+    (e) => (e.type === "checkbox" || e.type === "text" || e.type === "number") && e.props?.id,
+  ) ?? [];
 
   useEffect(() => {
     if (participant && Object.keys(form).length === 0) {
@@ -95,10 +102,33 @@ const ParticipantEditPage = () => {
             </div>
             <InputField label="Poznámka" value={form.note ?? ""} onChange={(v) => set({ note: v })} />
           </div>
-          <div className="flex gap-6">
-            <CheckboxField label="Afterparty" checked={form.afterparty ?? false} onChange={(v) => set({ afterparty: v })} />
-            <CheckboxField label="Přespání" checked={form.sleepover ?? false} onChange={(v) => set({ sleepover: v })} />
-          </div>
+          {fieldExtras.length > 0 && (
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              {fieldExtras.map((extra) => {
+                const fieldId = extra.props!.id!;
+                const label = extra.props!.label ?? fieldId;
+                if (extra.type === "checkbox") {
+                  return (
+                    <CheckboxField
+                      key={fieldId}
+                      label={label}
+                      checked={!!form[fieldId]}
+                      onChange={(v) => set({ [fieldId]: v })}
+                    />
+                  );
+                }
+                return (
+                  <InputField
+                    key={fieldId}
+                    label={label}
+                    value={String(form[fieldId] ?? "")}
+                    onChange={(v) => set({ [fieldId]: extra.type === "number" ? Number(v) : v })}
+                    type={extra.type}
+                  />
+                );
+              })}
+            </div>
+          )}
         </div>
       ),
     },

@@ -54,6 +54,7 @@ npm run deploy            # Deploy everything
 | `lib/firebase.ts`             | Firebase init, Firestore instance                                       |
 | `lib/types.ts`                | TypeScript interfaces for Firestore documents                           |
 | `lib/admin-firestore.ts`      | Admin CRUD helpers, deferred file upload (`registerPendingUpload` → `processPendingUploads` on save) |
+| `lib/export-csv.ts`           | Shared CSV export for participants (used by dashboard + participants list)                            |
 | `contexts/AuthContext.tsx`    | Firebase Auth context for admin                                         |
 | `components/admin/`           | Admin components (DataTable, FormLayout, FormFields, AdminMapInner, etc.) |
 | `firebase.json`               | Hosting, functions, emulators config                                    |

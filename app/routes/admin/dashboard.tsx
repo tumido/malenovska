@@ -8,9 +8,34 @@ import StatsCard from "@/components/admin/StatsCard";
 import RacePieChart from "@/components/admin/RacePieChart";
 import RaceCapacityChart from "@/components/admin/RaceCapacityChart";
 import RegistrationTimelineChart from "@/components/admin/RegistrationTimelineChart";
-import { Pencil, Settings, Plus, ScrollText, Users, UserCheck, Image } from "lucide-react";
+import {
+  Pencil,
+  Settings,
+  Plus,
+  ScrollText,
+  Users,
+  Image,
+  Download,
+  ExternalLink,
+} from "lucide-react";
+import { exportParticipantsCsv } from "@/lib/export-csv";
 import { Link } from "react-router";
-import type { Config, Event, Participant, Race } from "@/lib/types";
+import type {
+  Config,
+  Event,
+  Gallery,
+  Legend,
+  Participant,
+  Race,
+} from "@/lib/types";
+
+const relativeTime = (date: Date): string => {
+  const diff = Math.floor((Date.now() - date.getTime()) / 1000);
+  if (diff < 60) return "právě teď";
+  if (diff < 3600) return `před ${Math.floor(diff / 60)} min`;
+  if (diff < 86400) return `před ${Math.floor(diff / 3600)} hod`;
+  return `před ${Math.floor(diff / 86400)} dny`;
+};
 
 const DashboardPage = () => {
   const [config] = useDocumentData<Config>(
@@ -37,10 +62,28 @@ const DashboardPage = () => {
       : null,
   );
 
+  const [legends] = useCollectionData(
+    eventId
+      ? query(typedCollection<Legend>("legends"), where("event", "==", eventId))
+      : null,
+  );
+
+  const [galleries] = useCollectionData(
+    eventId
+      ? query(
+          typedCollection<Gallery>("galleries"),
+          where("event", "==", eventId),
+        )
+      : null,
+  );
+
   const total = participants?.length ?? 0;
-  const afterparty = participants?.filter((p) => p.afterparty).length ?? 0;
-  const sleepover = participants?.filter((p) => p.sleepover).length ?? 0;
   const capacity = races?.reduce((sum, r) => sum + (r.limit ?? 0), 0) ?? 0;
+
+  const checkboxExtras =
+    event?.registrationExtras?.filter(
+      (e) => e.type === "checkbox" && e.props?.id,
+    ) ?? [];
 
   const eventDate = event?.date
     ? typeof event.date === "object" && "toDate" in event.date
@@ -51,18 +94,43 @@ const DashboardPage = () => {
     ? Math.ceil((eventDate.getTime() - Date.now()) / (1000 * 60 * 60 * 24))
     : null;
 
+  const fieldExtras =
+    event?.registrationExtras?.filter(
+      (e) =>
+        (e.type === "checkbox" || e.type === "text" || e.type === "number") &&
+        e.props?.id,
+    ) ?? [];
+
+  const handleExport = () => {
+    if (!participants || !races) return;
+    exportParticipantsCsv(participants, races, fieldExtras);
+  };
+
   const quickActions = [
     { to: "/admin/events/new", label: "Nová událost", icon: Plus },
-    { to: `/admin/legends/new${eventId ? `?event=${eventId}` : ""}`, label: "Nová legenda", icon: ScrollText },
-    { to: `/admin/races/new${eventId ? `?event=${eventId}` : ""}`, label: "Nová strana", icon: Users },
-    { to: `/admin/galleries/new${eventId ? `?event=${eventId}` : ""}`, label: "Nová galerie", icon: Image },
-    ...(eventId ? [{ to: `/admin/participants?event=${eventId}`, label: "Účastníci", icon: UserCheck }] : []),
+    {
+      to: `/admin/legends/new${eventId ? `?event=${eventId}` : ""}`,
+      label: "Nová legenda",
+      icon: ScrollText,
+    },
+    {
+      to: `/admin/races/new${eventId ? `?event=${eventId}` : ""}`,
+      label: "Nová strana",
+      icon: Users,
+    },
+    {
+      to: `/admin/galleries/new${eventId ? `?event=${eventId}` : ""}`,
+      label: "Nová galerie",
+      icon: Image,
+    },
   ];
 
   return (
     <div className="space-y-6">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <h1 className="text-2xl font-bold text-primary-light font-display">Dashboard</h1>
+        <h1 className="text-2xl font-bold text-primary-light font-display">
+          Dashboard
+        </h1>
         <div className="flex flex-wrap gap-2">
           {quickActions.map(({ to, label, icon: Icon }) => (
             <Link
@@ -74,10 +142,19 @@ const DashboardPage = () => {
               {label}
             </Link>
           ))}
+          {eventId && participants && (
+            <button
+              onClick={handleExport}
+              className="flex items-center gap-2 rounded-lg border border-gray-700 bg-neutral-800 px-3 py-1.5 text-sm text-primary-light transition-colors hover:border-secondary hover:text-secondary cursor-pointer"
+            >
+              <Download className="h-4 w-4" />
+              Export registrace
+            </button>
+          )}
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-7">
+      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
         <StatsCard
           label="Aktivní událost"
           value={event ? `${event.name} ${event.year}` : null}
@@ -85,8 +162,20 @@ const DashboardPage = () => {
           loading={!config}
           className="col-span-2"
           actions={[
-            ...(eventId ? [{ href: `/admin/events/${eventId}`, icon: <Pencil className="h-4 w-4" />, title: "Upravit událost" }] : []),
-            { href: "/admin/config", icon: <Settings className="h-4 w-4" />, title: "Změnit aktivní událost" },
+            ...(eventId
+              ? [
+                  {
+                    href: `/admin/events/${eventId}`,
+                    icon: <Pencil className="h-4 w-4" />,
+                    title: "Upravit událost",
+                  },
+                ]
+              : []),
+            {
+              href: "/admin/config",
+              icon: <Settings className="h-4 w-4" />,
+              title: "Změnit aktivní událost",
+            },
           ]}
         />
         <StatsCard
@@ -96,27 +185,153 @@ const DashboardPage = () => {
           loading={participantsLoading}
         />
         <StatsCard
-          label="Afterparty"
-          value={afterparty}
-          loading={participantsLoading}
-        />
-        <StatsCard
-          label="Přespání"
-          value={sleepover}
-          loading={participantsLoading}
-        />
-        <StatsCard
           label="Registrace"
-          value={event ? (event.registrationAvailable ? "Otevřena" : "Uzavřena") : null}
+          value={
+            event
+              ? event.registrationAvailable
+                ? "Otevřena"
+                : "Uzavřena"
+              : null
+          }
           loading={!config}
         />
         <StatsCard
           label="Datum akce"
-          value={eventDate
-            ? `${eventDate.toLocaleDateString("cs-CZ")}${daysUntil !== null && daysUntil > 0 ? ` (za ${daysUntil} dní)` : daysUntil === 0 ? " (dnes)" : ""}`
-            : null}
+          value={
+            eventDate
+              ? `${eventDate.toLocaleDateString("cs-CZ")}${daysUntil !== null && daysUntil > 0 ? ` (za ${daysUntil} dní)` : daysUntil === 0 ? " (dnes)" : ""}`
+              : null
+          }
           loading={!config}
         />
+        {eventId && (
+          <div className="flex flex-col justify-center gap-2 p-2">
+            <a
+              href={`/${eventId}`}
+              target="_blank"
+              rel="external"
+              className="inline-flex items-center gap-1.5 text-sm text-gray-400 transition-colors hover:text-secondary"
+            >
+              <ExternalLink className="h-3.5 w-3.5" />
+              Zobrazit na webu
+            </a>
+            {event?.contact?.facebook && (
+              <a
+                href={event.contact.facebook}
+                target="_blank"
+                rel="external"
+                className="inline-flex items-center gap-1.5 text-sm text-gray-400 transition-colors hover:text-secondary"
+              >
+                <ExternalLink className="h-3.5 w-3.5" />
+                Facebook událost
+              </a>
+            )}
+          </div>
+        )}
+      </div>
+
+      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
+        {checkboxExtras.length > 0 && (
+          <div className="col-span-2 flex flex-col rounded-lg border border-gray-700 bg-neutral-800 p-6">
+            <h3 className="mb-4 text-lg font-semibold text-primary-light">
+              Dodatečné údaje
+            </h3>
+            {participantsLoading ? (
+              <div className="h-8 w-16 animate-pulse rounded bg-gray-700" />
+            ) : (
+              <div className="space-y-2">
+                {checkboxExtras.map((extra) => (
+                  <Link
+                    key={extra.props!.id}
+                    to={`/admin/participants?event=${eventId}&field=${extra.props!.id}`}
+                    className="flex items-center justify-between rounded px-2 py-1 -mx-2 transition-colors hover:bg-white/5"
+                  >
+                    <span className="text-sm text-gray-400">
+                      {extra.props!.label ?? extra.props!.id!}
+                    </span>
+                    <span className="text-lg font-bold text-primary-light">
+                      {participants?.filter((p) => p[extra.props!.id!] === true)
+                        .length ?? 0}
+                    </span>
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+        <div className="col-span-2 flex flex-col rounded-lg border border-gray-700 bg-neutral-800 p-6">
+          <h3 className="mb-4 text-lg font-semibold text-primary-light">
+            Obsah na webu
+          </h3>
+          {!config ? (
+            <div className="h-8 w-16 animate-pulse rounded bg-gray-700" />
+          ) : (
+            <div className="space-y-2">
+              <Link
+                to={`/admin/legends?event=${eventId}`}
+                className="flex items-center justify-between rounded px-2 py-1 -mx-2 transition-colors hover:bg-white/5"
+              >
+                <span className="text-sm text-gray-400">Legendy</span>
+                <span className="text-lg font-bold text-primary-light">
+                  {legends?.length ?? 0}
+                </span>
+              </Link>
+              <Link
+                to={`/admin/galleries?event=${eventId}`}
+                className="flex items-center justify-between rounded px-2 py-1 -mx-2 transition-colors hover:bg-white/5"
+              >
+                <span className="text-sm text-gray-400">Galerie</span>
+                <span className="text-lg font-bold text-primary-light">
+                  {galleries?.length ?? 0}
+                </span>
+              </Link>
+            </div>
+          )}
+        </div>
+        {participants && participants.length > 0 && (
+          <div className="col-span-2 flex flex-col rounded-lg border border-gray-700 bg-neutral-800 p-6">
+            <h3 className="mb-4 text-lg font-semibold text-primary-light">
+              Nejnovější registrace
+            </h3>
+            <div className="space-y-2">
+              {[...participants]
+                .sort((a, b) => {
+                  const aTime = a.createdate
+                    ? (a.createdate as { toDate: () => Date })
+                        .toDate()
+                        .getTime()
+                    : 0;
+                  const bTime = b.createdate
+                    ? (b.createdate as { toDate: () => Date })
+                        .toDate()
+                        .getTime()
+                    : 0;
+                  return bTime - aTime;
+                })
+                .slice(0, 5)
+                .map((p) => (
+                  <Link
+                    key={p.id}
+                    to={`/admin/participants/${p.id}`}
+                    className="flex items-center justify-between rounded px-2 py-1 -mx-2 transition-colors hover:bg-white/5"
+                  >
+                    <span className="text-sm text-primary-light">
+                      {p.nickName
+                        ? `${p.firstName} „${p.nickName}" ${p.lastName}`
+                        : `${p.firstName} ${p.lastName}`}
+                    </span>
+                    <span className="text-xs text-gray-500">
+                      {p.createdate
+                        ? relativeTime(
+                            (p.createdate as { toDate: () => Date }).toDate(),
+                          )
+                        : ""}
+                    </span>
+                  </Link>
+                ))}
+            </div>
+          </div>
+        )}
       </div>
 
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:items-stretch">
@@ -153,12 +368,119 @@ const DashboardPage = () => {
             </h3>
             <div className="flex flex-1 items-center">
               <div className="w-full">
-                <RegistrationTimelineChart participants={participants} races={races ?? []} eventDate={eventDate} />
+                <RegistrationTimelineChart
+                  participants={participants}
+                  races={races ?? []}
+                  eventDate={eventDate}
+                />
               </div>
             </div>
           </div>
         )}
       </div>
+
+      {participants &&
+        races &&
+        participants.length > 0 &&
+        (() => {
+          const raceMap = new Map(races.map((r) => [r.id, r]));
+          // Normalize groups: trim + case-insensitive, display the most common variant
+          const normalizedMap = new Map<
+            string,
+            { variants: Map<string, number>; members: Participant[] }
+          >();
+          for (const p of participants) {
+            const raw = ((p.group as string) ?? "").trim();
+            if (!raw) continue;
+            const key = raw.toLowerCase();
+            const entry = normalizedMap.get(key) ?? {
+              variants: new Map<string, number>(),
+              members: [] as Participant[],
+            };
+            entry.variants.set(raw, (entry.variants.get(raw) ?? 0) + 1);
+            entry.members.push(p);
+            normalizedMap.set(key, entry);
+          }
+          if (normalizedMap.size === 0) return null;
+          const sorted = [...normalizedMap.values()]
+            .map(({ variants, members }) => {
+              // Pick the most frequently used spelling as display name
+              const displayName = [...variants.entries()].sort(
+                (a, b) => b[1] - a[1],
+              )[0][0];
+              return [displayName, members] as [string, Participant[]];
+            })
+            .sort((a, b) => b[1].length - a[1].length);
+          return (
+            <div className="flex flex-col rounded-lg border border-gray-700 bg-neutral-800 p-6">
+              <h3 className="mb-4 text-lg font-semibold text-primary-light">
+                Skupiny
+              </h3>
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                {sorted.slice(0, 9).map(([name, members]) => {
+                  const byRace = new Map<string, Participant[]>();
+                  for (const m of members) {
+                    byRace.set(m.race, [...(byRace.get(m.race) ?? []), m]);
+                  }
+                  return (
+                    <Link
+                      key={name}
+                      to={`/admin/participants?event=${eventId}&group=${encodeURIComponent(name)}`}
+                      className="rounded-lg border border-gray-700 p-4 transition-colors hover:border-gray-600 hover:bg-white/5"
+                    >
+                      <div className="flex items-center justify-between mb-3">
+                        <span className="text-sm font-medium text-gray-400">
+                          {name}
+                        </span>
+                        <span className="text-sm text-gray-400">
+                          <span className="text-lg font-bold text-primary-light">
+                            {members.length}
+                          </span>{" "}
+                          {members.length === 1
+                            ? "účastník"
+                            : members.length >= 2 && members.length <= 4
+                              ? "účastníci"
+                              : "účastníků"}
+                        </span>
+                      </div>
+                      <div className="space-y-1.5">
+                        {[...byRace.entries()].map(([raceId, raceMembers]) => {
+                          const race = raceMap.get(raceId);
+                          return (
+                            <div
+                              key={raceId}
+                              className="flex items-start gap-2"
+                            >
+                              <span
+                                className="mt-1.5 inline-block h-2 w-2 rounded-full shrink-0"
+                                style={{
+                                  backgroundColor: race?.color ?? "#9e9e9e",
+                                }}
+                              />
+                              <span className="text-sm text-primary-light">
+                                {raceMembers
+                                  .map((m) => m.nickName || m.firstName)
+                                  .join(", ")}
+                              </span>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </Link>
+                  );
+                })}
+              </div>
+              {sorted.length > 9 && (
+                <Link
+                  to={`/admin/participants?event=${eventId}`}
+                  className="mt-4 block text-center text-xs text-gray-500 transition-colors hover:text-secondary"
+                >
+                  a {sorted.length - 9} dalších…
+                </Link>
+              )}
+            </div>
+          );
+        })()}
     </div>
   );
 };

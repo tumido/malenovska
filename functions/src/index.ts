@@ -2,7 +2,7 @@ import { onDocumentCreated, onDocumentUpdated } from "firebase-functions/v2/fire
 import { defineSecret, defineString } from "firebase-functions/params";
 import { logger } from "firebase-functions";
 import { initializeApp } from "firebase-admin/app";
-import { getFirestore, Timestamp } from "firebase-admin/firestore";
+import { getFirestore, Timestamp, FieldValue } from "firebase-admin/firestore";
 
 import { sendDiscordNotification } from "./discord.js";
 import { sendMail } from "./email.js";
@@ -89,6 +89,17 @@ export const emailAttendee = onDocumentCreated(
     const { email, age } = snapshot.data() as { email: string; age: number };
     const data = await fetchParticipantData(event.params.id, email, age);
     const eventData = await fetchEvent(data.event);
+
+    // Track group name in config.knownGroups for autocomplete suggestions
+    if (data.group?.trim()) {
+      const configRef = db.collection("config").doc("config");
+      const configSnap = await configRef.get();
+      const known: string[] = (configSnap.data()?.knownGroups as string[]) ?? [];
+      const normalized = data.group.trim();
+      if (!known.some((g) => g.toLowerCase() === normalized.toLowerCase())) {
+        await configRef.update({ knownGroups: FieldValue.arrayUnion(normalized) });
+      }
+    }
 
     logger.info("New registration", { participant: data.fullName, event: eventData.name });
 

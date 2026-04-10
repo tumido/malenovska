@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router";
-import { orderBy, query } from "firebase/firestore";
-import { useCollectionData } from "react-firebase-hooks/firestore";
-import { typedCollection } from "@/lib/firebase";
-import type { Event } from "@/lib/types";
+import { doc, orderBy, query, type DocumentReference } from "firebase/firestore";
+import { useCollectionData, useDocumentData } from "react-firebase-hooks/firestore";
+import { db, typedCollection } from "@/lib/firebase";
+import type { Config, Event } from "@/lib/types";
 
 interface HasEvent {
   event: string;
@@ -11,10 +11,21 @@ interface HasEvent {
 
 export const useEventFilter = <T extends HasEvent>(data: T[]) => {
   const [searchParams] = useSearchParams();
-  const [eventId, setEventId] = useState(() => searchParams.get("event") ?? "");
+  const urlEvent = searchParams.get("event");
+  const [eventId, setEventId] = useState(urlEvent ?? "");
   const [events] = useCollectionData(
     query(typedCollection<Event>("events"), orderBy("year", "desc")),
   );
+  const [config] = useDocumentData<Config>(
+    doc(db, "config", "config") as DocumentReference<Config>,
+  );
+
+  // Default to active event from config when no URL parameter was provided
+  useEffect(() => {
+    if (!urlEvent && config?.event && !eventId) {
+      setEventId(config.event);
+    }
+  }, [config?.event, urlEvent, eventId]);
 
   const filtered = eventId ? data.filter((d) => d.event === eventId) : data;
 

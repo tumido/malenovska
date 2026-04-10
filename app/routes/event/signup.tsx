@@ -1,7 +1,7 @@
 import { useState, useCallback } from "react";
 import { Link } from "react-router";
-import { doc, query, where, writeBatch } from "firebase/firestore";
-import { useCollectionData } from "react-firebase-hooks/firestore";
+import { doc, query, where, writeBatch, type DocumentReference } from "firebase/firestore";
+import { useCollectionData, useDocumentData } from "react-firebase-hooks/firestore";
 import { db, typedCollection } from "@/lib/firebase";
 import { useEvent } from "@/contexts/EventContext";
 import { Banner } from "@/components/Banner";
@@ -14,7 +14,7 @@ import { ColorBadge } from "@/components/ColorBadge";
 import { participantsForRace, getRaceById } from "@/lib/filters";
 import { validate } from "@/lib/validators";
 import { CheckCircle, XCircle } from "lucide-react";
-import type { Participant, Race } from "@/lib/types";
+import type { Config, Participant, Race } from "@/lib/types";
 
 interface FormData {
   race: string;
@@ -63,6 +63,11 @@ const SignupPage = () => {
   const isDev = import.meta.env.VITE_DEV_MODE === "true";
 
   const selectedRace = races?.find((r) => r.id === formData.race);
+
+  const [config] = useDocumentData<Config>(
+    doc(db, "config", "config") as DocumentReference<Config>,
+  );
+  const knownGroups = config?.knownGroups ?? [];
 
   const validateStep = (): boolean => {
     const newErrors: Record<string, string> = {};
@@ -369,6 +374,7 @@ const SignupPage = () => {
                       value={formData.group}
                       onChange={(v) => updateField("group", v)}
                       placeholder="Rychlé Šípy"
+                      suggestions={knownGroups}
                     />
                   </div>
                   <Input
@@ -477,6 +483,7 @@ const Input = ({
   type = "text",
   readOnly,
   multiline,
+  suggestions,
 }: {
   label: string;
   value: string;
@@ -486,10 +493,18 @@ const Input = ({
   type?: string;
   readOnly?: boolean;
   multiline?: boolean;
+  suggestions?: string[];
 }) => {
+  const [focused, setFocused] = useState(false);
   const cls = `w-full rounded border-2 bg-transparent p-3 text-primary placeholder-grey-400 outline-none transition-colors ${error ? "border-red-400" : "border-grey-400 focus:border-secondary"} ${readOnly ? "opacity-60" : ""}`;
+
+  const filtered = suggestions?.filter(
+    (s) => s.toLowerCase().includes(value.toLowerCase()) && s.toLowerCase() !== value.toLowerCase(),
+  );
+  const showSuggestions = focused && value.length > 0 && filtered && filtered.length > 0;
+
   return (
-    <div>
+    <div className="relative">
       <label className="mb-1 block text-sm text-gray-700">{label}</label>
       {multiline ? (
         <textarea
@@ -504,10 +519,27 @@ const Input = ({
           type={type}
           value={value}
           onChange={(e) => onChange?.(e.target.value)}
+          onFocus={() => setFocused(true)}
+          onBlur={() => setTimeout(() => setFocused(false), 150)}
           placeholder={placeholder}
           readOnly={readOnly}
           className={cls}
         />
+      )}
+      {showSuggestions && (
+        <ul className="absolute z-20 mt-1 max-h-48 w-full overflow-y-auto rounded border border-grey-400 bg-white shadow-lg">
+          {filtered.map((s) => (
+            <li key={s}>
+              <button
+                type="button"
+                className="w-full px-3 py-2 text-left text-sm text-primary hover:bg-grey-400/10 cursor-pointer"
+                onMouseDown={() => onChange?.(s)}
+              >
+                {s}
+              </button>
+            </li>
+          ))}
+        </ul>
       )}
       {error && <p className="mt-1 text-xs text-red-400">{error}</p>}
     </div>

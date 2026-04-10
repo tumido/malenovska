@@ -116,10 +116,9 @@ export interface Participant {
   lastName: string;
   group?: string;
   note?: string;
-  afterparty?: boolean;
-  sleepover?: boolean;
   createdate?: Timestamp;
   lastupdate?: Timestamp;
+  [key: string]: unknown;
 }
 
 export interface ParticipantPrivate {
@@ -140,4 +139,5 @@ export interface Gallery {
 
 export interface Config {
   event: string;
+  knownGroups?: string[];
 }
