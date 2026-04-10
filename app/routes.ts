@@ -33,6 +33,7 @@ export default [
     route("admin/races/:id", "routes/admin/races/edit.tsx"),
     route("admin/galleries", "routes/admin/galleries/list.tsx"),
     route("admin/galleries/new", "routes/admin/galleries/new.tsx"),
+    route("admin/galleries/:id", "routes/admin/galleries/edit.tsx"),
     route("admin/participants", "routes/admin/participants/list.tsx"),
     route("admin/participants/:id", "routes/admin/participants/edit.tsx"),
   ]),

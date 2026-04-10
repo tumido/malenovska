@@ -35,7 +35,7 @@ export const SmallArticleCard = memo(function SmallArticleCard({
         title={title}
       />
       {body && (
-        <div className="bg-primary-light p-4">
+        <div className="flex-1 bg-primary-light p-4">
           <p className="text-sm text-primary">{body}</p>
         </div>
       )}
@@ -57,7 +57,7 @@ export const SmallArticleCard = memo(function SmallArticleCard({
       <button
         onClick={onClick}
         disabled={disabled}
-        className="w-full text-left"
+        className="h-full w-full cursor-pointer text-left"
       >
         {cardContent}
       </button>

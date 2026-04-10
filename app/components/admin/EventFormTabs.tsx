@@ -17,6 +17,7 @@ interface EventFormTabsProps {
   update: (key: keyof Event, value: unknown) => void;
   onSave: () => void;
   onCancel: () => void;
+  onDelete?: () => void;
   saving?: boolean;
   title: string;
   isEdit?: boolean;
@@ -27,6 +28,7 @@ const EventFormTabs = ({
   update,
   onSave,
   onCancel,
+  onDelete,
   saving,
   title,
   isEdit,
@@ -293,6 +295,7 @@ const EventFormTabs = ({
       tabs={tabs}
       onSubmit={onSave}
       onCancel={onCancel}
+      onDelete={onDelete}
       saving={saving}
     />
   );

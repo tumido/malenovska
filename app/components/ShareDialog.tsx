@@ -18,20 +18,21 @@ interface ShareDialogProps {
   eventName: string;
   open: boolean;
   onClose: () => void;
+  url?: string;
 }
 
-const ShareDialog = ({ title: shareTitle, eventName, open, onClose }: ShareDialogProps) => {
+const ShareDialog = ({ title: shareTitle, eventName, open, onClose, url: urlProp }: ShareDialogProps) => {
   const title = `${eventName}: ${shareTitle}`;
 
   useEffect(() => {
     if (open && typeof navigator !== "undefined" && navigator.share) {
-      navigator.share({ title, url: window.location.href }).finally(onClose);
+      navigator.share({ title, url: urlProp ?? window.location.href }).finally(onClose);
     }
-  }, [open, title, onClose]);
+  }, [open, title, onClose, urlProp]);
 
   if (!open || (typeof navigator !== "undefined" && typeof navigator.share === "function")) return null;
 
-  const url = typeof window !== "undefined" ? window.location.href : "";
+  const url = urlProp ?? (typeof window !== "undefined" ? window.location.href : "");
 
   return (
     <>

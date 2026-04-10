@@ -1,5 +1,6 @@
 
 import { useState } from "react";
+import { Trash2 } from "lucide-react";
 
 interface Tab {
   key: string;
@@ -12,10 +13,11 @@ interface FormLayoutProps {
   tabs: Tab[];
   onSubmit: () => void;
   onCancel: () => void;
+  onDelete?: () => void;
   saving?: boolean;
 }
 
-const FormLayout = ({ title, tabs, onSubmit, onCancel, saving }: FormLayoutProps) => {
+const FormLayout = ({ title, tabs, onSubmit, onCancel, onDelete, saving }: FormLayoutProps) => {
   const [activeTab, setActiveTab] = useState(tabs[0]?.key ?? "");
 
   return (
@@ -63,6 +65,19 @@ const FormLayout = ({ title, tabs, onSubmit, onCancel, saving }: FormLayoutProps
         >
           Zrušit
         </button>
+        {onDelete && (
+          <>
+            <div className="flex-1" />
+            <button
+              type="button"
+              onClick={onDelete}
+              className="inline-flex items-center gap-1.5 rounded border border-red-800 px-4 py-2 text-sm font-medium text-red-400 hover:bg-red-900/50 transition-colors"
+            >
+              <Trash2 className="h-4 w-4" />
+              Smazat
+            </button>
+          </>
+        )}
       </div>
     </div>
   );
