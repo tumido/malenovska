@@ -95,7 +95,7 @@ const InfoPage = () => {
                 </tbody>
               </table>
             </div>
-            <div className="lg:w-3/4">
+            <div className="flex flex-col lg:w-3/4">
               {event.poi && event.poi.length > 0 && (
                 <Map markers={event.poi} center={center} />
               )}
