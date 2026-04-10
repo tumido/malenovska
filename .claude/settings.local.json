@@ -9,7 +9,8 @@
       "Bash(npx next:*)",
       "WebSearch",
       "WebFetch(domain:github.com)",
-      "Bash(echo \"EXIT: $?\")"
+      "Bash(echo \"EXIT: $?\")",
+      "mcp__ide__getDiagnostics"
     ]
   }
 }

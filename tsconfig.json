@@ -17,6 +17,10 @@
     "isolatedModules": true,
     "jsx": "react-jsx",
     "incremental": true,
+    "rootDirs": [
+      ".",
+      "./.react-router/types"
+    ],
     "paths": {
       "@/*": [
         "./app/*"

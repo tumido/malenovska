@@ -45,7 +45,6 @@ body {
   }
 }
 
-
 /* Remove focus outline from Recharts containers */
 .recharts-wrapper:focus,
 .recharts-surface:focus {

@@ -51,19 +51,19 @@ Run the app against local Firebase emulators instead of production.
 
 1. Create `.env.local` in the project root (already gitignored):
 
-    ```
-    NEXT_PUBLIC_USE_EMULATORS=true
-    ```
+   ```
+   NEXT_PUBLIC_USE_EMULATORS=true
+   ```
 
 2. Start the emulators and dev server in two terminals:
 
-    ```bash
-    # Terminal 1 — Firebase emulators
-    npm run emulators
+   ```bash
+   # Terminal 1 — Firebase emulators
+   npm run emulators
 
-    # Terminal 2 — Next.js dev server (connects to emulators)
-    npm run dev:local
-    ```
+   # Terminal 2 — Next.js dev server (connects to emulators)
+   npm run dev:local
+   ```
 
 3. Open the **Emulator UI** at [localhost:4000](http://localhost:4000) to inspect data, manage auth users, and browse storage.
 
@@ -75,42 +75,42 @@ To dump production Firestore data and seed it into the emulator:
 2. Save it as `malenovska-service-account.json` in the project root (already gitignored)
 3. Run the dump and seed:
 
-    ```bash
-    # Dump production data to emulator-data/seed.json
-    npm run emulators:dump
+   ```bash
+   # Dump production data to emulator-data/seed.json
+   npm run emulators:dump
 
-    # Start emulators (fresh, no persisted state)
-    npm run emulators:fresh
+   # Start emulators (fresh, no persisted state)
+   npm run emulators:fresh
 
-    # In another terminal, seed the emulator
-    npm run emulators:seed
-    ```
+   # In another terminal, seed the emulator
+   npm run emulators:seed
+   ```
 
 Emulator state is persisted to `emulator-data/` between restarts when using `npm run emulators`. Use `npm run emulators:fresh` to start with a clean slate.
 
 ### Emulator Ports
 
-| Service   | Port  |
-|-----------|-------|
-| Firestore | 8080  |
-| Auth      | 9099  |
-| Storage   | 9199  |
-| UI        | 4000  |
+| Service   | Port |
+| --------- | ---- |
+| Firestore | 8080 |
+| Auth      | 9099 |
+| Storage   | 9199 |
+| UI        | 4000 |
 
 ## Scripts
 
-| Script | Description |
-|--------|-------------|
-| `npm run dev` | Next.js dev server (uses production Firebase) |
-| `npm run dev:local` | Next.js dev server (uses local emulators) |
-| `npm run build` | Production build (static export) |
-| `npm run lint` | ESLint |
-| `npm run emulators` | Start emulators with persistent state |
-| `npm run emulators:fresh` | Start emulators with empty state |
-| `npm run emulators:dump` | Dump production Firestore to `emulator-data/seed.json` |
-| `npm run emulators:seed` | Seed running emulator from dump file |
-| `npm run deploy` | Deploy to Firebase Hosting |
-| `npm run deploy:rules` | Deploy Firestore security rules |
+| Script                    | Description                                            |
+| ------------------------- | ------------------------------------------------------ |
+| `npm run dev`             | Next.js dev server (uses production Firebase)          |
+| `npm run dev:local`       | Next.js dev server (uses local emulators)              |
+| `npm run build`           | Production build (static export)                       |
+| `npm run lint`            | ESLint                                                 |
+| `npm run emulators`       | Start emulators with persistent state                  |
+| `npm run emulators:fresh` | Start emulators with empty state                       |
+| `npm run emulators:dump`  | Dump production Firestore to `emulator-data/seed.json` |
+| `npm run emulators:seed`  | Seed running emulator from dump file                   |
+| `npm run deploy`          | Deploy to Firebase Hosting                             |
+| `npm run deploy:rules`    | Deploy Firestore security rules                        |
 
 ## Deployment
 

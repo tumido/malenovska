@@ -34,7 +34,7 @@ const GalleryPage = () => {
                 className="w-full object-cover transition-transform group-hover:scale-105"
               />
             )}
-            <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent p-3 pt-8">
+            <div className="absolute inset-x-0 bottom-0 bg-linear-to-t from-black/80 to-transparent p-3 pt-8">
               <p className="text-sm font-bold text-white">{tile.name}</p>
               <p className="text-xs text-grey-400">Autor: {tile.author}</p>
             </div>

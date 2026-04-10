@@ -5,8 +5,8 @@ import {
   FacebookIcon,
   RedditShareButton,
   RedditIcon,
-  TwitterShareButton,
-  TwitterIcon,
+  XShareButton,
+  XIcon,
   WhatsappShareButton,
   WhatsappIcon,
 } from "react-share";
@@ -65,10 +65,10 @@ const ShareDialog = ({ title: shareTitle, eventName, open, onClose }: ShareDialo
             </WhatsappShareButton>
           </li>
           <li>
-            <TwitterShareButton url={url} title={title} className="flex w-full items-center gap-3 rounded p-2 hover:bg-white/10">
-              <TwitterIcon size={32} round />
-              <span>Sdílet na Twitter</span>
-            </TwitterShareButton>
+            <XShareButton url={url} title={title} className="flex w-full items-center gap-3 rounded p-2 hover:bg-white/10">
+              <XIcon size={32} round />
+              <span>Sdílet na X</span>
+            </XShareButton>
           </li>
           <li>
             <RedditShareButton url={url} title={title} className="flex w-full items-center gap-3 rounded p-2 hover:bg-white/10">

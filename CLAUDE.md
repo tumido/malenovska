@@ -42,32 +42,33 @@ npm run deploy            # Deploy everything
 
 ## Key Files
 
-| File | Purpose |
-|------|---------|
-| `app/root.tsx` | HTML shell (fonts, meta, scripts, `<Outlet />`) |
-| `app/routes.ts` | Route config (layouts, routes, catch-all 404) |
-| `app/app.css` | Tailwind v4 theme, custom utilities, design tokens |
-| `app/routes/admin-layout.tsx` | Admin auth gate + shell |
-| `app/routes/event-layout.tsx` | Event shell (nav, header, footer) |
-| `vite.config.ts` | Vite config with React Router + tsconfig paths plugins |
-| `react-router.config.ts` | React Router config (`ssr: false`) |
-| `lib/firebase.ts` | Firebase init, Firestore instance |
-| `lib/types.ts` | TypeScript interfaces for Firestore documents |
-| `lib/admin-firestore.ts` | Admin CRUD helpers (create, update, delete with subcollection handling) |
-| `contexts/AuthContext.tsx` | Firebase Auth context for admin |
-| `components/admin/` | Admin-specific components (DataTable, FormLayout, FormFields, etc.) |
-| `firebase.json` | Hosting, functions, emulators config |
-| `functions/src/index.ts` | Cloud Functions entry — 3 Firestore-triggered functions |
-| `functions/src/templates.ts` | Email template rendering with `{{variable}}` substitution |
-| `functions/src/email.ts` | Gmail OAuth2 email sending via nodemailer |
-| `functions/src/discord.ts` | Discord webhook notifications |
-| `scripts/firestore-dump.mjs` | Dump production Firestore to JSON |
-| `scripts/firestore-seed.mjs` | Seed Firestore emulator (rewrites Storage URLs) |
-| `scripts/storage-dump.mjs` | Download production Storage files |
-| `scripts/storage-seed.mjs` | Upload files to Storage emulator |
+| File                          | Purpose                                                                 |
+| ----------------------------- | ----------------------------------------------------------------------- |
+| `app/root.tsx`                | HTML shell (fonts, meta, scripts, `<Outlet />`)                         |
+| `app/routes.ts`               | Route config (layouts, routes, catch-all 404)                           |
+| `app/app.css`                 | Tailwind v4 theme, custom utilities, design tokens                      |
+| `app/routes/admin-layout.tsx` | Admin auth gate + shell                                                 |
+| `app/routes/event-layout.tsx` | Event shell (nav, header, footer)                                       |
+| `vite.config.ts`              | Vite config with React Router + tsconfig paths plugins                  |
+| `react-router.config.ts`      | React Router config (`ssr: false`)                                      |
+| `lib/firebase.ts`             | Firebase init, Firestore instance                                       |
+| `lib/types.ts`                | TypeScript interfaces for Firestore documents                           |
+| `lib/admin-firestore.ts`      | Admin CRUD helpers (create, update, delete with subcollection handling) |
+| `contexts/AuthContext.tsx`    | Firebase Auth context for admin                                         |
+| `components/admin/`           | Admin-specific components (DataTable, FormLayout, FormFields, etc.)     |
+| `firebase.json`               | Hosting, functions, emulators config                                    |
+| `functions/src/index.ts`      | Cloud Functions entry — 3 Firestore-triggered functions                 |
+| `functions/src/templates.ts`  | Email template rendering with `{{variable}}` substitution               |
+| `functions/src/email.ts`      | Gmail OAuth2 email sending via nodemailer                               |
+| `functions/src/discord.ts`    | Discord webhook notifications                                           |
+| `scripts/firestore-dump.mjs`  | Dump production Firestore to JSON                                       |
+| `scripts/firestore-seed.mjs`  | Seed Firestore emulator (rewrites Storage URLs)                         |
+| `scripts/storage-dump.mjs`    | Download production Storage files                                       |
+| `scripts/storage-seed.mjs`    | Upload files to Storage emulator                                        |
 
 ## Rules
 
 Detailed coding guidelines are in `.claude/rules/`:
+
 - `frontend-react.md` — Tech stack, component patterns, Tailwind guidelines, design system
 - `instructions.md` — Debugging with MCP tools

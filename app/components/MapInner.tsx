@@ -1,11 +1,14 @@
-
 import { useEffect } from "react";
 import { MapContainer, Marker, TileLayer, useMap } from "react-leaflet";
 import { latLngBounds, divIcon } from "leaflet";
 import type { POI } from "@/lib/types";
 import "leaflet/dist/leaflet.css";
 
-const MARKER_COLORS = ["rgb(253, 38, 0)", "rgb(241, 238, 16)", "rgb(255, 145, 0)"];
+const MARKER_COLORS = [
+  "rgb(253, 38, 0)",
+  "rgb(241, 238, 16)",
+  "rgb(255, 145, 0)",
+];
 
 const Centerer = ({ center }: { center?: [number, number] }) => {
   const map = useMap();
@@ -22,14 +25,14 @@ interface MapInnerProps {
 
 const MapInner = ({ markers, center }: MapInnerProps) => {
   const bounds = latLngBounds(
-    markers.map((m) => [m.latitude, m.longitude] as [number, number])
+    markers.map((m) => [m.latitude, m.longitude] as [number, number]),
   );
 
   return (
     <MapContainer
       center={bounds.getCenter()}
       zoom={14}
-      className="h-full min-h-[400px] w-full"
+      className="h-full min-h-100 w-full"
     >
       <Centerer center={center} />
       <TileLayer

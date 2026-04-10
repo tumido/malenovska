@@ -6,7 +6,10 @@ import { useEvent } from "@/contexts/EventContext";
 import { Banner } from "@/components/Banner";
 import { Article } from "@/components/Article";
 import { Markdown } from "@/components/Markdown";
-import { SortableTableHead, type TableHeader } from "@/components/SortableTableHead";
+import {
+  SortableTableHead,
+  type TableHeader,
+} from "@/components/SortableTableHead";
 import { TableToolbar } from "@/components/TableToolbar";
 import { stableSort, getSorting } from "@/lib/sorting";
 import type { Participant, Race } from "@/lib/types";
@@ -25,7 +28,7 @@ type RowData = Record<string, string>;
 const filterBySearch = (row: RowData, filter: string): boolean => {
   if (!filter) return true;
   return Object.entries(row).some(
-    ([k, v]) => headerKeys.includes(k) && v?.toLowerCase().includes(filter)
+    ([k, v]) => headerKeys.includes(k) && v?.toLowerCase().includes(filter),
   );
 };
 
@@ -38,16 +41,24 @@ const AttendeesPage = () => {
   const [search, setSearch] = useState("");
 
   const [participants, pLoading] = useCollectionData(
-    query(typedCollection<Participant>("participants"), where("event", "==", event.id))
+    query(
+      typedCollection<Participant>("participants"),
+      where("event", "==", event.id),
+    ),
   );
   const [races, rLoading] = useCollectionData(
-    query(typedCollection<Race>("races"), where("event", "==", event.id))
+    query(typedCollection<Race>("races"), where("event", "==", event.id)),
   );
 
-  const handleSort = useCallback((property: string) => {
-    setOrder((prev) => (orderBy === property && prev === "asc" ? "desc" : "asc"));
-    setOrderBy(property);
-  }, [orderBy]);
+  const handleSort = useCallback(
+    (property: string) => {
+      setOrder((prev) =>
+        orderBy === property && prev === "asc" ? "desc" : "asc",
+      );
+      setOrderBy(property);
+    },
+    [orderBy],
+  );
 
   const handleSearch = useCallback((value: string) => {
     setSearch(value.toLowerCase());
@@ -63,7 +74,10 @@ const AttendeesPage = () => {
             {Array.from({ length: 10 }).map((_, i) => (
               <div key={i} className="mb-2 flex gap-4">
                 {Array.from({ length: 5 }).map((_, j) => (
-                  <div key={j} className="h-4 flex-1 animate-pulse rounded bg-grey-500/20" />
+                  <div
+                    key={j}
+                    className="h-4 flex-1 animate-pulse rounded bg-grey-500/20"
+                  />
                 ))}
               </div>
             ))}
@@ -73,7 +87,10 @@ const AttendeesPage = () => {
     );
   }
 
-  const raceMapping = races.reduce<Record<string, string>>((o, k) => ({ ...o, [k.id]: k.name }), {});
+  const raceMapping = races.reduce<Record<string, string>>(
+    (o, k) => ({ ...o, [k.id]: k.name }),
+    {},
+  );
   const rows: RowData[] = participants
     .map((p) => ({
       race: raceMapping[p.race] ?? p.race,
@@ -84,8 +101,14 @@ const AttendeesPage = () => {
     }))
     .filter((p) => filterBySearch(p, search));
 
-  const sorted = stableSort(rows, getSorting<RowData>(order, orderBy as keyof RowData));
-  const paged = sorted.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
+  const sorted = stableSort(
+    rows,
+    getSorting<RowData>(order, orderBy as keyof RowData),
+  );
+  const paged = sorted.slice(
+    page * rowsPerPage,
+    page * rowsPerPage + rowsPerPage,
+  );
   const totalPages = Math.ceil(rows.length / rowsPerPage);
 
   return (
@@ -99,7 +122,7 @@ const AttendeesPage = () => {
         )}
         <TableToolbar onSearch={handleSearch} />
         <div className="overflow-x-auto">
-          <table className="w-full min-w-[750px] text-sm">
+          <table className="w-full min-w-187.5 text-sm">
             <SortableTableHead
               headers={headers}
               order={order}
@@ -108,7 +131,10 @@ const AttendeesPage = () => {
             />
             <tbody>
               {paged.map((row, i) => (
-                <tr key={i} className="border-b border-white/5 hover:bg-white/5">
+                <tr
+                  key={i}
+                  className="border-b border-white/5 hover:bg-white/5"
+                >
                   <td className="px-4 py-3">{row.race}</td>
                   <td className="px-4 py-3">{row.nickName}</td>
                   <td className="px-4 py-3">{row.firstName}</td>
@@ -122,7 +148,8 @@ const AttendeesPage = () => {
         {totalPages > 1 && (
           <div className="flex items-center justify-end gap-4 px-4 py-3 text-sm">
             <span className="text-grey-400">
-              {page * rowsPerPage + 1}–{Math.min((page + 1) * rowsPerPage, rows.length)} z {rows.length}
+              {page * rowsPerPage + 1}–
+              {Math.min((page + 1) * rowsPerPage, rows.length)} z {rows.length}
             </span>
             <button
               onClick={() => setPage((p) => Math.max(0, p - 1))}

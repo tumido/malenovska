@@ -297,7 +297,7 @@ const MarkdownEditor = ({
               {previewTransform ? previewTransform(value || "") : (value || "")}
             </div>
           ) : (
-            <div className="prose-editor max-w-none p-4 min-h-[200px]">
+            <div className="prose-editor max-w-none p-4 min-h-50">
               <Markdown>{previewTransform ? previewTransform(value || "") : (value || "")}</Markdown>
             </div>
           )
