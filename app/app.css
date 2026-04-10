@@ -103,3 +103,91 @@ body {
 .prose-malenovska img {
   @apply max-w-full rounded-lg my-4;
 }
+
+.prose-malenovska table {
+  @apply my-4 border-collapse;
+}
+
+.prose-malenovska th {
+  @apply border border-gray-300 px-3 py-2 bg-gray-100 text-left font-bold;
+}
+
+.prose-malenovska th:empty {
+  @apply bg-transparent p-0 border-0 leading-none text-[0px];
+}
+
+.prose-malenovska td {
+  @apply border border-gray-300 px-3 py-2;
+}
+
+/* Admin markdown editor preview (light text on dark bg) */
+.prose-editor {
+  @apply text-sm text-primary-light leading-relaxed;
+}
+
+.prose-editor h1,
+.prose-editor h2,
+.prose-editor h3 {
+  @apply font-display font-bold;
+}
+
+.prose-editor h1 {
+  @apply text-xl mt-4 mb-2;
+}
+
+.prose-editor h2 {
+  @apply text-lg mt-3 mb-2;
+}
+
+.prose-editor h3 {
+  @apply text-base mt-3 mb-1;
+}
+
+.prose-editor p {
+  @apply mb-3 leading-relaxed;
+}
+
+.prose-editor a {
+  @apply text-secondary hover:text-secondary-dark underline;
+}
+
+.prose-editor ul,
+.prose-editor ol {
+  @apply mb-3 pl-6;
+}
+
+.prose-editor ul {
+  @apply list-disc;
+}
+
+.prose-editor ol {
+  @apply list-decimal;
+}
+
+.prose-editor li {
+  @apply mb-1;
+}
+
+.prose-editor blockquote {
+  @apply border-l-4 border-secondary pl-4 italic my-3;
+}
+
+.prose-editor hr {
+  @apply my-4 border-gray-600;
+}
+
+.prose-editor table {
+  @apply my-3 border-collapse;
+}
+
+.prose-editor th {
+  @apply border border-gray-600 px-3 py-2 bg-neutral-800 text-left font-bold;
+}
+
+.prose-editor th:empty {
+  @apply bg-transparent p-0 border-0 leading-none text-[0px];
+}
+
+.prose-editor td {
+  @apply border border-gray-600 px-3 py-2;
+}

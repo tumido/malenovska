@@ -1,5 +1,13 @@
 import { marked } from "marked";
 
+const inlineTableStyles = (html: string): string =>
+  html
+    .replace(/<table>/g, '<table style="border-collapse:collapse;margin:16px 0">')
+    .replace(/<th(?:\s+align="(left|center|right)")?>/g, (_, align) =>
+      `<th style="border:1px solid #ddd;padding:8px 12px;background:#f5f5f5;font-weight:bold${align ? `;text-align:${align}` : ""}">`)
+    .replace(/<td(?:\s+align="(left|center|right)")?>/g, (_, align) =>
+      `<td style="border:1px solid #ddd;padding:8px 12px${align ? `;text-align:${align}` : ""}">`);
+
 export interface TemplateData {
   fullName: string;
   group?: string;
@@ -61,7 +69,7 @@ export const renderEmail = (
     bodyMarkdown += "\n\n" + substituteVariables(config.under18, variables);
   }
 
-  const html = marked.parse(bodyMarkdown, { async: false }) as string;
+  const html = inlineTableStyles(marked.parse(bodyMarkdown, { async: false }) as string);
   const text = bodyMarkdown;
 
   return { subject, html, text };

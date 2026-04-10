@@ -6,7 +6,7 @@ import {
   ImageField,
   FileField,
 } from "@/components/admin/FormFields";
-import MarkdownEditor from "@/components/admin/MarkdownEditor";
+import MarkdownEditor, { type Insertable } from "@/components/admin/MarkdownEditor";
 import type { Event, POI, RegistrationExtra } from "@/lib/types";
 import { toTimeStr } from "@/lib/date";
 import { Trash2, Plus, CircleHelp } from "lucide-react";
@@ -524,6 +524,11 @@ const EmailTab = ({
     [form.name, form.year, form.id], // intentionally partial deps — only re-create when event identity changes
   );
 
+  const emailInsertables: Insertable[] = EMAIL_VARIABLES.map(({ variable, description }) => ({
+    label: description,
+    value: variable,
+  }));
+
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-2">
@@ -561,11 +566,14 @@ const EmailTab = ({
         </div>
       </div>
 
-      <InputField
+      <MarkdownEditor
         label="Předmět"
         value={form.emailSubject ?? ""}
         onChange={(v) => update("emailSubject", v)}
         placeholder="{{event}}: Registrace byla úspěšná"
+        previewTransform={previewTransform}
+        insertables={emailInsertables}
+        singleLine
       />
 
       <MarkdownEditor
@@ -574,6 +582,7 @@ const EmailTab = ({
         onChange={(v) => update("emailBody", v)}
         rows={15}
         previewTransform={previewTransform}
+        insertables={emailInsertables}
       />
 
       <MarkdownEditor
@@ -582,6 +591,7 @@ const EmailTab = ({
         onChange={(v) => update("emailUnder18", v)}
         rows={6}
         previewTransform={previewTransform}
+        insertables={emailInsertables}
       />
     </div>
   );
