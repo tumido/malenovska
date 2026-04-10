@@ -13,7 +13,7 @@ import {
   type QueryConstraint,
   type DocumentData,
 } from "firebase/firestore";
-import { getStorage, connectStorageEmulator, ref, updateMetadata } from "firebase/storage";
+import { getStorage, connectStorageEmulator, ref, updateMetadata, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import app, { db, useEmulators } from "@/lib/firebase";
 import type { FirestoreImage } from "@/lib/types";
 
@@ -104,6 +104,45 @@ export const byEvent = (eventId: string) => {
 
 export const orderedBy = (field: string, dir: "asc" | "desc" = "asc") => {
   return orderBy(field, dir);
+};
+
+/** Upload a file to Firebase Storage, returns download URL */
+const uploadFile = async (file: File, path?: string): Promise<string> => {
+  const storagePath = path ?? `admin-uploads/${Date.now()}-${file.name}`;
+  const fileRef = ref(storage, storagePath);
+  const task = uploadBytesResumable(fileRef, file);
+  await task;
+  return getDownloadURL(task.snapshot.ref);
+};
+
+/** Pending file uploads — keyed by blob URL */
+const pendingFiles = new Map<string, File>();
+
+/** Register a local file for deferred upload. Returns a blob URL for preview. */
+export const registerPendingUpload = (file: File): string => {
+  const blobUrl = URL.createObjectURL(file);
+  pendingFiles.set(blobUrl, file);
+  return blobUrl;
+};
+
+/** Walk form data, upload any pending blob URLs, return cleaned data. */
+export const processPendingUploads = async <T extends DocumentData>(data: T): Promise<T> => {
+  if (pendingFiles.size === 0) return data;
+
+  const result = { ...data };
+  for (const [key, value] of Object.entries(result)) {
+    if (value && typeof value === "object" && "src" in value) {
+      const src = (value as { src: string }).src;
+      const file = pendingFiles.get(src);
+      if (file) {
+        const url = await uploadFile(file);
+        (result as Record<string, unknown>)[key] = { ...value, src: url };
+        pendingFiles.delete(src);
+        URL.revokeObjectURL(src);
+      }
+    }
+  }
+  return result;
 };
 
 /** Set cache-control on Firebase Storage images after create/update */

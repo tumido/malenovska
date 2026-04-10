@@ -31,6 +31,7 @@ const GalleriesListPage = () => {
       data={filtered}
       loading={loading}
       basePath="/admin/galleries"
+      actions={["edit", "delete"]}
       onDelete={handleDelete}
       searchField="name"
       searchPlaceholder="Hledat galerii…"

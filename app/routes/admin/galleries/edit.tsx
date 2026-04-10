@@ -7,34 +7,37 @@ import { updateDocument, removeDocument, processPendingUploads } from "@/lib/adm
 import FormLayout from "@/components/admin/FormLayout";
 import { InputField, ImageField } from "@/components/admin/FormFields";
 import { useEventFilter } from "@/components/admin/EventFilter";
-import MarkdownEditor from "@/components/admin/MarkdownEditor";
-import type { Race } from "@/lib/types";
+import type { Gallery } from "@/lib/types";
 
-const RaceEditPage = () => {
+const GalleryEditPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [race, loading] = useDocumentData<Race>(
-    doc(db, "races", id!) as DocumentReference<Race>,
+  const [gallery, loading] = useDocumentData<Gallery>(
+    doc(db, "galleries", id!) as DocumentReference<Gallery>,
   );
-  const [form, setForm] = useState<Partial<Race>>({});
+  const [form, setForm] = useState<Partial<Gallery>>({});
   const [saving, setSaving] = useState(false);
   const { events } = useEventFilter([]);
 
   useEffect(() => {
-    if (race && Object.keys(form).length === 0) {
-      setForm({ ...race, id });
+    if (gallery && Object.keys(form).length === 0) {
+      setForm({ ...gallery, id });
     }
-  }, [race, id, form]);
+  }, [gallery, id, form]);
 
-  const set = (patch: Partial<Race>) => setForm((p) => ({ ...p, ...patch }));
+  const set = (patch: Partial<Gallery>) => setForm((p) => ({ ...p, ...patch }));
 
   const handleSave = async () => {
+    if (!form.name || !form.event || !form.author || !form.url) {
+      alert("Vyplňte všechna povinná pole");
+      return;
+    }
     setSaving(true);
     try {
       const raw = Object.fromEntries(Object.entries(form).filter(([k]) => k !== "id"));
       const data = await processPendingUploads(raw);
-      await updateDocument("races", id!, data);
-      navigate("/admin/races");
+      await updateDocument("galleries", id!, data);
+      navigate("/admin/galleries");
     } catch (err) {
       alert("Chyba při ukládání");
       console.error(err);
@@ -44,10 +47,10 @@ const RaceEditPage = () => {
   };
 
   const handleDelete = async () => {
-    if (!confirm(`Opravdu smazat stranu „${form.name ?? id}"?`)) return;
+    if (!confirm(`Opravdu smazat galerii „${form.name ?? id}"?`)) return;
     try {
-      await removeDocument("races", id!);
-      navigate("/admin/races");
+      await removeDocument("galleries", id!);
+      navigate("/admin/galleries");
     } catch (err) {
       alert("Chyba při mazání");
       console.error(err);
@@ -59,16 +62,18 @@ const RaceEditPage = () => {
   const tabs = [
     {
       key: "main",
-      label: "Strana",
+      label: "Galerie",
       content: (
         <div className="space-y-4">
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <InputField label="Název" value={form.name ?? ""} onChange={(v) => set({ name: v })} required />
+            <InputField label="Autor" value={form.author ?? ""} onChange={(v) => set({ author: v })} required />
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-1">Událost</label>
               <select
                 value={form.event ?? ""}
                 onChange={(e) => set({ event: e.target.value })}
+                required
                 className="w-full rounded border border-gray-600 bg-neutral-900 px-3 py-2 text-sm text-primary-light focus:border-secondary focus:outline-none focus:ring-1 focus:ring-secondary"
               >
                 <option value="">Vyberte</option>
@@ -77,14 +82,13 @@ const RaceEditPage = () => {
                 ))}
               </select>
             </div>
-            <InputField label="Limit" value={form.limit ?? 0} onChange={(v) => set({ limit: Number(v) })} type="number" required />
-            <InputField label="Priorita" value={form.priority ?? 1} onChange={(v) => set({ priority: Number(v) })} type="number" />
-            <InputField label="Barva (hex)" value={form.color ?? ""} onChange={(v) => set({ color: v })} />
-            <InputField label="Název barvy" value={form.colorName ?? ""} onChange={(v) => set({ colorName: v })} required />
+            <InputField label="URL galerie" value={form.url ?? ""} onChange={(v) => set({ url: v })} type="url" required />
           </div>
-          <MarkdownEditor label="Legenda" value={form.legend ?? ""} onChange={(v) => set({ legend: v })} />
-          <MarkdownEditor label="Požadavky" value={form.requirements ?? ""} onChange={(v) => set({ requirements: v })} />
-          <ImageField label="Obrázek" value={form.image ?? { src: "" }} onChange={(v) => set({ image: v })} />
+          <ImageField
+            label="Náhledový obrázek"
+            value={form.cover ?? { src: "" }}
+            onChange={(v) => set({ cover: v })}
+          />
         </div>
       ),
     },
@@ -95,11 +99,11 @@ const RaceEditPage = () => {
       title={`Upravit: ${form.name ?? id}`}
       tabs={tabs}
       onSubmit={handleSave}
-      onCancel={() => navigate("/admin/races")}
+      onCancel={() => navigate("/admin/galleries")}
       onDelete={handleDelete}
       saving={saving}
     />
   );
 };
 
-export default RaceEditPage;
+export default GalleryEditPage;

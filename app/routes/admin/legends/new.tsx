@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router";
-import { createDocument } from "@/lib/admin-firestore";
+import { createDocument, processPendingUploads } from "@/lib/admin-firestore";
 import FormLayout from "@/components/admin/FormLayout";
 import { InputField, ImageField } from "@/components/admin/FormFields";
 import { useEventFilter } from "@/components/admin/EventFilter";
@@ -33,10 +33,11 @@ const LegendCreatePage = () => {
     setSaving(true);
     try {
       const id = slugify(form.title);
-      await createDocument("legends", id, {
+      const data = await processPendingUploads({
         ...form,
         publishedAt: Timestamp.now(),
       });
+      await createDocument("legends", id, data);
       navigate("/admin/legends");
     } catch (err) {
       alert("Chyba při vytváření");

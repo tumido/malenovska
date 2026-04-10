@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 import { useNavigate } from "react-router";
-import { createDocument } from "@/lib/admin-firestore";
+import { createDocument, processPendingUploads } from "@/lib/admin-firestore";
 import EventFormTabs from "@/components/admin/EventFormTabs";
 import { useCloneData } from "@/lib/useCloneData";
 import type { Event } from "@/lib/types";
@@ -30,7 +30,8 @@ const EventCreatePage = () => {
     }
     setSaving(true);
     try {
-      const { id, ...data } = form;
+      const { id, ...raw } = form;
+      const data = await processPendingUploads(raw);
       await createDocument("events", id!, data);
       navigate("/admin/events");
     } catch (err) {

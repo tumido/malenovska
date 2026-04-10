@@ -317,6 +317,40 @@ The app has a **dark, atmospheric Material-inspired aesthetic** — not pop art,
 7. **Logo**: SVG component with configurable `fgColor`/`bgColor` props
 8. **Header**: No shadow, smooth margin/width transitions when drawer opens
 
+## Admin Form Components
+
+Reusable form field components in `components/admin/FormFields.tsx`:
+
+| Component | Purpose |
+|-----------|---------|
+| `InputField` | Text/number/date/time input. Supports `suffix` prop (e.g., "Kč") |
+| `SelectField` | Dropdown select |
+| `ToggleField` | Styled toggle switch with label + description (used for prominent boolean controls) |
+| `CheckboxField` | Simple checkbox (used for less prominent booleans) |
+| `ColorField` | Color preset swatches + native color picker |
+| `ImageField` | Image preview + drag & drop upload + URL input |
+| `FileField` | File preview + drag & drop upload + URL input |
+| `TextareaField` | Multiline text |
+| `EventSelect` | Event dropdown (wraps SelectField) |
+
+### File Upload Pattern
+
+`ImageField` and `FileField` support drag & drop and file picker. Uploads are **deferred until save**:
+
+1. On file drop/select → `registerPendingUpload(file)` stores the File, returns a blob URL for local preview
+2. On save → `await processPendingUploads(formData)` uploads pending files to Firebase Storage, replaces blob URLs with real download URLs
+3. Manually pasted URLs pass through untouched (only `blob:` URLs trigger upload)
+
+All admin edit/new pages must call `processPendingUploads()` before `createDocument`/`updateDocument`.
+
+### Admin Map (`AdminMapInner`)
+
+Interactive map for editing POI locations. Lazy-loaded via `React.lazy()`. Features:
+- Draggable markers (drag to update coordinates)
+- Double-click to add new POI
+- `forwardRef` exposes `getCenter()` for "add at center" button
+- Markers use POI `color` field, falling back to cycling red/yellow/orange
+
 ## Testing Changes
 
 After making changes, verify:

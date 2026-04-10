@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router";
-import { createDocument } from "@/lib/admin-firestore";
+import { createDocument, processPendingUploads } from "@/lib/admin-firestore";
 import FormLayout from "@/components/admin/FormLayout";
 import { InputField, ImageField } from "@/components/admin/FormFields";
 import { useEventFilter } from "@/components/admin/EventFilter";
@@ -29,7 +29,8 @@ const GalleryCreatePage = () => {
     setSaving(true);
     try {
       const id = form.name.replace(/ /g, "_").toLowerCase().replace(/\W/g, "");
-      await createDocument("galleries", id, form);
+      const data = await processPendingUploads(form);
+      await createDocument("galleries", id, data);
       navigate("/admin/galleries");
     } catch (err) {
       alert("Chyba při vytváření");

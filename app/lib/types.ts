@@ -10,6 +10,7 @@ export interface POI {
   description: string;
   latitude: number;
   longitude: number;
+  color?: string;
 }
 
 export interface RegistrationExtra {

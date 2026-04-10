@@ -68,7 +68,11 @@ const InfoPage = () => {
                       onClick={() => setCenter([row.latitude, row.longitude])}
                     >
                       <td className="w-6 py-2">
-                        <MapPin size={18} className={MARKER_COLORS[index % 3]} />
+                        {row.color ? (
+                          <MapPin size={18} style={{ color: row.color }} />
+                        ) : (
+                          <MapPin size={18} className={MARKER_COLORS[index % 3]} />
+                        )}
                       </td>
                       <td className="py-2">
                         <span className="block truncate">{row.name}</span>

@@ -44,7 +44,7 @@ const MapInner = ({ markers, center }: MapInnerProps) => {
           key={`point_${index}`}
           position={[marker.latitude, marker.longitude]}
           icon={divIcon({
-            html: `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="${MARKER_COLORS[index % 3]}" stroke="none"><path d="M12 0C7.31 0 3.5 3.81 3.5 8.5c0 7.94 8.5 15.5 8.5 15.5s8.5-7.56 8.5-15.5C20.5 3.81 16.69 0 12 0zm0 13c-2.49 0-4.5-2.01-4.5-4.5S9.51 4 12 4s4.5 2.01 4.5 4.5S14.49 13 12 13z"/></svg>`,
+            html: `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="${marker.color || MARKER_COLORS[index % 3]}" stroke="none"><path d="M12 0C7.31 0 3.5 3.81 3.5 8.5c0 7.94 8.5 15.5 8.5 15.5s8.5-7.56 8.5-15.5C20.5 3.81 16.69 0 12 0zm0 13c-2.49 0-4.5-2.01-4.5-4.5S9.51 4 12 4s4.5 2.01 4.5 4.5S14.49 13 12 13z"/></svg>`,
             className: "",
             iconAnchor: [24, 48],
             iconSize: [48, 48],

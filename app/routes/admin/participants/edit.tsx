@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router";
 import { doc, query, where, type DocumentReference } from "firebase/firestore";
 import { useDocumentData, useCollectionData } from "react-firebase-hooks/firestore";
 import { db, typedCollection } from "@/lib/firebase";
-import { updateDocument, fetchParticipantPrivate } from "@/lib/admin-firestore";
+import { updateDocument, fetchParticipantPrivate, removeParticipant } from "@/lib/admin-firestore";
 import FormLayout from "@/components/admin/FormLayout";
 import { InputField, CheckboxField } from "@/components/admin/FormFields";
 import type { Participant, Race } from "@/lib/types";
@@ -51,6 +51,17 @@ const ParticipantEditPage = () => {
       console.error(err);
     } finally {
       setSaving(false);
+    }
+  };
+
+  const handleDelete = async () => {
+    if (!confirm(`Opravdu smazat účastníka „${form.firstName ?? ""} ${form.lastName ?? ""}"?`)) return;
+    try {
+      await removeParticipant(id!);
+      navigate("/admin/participants");
+    } catch (err) {
+      alert("Chyba při mazání");
+      console.error(err);
     }
   };
 
@@ -121,6 +132,7 @@ const ParticipantEditPage = () => {
       tabs={tabs}
       onSubmit={handleSave}
       onCancel={() => navigate("/admin/participants")}
+      onDelete={handleDelete}
       saving={saving}
     />
   );

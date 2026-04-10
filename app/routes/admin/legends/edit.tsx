@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router";
 import { doc, type DocumentReference } from "firebase/firestore";
 import { useDocumentData } from "react-firebase-hooks/firestore";
 import { db } from "@/lib/firebase";
-import { updateDocument } from "@/lib/admin-firestore";
+import { updateDocument, removeDocument, processPendingUploads } from "@/lib/admin-firestore";
 import FormLayout from "@/components/admin/FormLayout";
 import { InputField, ImageField } from "@/components/admin/FormFields";
 import { useEventFilter } from "@/components/admin/EventFilter";
@@ -29,7 +29,8 @@ const LegendEditPage = () => {
   const handleSave = async () => {
     setSaving(true);
     try {
-      const data = Object.fromEntries(Object.entries(form).filter(([k]) => k !== "id"));
+      const raw = Object.fromEntries(Object.entries(form).filter(([k]) => k !== "id"));
+      const data = await processPendingUploads(raw);
       await updateDocument("legends", id!, data);
       navigate("/admin/legends");
     } catch (err) {
@@ -37,6 +38,17 @@ const LegendEditPage = () => {
       console.error(err);
     } finally {
       setSaving(false);
+    }
+  };
+
+  const handleDelete = async () => {
+    if (!confirm(`Opravdu smazat legendu „${form.title ?? id}"?`)) return;
+    try {
+      await removeDocument("legends", id!);
+      navigate("/admin/legends");
+    } catch (err) {
+      alert("Chyba při mazání");
+      console.error(err);
     }
   };
 
@@ -97,6 +109,7 @@ const LegendEditPage = () => {
       tabs={tabs}
       onSubmit={handleSave}
       onCancel={() => navigate("/admin/legends")}
+      onDelete={handleDelete}
       saving={saving}
     />
   );

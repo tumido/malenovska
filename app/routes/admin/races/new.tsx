@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router";
-import { createDocument } from "@/lib/admin-firestore";
+import { createDocument, processPendingUploads } from "@/lib/admin-firestore";
 import FormLayout from "@/components/admin/FormLayout";
 import { InputField, ImageField } from "@/components/admin/FormFields";
 import { useEventFilter } from "@/components/admin/EventFilter";
@@ -30,7 +30,8 @@ const RaceCreatePage = () => {
     setSaving(true);
     try {
       const id = form.name.replace(/ /g, "_").toLowerCase().replace(/\W/g, "");
-      const data = Object.fromEntries(Object.entries(form).filter(([k]) => k !== "id"));
+      const raw = Object.fromEntries(Object.entries(form).filter(([k]) => k !== "id"));
+      const data = await processPendingUploads(raw);
       await createDocument("races", id, data);
       navigate("/admin/races");
     } catch (err) {
