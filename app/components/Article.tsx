@@ -7,7 +7,7 @@ interface ArticleProps {
 export const Article = ({ children }: ArticleProps) => {
   return (
     <div className="mx-auto max-w-5xl px-0 sm:px-4">
-      <div className="overflow-hidden rounded-none bg-primary-light text-primary shadow-lg sm:rounded-lg">
+      <div className="overflow-clip rounded-none bg-primary-light text-primary shadow-lg sm:rounded-lg">
         {children ?? (
           <>
             <ArticleCardHeader />

@@ -7,6 +7,10 @@
 - **Czech only** — no i18n system, hardcoded Czech labels
 - **Dark, atmospheric design** (public app) — see `frontend-react.md` for design tokens and visual patterns
 
+## Dev Server
+
+**NEVER start the dev server.** Do not run `npm run dev`, `npm run dev:local`, or any command that starts a development server. The dev server is always already running on `http://localhost:5173`. Just use MCP tools to navigate to it directly.
+
 ## Debugging
 
 When debugging or investigating issues, **use MCP tools to inspect the running application** instead of just reading code.
