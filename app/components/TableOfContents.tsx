@@ -30,24 +30,33 @@ export const TableOfContents = ({ headings }: TableOfContentsProps) => {
   const [activeSlug, setActiveSlug] = useState<string>("");
 
   useEffect(() => {
-    const elements = headings
-      .map((h) => document.getElementById(h.slug))
-      .filter((el): el is HTMLElement => el !== null);
-
-    if (elements.length === 0) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries.find((e) => e.isIntersecting);
-        if (visible?.target.id) {
-          setActiveSlug(visible.target.id);
+    let raf = 0;
+    const handleScroll = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        let current = "";
+        for (const h of headings) {
+          const el = document.getElementById(h.slug);
+          if (!el) continue;
+          if (!current) current = h.slug;
+          if (el.getBoundingClientRect().top <= 100) {
+            current = h.slug;
+          } else {
+            break;
+          }
         }
-      },
-      { rootMargin: "-80px 0px -60% 0px" },
-    );
+        setActiveSlug(current);
+      });
+    };
 
-    elements.forEach((el) => observer.observe(el));
-    return () => observer.disconnect();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    // Delay initial call to let lazy-loaded Markdown render and set heading IDs
+    const timeout = setTimeout(handleScroll, 100);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      cancelAnimationFrame(raf);
+      clearTimeout(timeout);
+    };
   }, [headings]);
 
   if (headings.length === 0) return null;
