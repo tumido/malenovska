@@ -55,7 +55,7 @@ npm run deploy            # Deploy everything
 | `app/lib/firebase.ts`         | Firebase init, Firestore instance                                       |
 | `app/lib/types.ts`            | TypeScript interfaces for Firestore documents                           |
 | `app/lib/admin-firestore.ts`  | Admin CRUD helpers, deferred file upload (`registerPendingUpload` → `processPendingUploads` on save) |
-| `app/lib/schemas.ts`          | Zod validation schemas for all admin entities (event, legend, race, gallery, participant, config) |
+| `app/lib/schemas.ts`          | Zod validation schemas + declarative publishing requirements (`displayRequirements`, `registrationRequirements`, `checkMissing`) |
 | `app/lib/export-csv.ts`       | Shared CSV export for participants (used by dashboard + participants list)                            |
 | `app/contexts/AuthContext.tsx` | Firebase Auth context for admin                                         |
 | `app/components/admin/`       | Admin components (DataTable, FormLayout, FormFields, RHFFields, AdminMapInner, etc.) |

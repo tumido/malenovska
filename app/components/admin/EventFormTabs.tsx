@@ -7,7 +7,12 @@ import {
   RHFFile,
 } from "@/components/admin/RHFFields";
 import type { RegistrationExtra, POI } from "@/lib/types";
-import type { EventFormValues } from "@/lib/schemas";
+import {
+  type EventFormValues,
+  displayRequirements,
+  registrationRequirements,
+  checkMissing,
+} from "@/lib/schemas";
 import { toTimeStr } from "@/lib/date";
 import { Trash2, Plus, CircleHelp, Type, Hash, CheckSquare, FileText, ChevronDown } from "lucide-react";
 import { lazy, Suspense, useRef, useState, useCallback, useEffect } from "react";
@@ -56,21 +61,9 @@ const EventFormTabs = ({
     }
   }, [dateValue, setValue]);
 
-  // Publishing requirements — fields optional for saving but required for visibility
-  const displayMissing: string[] = [];
-  if (!watch("declaration")?.src) displayMissing.push("prohlášení");
-  if (!watch("rules")?.trim()) displayMissing.push("pravidla");
-  if (!watch("registrationBeforeAbove")?.trim() || !watch("registrationBeforeBelow")?.trim() || !watch("registrationList")?.trim())
-    displayMissing.push("texty registrace");
-  if (!watch("contactText")?.trim()) displayMissing.push("kontaktní text");
-  if (!watch("onsiteStart")) displayMissing.push("začátek akce v harmonogramu");
-  if (!watch("poi")?.length) displayMissing.push("body na mapě");
-
-  // Registration requirements — email templates must be set before opening registration
-  const registrationMissing: string[] = [];
-  if (!watch("emailSubject")?.trim()) registrationMissing.push("předmět e-mailu");
-  if (!watch("emailBody")?.trim()) registrationMissing.push("tělo e-mailu");
-  if (!watch("emailUnder18")?.trim()) registrationMissing.push("doplněk pro nezletilé");
+  // Publishing requirements — fields optional for saving but required for visibility/registration
+  const displayMissing = checkMissing(displayRequirements, watch);
+  const registrationMissing = checkMissing(registrationRequirements, watch);
 
   const tabs = [
     {

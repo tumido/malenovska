@@ -146,6 +146,62 @@ export const eventSchema = z.object({
 
 export type EventFormValues = z.infer<typeof eventSchema>;
 
+// --- Event Publishing Requirements ---
+
+type FieldCheck =
+  | { field: keyof EventFormValues; check?: "truthy" }
+  | { field: keyof EventFormValues; check: "trim" }
+  | { field: keyof EventFormValues; check: "nested"; prop: string }
+  | { field: keyof EventFormValues; check: "length" };
+
+export type PublishingRequirement = {
+  label: string;
+  fields: FieldCheck[];
+};
+
+const isMissing = (value: unknown, fc: FieldCheck): boolean => {
+  switch (fc.check) {
+    case "trim":
+      return !value || !(value as string).trim();
+    case "nested":
+      return !value || !(value as Record<string, unknown>)[fc.prop];
+    case "length":
+      return !value || !(value as unknown[]).length;
+    default:
+      return !value;
+  }
+};
+
+export const checkMissing = (
+  requirements: PublishingRequirement[],
+  watch: (name: keyof EventFormValues) => unknown,
+): string[] =>
+  requirements
+    .filter((req) => req.fields.some((fc) => isMissing(watch(fc.field), fc)))
+    .map((req) => req.label);
+
+export const displayRequirements: PublishingRequirement[] = [
+  { label: "prohlášení", fields: [{ field: "declaration", check: "nested", prop: "src" }] },
+  { label: "pravidla", fields: [{ field: "rules", check: "trim" }] },
+  {
+    label: "texty registrace",
+    fields: [
+      { field: "registrationBeforeAbove", check: "trim" },
+      { field: "registrationBeforeBelow", check: "trim" },
+      { field: "registrationList", check: "trim" },
+    ],
+  },
+  { label: "kontaktní text", fields: [{ field: "contactText", check: "trim" }] },
+  { label: "začátek akce v harmonogramu", fields: [{ field: "onsiteStart" }] },
+  { label: "body na mapě", fields: [{ field: "poi", check: "length" }] },
+];
+
+export const registrationRequirements: PublishingRequirement[] = [
+  { label: "předmět e-mailu", fields: [{ field: "emailSubject", check: "trim" }] },
+  { label: "tělo e-mailu", fields: [{ field: "emailBody", check: "trim" }] },
+  { label: "doplněk pro nezletilé", fields: [{ field: "emailUnder18", check: "trim" }] },
+];
+
 // --- Config ---
 
 export const configSchema = z.object({
