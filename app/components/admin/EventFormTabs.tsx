@@ -1,13 +1,12 @@
 import FormLayout from "@/components/admin/FormLayout";
-import { InputField, SelectField, ColorField } from "@/components/admin/FormFields";
+import { InputField, SelectField, ColorField, ToggleField } from "@/components/admin/FormFields";
 import {
   RHFInput,
-  RHFToggle,
   RHFMarkdown,
   RHFImage,
   RHFFile,
 } from "@/components/admin/RHFFields";
-import type { RegistrationExtra } from "@/lib/types";
+import type { RegistrationExtra, POI } from "@/lib/types";
 import type { EventFormValues } from "@/lib/schemas";
 import { toTimeStr } from "@/lib/date";
 import { Trash2, Plus, CircleHelp, Type, Hash, CheckSquare, FileText, ChevronDown } from "lucide-react";
@@ -57,6 +56,22 @@ const EventFormTabs = ({
     }
   }, [dateValue, setValue]);
 
+  // Publishing requirements — fields optional for saving but required for visibility
+  const displayMissing: string[] = [];
+  if (!watch("declaration")?.src) displayMissing.push("prohlášení");
+  if (!watch("rules")?.trim()) displayMissing.push("pravidla");
+  if (!watch("registrationBeforeAbove")?.trim() || !watch("registrationBeforeBelow")?.trim() || !watch("registrationList")?.trim())
+    displayMissing.push("texty registrace");
+  if (!watch("contactText")?.trim()) displayMissing.push("kontaktní text");
+  if (!watch("onsiteStart")) displayMissing.push("začátek akce v harmonogramu");
+  if (!watch("poi")?.length) displayMissing.push("body na mapě");
+
+  // Registration requirements — email templates must be set before opening registration
+  const registrationMissing: string[] = [];
+  if (!watch("emailSubject")?.trim()) registrationMissing.push("předmět e-mailu");
+  if (!watch("emailBody")?.trim()) registrationMissing.push("tělo e-mailu");
+  if (!watch("emailUnder18")?.trim()) registrationMissing.push("doplněk pro nezletilé");
+
   const tabs = [
     {
       key: "general",
@@ -64,17 +79,37 @@ const EventFormTabs = ({
       content: (
         <div className="space-y-4">
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-            <RHFToggle
+            <Controller
               control={control}
               name="display"
-              label="Zobrazit"
-              description="Událost je viditelná na webu"
+              render={({ field }) => (
+                <ToggleField
+                  label="Zobrazit"
+                  description={displayMissing.length > 0
+                    ? <MissingList items={displayMissing} />
+                    : "Událost je viditelná na webu"}
+                  checked={field.value ?? false}
+                  onChange={field.onChange}
+                  disabled={!field.value && displayMissing.length > 0}
+                  warning={!!field.value && displayMissing.length > 0}
+                />
+              )}
             />
-            <RHFToggle
+            <Controller
               control={control}
               name="registrationAvailable"
-              label="Registrace otevřena"
-              description="Návštěvníci se mohou registrovat"
+              render={({ field }) => (
+                <ToggleField
+                  label="Registrace otevřena"
+                  description={registrationMissing.length > 0
+                    ? <MissingList items={registrationMissing} />
+                    : "Návštěvníci se mohou registrovat"}
+                  checked={field.value ?? false}
+                  onChange={field.onChange}
+                  disabled={!field.value && registrationMissing.length > 0}
+                  warning={!!field.value && registrationMissing.length > 0}
+                />
+              )}
             />
           </div>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -254,7 +289,7 @@ const POIEditor = ({
         >
           <AdminMapInner
             ref={mapRef}
-            pois={fields}
+            pois={fields as unknown as POI[]}
             onMarkerDrag={(i, lat, lng) => {
               updateField(i, { ...fields[i], latitude: lat, longitude: lng });
             }}
@@ -753,6 +788,16 @@ const ScheduleTimeline = ({
       ))}
     </div>
   </div>
+);
+
+/** Missing requirements list */
+const MissingList = ({ items }: { items: string[] }) => (
+  <>
+    Chybí:
+    <ul className="mt-0.5 list-disc list-inside">
+      {items.map((item) => <li key={item}>{item}</li>)}
+    </ul>
+  </>
 );
 
 /** Helper to format Firestore Timestamp or Date for date input */

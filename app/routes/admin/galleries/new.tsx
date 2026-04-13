@@ -2,7 +2,7 @@ import { useCallback, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { createDocument, processPendingUploads } from "@/lib/admin-firestore";
+import { createDocument, processPendingUploads, DocumentExistsError } from "@/lib/admin-firestore";
 import FormLayout from "@/components/admin/FormLayout";
 import { RHFInput, RHFEventSelect, RHFImage } from "@/components/admin/RHFFields";
 import { useEventFilter } from "@/components/admin/EventFilter";
@@ -43,8 +43,12 @@ const GalleryCreatePage = () => {
       await createDocument("galleries", id, processed);
       navigate("/admin/galleries");
     } catch (err) {
-      alert("Chyba při vytváření");
-      console.error(err);
+      if (err instanceof DocumentExistsError) {
+        alert(`Galerie s ID "${err.documentId}" již existuje.`);
+      } else {
+        alert("Chyba při vytváření");
+        console.error(err);
+      }
     } finally {
       setSaving(false);
     }

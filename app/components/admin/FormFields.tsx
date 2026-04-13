@@ -1,5 +1,5 @@
 
-import { useRef, useCallback, useState } from "react";
+import { useRef, useCallback, useState, type ReactNode } from "react";
 import { FileText, ExternalLink, Upload } from "lucide-react";
 import { registerPendingUpload } from "@/lib/admin-firestore";
 
@@ -141,28 +141,31 @@ export const CheckboxField = ({ label, checked, onChange, error }: CheckboxField
 
 interface ToggleFieldProps {
   label: string;
-  description?: string;
+  description?: ReactNode;
   checked: boolean;
   onChange: (checked: boolean) => void;
   error?: string;
+  disabled?: boolean;
+  warning?: boolean;
 }
 
-export const ToggleField = ({ label, description, checked, onChange, error }: ToggleFieldProps) => {
+export const ToggleField = ({ label, description, checked, onChange, error, disabled, warning }: ToggleFieldProps) => {
   return (
     <div>
-      <label className={`flex items-center justify-between gap-4 cursor-pointer rounded border bg-neutral-900 px-4 py-3 ${error ? "border-red-500" : "border-gray-700"}`}>
+      <label className={`flex items-center justify-between gap-4 ${disabled ? "cursor-not-allowed opacity-60" : "cursor-pointer"} rounded border bg-neutral-900 px-4 py-3 ${error ? "border-red-500" : warning ? "border-amber-500/50" : "border-gray-700"}`}>
         <div>
           <span className="text-sm font-medium text-primary-light">{label}</span>
           {description && (
-            <p className="text-xs text-gray-400 mt-0.5">{description}</p>
+            <div className={`text-xs mt-0.5 ${warning ? "text-amber-400" : "text-gray-400"}`}>{description}</div>
           )}
         </div>
         <button
           type="button"
           role="switch"
           aria-checked={checked}
+          disabled={disabled}
           onClick={() => onChange(!checked)}
-          className={`relative inline-flex h-6 w-11 shrink-0 items-center rounded-full transition-colors ${checked ? "bg-secondary" : "bg-gray-600"}`}
+          className={`relative inline-flex h-6 w-11 shrink-0 items-center rounded-full transition-colors ${disabled ? "bg-gray-700 cursor-not-allowed" : checked ? "bg-secondary" : "bg-gray-600"}`}
         >
           <span
             className={`inline-block h-4 w-4 rounded-full bg-white transition-transform ${checked ? "translate-x-6" : "translate-x-1"}`}

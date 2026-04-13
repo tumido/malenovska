@@ -73,19 +73,19 @@ const poiSchema = z.object({
   description: z.string(),
   latitude: z.number(),
   longitude: z.number(),
-  color: z.string().optional(),
+  color: z.string().nullish(),
 });
 
 const registrationExtraSchema = z.object({
   type: z.enum(["text", "number", "checkbox", "markdown"]),
-  size: z.number().optional(),
-  content: z.string().optional(),
+  size: z.number().nullish(),
+  content: z.string().nullish(),
   props: z
     .object({
-      id: z.string().optional(),
-      label: z.string().optional(),
+      id: z.string().nullish(),
+      label: z.string().nullish(),
     })
-    .optional(),
+    .nullish(),
 });
 
 export const eventSchema = z.object({
@@ -95,53 +95,53 @@ export const eventSchema = z.object({
   date: z.any().refine((v) => v != null, req),
   type: z.boolean(),
   display: z.boolean(),
-  description: z.string().max(200, { message: "Maximálně 200 znaků" }).optional(),
-  heroImage: firestoreImageOptional.optional(),
+  description: z.string().max(200, { message: "Maximálně 200 znaků" }).nullish(),
+  heroImage: firestoreImageOptional.nullish(),
 
   // Rules
-  rules: z.string().optional(),
-  rulesImage: firestoreImageOptional.optional(),
+  rules: z.string().nullish(),
+  rulesImage: firestoreImageOptional.nullish(),
 
   // Registration
   registrationAvailable: z.boolean(),
-  registrationBeforeAbove: z.string().optional(),
-  registrationBeforeBelow: z.string().optional(),
-  registrationAfter: z.string().optional(),
-  registrationList: z.string().optional(),
-  registrationExtras: z.array(registrationExtraSchema).optional(),
+  registrationBeforeAbove: z.string().nullish(),
+  registrationBeforeBelow: z.string().nullish(),
+  registrationAfter: z.string().nullish(),
+  registrationList: z.string().nullish(),
+  registrationExtras: z.array(registrationExtraSchema).nullish(),
 
   // Pricing
   price: z.number({ message: "Vyplňte toto pole" }),
-  declaration: firestoreImageOptional.optional(),
+  declaration: firestoreImageOptional.nullish(),
 
   // Map
-  poi: z.array(poiSchema).optional(),
+  poi: z.array(poiSchema).nullish(),
 
   // Contact
   contact: z
     .object({
-      facebook: z.string().optional(),
-      larpovadatabaze: z.string().optional(),
-      larpcz: z.string().optional(),
-      email: z.string().optional(),
+      facebook: z.string().nullish(),
+      larpovadatabaze: z.string().nullish(),
+      larpcz: z.string().nullish(),
+      email: z.string().nullish(),
     })
-    .optional(),
-  contactImage: firestoreImageOptional.optional(),
-  contactText: z.string().optional(),
+    .nullish(),
+  contactImage: firestoreImageOptional.nullish(),
+  contactText: z.string().nullish(),
 
   // Schedule
-  onsiteStart: z.any().optional(),
-  onsiteEnd: z.any().optional(),
-  onsiteRegistrationOpen: z.any().optional(),
-  onsiteRegistrationClose: z.any().optional(),
-  onsiteRules: z.any().optional(),
-  onsiteQuestStart: z.any().optional(),
-  onsiteLastQuest: z.any().optional(),
+  onsiteStart: z.any().nullish(),
+  onsiteEnd: z.any().nullish(),
+  onsiteRegistrationOpen: z.any().nullish(),
+  onsiteRegistrationClose: z.any().nullish(),
+  onsiteRules: z.any().nullish(),
+  onsiteQuestStart: z.any().nullish(),
+  onsiteLastQuest: z.any().nullish(),
 
   // Email templates
-  emailSubject: z.string().optional(),
-  emailBody: z.string().optional(),
-  emailUnder18: z.string().optional(),
+  emailSubject: z.string().nullish(),
+  emailBody: z.string().nullish(),
+  emailUnder18: z.string().nullish(),
 });
 
 export type EventFormValues = z.infer<typeof eventSchema>;

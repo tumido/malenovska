@@ -1,6 +1,14 @@
 import { useState } from "react";
 import { Link } from "react-router";
-import { ChevronUp, ChevronDown, Pencil, Trash2, Eye, Search, Copy } from "lucide-react";
+import {
+  ChevronUp,
+  ChevronDown,
+  Pencil,
+  Trash2,
+  Eye,
+  Search,
+  Copy,
+} from "lucide-react";
 
 interface Column<T> {
   key: string;
@@ -62,7 +70,9 @@ const DataTable = <T extends { id: string }>({
       const bVal = (b as Record<string, unknown>)[sortKey];
       if (aVal == null) return 1;
       if (bVal == null) return -1;
-      const cmp = String(aVal).localeCompare(String(bVal), "cs", { numeric: true });
+      const cmp = String(aVal).localeCompare(String(bVal), "cs", {
+        numeric: true,
+      });
       return sortDir === "asc" ? cmp : -cmp;
     });
   }
@@ -99,9 +109,13 @@ const DataTable = <T extends { id: string }>({
                 >
                   <span className="inline-flex items-center gap-1">
                     {col.label}
-                    {col.sortable && sortKey === col.key && (
-                      sortDir === "asc" ? <ChevronUp className="h-3 w-3" /> : <ChevronDown className="h-3 w-3" />
-                    )}
+                    {col.sortable &&
+                      sortKey === col.key &&
+                      (sortDir === "asc" ? (
+                        <ChevronUp className="h-3 w-3" />
+                      ) : (
+                        <ChevronDown className="h-3 w-3" />
+                      ))}
                   </span>
                 </th>
               ))}
@@ -111,24 +125,35 @@ const DataTable = <T extends { id: string }>({
           <tbody className="divide-y divide-gray-700">
             {loading ? (
               <tr>
-                <td colSpan={columns.length + (actions.length > 0 ? 1 : 0)} className="px-4 py-8 text-center text-gray-500">
+                <td
+                  colSpan={columns.length + (actions.length > 0 ? 1 : 0)}
+                  className="px-4 py-8 text-center text-gray-500"
+                >
                   Načítání…
                 </td>
               </tr>
             ) : filtered.length === 0 ? (
               <tr>
-                <td colSpan={columns.length + (actions.length > 0 ? 1 : 0)} className="px-4 py-8 text-center text-gray-500">
+                <td
+                  colSpan={columns.length + (actions.length > 0 ? 1 : 0)}
+                  className="px-4 py-8 text-center text-gray-500"
+                >
                   Žádné záznamy
                 </td>
               </tr>
             ) : (
               filtered.map((row) => (
-                <tr key={row.id} className="hover:bg-neutral-700 transition-colors">
+                <tr
+                  key={row.id}
+                  className="hover:bg-neutral-700 transition-colors"
+                >
                   {columns.map((col) => (
                     <td key={col.key} className="px-4 py-3">
                       {col.render
                         ? col.render(row)
-                        : String((row as Record<string, unknown>)[col.key] ?? "")}
+                        : String(
+                            (row as Record<string, unknown>)[col.key] ?? "",
+                          )}
                     </td>
                   ))}
                   {actions.length > 0 && (
@@ -137,7 +162,7 @@ const DataTable = <T extends { id: string }>({
                         {actions.includes("show") && (
                           <Link
                             to={`${basePath}/${row.id}`}
-                            className="rounded p-1 text-gray-500 hover:bg-gray-700 hover:text-gray-300"
+                            className="rounded p-1 text-gray-500  hover:text-gray-300"
                             title="Zobrazit"
                           >
                             <Eye className="h-4 w-4" />
@@ -146,7 +171,7 @@ const DataTable = <T extends { id: string }>({
                         {actions.includes("edit") && (
                           <Link
                             to={`${basePath}/${row.id}`}
-                            className="rounded p-1 text-gray-500 hover:bg-gray-700 hover:text-secondary"
+                            className="rounded p-1 text-gray-500  hover:text-secondary"
                             title="Upravit"
                           >
                             <Pencil className="h-4 w-4" />
@@ -155,7 +180,7 @@ const DataTable = <T extends { id: string }>({
                         {actions.includes("clone") && (
                           <Link
                             to={`${basePath}/new?clone=${row.id}`}
-                            className="rounded p-1 text-gray-500 hover:bg-gray-700 hover:text-green-400"
+                            className="rounded p-1 text-gray-500  hover:text-blue-500"
                             title="Klonovat"
                           >
                             <Copy className="h-4 w-4" />
@@ -164,7 +189,7 @@ const DataTable = <T extends { id: string }>({
                         {actions.includes("delete") && onDelete && (
                           <button
                             onClick={() => onDelete(row)}
-                            className="rounded p-1 text-gray-500 hover:bg-gray-700 hover:text-red-400"
+                            className="rounded p-1 text-gray-500  hover:text-red-600"
                             title="Smazat"
                           >
                             <Trash2 className="h-4 w-4" />

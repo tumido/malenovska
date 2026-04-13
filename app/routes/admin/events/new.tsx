@@ -2,7 +2,7 @@ import { useCallback, useState } from "react";
 import { useNavigate } from "react-router";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { createDocument, processPendingUploads } from "@/lib/admin-firestore";
+import { createDocument, processPendingUploads, DocumentExistsError } from "@/lib/admin-firestore";
 import EventFormTabs from "@/components/admin/EventFormTabs";
 import { useCloneData } from "@/lib/useCloneData";
 import { eventSchema, type EventFormValues } from "@/lib/schemas";
@@ -49,8 +49,12 @@ const EventCreatePage = () => {
       await createDocument("events", id, processed);
       navigate("/admin/events");
     } catch (err) {
-      alert("Chyba při vytváření");
-      console.error(err);
+      if (err instanceof DocumentExistsError) {
+        alert(`Událost s ID "${err.documentId}" již existuje.`);
+      } else {
+        alert("Chyba při vytváření");
+        console.error(err);
+      }
     } finally {
       setSaving(false);
     }

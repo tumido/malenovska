@@ -29,13 +29,17 @@ if (useEmulators && !g._storageEmulatorConnected) {
 const stripUndefined = (obj: DocumentData): DocumentData =>
   Object.fromEntries(Object.entries(obj).filter(([, v]) => v !== undefined));
 
-/** Create a document with auto-timestamp */
+/** Create a document with auto-timestamp. Throws if document already exists. */
 export const createDocument = async <T extends DocumentData>(
   collectionName: string,
   id: string,
   data: T,
 ) => {
   const docRef = doc(db, collectionName, id);
+  const existing = await getDoc(docRef);
+  if (existing.exists()) {
+    throw new DocumentExistsError(collectionName, id);
+  }
   await setDoc(docRef, {
     ...stripUndefined(data),
     createdate: serverTimestamp(),
@@ -44,6 +48,17 @@ export const createDocument = async <T extends DocumentData>(
   await updateImageMetadata(data);
   return id;
 };
+
+/** Error thrown when attempting to create a document that already exists */
+export class DocumentExistsError extends Error {
+  constructor(
+    public readonly collection: string,
+    public readonly documentId: string,
+  ) {
+    super(`Dokument "${documentId}" v kolekci "${collection}" již existuje.`);
+    this.name = "DocumentExistsError";
+  }
+}
 
 /** Update a document with auto-timestamp */
 export const updateDocument = async <T extends DocumentData>(

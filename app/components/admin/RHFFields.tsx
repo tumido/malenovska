@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { Controller, type Control, type ControllerRenderProps, type ControllerFieldState, type FieldValues, type Path } from "react-hook-form";
 import {
   InputField,
@@ -129,7 +129,9 @@ interface RHFToggleProps<T extends FieldValues> {
   control: Control<T>;
   name: Path<T>;
   label: string;
-  description?: string;
+  description?: ReactNode;
+  disabled?: boolean;
+  warning?: boolean;
 }
 
 export const RHFToggle = <T extends FieldValues>({
