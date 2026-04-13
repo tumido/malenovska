@@ -1,6 +1,6 @@
 
 import { useRef, useCallback, useState, type ReactNode } from "react";
-import { FileText, ExternalLink, Upload } from "lucide-react";
+import { FileText, ExternalLink, Upload, X } from "lucide-react";
 import { registerPendingUpload } from "@/lib/admin-firestore";
 
 interface InputFieldProps {
@@ -273,12 +273,20 @@ export const ImageField = ({ label, value, onChange, required, error }: ImageFie
         }`}
       >
         {value.src ? (
-          <div className="flex justify-center bg-neutral-900 p-4">
+          <div className="relative flex justify-center bg-neutral-900 p-4">
             <img
               src={value.src}
               alt=""
               className="max-h-48 rounded object-contain"
             />
+            <button
+              type="button"
+              onClick={(e) => { e.stopPropagation(); onChange({ src: "" }); }}
+              className="absolute top-2 right-2 rounded-full bg-black/60 p-1 text-gray-300 hover:bg-red-600 hover:text-white transition-colors"
+              title="Odstranit obrázek"
+            >
+              <X className="h-4 w-4" />
+            </button>
           </div>
         ) : (
           <div className="flex flex-col items-center justify-center gap-2 py-8 text-gray-400">
@@ -367,6 +375,14 @@ export const FileField = ({ label, value, onChange, accept, required, error }: F
               className="shrink-0 text-xs text-secondary hover:text-secondary-dark transition-colors"
             >
               Nahradit
+            </button>
+            <button
+              type="button"
+              onClick={() => onChange({ src: "" })}
+              className="shrink-0 rounded p-1.5 text-gray-400 hover:text-red-400 transition-colors"
+              title="Odstranit soubor"
+            >
+              <X className="h-4 w-4" />
             </button>
           </div>
         ) : (
