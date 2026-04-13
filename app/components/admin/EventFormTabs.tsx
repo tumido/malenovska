@@ -83,6 +83,7 @@ const EventFormTabs = ({
                 update("year", d.getFullYear());
               }}
               type="date"
+              required
             />
             <InputField
               label="Rok"
@@ -97,6 +98,7 @@ const EventFormTabs = ({
               onChange={(v) => update("price", Number(v))}
               type="number"
               suffix="Kč"
+              required
             />
             <SelectField
               label="Typ"
@@ -108,12 +110,14 @@ const EventFormTabs = ({
                 { value: "true", label: "Bitva" },
                 { value: "false", label: "Šarvátka" },
               ]}
+              required
             />
           </div>
           <MarkdownEditor
             label="Popis"
             value={form.description ?? ""}
             onChange={(v) => update("description", v)}
+            maxLength={200}
           />
           <FileField
             label="Prohlášení (PDF)"

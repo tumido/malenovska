@@ -36,6 +36,7 @@ interface MarkdownEditorProps {
   insertables?: Insertable[];
   singleLine?: boolean;
   required?: boolean;
+  maxLength?: number;
 }
 
 interface ToolbarAction {
@@ -159,6 +160,7 @@ const MarkdownEditor = ({
   insertables,
   singleLine,
   required,
+  maxLength,
 }: MarkdownEditorProps) => {
   const [preview, setPreview] = useState(false);
   const [insertMenuOpen, setInsertMenuOpen] = useState(false);
@@ -213,11 +215,20 @@ const MarkdownEditor = ({
 
   return (
     <div className="space-y-1">
-      {label && (
-        <label className="block text-sm font-medium text-gray-300">
-          {label}
-          {required && <span className="text-red-500 ml-0.5">*</span>}
-        </label>
+      {(label || maxLength) && (
+        <div className="flex items-baseline justify-between">
+          {label && (
+            <label className="block text-sm font-medium text-gray-300">
+              {label}
+              {required && <span className="text-red-500 ml-0.5">*</span>}
+            </label>
+          )}
+          {maxLength && (
+            <span className={`text-xs ${value.length > maxLength ? "text-red-400" : "text-gray-500"}`}>
+              {value.length}/{maxLength}
+            </span>
+          )}
+        </div>
       )}
       <div className="rounded border border-gray-600 bg-neutral-900 overflow-hidden focus-within:border-secondary focus-within:ring-1 focus-within:ring-secondary">
         <div className="flex flex-wrap items-center border-b border-gray-600">
@@ -313,6 +324,7 @@ const MarkdownEditor = ({
             value={value}
             onChange={(e) => onChange(e.target.value)}
             placeholder={placeholder}
+            maxLength={maxLength}
             className="w-full bg-neutral-900 px-3 py-2 text-sm text-primary-light focus:outline-none"
           />
         ) : (
@@ -321,6 +333,7 @@ const MarkdownEditor = ({
             value={value}
             onChange={(e) => onChange(e.target.value)}
             rows={rows}
+            maxLength={maxLength}
             className="w-full resize-y bg-neutral-900 px-3 py-2 text-sm text-primary-light focus:outline-none"
           />
         )}
