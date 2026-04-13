@@ -1,71 +1,115 @@
 import { Link } from "react-router";
 import { query, where } from "firebase/firestore";
 import { useCollectionData } from "react-firebase-hooks/firestore";
+import { Sword, Swords } from "lucide-react";
 import { typedCollection } from "@/lib/firebase";
-import { Logo } from "@/components/Logo";
-import { EventAvailabilityChip } from "@/components/EventAvailabilityChip";
-import { Markdown } from "@/components/Markdown";
-import { EventProvider } from "@/contexts/EventContext";
+import { PageHero } from "@/components/PageHero";
+import { Footer } from "@/components/Footer";
+import { timestampToDateStr } from "@/lib/date";
 import type { Event } from "@/lib/types";
 
-const EventItem = ({ event }: { event: Event }) => {
+const TimelineItem = ({
+  event,
+  isCurrent,
+  isFirst,
+  isLast,
+}: {
+  event: Event;
+  isCurrent: boolean;
+  isFirst: boolean;
+  isLast: boolean;
+}) => {
+  const Icon = event.type ? Swords : Sword;
+  const typeLabel = event.type ? "Bitva, podzim" : "Šarvátka, jaro";
+
   return (
-    <EventProvider event={event}>
-      <Link to={`/${event.id}`} className="block w-full">
-        <div className="rounded-lg bg-primary p-4 shadow transition-shadow hover:shadow-xl">
-          <div className="flex items-center gap-2">
-            <h3 className="text-lg font-bold">{event.name}</h3>
-            <EventAvailabilityChip />
-          </div>
-          <p className="mb-2 text-sm text-grey-400">
-            {event.type ? "Bitva, podzim" : "Šarvátka, jaro"} {event.year}
-          </p>
-          <Markdown content={event.description} />
+    <div className="flex items-stretch">
+      {/* Timeline spine */}
+      <div className="flex w-10 shrink-0 flex-col items-center">
+        <div
+          className={`w-px flex-1 ${isFirst ? "bg-transparent" : "bg-white/20"}`}
+        />
+        <div
+          className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full ${isCurrent ? "bg-secondary/20" : "bg-white/10"}`}
+        >
+          <Icon
+            size={18}
+            className={isCurrent ? "text-secondary" : "text-white/40"}
+          />
         </div>
-      </Link>
-    </EventProvider>
+        <div
+          className={`w-px flex-1 ${isLast ? "bg-transparent" : "bg-white/20"}`}
+        />
+      </div>
+      {/* Horizontal connector + card */}
+      <div className="flex flex-1 items-center py-1.5">
+        <div className="w-4 border-t border-white/20" />
+        <Link to={`/${event.id}`} className="group block flex-1">
+          {isCurrent ? (
+            <div className="rounded-lg bg-primary-light px-4 py-3 shadow-lg transition-colors hover:bg-grey-200">
+              <div className="font-display text-sm font-bold text-primary">
+                {event.name}
+              </div>
+              <div className="text-xs text-primary/60">
+                {typeLabel} {event.year} · {timestampToDateStr(event.date)}
+              </div>
+            </div>
+          ) : (
+            <div className="rounded-lg bg-white/5 px-4 py-3 transition-colors hover:bg-white/10">
+              <div className="font-display text-sm font-bold text-white/80">
+                {event.name}
+              </div>
+              <div className="text-xs text-white/40">
+                {typeLabel} {event.year}
+              </div>
+            </div>
+          )}
+        </Link>
+      </div>
+    </div>
   );
 };
 
 const ChoosePage = () => {
   const [events, loading] = useCollectionData(
-    query(typedCollection<Event>("events"), where("display", "==", true))
+    query(typedCollection<Event>("events"), where("display", "==", true)),
   );
 
-  const today = new Date();
-  const thisYear = (events ?? [])
-    .filter((e) => e.date?.toDate?.().getFullYear() === today.getFullYear())
-    .sort((a, b) => (a.date < b.date ? 1 : -1));
-  const pastYears = (events ?? [])
-    .filter((e) => e.date?.toDate?.().getFullYear() !== today.getFullYear())
-    .sort((a, b) => (a.date < b.date ? 1 : -1));
+  const now = new Date();
+  const sorted = (events ?? []).sort((a, b) => (a.date < b.date ? 1 : -1));
 
   return (
-    <div
-      className="flex min-h-screen justify-center bg-cover bg-center bg-fixed"
-      style={{ backgroundImage: "url(/background.webp)" }}
-    >
-      <div className="flex min-h-screen w-full flex-col items-center gap-4 bg-black/75 p-4 md:w-1/3 lg:w-1/4">
-        <p className="mt-8 text-xs uppercase tracking-widest text-grey-500">
-          Malenovské události roku {today.getFullYear()}
-        </p>
-        {loading
-          ? Array.from({ length: 2 }).map((_, i) => (
-              <div key={i} className="h-32 w-full animate-pulse rounded-lg bg-grey-500/20" />
-            ))
-          : thisYear.map((e) => <EventItem key={e.id} event={e} />)}
+    <div className="min-h-screen bg-black px-4">
+      <PageHero title="" eventName="Malenovská" image="/background.webp">
+        <p>Kdo zvítězí tentokrát? Vyber si tu bitvu, která tě zajímá.</p>
+      </PageHero>
 
-        <p className="mt-4 text-xs uppercase tracking-widest text-grey-500">V letech minulých</p>
-        {!loading && pastYears.map((e) => <EventItem key={e.id} event={e} />)}
-      </div>
-      <div className="hidden flex-1 flex-col items-center justify-center text-white md:flex">
-        <h1 className="font-display text-8xl font-bold">
-          Malen
-          <Logo size="5rem" bgColor="#fff" fgColor="#000" />
-          vská
-        </h1>
-        <p className="mt-4">Kdo zvítězí tentokrát? Vyber si tu bitvu, která tě zajímá.</p>
-      </div>
+      <section className="bg-black/80 py-10">
+        <div className="mx-auto max-w-lg px-4 sm:px-6">
+          {loading ? (
+            <div className="space-y-3">
+              {Array.from({ length: 3 }).map((_, i) => (
+                <div
+                  key={i}
+                  className="h-16 animate-pulse rounded-lg bg-grey-500/20"
+                />
+              ))}
+            </div>
+          ) : (
+            sorted.map((e, i) => (
+              <TimelineItem
+                key={e.id}
+                event={e}
+                isCurrent={!e.date?.toDate || e.date.toDate() >= now}
+                isFirst={i === 0}
+                isLast={i === sorted.length - 1}
+              />
+            ))
+          )}
+        </div>
+      </section>
+
+      <Footer />
     </div>
   );
 };

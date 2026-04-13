@@ -14,6 +14,11 @@ export const useEvent = (): Event => {
   return ctx.event;
 };
 
+export const useOptionalEvent = (): Event | null => {
+  const ctx = useContext(EventContext);
+  return ctx?.event ?? null;
+};
+
 export const EventProvider = ({
   children,
   event,

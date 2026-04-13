@@ -27,7 +27,7 @@ const InfoPage = () => {
   return (
     <>
       <PageHero title="To důležité" compact />
-      <div className="-mx-4 min-h-screen bg-black/80 px-4 pt-8">
+      <div className="-mx-4 bg-black/80 px-4 pt-8 pb-8">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         {/* Info cards row */}
         <div className="mb-8 grid grid-cols-1 gap-4 md:grid-cols-2">
