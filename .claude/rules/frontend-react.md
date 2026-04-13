@@ -114,9 +114,12 @@ export default [
    ```css
    @theme inline {
      --color-primary: #212121;
-     --color-primary-light: #fafafa;
+     --color-primary-dark: #141414;
+     --color-primary-light: #fcf9f7;
      --color-secondary: #ff5722; /* deepOrange[500] */
      --color-secondary-dark: #e64a19; /* deepOrange[700] */
+     --color-grey-400: #bdbdbd;
+     --color-grey-500: #9e9e9e;
      --font-display: "Roboto", sans-serif;
      --font-body: "Open Sans", sans-serif;
    }
@@ -278,18 +281,19 @@ The app has a **dark, atmospheric Material-inspired aesthetic** — not pop art,
 | Token | Value | Tailwind Usage | Description |
 |-------|-------|---------------|-------------|
 | `primary` | `#212121` (grey-900) | `bg-primary`, `text-primary` | Dark backgrounds, header, drawer, text on light |
-| `primary-light` | `#fafafa` (grey-50) | `bg-primary-light` | Light backgrounds, text on dark |
+| `primary-dark` | `#141414` | `bg-primary-dark` | Darker variant for deeper surfaces |
+| `primary-light` | `#fcf9f7` (warm off-white) | `bg-primary-light` | Light backgrounds, text on dark |
 | `secondary` | `#ff5722` (deepOrange-500) | `bg-secondary`, `text-secondary` | Accent color, CTAs, interactive highlights |
 | `secondary-dark` | `#e64a19` (deepOrange-700) | `bg-secondary-dark` | Darker accent for hover/active states |
+| `grey-400` | `#bdbdbd` | `text-grey-400` | Footer text, muted content |
+| `grey-500` | `#9e9e9e` | `text-grey-500` | Secondary menu text |
 
 **Additional colors used:**
 - `#000` / `#0e0a0a` — page background, meta theme-color
 - `#fff` — text on dark backgrounds, logo backgrounds
-- `#bdbdbd` (grey-400) — footer text, muted content
-- `#9e9e9e` (grey-500) — secondary menu text
 - `rgba(0,0,0,0.3)` — card header image overlays (with backdrop blur)
 - `rgba(0,0,0,0.75)` — semi-transparent panel overlays
-- `rgba(0,0,0,0.8)` — loading screen background
+- `rgba(0,0,0,0.8)` — loading screen background, PageHero gradient base
 - `lightgray` — gallery image placeholder
 
 **Loading animation colors** (3-color rotation for spinner):
@@ -308,14 +312,22 @@ The app has a **dark, atmospheric Material-inspired aesthetic** — not pop art,
 
 ### Key Visual Patterns
 
-1. **Background gradient**: `linear-gradient(to bottom, transparent 80%, #000 100%)` over a fixed background image
-2. **Card header overlays**: `rgba(0,0,0,0.3)` with `backdrop-blur-sm` on the bottom of card images
-3. **Loading spinner**: 3 concentric spinning circles with offset rotation speeds (2s, 3s, 1.5s), cycling through red/yellow/orange border colors
-4. **Form card selection**: Cards with `border-2 border-transparent` that become `border-secondary shadow-xl` when selected, standard shadow when not
-5. **Map markers**: Drop shadow via `filter: drop-shadow(8px 8px 8px #000)`
-6. **ColorBadge**: Dynamic background color with inverted text using CSS filters (`invert(1) grayscale(1) contrast(9)` with `background-clip: text`)
-7. **Logo**: SVG component with configurable `fgColor`/`bgColor` props
-8. **Header**: No shadow, smooth margin/width transitions when drawer opens
+1. **PageHero** (`components/PageHero.tsx`): Full-page hero section used at the top of every public page. Two modes:
+   - **Full** (default): 40-60vh height with background image, gradient overlay (`from-black/80 via-black/40 to-black/10`), event name with inline Logo SVG
+   - **Compact**: Short header (`pt-[10vh] pb-6`), hero image set as fixed full-page background (used for list/dark pages)
+   - Props: `title`, `eventName?`, `image?`, `compact?`, `children?`
+   - Falls back to `event.heroImage.src` if no `image` prop provided
+2. **Page content sections** — standard layout after PageHero:
+   - Light content pages: `<section className="-mx-4 bg-primary-light text-primary"><div className="mx-auto max-w-5xl px-6 py-10 lg:px-8 lg:py-14">` (info, contacts, rules)
+   - Dark list pages: `<div className="-mx-4 min-h-screen bg-black/80 px-4 pt-8">` (legends, races, gallery, attendees)
+3. **Background gradient**: `linear-gradient(to bottom, transparent 80%, #000 100%)` over a fixed background image
+4. **Card header overlays**: `rgba(0,0,0,0.3)` with `backdrop-blur-sm` on the bottom of card images
+5. **Loading spinner**: 3 concentric spinning circles with offset rotation speeds (2s, 3s, 1.5s), cycling through red/yellow/orange border colors
+6. **Form card selection**: Cards with `border-2 border-transparent` that become `border-secondary shadow-xl` when selected, standard shadow when not
+7. **Map markers**: Drop shadow via `filter: drop-shadow(8px 8px 8px #000)`
+8. **ColorBadge**: Dynamic background color with inverted text using CSS filters (`invert(1) grayscale(1) contrast(9)` with `background-clip: text`)
+9. **Logo**: SVG component with configurable `fgColor`/`bgColor` props
+10. **Header**: No shadow, smooth margin/width transitions when drawer opens
 
 ## Admin Form Components
 
@@ -327,9 +339,9 @@ Reusable form field components in `components/admin/FormFields.tsx`:
 | `SelectField` | Dropdown select |
 | `ToggleField` | Styled toggle switch with label + description (used for prominent boolean controls) |
 | `CheckboxField` | Simple checkbox (used for less prominent booleans) |
-| `ColorField` | Color preset swatches + native color picker |
-| `ImageField` | Image preview + drag & drop upload + URL input |
-| `FileField` | File preview + drag & drop upload + URL input |
+| `ColorField` | Color preset swatches + native color picker. Supports `required` |
+| `ImageField` | Image preview + drag & drop upload + URL input. Supports `required` (red border when empty) |
+| `FileField` | File preview + drag & drop upload + URL input. Supports `required` (red border when empty) |
 | `TextareaField` | Multiline text |
 | `EventSelect` | Event dropdown (wraps SelectField) |
 

@@ -51,12 +51,13 @@ npm run deploy            # Deploy everything
 | `app/routes/event-layout.tsx` | Event shell (nav, header, footer)                                       |
 | `vite.config.ts`              | Vite config with React Router + tsconfig paths plugins                  |
 | `react-router.config.ts`      | React Router config (`ssr: false`)                                      |
-| `lib/firebase.ts`             | Firebase init, Firestore instance                                       |
-| `lib/types.ts`                | TypeScript interfaces for Firestore documents                           |
-| `lib/admin-firestore.ts`      | Admin CRUD helpers, deferred file upload (`registerPendingUpload` → `processPendingUploads` on save) |
-| `lib/export-csv.ts`           | Shared CSV export for participants (used by dashboard + participants list)                            |
-| `contexts/AuthContext.tsx`    | Firebase Auth context for admin                                         |
-| `components/admin/`           | Admin components (DataTable, FormLayout, FormFields, AdminMapInner, etc.) |
+| `app/components/PageHero.tsx`  | Full-page hero section with background image, compact mode, gradient overlays |
+| `app/lib/firebase.ts`         | Firebase init, Firestore instance                                       |
+| `app/lib/types.ts`            | TypeScript interfaces for Firestore documents                           |
+| `app/lib/admin-firestore.ts`  | Admin CRUD helpers, deferred file upload (`registerPendingUpload` → `processPendingUploads` on save) |
+| `app/lib/export-csv.ts`       | Shared CSV export for participants (used by dashboard + participants list)                            |
+| `app/contexts/AuthContext.tsx` | Firebase Auth context for admin                                         |
+| `app/components/admin/`       | Admin components (DataTable, FormLayout, FormFields, AdminMapInner, etc.) |
 | `firebase.json`               | Hosting, functions, emulators config                                    |
 | `functions/src/index.ts`      | Cloud Functions entry — 3 Firestore-triggered functions                 |
 | `functions/src/templates.ts`  | Email template rendering with `{{variable}}` substitution               |
