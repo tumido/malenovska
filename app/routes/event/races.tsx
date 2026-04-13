@@ -2,7 +2,7 @@ import { query, where, orderBy } from "firebase/firestore";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import { typedCollection } from "@/lib/firebase";
 import { useEvent } from "@/contexts/EventContext";
-import { Banner } from "@/components/Banner";
+import { PageHero } from "@/components/PageHero";
 import { SmallArticleCard } from "@/components/SmallArticleCard";
 import type { Race } from "@/lib/types";
 
@@ -20,16 +20,18 @@ const RacesPage = () => {
 
   return (
     <>
-      <Banner title="Strany" />
-      <div className="mx-auto grid max-w-6xl grid-cols-1 gap-4 md:grid-cols-2">
-        {races.map((r) => (
-          <SmallArticleCard
-            key={r.id}
-            title={r.name}
-            image={r.image}
-            href={`/${event.id}/race/${r.id}`}
-          />
-        ))}
+      <PageHero title="Strany" compact />
+      <div className="-mx-4 min-h-screen bg-black/80 px-4 pt-8">
+        <div className="mx-auto grid max-w-6xl grid-cols-1 gap-4 md:grid-cols-2">
+          {races.map((r) => (
+            <SmallArticleCard
+              key={r.id}
+              title={r.name}
+              image={r.image}
+              href={`/${event.id}/race/${r.id}`}
+            />
+          ))}
+        </div>
       </div>
     </>
   );

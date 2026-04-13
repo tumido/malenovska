@@ -4,7 +4,7 @@ import { useCollectionData } from "react-firebase-hooks/firestore";
 import { Share2, X } from "lucide-react";
 import { typedCollection } from "@/lib/firebase";
 import { useEvent } from "@/contexts/EventContext";
-import { Banner } from "@/components/Banner";
+import { PageHero } from "@/components/PageHero";
 import { Markdown } from "@/components/Markdown";
 import { SmallArticleCard } from "@/components/SmallArticleCard";
 import { ArticleCardHeader } from "@/components/ArticleCardHeader";
@@ -140,54 +140,56 @@ const LegendsPage = () => {
 
   return (
     <>
-      <Banner title="Legendy">
+      <PageHero title="Legendy" compact>
         <Markdown content={event.description} />
-      </Banner>
-      <div className="mx-auto grid max-w-6xl grid-cols-1 gap-4 md:grid-cols-2">
-        {loading || !legends
-          ? Array.from({ length: 3 }).map((_, i) => (
-              <SmallArticleCard key={i} />
-            ))
-          : legends.map((l) => (
-              <SmallArticleCard
-                key={l.id}
-                title={l.title}
-                body={l.perex}
-                image={l.image}
-                onClick={() =>
-                  setSelectedLegend({ legend: l, eventId: event.id, eventName: event.name })
-                }
-              />
-            ))}
-      </div>
-
-      {pastEventLegends.length > 0 && (
-        <div className="mx-auto mt-16 max-w-6xl">
-          <h2 className="mb-8 font-display text-2xl font-bold text-white">
-            Legendy z minulých let
-          </h2>
-          {pastEventLegends.map(({ event: pastEvent, legends: pastLegends }) => (
-            <div key={pastEvent.id} className="mb-10">
-              <h3 className="mb-4 font-display text-lg font-semibold text-grey-400">
-                {pastEvent.name} ({pastEvent.year})
-              </h3>
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                {pastLegends.map((l) => (
-                  <SmallArticleCard
-                    key={l.id}
-                    title={l.title}
-                    body={l.perex}
-                    image={l.image}
-                    onClick={() =>
-                      setSelectedLegend({ legend: l, eventId: pastEvent.id, eventName: pastEvent.name })
-                    }
-                  />
-                ))}
-              </div>
-            </div>
-          ))}
+      </PageHero>
+      <div className="-mx-4 min-h-screen bg-black/80 px-4 pt-8">
+        <div className="mx-auto grid max-w-6xl grid-cols-1 gap-4 md:grid-cols-2">
+          {loading || !legends
+            ? Array.from({ length: 3 }).map((_, i) => (
+                <SmallArticleCard key={i} />
+              ))
+            : legends.map((l) => (
+                <SmallArticleCard
+                  key={l.id}
+                  title={l.title}
+                  body={l.perex}
+                  image={l.image}
+                  onClick={() =>
+                    setSelectedLegend({ legend: l, eventId: event.id, eventName: event.name })
+                  }
+                />
+              ))}
         </div>
-      )}
+
+        {pastEventLegends.length > 0 && (
+          <div className="mx-auto mt-16 max-w-6xl">
+            <h2 className="mb-8 font-display text-2xl font-bold text-white">
+              Legendy z minulých let
+            </h2>
+            {pastEventLegends.map(({ event: pastEvent, legends: pastLegends }) => (
+              <div key={pastEvent.id} className="mb-10">
+                <h3 className="mb-4 font-display text-lg font-semibold text-grey-400">
+                  {pastEvent.name} ({pastEvent.year})
+                </h3>
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                  {pastLegends.map((l) => (
+                    <SmallArticleCard
+                      key={l.id}
+                      title={l.title}
+                      body={l.perex}
+                      image={l.image}
+                      onClick={() =>
+                        setSelectedLegend({ legend: l, eventId: pastEvent.id, eventName: pastEvent.name })
+                      }
+                    />
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
 
       {selectedLegend && (
         <LegendDialog

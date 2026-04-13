@@ -120,6 +120,11 @@ const EventFormTabs = ({
             value={form.declaration ?? { src: "" }}
             onChange={(v) => update("declaration", v)}
           />
+          <ImageField
+            label="Hero obrázek (pozadí stránek)"
+            value={form.heroImage ?? { src: "" }}
+            onChange={(v) => update("heroImage", v)}
+          />
         </div>
       ),
     },

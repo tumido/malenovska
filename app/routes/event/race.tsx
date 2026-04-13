@@ -4,8 +4,8 @@ import { doc, DocumentReference } from "firebase/firestore";
 import { useDocumentData } from "react-firebase-hooks/firestore";
 import { db } from "@/lib/firebase";
 import { useEvent } from "@/contexts/EventContext";
-import { Article } from "@/components/Article";
-import { ArticleCardHeader } from "@/components/ArticleCardHeader";
+import { PageHero } from "@/components/PageHero";
+import { Loading } from "@/components/Loading";
 import { Markdown } from "@/components/Markdown";
 import { ColorBadge } from "@/components/ColorBadge";
 import { Share2 } from "lucide-react";
@@ -19,10 +19,21 @@ const RaceDetailPage = () => {
   const [shareOpen, setShareOpen] = useState(false);
 
   const [race, loading] = useDocumentData<Race>(
-    doc(db, "races", id!) as DocumentReference<Race>
+    doc(db, "races", id!) as DocumentReference<Race>,
   );
 
-  if (loading || !race) return <Article />;
+  if (loading || !race) {
+    return (
+      <>
+        <PageHero title="..." />
+        <section className="-mx-4 bg-primary-light text-primary">
+          <div className="mx-auto max-w-5xl px-6 py-10 lg:px-8 lg:py-14">
+            <Loading />
+          </div>
+        </section>
+      </>
+    );
+  }
 
   if (race.event !== event.id) {
     return (
@@ -33,36 +44,38 @@ const RaceDetailPage = () => {
   }
 
   return (
-    <Article>
-      <ArticleCardHeader image={race.image?.src} title={race.name} />
-      <div className="p-6">
-        <div className="mx-auto max-w-3xl my-4">
-          <h3 className="mb-4 text-xl font-bold">Charakteristika strany</h3>
-          <Markdown content={race.requirements} />
-          <p className="mb-2">
-            Kostým pro každou stranu je laděn do jiných barevných odstínů pro
-            snadnější orientaci v boji.
-          </p>
-          <p className="mb-4">
-            Barva této strany je:
-            <ColorBadge color={race.color} colorName={race.colorName} />
-          </p>
+    <>
+      <PageHero title={race.name} image={race.image?.src} />
+
+      <section className="-mx-4 bg-primary-light text-primary">
+        <div className="mx-auto max-w-5xl px-6 py-10 lg:px-8 lg:py-14">
+          <div className="mx-auto max-w-3xl">
+            <h3 className="mb-4 text-xl font-bold">Charakteristika strany</h3>
+            <Markdown content={race.requirements} />
+            <p className="mb-2">
+              Kostým pro každou stranu je laděn do jiných barevných odstínů pro
+              snadnější orientaci v boji.
+            </p>
+            <p className="mb-4">
+              Barva této strany je:{" "}
+              <ColorBadge color={race.color} colorName={race.colorName} />
+            </p>
+            <hr className="my-8 border-primary/20" />
+            <h3 className="mb-4 text-xl font-bold">Příběh</h3>
+            <Markdown content={race.legend} />
+            <div className="mt-8 border-t border-primary/20 pt-4">
+              <button
+                onClick={() => setShareOpen(true)}
+                className="flex items-center gap-2 text-sm text-primary hover:text-primary/60"
+              >
+                <Share2 size={16} />
+                Sdílet
+              </button>
+            </div>
+          </div>
         </div>
-        <hr className="border-white/10" />
-        <div className="mx-auto max-w-3xl my-4">
-          <h3 className="mb-4 text-xl font-bold">Příběh</h3>
-          <Markdown content={race.legend} />
-        </div>
-      </div>
-      <div className="border-t border-primary/40 px-6 py-3">
-        <button
-          onClick={() => setShareOpen(true)}
-          className="flex items-center gap-2 text-sm text-primary hover:text-primary/60"
-        >
-          <Share2 size={16} />
-          Sdílet
-        </button>
-      </div>
+      </section>
+
       <Suspense fallback={null}>
         <ShareDialog
           open={shareOpen}
@@ -71,7 +84,7 @@ const RaceDetailPage = () => {
           eventName={event.name}
         />
       </Suspense>
-    </Article>
+    </>
   );
 };
 

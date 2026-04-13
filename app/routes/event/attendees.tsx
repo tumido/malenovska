@@ -3,7 +3,7 @@ import { query, where } from "firebase/firestore";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import { typedCollection } from "@/lib/firebase";
 import { useEvent } from "@/contexts/EventContext";
-import { Banner } from "@/components/Banner";
+import { PageHero } from "@/components/PageHero";
 import { Article } from "@/components/Article";
 import { Markdown } from "@/components/Markdown";
 import {
@@ -68,7 +68,8 @@ const AttendeesPage = () => {
   if (pLoading || rLoading || !participants || !races) {
     return (
       <>
-        <Banner title="Účastníci" />
+        <PageHero title="Účastníci" compact />
+        <div className="-mx-4 min-h-screen bg-black/80 px-4 pt-8">
         <Article>
           <div className="p-6">
             {Array.from({ length: 10 }).map((_, i) => (
@@ -83,6 +84,7 @@ const AttendeesPage = () => {
             ))}
           </div>
         </Article>
+        </div>
       </>
     );
   }
@@ -113,7 +115,8 @@ const AttendeesPage = () => {
 
   return (
     <>
-      <Banner title="Účastníci" />
+      <PageHero title="Účastníci" compact />
+      <div className="-mx-4 min-h-screen bg-black/80 px-4 pt-8">
       <Article>
         {event.registrationList && (
           <div className="p-6 pb-0">
@@ -168,6 +171,7 @@ const AttendeesPage = () => {
           </div>
         )}
       </Article>
+      </div>
     </>
   );
 };

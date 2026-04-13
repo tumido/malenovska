@@ -1,12 +1,10 @@
 import { ExternalLink, CalendarDays, Calendar, Mail } from "lucide-react";
 import { useEvent } from "@/contexts/EventContext";
-import { Logo } from "@/components/Logo";
+import { PageHero } from "@/components/PageHero";
 import { Markdown } from "@/components/Markdown";
 
 const ContactsPage = () => {
   const event = useEvent();
-  const splitAt = event.name.indexOf("o");
-
   const contactLinks = [
     { href: event.contact?.facebook, icon: ExternalLink, label: "Facebook", text: "Událost na facebooku" },
     { href: event.contact?.larpovadatabaze, icon: CalendarDays, label: "Larpová Databáze", text: "Záznam v databázi" },
@@ -16,29 +14,7 @@ const ContactsPage = () => {
 
   return (
     <>
-      {/* Hero with contact image background */}
-      <section
-        className="relative -mx-4 -mt-2 flex min-h-[40vh] items-center justify-center bg-primary bg-cover bg-center sm:-mt-5 lg:min-h-[50vh] xl:min-h-[60vh]"
-        style={{
-          backgroundImage: event.contactImage?.src
-            ? `url(${event.contactImage.src})`
-            : undefined,
-        }}
-      >
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/10" />
-        <div className="relative flex w-full justify-center px-6">
-          <div>
-            <p className="-mb-2 font-display text-3xl font-semibold text-white/80 md:text-6xl">
-              Kontakt a tým
-            </p>
-            <h1 className="font-display text-5xl font-semibold text-white md:text-8xl">
-              {event.name.slice(0, splitAt)}
-              <Logo size="0.55em" />
-              {event.name.slice(splitAt + 1)}
-            </h1>
-          </div>
-        </div>
-      </section>
+      <PageHero title="Kontakt a tým" image={event.contactImage?.src} />
 
       {/* Content section */}
       <section className="-mx-4 bg-primary-light text-primary">

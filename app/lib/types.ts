@@ -31,6 +31,7 @@ export interface Event {
   type: boolean; // true = Bitva, false = Šarvátka
   display: boolean;
   description: string;
+  heroImage?: FirestoreImage;
 
   // Rules
   rules: string;

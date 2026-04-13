@@ -4,8 +4,8 @@ import { doc, DocumentReference } from "firebase/firestore";
 import { useDocumentData } from "react-firebase-hooks/firestore";
 import { db } from "@/lib/firebase";
 import { useEvent } from "@/contexts/EventContext";
-import { Article } from "@/components/Article";
-import { ArticleCardHeader } from "@/components/ArticleCardHeader";
+import { PageHero } from "@/components/PageHero";
+import { Loading } from "@/components/Loading";
 import { Markdown } from "@/components/Markdown";
 import { Share2 } from "lucide-react";
 
@@ -22,7 +22,18 @@ const LegendDetailPage = () => {
     doc(db, "legends", id!) as DocumentReference<Legend>,
   );
 
-  if (loading || !legend) return <Article />;
+  if (loading || !legend) {
+    return (
+      <>
+        <PageHero title="..." />
+        <section className="-mx-4 bg-primary-light text-primary">
+          <div className="mx-auto max-w-5xl px-6 py-10 lg:px-8 lg:py-14">
+            <Loading />
+          </div>
+        </section>
+      </>
+    );
+  }
 
   if (legend.event !== event.id) {
     return (
@@ -33,37 +44,41 @@ const LegendDetailPage = () => {
   }
 
   return (
-    <Article>
-      <ArticleCardHeader title={legend.title} image={legend.image?.src} />
-      <div className="p-6">
-        <div className="mx-auto max-w-3xl">
-          <div className="mb-4 flex flex-wrap gap-2">
-            <Link
-              to={`/${event.id}`}
-              className="rounded-full border border-primary px-3 py-1 text-sm text-primary hover:bg-white/10"
-            >
-              {event.name}
-            </Link>
-            {legend.publishedAt && (
-              <span className="rounded-full border border-primary px-3 py-1 text-sm text-primary">
-                {timestampToDateStr(legend.publishedAt)}
-              </span>
-            )}
-          </div>
-          <div className="mt-6">
-            <Markdown content={legend.content} />
+    <>
+      <PageHero title={legend.title} image={legend.image?.src} />
+
+      <section className="-mx-4 bg-primary-light text-primary">
+        <div className="mx-auto max-w-5xl px-6 py-10 lg:px-8 lg:py-14">
+          <div className="mx-auto max-w-3xl">
+            <div className="mb-4 flex flex-wrap gap-2">
+              <Link
+                to={`/${event.id}`}
+                className="rounded-full border border-primary px-3 py-1 text-sm text-primary hover:bg-primary/5"
+              >
+                {event.name}
+              </Link>
+              {legend.publishedAt && (
+                <span className="rounded-full border border-primary px-3 py-1 text-sm text-primary">
+                  {timestampToDateStr(legend.publishedAt)}
+                </span>
+              )}
+            </div>
+            <div className="mt-6">
+              <Markdown content={legend.content} />
+            </div>
+            <div className="mt-8 border-t border-primary/20 pt-4">
+              <button
+                onClick={() => setShareOpen(true)}
+                className="flex items-center gap-2 text-sm text-primary hover:text-primary/60"
+              >
+                <Share2 size={16} />
+                Sdílet
+              </button>
+            </div>
           </div>
         </div>
-      </div>
-      <div className="border-t border-primary/40 px-6 py-3">
-        <button
-          onClick={() => setShareOpen(true)}
-          className="flex items-center gap-2 text-sm text-primary hover:text-primary/60"
-        >
-          <Share2 size={16} />
-          Sdílet
-        </button>
-      </div>
+      </section>
+
       <Suspense fallback={null}>
         <ShareDialog
           open={shareOpen}
@@ -72,7 +87,7 @@ const LegendDetailPage = () => {
           eventName={event.name}
         />
       </Suspense>
-    </Article>
+    </>
   );
 };
 

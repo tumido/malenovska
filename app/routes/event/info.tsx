@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { MapPin, ExternalLink, FileText, Wallet, CalendarDays } from "lucide-react";
 import { useEvent } from "@/contexts/EventContext";
-import { Banner } from "@/components/Banner";
+import { PageHero } from "@/components/PageHero";
 import { Map } from "@/components/Map";
 import { timestampToDateStr, toTimeStr } from "@/lib/date";
 
@@ -26,7 +26,8 @@ const InfoPage = () => {
 
   return (
     <>
-      <Banner title="To důležité" />
+      <PageHero title="To důležité" compact />
+      <div className="-mx-4 min-h-screen bg-black/80 px-4 pt-8">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         {/* Info cards row */}
         <div className="mb-8 grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -148,6 +149,7 @@ const InfoPage = () => {
             </div>
           </div>
         )}
+      </div>
       </div>
     </>
   );

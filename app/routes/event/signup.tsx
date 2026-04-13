@@ -4,7 +4,7 @@ import { doc, query, where, writeBatch, type DocumentReference } from "firebase/
 import { useCollectionData, useDocumentData } from "react-firebase-hooks/firestore";
 import { db, typedCollection } from "@/lib/firebase";
 import { useEvent } from "@/contexts/EventContext";
-import { Banner } from "@/components/Banner";
+import { PageHero } from "@/components/PageHero";
 import { Article } from "@/components/Article";
 import { Loading } from "@/components/Loading";
 import { Markdown } from "@/components/Markdown";
@@ -173,7 +173,8 @@ const SignupPage = () => {
   if (submitted) {
     return (
       <>
-        <Banner title="Registrace" />
+        <PageHero title="Registrace" compact />
+        <div className="-mx-4 min-h-screen bg-black/80 px-4 pt-8">
         <div className="flex flex-col items-center gap-6 py-12">
           {!result ? (
             <Loading />
@@ -220,6 +221,7 @@ const SignupPage = () => {
             </div>
           )}
         </div>
+        </div>
       </>
     );
   }
@@ -228,7 +230,8 @@ const SignupPage = () => {
 
   return (
     <>
-      <Banner title="Registrace" />
+      <PageHero title="Registrace" compact />
+      <div className="-mx-4 min-h-screen bg-black/80 px-4 pt-8">
       <Article>
         <div className="hidden sm:flex items-center justify-center gap-2 p-5">
           {stepNames.map((name, i) => (
@@ -468,6 +471,7 @@ const SignupPage = () => {
           )}
         </div>
       </Article>
+      </div>
     </>
   );
 };

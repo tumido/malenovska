@@ -3,7 +3,7 @@ import { query, where } from "firebase/firestore";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import { typedCollection } from "@/lib/firebase";
 import { useEvent } from "@/contexts/EventContext";
-import { Banner } from "@/components/Banner";
+import { PageHero } from "@/components/PageHero";
 import type { Event, Gallery } from "@/lib/types";
 
 const GalleryTile = ({ gallery, eventName }: { gallery: Gallery; eventName: string }) => (
@@ -62,11 +62,13 @@ const GalleryPage = () => {
   if (loading || !galleries) return null;
 
   return (
-    <div className="mx-auto max-w-6xl px-2">
-      <Banner title="Galerie">
+    <>
+      <PageHero title="Galerie" compact>
         <p>Fotogalerie, sdílená alba, památníčky... prostě, co se našlo.</p>
-      </Banner>
+      </PageHero>
 
+      <div className="-mx-4 min-h-screen bg-black/80 px-4 pt-8">
+      <div className="mx-auto max-w-6xl px-2">
       {galleries.length > 0 ? (
         <div className="columns-2 gap-2 sm:columns-3 lg:columns-4">
           {galleries.map((tile) => (
@@ -91,7 +93,9 @@ const GalleryPage = () => {
           </div>
         </>
       )}
-    </div>
+      </div>
+      </div>
+    </>
   );
 };
 
