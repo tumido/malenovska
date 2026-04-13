@@ -35,6 +35,7 @@ interface MarkdownEditorProps {
   previewTransform?: (value: string) => string;
   insertables?: Insertable[];
   singleLine?: boolean;
+  required?: boolean;
 }
 
 interface ToolbarAction {
@@ -157,6 +158,7 @@ const MarkdownEditor = ({
   previewTransform,
   insertables,
   singleLine,
+  required,
 }: MarkdownEditorProps) => {
   const [preview, setPreview] = useState(false);
   const [insertMenuOpen, setInsertMenuOpen] = useState(false);
@@ -212,7 +214,10 @@ const MarkdownEditor = ({
   return (
     <div className="space-y-1">
       {label && (
-        <label className="block text-sm font-medium text-gray-300">{label}</label>
+        <label className="block text-sm font-medium text-gray-300">
+          {label}
+          {required && <span className="text-red-500 ml-0.5">*</span>}
+        </label>
       )}
       <div className="rounded border border-gray-600 bg-neutral-900 overflow-hidden focus-within:border-secondary focus-within:ring-1 focus-within:ring-secondary">
         <div className="flex flex-wrap items-center border-b border-gray-600">

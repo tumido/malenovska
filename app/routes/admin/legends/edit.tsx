@@ -27,6 +27,10 @@ const LegendEditPage = () => {
   }, [legend, id, form]);
 
   const handleSave = async () => {
+    if (!form.title || !form.event || !form.perex || !form.content || !form.image?.src) {
+      alert("Vyplňte všechna povinná pole");
+      return;
+    }
     setSaving(true);
     try {
       const raw = Object.fromEntries(Object.entries(form).filter(([k]) => k !== "id"));
@@ -69,7 +73,7 @@ const LegendEditPage = () => {
               required
             />
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1">Událost</label>
+              <label className="block text-sm font-medium text-gray-300 mb-1">Událost<span className="text-red-500 ml-0.5">*</span></label>
               <select
                 value={form.event ?? ""}
                 onChange={(e) => setForm((p) => ({ ...p, event: e.target.value }))}
@@ -81,22 +85,25 @@ const LegendEditPage = () => {
                 ))}
               </select>
             </div>
-            <InputField
-              label="Perex"
-              value={form.perex ?? ""}
-              onChange={(v) => setForm((p) => ({ ...p, perex: v }))}
-              required
-            />
           </div>
+          <InputField
+            label="Perex"
+            value={form.perex ?? ""}
+            onChange={(v) => setForm((p) => ({ ...p, perex: v }))}
+            required
+            maxLength={200}
+          />
           <MarkdownEditor
             label="Obsah"
             value={form.content ?? ""}
             onChange={(v) => setForm((p) => ({ ...p, content: v }))}
+            required
           />
           <ImageField
             label="Obrázek"
             value={form.image ?? { src: "" }}
             onChange={(v) => setForm((p) => ({ ...p, image: v }))}
+            required
           />
         </div>
       ),

@@ -28,7 +28,7 @@ const GalleryEditPage = () => {
   const set = (patch: Partial<Gallery>) => setForm((p) => ({ ...p, ...patch }));
 
   const handleSave = async () => {
-    if (!form.name || !form.event || !form.author || !form.url) {
+    if (!form.name || !form.event || !form.author || !form.url || !form.cover?.src) {
       alert("Vyplňte všechna povinná pole");
       return;
     }
@@ -67,9 +67,8 @@ const GalleryEditPage = () => {
         <div className="space-y-4">
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <InputField label="Název" value={form.name ?? ""} onChange={(v) => set({ name: v })} required />
-            <InputField label="Autor" value={form.author ?? ""} onChange={(v) => set({ author: v })} required />
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1">Událost</label>
+              <label className="block text-sm font-medium text-gray-300 mb-1">Událost<span className="text-red-500 ml-0.5">*</span></label>
               <select
                 value={form.event ?? ""}
                 onChange={(e) => set({ event: e.target.value })}
@@ -82,12 +81,14 @@ const GalleryEditPage = () => {
                 ))}
               </select>
             </div>
-            <InputField label="URL galerie" value={form.url ?? ""} onChange={(v) => set({ url: v })} type="url" required />
           </div>
+          <InputField label="Autor" value={form.author ?? ""} onChange={(v) => set({ author: v })} required />
+          <InputField label="URL galerie" value={form.url ?? ""} onChange={(v) => set({ url: v })} type="url" required />
           <ImageField
             label="Náhledový obrázek"
             value={form.cover ?? { src: "" }}
             onChange={(v) => set({ cover: v })}
+            required
           />
         </div>
       ),

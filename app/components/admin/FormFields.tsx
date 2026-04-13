@@ -14,6 +14,7 @@ interface InputFieldProps {
   min?: number;
   max?: number;
   suffix?: string;
+  maxLength?: number;
 }
 
 export const InputField = ({
@@ -27,13 +28,21 @@ export const InputField = ({
   min,
   max,
   suffix,
+  maxLength,
 }: InputFieldProps) => {
   return (
     <div>
-      <label className="block text-sm font-medium text-gray-300 mb-1">
-        {label}
-        {required && <span className="text-red-500 ml-0.5">*</span>}
-      </label>
+      <div className="flex items-baseline justify-between mb-1">
+        <label className="block text-sm font-medium text-gray-300">
+          {label}
+          {required && <span className="text-red-500 ml-0.5">*</span>}
+        </label>
+        {maxLength && (
+          <span className={`text-xs ${String(value).length > maxLength ? "text-red-400" : "text-gray-500"}`}>
+            {String(value).length}/{maxLength}
+          </span>
+        )}
+      </div>
       <div className="relative">
         <input
           type={type}
@@ -44,6 +53,7 @@ export const InputField = ({
           placeholder={placeholder}
           min={min}
           max={max}
+          maxLength={maxLength}
           className={`w-full rounded border border-gray-600 bg-neutral-900 px-3 py-2 text-sm text-primary-light focus:border-secondary focus:outline-none focus:ring-1 focus:ring-secondary disabled:bg-gray-800 disabled:text-gray-500 ${suffix ? "pr-12" : ""}`}
         />
         {suffix && (
@@ -209,15 +219,19 @@ interface ImageFieldProps {
   label: string;
   value: { src: string };
   onChange: (value: { src: string }) => void;
+  required?: boolean;
 }
 
-export const ImageField = ({ label, value, onChange }: ImageFieldProps) => {
+export const ImageField = ({ label, value, onChange, required }: ImageFieldProps) => {
   const { dragging, setDragging, inputRef, onDrop, onFileChange } =
     useFileDropZone(onChange);
 
   return (
     <div className="space-y-2">
-      <label className="block text-sm font-medium text-gray-300">{label}</label>
+      <label className="block text-sm font-medium text-gray-300">
+        {label}
+        {required && <span className="text-red-500 ml-0.5">*</span>}
+      </label>
       {/* Drop zone / preview */}
       <div
         onDragOver={(e) => { e.preventDefault(); setDragging(true); }}
@@ -229,7 +243,9 @@ export const ImageField = ({ label, value, onChange }: ImageFieldProps) => {
             ? "border-secondary bg-secondary/10"
             : value.src
               ? "border-gray-700 hover:border-gray-500"
-              : "border-gray-600 hover:border-gray-400"
+              : required
+                ? "border-red-500/50 hover:border-red-400"
+                : "border-gray-600 hover:border-gray-400"
         }`}
       >
         {value.src ? (
@@ -271,9 +287,10 @@ interface FileFieldProps {
   value: { src: string };
   onChange: (value: { src: string }) => void;
   accept?: string;
+  required?: boolean;
 }
 
-export const FileField = ({ label, value, onChange, accept }: FileFieldProps) => {
+export const FileField = ({ label, value, onChange, accept, required }: FileFieldProps) => {
   const filename = value.src.split("/").pop()?.split("?")[0] || "";
   const isBlobUrl = value.src.startsWith("blob:");
   const { dragging, setDragging, inputRef, onDrop, onFileChange } =
@@ -281,7 +298,10 @@ export const FileField = ({ label, value, onChange, accept }: FileFieldProps) =>
 
   return (
     <div className="space-y-2">
-      <label className="block text-sm font-medium text-gray-300">{label}</label>
+      <label className="block text-sm font-medium text-gray-300">
+        {label}
+        {required && <span className="text-red-500 ml-0.5">*</span>}
+      </label>
       {/* Preview or drop zone */}
       <div
         onDragOver={(e) => { e.preventDefault(); setDragging(true); }}
@@ -292,7 +312,9 @@ export const FileField = ({ label, value, onChange, accept }: FileFieldProps) =>
             ? "border-secondary bg-secondary/10"
             : value.src
               ? "border-gray-700"
-              : "border-gray-600 hover:border-gray-400"
+              : required
+                ? "border-red-500/50 hover:border-red-400"
+                : "border-gray-600 hover:border-gray-400"
         }`}
       >
         {value.src ? (
@@ -357,6 +379,7 @@ interface ColorFieldProps {
   value: string;
   onChange: (value: string) => void;
   presets?: string[];
+  required?: boolean;
 }
 
 const DEFAULT_COLOR_PRESETS = [
@@ -374,11 +397,13 @@ export const ColorField = ({
   value,
   onChange,
   presets = DEFAULT_COLOR_PRESETS,
+  required,
 }: ColorFieldProps) => {
   return (
     <div>
       <label className="block text-sm font-medium text-gray-300 mb-1">
         {label}
+        {required && <span className="text-red-500 ml-0.5">*</span>}
       </label>
       <div className="flex items-center gap-2">
         <div className="flex gap-1">

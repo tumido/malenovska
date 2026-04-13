@@ -5,7 +5,7 @@ import { useDocumentData, useCollectionData } from "react-firebase-hooks/firesto
 import { db, typedCollection } from "@/lib/firebase";
 import { updateDocument, fetchParticipantPrivate, removeParticipant } from "@/lib/admin-firestore";
 import FormLayout from "@/components/admin/FormLayout";
-import { InputField, CheckboxField } from "@/components/admin/FormFields";
+import { InputField, ToggleField } from "@/components/admin/FormFields";
 import type { Event, Participant, Race } from "@/lib/types";
 
 const ParticipantEditPage = () => {
@@ -102,55 +102,67 @@ const ParticipantEditPage = () => {
             </div>
             <InputField label="Poznámka" value={form.note ?? ""} onChange={(v) => set({ note: v })} />
           </div>
-          {fieldExtras.length > 0 && (
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-              {fieldExtras.map((extra) => {
-                const fieldId = extra.props!.id!;
-                const label = extra.props!.label ?? fieldId;
-                if (extra.type === "checkbox") {
-                  return (
-                    <CheckboxField
-                      key={fieldId}
-                      label={label}
-                      checked={!!form[fieldId]}
-                      onChange={(v) => set({ [fieldId]: v })}
-                    />
-                  );
-                }
-                return (
-                  <InputField
-                    key={fieldId}
-                    label={label}
-                    value={String(form[fieldId] ?? "")}
-                    onChange={(v) => set({ [fieldId]: extra.type === "number" ? Number(v) : v })}
-                    type={extra.type}
-                  />
-                );
-              })}
-            </div>
-          )}
-        </div>
-      ),
-    },
-    {
-      key: "private",
-      label: "Soukromé údaje",
-      content: (
-        <div className="space-y-4">
-          {privateData ? (
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-              <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1">Věk</label>
-                <p className="text-sm text-primary-light">{privateData.age ?? "–"}</p>
+          {fieldExtras.length > 0 && (() => {
+            const checkboxes = fieldExtras.filter((e) => e.type === "checkbox");
+            const inputs = fieldExtras.filter((e) => e.type !== "checkbox");
+            return (
+              <div className="mt-2 rounded-lg border border-gray-700 bg-neutral-900 p-4">
+                <h3 className="mb-3 text-sm font-semibold text-gray-400 uppercase tracking-wide">Doplňující údaje</h3>
+                {checkboxes.length > 0 && (
+                  <div className="space-y-2">
+                    {checkboxes.map((extra) => {
+                      const fieldId = extra.props!.id!;
+                      const label = extra.props!.label ?? fieldId;
+                      return (
+                        <ToggleField
+                          key={fieldId}
+                          label={label}
+                          checked={!!form[fieldId]}
+                          onChange={(v) => set({ [fieldId]: v })}
+                        />
+                      );
+                    })}
+                  </div>
+                )}
+                {inputs.length > 0 && (
+                  <div className={`grid grid-cols-1 gap-4 sm:grid-cols-2 ${checkboxes.length > 0 ? "mt-4" : ""}`}>
+                    {inputs.map((extra) => {
+                      const fieldId = extra.props!.id!;
+                      const label = extra.props!.label ?? fieldId;
+                      return (
+                        <InputField
+                          key={fieldId}
+                          label={label}
+                          value={String(form[fieldId] ?? "")}
+                          onChange={(v) => set({ [fieldId]: extra.type === "number" ? Number(v) : v })}
+                          type={extra.type}
+                        />
+                      );
+                    })}
+                  </div>
+                )}
               </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1">E-mail</label>
-                <p className="text-sm text-primary-light">{privateData.email ?? "–"}</p>
+            );
+          })()}
+
+          {/* Private data — read-only */}
+          <div className="mt-6 rounded-lg border border-gray-700 bg-neutral-900 p-4">
+            <h3 className="mb-3 text-sm font-semibold text-gray-400 uppercase tracking-wide">Soukromé údaje</h3>
+            {privateData ? (
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <div>
+                  <label className="block text-xs text-gray-500 mb-0.5">Věk</label>
+                  <p className="text-sm text-primary-light">{privateData.age ?? "–"}</p>
+                </div>
+                <div>
+                  <label className="block text-xs text-gray-500 mb-0.5">E-mail</label>
+                  <p className="text-sm text-primary-light">{privateData.email ?? "–"}</p>
+                </div>
               </div>
-            </div>
-          ) : (
-            <p className="text-sm text-gray-500">Žádná soukromá data</p>
-          )}
+            ) : (
+              <p className="text-sm text-gray-500">Žádná soukromá data</p>
+            )}
+          </div>
         </div>
       ),
     },

@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { useParams } from "react-router";
-import { query, where } from "firebase/firestore";
-import { useCollectionData } from "react-firebase-hooks/firestore";
+import { doc } from "firebase/firestore";
+import { useDocumentData } from "react-firebase-hooks/firestore";
 import { typedCollection } from "@/lib/firebase";
 import type { Event } from "@/lib/types";
 import { EventProvider } from "@/contexts/EventContext";
@@ -14,11 +14,9 @@ import { getNavigation } from "@/lib/navigation";
 export const EventShell = ({ children }: { children: React.ReactNode }) => {
   const { eventId } = useParams();
 
-  const [events, loading] = useCollectionData(
-    query(typedCollection<Event>("events"), where("id", "==", eventId)),
+  const [event, loading] = useDocumentData(
+    doc(typedCollection<Event>("events"), eventId!),
   );
-
-  const event = events?.[0];
 
   const navigation = useMemo(
     () => (event ? getNavigation(event) : []),

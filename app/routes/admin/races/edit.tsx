@@ -5,7 +5,7 @@ import { useDocumentData } from "react-firebase-hooks/firestore";
 import { db } from "@/lib/firebase";
 import { updateDocument, removeDocument, processPendingUploads } from "@/lib/admin-firestore";
 import FormLayout from "@/components/admin/FormLayout";
-import { InputField, ImageField } from "@/components/admin/FormFields";
+import { InputField, ImageField, ColorField } from "@/components/admin/FormFields";
 import { useEventFilter } from "@/components/admin/EventFilter";
 import MarkdownEditor from "@/components/admin/MarkdownEditor";
 import type { Race } from "@/lib/types";
@@ -29,6 +29,10 @@ const RaceEditPage = () => {
   const set = (patch: Partial<Race>) => setForm((p) => ({ ...p, ...patch }));
 
   const handleSave = async () => {
+    if (!form.name || !form.event || !form.color || !form.colorName || !form.legend || !form.requirements || !form.image?.src) {
+      alert("Vyplňte všechna povinná pole");
+      return;
+    }
     setSaving(true);
     try {
       const raw = Object.fromEntries(Object.entries(form).filter(([k]) => k !== "id"));
@@ -65,7 +69,7 @@ const RaceEditPage = () => {
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <InputField label="Název" value={form.name ?? ""} onChange={(v) => set({ name: v })} required />
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1">Událost</label>
+              <label className="block text-sm font-medium text-gray-300 mb-1">Událost<span className="text-red-500 ml-0.5">*</span></label>
               <select
                 value={form.event ?? ""}
                 onChange={(e) => set({ event: e.target.value })}
@@ -78,13 +82,13 @@ const RaceEditPage = () => {
               </select>
             </div>
             <InputField label="Limit" value={form.limit ?? 0} onChange={(v) => set({ limit: Number(v) })} type="number" required />
-            <InputField label="Priorita" value={form.priority ?? 1} onChange={(v) => set({ priority: Number(v) })} type="number" />
-            <InputField label="Barva (hex)" value={form.color ?? ""} onChange={(v) => set({ color: v })} />
+            <InputField label="Priorita" value={form.priority ?? 1} onChange={(v) => set({ priority: Number(v) })} type="number" required />
+            <ColorField label="Barva" value={form.color ?? ""} onChange={(v) => set({ color: v })} required />
             <InputField label="Název barvy" value={form.colorName ?? ""} onChange={(v) => set({ colorName: v })} required />
           </div>
-          <MarkdownEditor label="Legenda" value={form.legend ?? ""} onChange={(v) => set({ legend: v })} />
-          <MarkdownEditor label="Požadavky" value={form.requirements ?? ""} onChange={(v) => set({ requirements: v })} />
-          <ImageField label="Obrázek" value={form.image ?? { src: "" }} onChange={(v) => set({ image: v })} />
+          <MarkdownEditor label="Legenda" value={form.legend ?? ""} onChange={(v) => set({ legend: v })} required />
+          <MarkdownEditor label="Požadavky" value={form.requirements ?? ""} onChange={(v) => set({ requirements: v })} required />
+          <ImageField label="Obrázek" value={form.image ?? { src: "" }} onChange={(v) => set({ image: v })} required />
         </div>
       ),
     },

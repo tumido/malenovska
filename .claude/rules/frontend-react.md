@@ -323,7 +323,7 @@ Reusable form field components in `components/admin/FormFields.tsx`:
 
 | Component | Purpose |
 |-----------|---------|
-| `InputField` | Text/number/date/time input. Supports `suffix` prop (e.g., "Kč") |
+| `InputField` | Text/number/date/time input. Supports `suffix` (e.g., "Kč") and `maxLength` (shows counter) |
 | `SelectField` | Dropdown select |
 | `ToggleField` | Styled toggle switch with label + description (used for prominent boolean controls) |
 | `CheckboxField` | Simple checkbox (used for less prominent booleans) |
