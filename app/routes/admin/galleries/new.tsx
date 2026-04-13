@@ -1,36 +1,46 @@
 import { useCallback, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { createDocument, processPendingUploads } from "@/lib/admin-firestore";
 import FormLayout from "@/components/admin/FormLayout";
-import { InputField, ImageField } from "@/components/admin/FormFields";
+import { RHFInput, RHFEventSelect, RHFImage } from "@/components/admin/RHFFields";
 import { useEventFilter } from "@/components/admin/EventFilter";
 import { useCloneData } from "@/lib/useCloneData";
+import { gallerySchema, type GalleryFormValues } from "@/lib/schemas";
 import type { Gallery } from "@/lib/types";
+
+const slugify = (name: string): string => {
+  return name.replace(/ /g, "_").toLowerCase().replace(/\W/g, "");
+};
 
 const GalleryCreatePage = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const [form, setForm] = useState<Partial<Gallery>>(() => {
-    const event = searchParams.get("event");
-    return event ? { event } : {};
-  });
   const [saving, setSaving] = useState(false);
   const { events } = useEventFilter([]);
-  const setFormStable = useCallback((data: Partial<Gallery>) => setForm(data), []);
-  const { isClone } = useCloneData<Gallery>("galleries", setFormStable);
 
-  const set = (patch: Partial<Gallery>) => setForm((p) => ({ ...p, ...patch }));
+  const { control, handleSubmit, reset } = useForm<GalleryFormValues>({
+    resolver: zodResolver(gallerySchema),
+    shouldUnregister: false,
+    defaultValues: {
+      name: "",
+      event: searchParams.get("event") ?? "",
+      author: "",
+      url: "",
+      cover: { src: "" },
+    },
+  });
 
-  const handleSave = async () => {
-    if (!form.name || !form.event || !form.author || !form.url || !form.cover?.src) {
-      alert("Vyplňte všechna povinná pole");
-      return;
-    }
+  const resetStable = useCallback((data: Partial<Gallery>) => reset(data as GalleryFormValues), [reset]);
+  const { isClone } = useCloneData<Gallery>("galleries", resetStable);
+
+  const onValid = async (data: GalleryFormValues) => {
     setSaving(true);
     try {
-      const id = form.name.replace(/ /g, "_").toLowerCase().replace(/\W/g, "");
-      const data = await processPendingUploads(form);
-      await createDocument("galleries", id, data);
+      const id = slugify(data.name);
+      const processed = await processPendingUploads(data);
+      await createDocument("galleries", id, processed);
       navigate("/admin/galleries");
     } catch (err) {
       alert("Chyba při vytváření");
@@ -47,30 +57,12 @@ const GalleryCreatePage = () => {
       content: (
         <div className="space-y-4">
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <InputField label="Název" value={form.name ?? ""} onChange={(v) => set({ name: v })} required />
-            <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1">Událost<span className="text-red-500 ml-0.5">*</span></label>
-              <select
-                value={form.event ?? ""}
-                onChange={(e) => set({ event: e.target.value })}
-                required
-                className="w-full rounded border border-gray-600 bg-neutral-900 px-3 py-2 text-sm text-primary-light focus:border-secondary focus:outline-none focus:ring-1 focus:ring-secondary"
-              >
-                <option value="">Vyberte</option>
-                {events.map((ev) => (
-                  <option key={ev.id} value={ev.id}>{ev.name} ({ev.year})</option>
-                ))}
-              </select>
-            </div>
+            <RHFInput control={control} name="name" label="Název" required />
+            <RHFEventSelect control={control} name="event" label="Událost" events={events} required />
           </div>
-          <InputField label="Autor" value={form.author ?? ""} onChange={(v) => set({ author: v })} required />
-          <InputField label="URL galerie" value={form.url ?? ""} onChange={(v) => set({ url: v })} type="url" required />
-          <ImageField
-            label="Náhledový obrázek"
-            value={form.cover ?? { src: "" }}
-            onChange={(v) => set({ cover: v })}
-            required
-          />
+          <RHFInput control={control} name="author" label="Autor" required />
+          <RHFInput control={control} name="url" label="URL galerie" type="url" required />
+          <RHFImage control={control} name="cover" label="Náhledový obrázek" required />
         </div>
       ),
     },
@@ -80,7 +72,7 @@ const GalleryCreatePage = () => {
     <FormLayout
       title={isClone ? "Klonovat galerii" : "Nová galerie"}
       tabs={tabs}
-      onSubmit={handleSave}
+      onSubmit={handleSubmit(onValid)}
       onCancel={() => navigate("/admin/galleries")}
       saving={saving}
     />

@@ -1,11 +1,15 @@
 import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router";
+import { useParams, useNavigate, Link } from "react-router";
 import { doc, query, where, type DocumentReference } from "firebase/firestore";
 import { useDocumentData, useCollectionData } from "react-firebase-hooks/firestore";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { db, typedCollection } from "@/lib/firebase";
 import { updateDocument, fetchParticipantPrivate, removeParticipant } from "@/lib/admin-firestore";
 import FormLayout from "@/components/admin/FormLayout";
 import { InputField, ToggleField } from "@/components/admin/FormFields";
+import { RHFInput, RHFSelect } from "@/components/admin/RHFFields";
+import { participantSchema, type ParticipantFormValues } from "@/lib/schemas";
 import type { Event, Participant, Race } from "@/lib/types";
 
 const ParticipantEditPage = () => {
@@ -14,12 +18,17 @@ const ParticipantEditPage = () => {
   const [participant, loading] = useDocumentData<Participant>(
     doc(db, "participants", id!) as DocumentReference<Participant>,
   );
-  const [form, setForm] = useState<Partial<Participant>>({});
   const [privateData, setPrivateData] = useState<{ age?: number; email?: string } | null>(null);
   const [saving, setSaving] = useState(false);
 
+  const { control, handleSubmit, reset, watch, setValue } = useForm<ParticipantFormValues>({
+    resolver: zodResolver(participantSchema),
+    shouldUnregister: false,
+  });
+
+  const eventId = watch("event") ?? participant?.event ?? "";
+
   // Load races filtered by participant's event
-  const eventId = form.event ?? participant?.event ?? "";
   const [races] = useCollectionData(
     eventId
       ? query(typedCollection<Race>("races"), where("event", "==", eventId))
@@ -34,10 +43,8 @@ const ParticipantEditPage = () => {
   ) ?? [];
 
   useEffect(() => {
-    if (participant && Object.keys(form).length === 0) {
-      setForm({ ...participant, id });
-    }
-  }, [participant, id, form]);
+    if (participant) reset({ ...participant } as ParticipantFormValues);
+  }, [participant, reset]);
 
   useEffect(() => {
     if (id) {
@@ -45,12 +52,9 @@ const ParticipantEditPage = () => {
     }
   }, [id]);
 
-  const set = (patch: Partial<Participant>) => setForm((p) => ({ ...p, ...patch }));
-
-  const handleSave = async () => {
+  const onValid = async (data: ParticipantFormValues) => {
     setSaving(true);
     try {
-      const data = Object.fromEntries(Object.entries(form).filter(([k]) => k !== "id"));
       await updateDocument("participants", id!, data);
       navigate("/admin/participants");
     } catch (err) {
@@ -62,7 +66,9 @@ const ParticipantEditPage = () => {
   };
 
   const handleDelete = async () => {
-    if (!confirm(`Opravdu smazat účastníka „${form.firstName ?? ""} ${form.lastName ?? ""}"?`)) return;
+    const firstName = watch("firstName");
+    const lastName = watch("lastName");
+    if (!confirm(`Opravdu smazat účastníka „${firstName ?? ""} ${lastName ?? ""}"?`)) return;
     try {
       await removeParticipant(id!);
       navigate("/admin/participants");
@@ -73,6 +79,19 @@ const ParticipantEditPage = () => {
   };
 
   if (loading) return <div className="text-gray-500">Načítání…</div>;
+  if (!participant) {
+    return (
+      <div className="flex min-h-[60vh] flex-col items-center justify-center gap-3 text-gray-500">
+        <p>Účastník nenalezen</p>
+        <Link to="/admin/participants" className="text-sm text-secondary hover:text-secondary-dark transition-colors">
+          Zpět na seznam účastníků
+        </Link>
+      </div>
+    );
+  }
+
+  const firstName = watch("firstName");
+  const lastName = watch("lastName");
 
   const tabs = [
     {
@@ -81,26 +100,21 @@ const ParticipantEditPage = () => {
       content: (
         <div className="space-y-4">
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <InputField label="ID" value={form.id ?? ""} onChange={() => {}} disabled />
-            <InputField label="Událost" value={form.event ?? ""} onChange={() => {}} disabled />
-            <InputField label="Jméno" value={form.firstName ?? ""} onChange={(v) => set({ firstName: v })} required />
-            <InputField label="Příjmení" value={form.lastName ?? ""} onChange={(v) => set({ lastName: v })} required />
-            <InputField label="Přezdívka" value={form.nickName ?? ""} onChange={(v) => set({ nickName: v })} />
-            <InputField label="Skupina" value={form.group ?? ""} onChange={(v) => set({ group: v })} />
-            <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1">Strana</label>
-              <select
-                value={form.race ?? ""}
-                onChange={(e) => set({ race: e.target.value })}
-                className="w-full rounded border border-gray-600 bg-neutral-900 px-3 py-2 text-sm text-primary-light focus:border-secondary focus:outline-none focus:ring-1 focus:ring-secondary"
-              >
-                <option value="">Vyberte</option>
-                {(races ?? []).map((r) => (
-                  <option key={r.id} value={r.id}>{r.name}</option>
-                ))}
-              </select>
-            </div>
-            <InputField label="Poznámka" value={form.note ?? ""} onChange={(v) => set({ note: v })} />
+            <InputField label="ID" value={id ?? ""} onChange={() => {}} disabled />
+            <InputField label="Událost" value={eventId} onChange={() => {}} disabled />
+            <RHFInput control={control} name="firstName" label="Jméno" required />
+            <RHFInput control={control} name="lastName" label="Příjmení" required />
+            <RHFInput control={control} name="nickName" label="Přezdívka" />
+            <RHFInput control={control} name="group" label="Skupina" />
+            <RHFSelect
+              control={control}
+              name="race"
+              label="Strana"
+              required
+              placeholder="Vyberte"
+              options={(races ?? []).map((r) => ({ value: r.id, label: r.name }))}
+            />
+            <RHFInput control={control} name="note" label="Poznámka" />
           </div>
           {fieldExtras.length > 0 && (() => {
             const checkboxes = fieldExtras.filter((e) => e.type === "checkbox");
@@ -117,8 +131,8 @@ const ParticipantEditPage = () => {
                         <ToggleField
                           key={fieldId}
                           label={label}
-                          checked={!!form[fieldId]}
-                          onChange={(v) => set({ [fieldId]: v })}
+                          checked={!!watch(fieldId)}
+                          onChange={(v) => setValue(fieldId, v)}
                         />
                       );
                     })}
@@ -133,8 +147,8 @@ const ParticipantEditPage = () => {
                         <InputField
                           key={fieldId}
                           label={label}
-                          value={String(form[fieldId] ?? "")}
-                          onChange={(v) => set({ [fieldId]: extra.type === "number" ? Number(v) : v })}
+                          value={String(watch(fieldId) ?? "")}
+                          onChange={(v) => setValue(fieldId, extra.type === "number" ? Number(v) : v)}
                           type={extra.type}
                         />
                       );
@@ -170,9 +184,9 @@ const ParticipantEditPage = () => {
 
   return (
     <FormLayout
-      title={`Upravit: ${form.firstName ?? ""} ${form.lastName ?? ""}`}
+      title={`Upravit: ${firstName ?? ""} ${lastName ?? ""}`}
       tabs={tabs}
-      onSubmit={handleSave}
+      onSubmit={handleSubmit(onValid)}
       onCancel={() => navigate("/admin/participants")}
       onDelete={handleDelete}
       saving={saving}

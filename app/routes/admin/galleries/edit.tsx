@@ -1,12 +1,15 @@
 import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router";
+import { useParams, useNavigate, Link } from "react-router";
 import { doc, type DocumentReference } from "firebase/firestore";
 import { useDocumentData } from "react-firebase-hooks/firestore";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { db } from "@/lib/firebase";
 import { updateDocument, removeDocument, processPendingUploads } from "@/lib/admin-firestore";
 import FormLayout from "@/components/admin/FormLayout";
-import { InputField, ImageField } from "@/components/admin/FormFields";
+import { RHFInput, RHFEventSelect, RHFImage } from "@/components/admin/RHFFields";
 import { useEventFilter } from "@/components/admin/EventFilter";
+import { gallerySchema, type GalleryFormValues } from "@/lib/schemas";
 import type { Gallery } from "@/lib/types";
 
 const GalleryEditPage = () => {
@@ -15,28 +18,25 @@ const GalleryEditPage = () => {
   const [gallery, loading] = useDocumentData<Gallery>(
     doc(db, "galleries", id!) as DocumentReference<Gallery>,
   );
-  const [form, setForm] = useState<Partial<Gallery>>({});
   const [saving, setSaving] = useState(false);
   const { events } = useEventFilter([]);
 
+  const { control, handleSubmit, reset, watch } = useForm<GalleryFormValues>({
+    resolver: zodResolver(gallerySchema),
+    shouldUnregister: false,
+  });
+
   useEffect(() => {
-    if (gallery && Object.keys(form).length === 0) {
-      setForm({ ...gallery, id });
-    }
-  }, [gallery, id, form]);
+    if (gallery) reset(gallery as GalleryFormValues);
+  }, [gallery, reset]);
 
-  const set = (patch: Partial<Gallery>) => setForm((p) => ({ ...p, ...patch }));
+  const name = watch("name");
 
-  const handleSave = async () => {
-    if (!form.name || !form.event || !form.author || !form.url || !form.cover?.src) {
-      alert("Vyplňte všechna povinná pole");
-      return;
-    }
+  const onValid = async (data: GalleryFormValues) => {
     setSaving(true);
     try {
-      const raw = Object.fromEntries(Object.entries(form).filter(([k]) => k !== "id"));
-      const data = await processPendingUploads(raw);
-      await updateDocument("galleries", id!, data);
+      const processed = await processPendingUploads(data);
+      await updateDocument("galleries", id!, processed);
       navigate("/admin/galleries");
     } catch (err) {
       alert("Chyba při ukládání");
@@ -47,7 +47,7 @@ const GalleryEditPage = () => {
   };
 
   const handleDelete = async () => {
-    if (!confirm(`Opravdu smazat galerii „${form.name ?? id}"?`)) return;
+    if (!confirm(`Opravdu smazat galerii „${name ?? id}"?`)) return;
     try {
       await removeDocument("galleries", id!);
       navigate("/admin/galleries");
@@ -58,6 +58,16 @@ const GalleryEditPage = () => {
   };
 
   if (loading) return <div className="text-gray-500">Načítání…</div>;
+  if (!gallery) {
+    return (
+      <div className="flex min-h-[60vh] flex-col items-center justify-center gap-3 text-gray-500">
+        <p>Galerie nenalezena</p>
+        <Link to="/admin/galleries" className="text-sm text-secondary hover:text-secondary-dark transition-colors">
+          Zpět na seznam galerií
+        </Link>
+      </div>
+    );
+  }
 
   const tabs = [
     {
@@ -66,30 +76,12 @@ const GalleryEditPage = () => {
       content: (
         <div className="space-y-4">
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <InputField label="Název" value={form.name ?? ""} onChange={(v) => set({ name: v })} required />
-            <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1">Událost<span className="text-red-500 ml-0.5">*</span></label>
-              <select
-                value={form.event ?? ""}
-                onChange={(e) => set({ event: e.target.value })}
-                required
-                className="w-full rounded border border-gray-600 bg-neutral-900 px-3 py-2 text-sm text-primary-light focus:border-secondary focus:outline-none focus:ring-1 focus:ring-secondary"
-              >
-                <option value="">Vyberte</option>
-                {events.map((ev) => (
-                  <option key={ev.id} value={ev.id}>{ev.name} ({ev.year})</option>
-                ))}
-              </select>
-            </div>
+            <RHFInput control={control} name="name" label="Název" required />
+            <RHFEventSelect control={control} name="event" label="Událost" events={events} required />
           </div>
-          <InputField label="Autor" value={form.author ?? ""} onChange={(v) => set({ author: v })} required />
-          <InputField label="URL galerie" value={form.url ?? ""} onChange={(v) => set({ url: v })} type="url" required />
-          <ImageField
-            label="Náhledový obrázek"
-            value={form.cover ?? { src: "" }}
-            onChange={(v) => set({ cover: v })}
-            required
-          />
+          <RHFInput control={control} name="author" label="Autor" required />
+          <RHFInput control={control} name="url" label="URL galerie" type="url" required />
+          <RHFImage control={control} name="cover" label="Náhledový obrázek" required />
         </div>
       ),
     },
@@ -97,9 +89,9 @@ const GalleryEditPage = () => {
 
   return (
     <FormLayout
-      title={`Upravit: ${form.name ?? id}`}
+      title={`Upravit: ${name ?? id}`}
       tabs={tabs}
-      onSubmit={handleSave}
+      onSubmit={handleSubmit(onValid)}
       onCancel={() => navigate("/admin/galleries")}
       onDelete={handleDelete}
       saving={saving}

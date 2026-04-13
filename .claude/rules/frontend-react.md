@@ -194,19 +194,42 @@ export default LegendsPage;
 - Use `useLocation()` for current path
 - Use `useSearchParams()` — returns `[URLSearchParams, SetURLSearchParams]` tuple
 
-### Form System (react-hook-form)
+### Form System (react-hook-form + zod)
 
-The signup wizard uses a single `useForm()` instance with `FormProvider` across multiple steps:
+**Admin forms** use `useForm()` with `zodResolver()` and Controller-based wrappers (`RHFFields.tsx`). Schemas live in `app/lib/schemas.ts` with Czech error messages.
 
 ```tsx
-import { useForm, FormProvider } from "react-hook-form";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { RHFInput, RHFToggle } from "@/components/admin/RHFFields";
+import { eventSchema, type EventFormValues } from "@/lib/schemas";
 
-const methods = useForm({ shouldUnregister: false });
+const { control, handleSubmit, reset, setValue, watch } = useForm<EventFormValues>({
+  resolver: zodResolver(eventSchema),
+  shouldUnregister: false, // required — FormLayout unmounts inactive tabs
+});
 
-// In form fields:
-const { register, formState: { errors } } = useFormContext();
-<input {...register("firstName", { required: "Vyplnte" })} className="border-2 border-transparent focus:border-secondary p-3 w-full" />
+// Edit page: load Firestore data into form
+useEffect(() => { if (data) reset({ ...data, id }); }, [data, id, reset]);
+
+// Save: strip id, process uploads, write
+const onValid = async (data: EventFormValues) => {
+  const { id, ...raw } = data;
+  const processed = await processPendingUploads(raw);
+  await createDocument("events", id, processed);
+};
+
+// FormLayout onSubmit={handleSubmit(onValid)}
 ```
+
+Key patterns:
+- **Controller wrappers** (`RHFFields.tsx`): `RHFInput`, `RHFSelect`, `RHFToggle`, `RHFCheckbox`, `RHFColor`, `RHFImage`, `RHFFile`, `RHFTextarea`, `RHFEventSelect`, `RHFMarkdown` — needed because FormFields have non-standard `onChange` signatures
+- **`shouldUnregister: false`**: required because `FormLayout` unmounts inactive tab content
+- **`useFieldArray`**: used for POI and RegistrationExtras arrays in EventFormTabs
+- **Number fields**: `NumericInput` helper stores raw string locally while editing, commits number on blur — allows clearing the `0`
+- **Not-found guard**: all edit pages check `if (!entity)` after loading and show a centered message with a link back to the list
+
+**Public signup** uses `FormProvider` across wizard steps (different pattern — `register()` instead of Controller).
 
 ### Component Patterns
 
@@ -331,19 +354,23 @@ The app has a **dark, atmospheric Material-inspired aesthetic** — not pop art,
 
 ## Admin Form Components
 
-Reusable form field components in `components/admin/FormFields.tsx`:
+Base field components in `components/admin/FormFields.tsx`. All support `error?: string` prop (red border + error message below). Used directly only for disabled/read-only fields; otherwise use the RHF wrappers.
 
 | Component | Purpose |
 |-----------|---------|
-| `InputField` | Text/number/date/time input. Supports `suffix` (e.g., "Kč") and `maxLength` (shows counter) |
+| `InputField` | Text/number/date/time input. Supports `suffix`, `maxLength` (counter), `onBlur` |
 | `SelectField` | Dropdown select |
-| `ToggleField` | Styled toggle switch with label + description (used for prominent boolean controls) |
-| `CheckboxField` | Simple checkbox (used for less prominent booleans) |
-| `ColorField` | Color preset swatches + native color picker. Supports `required` |
-| `ImageField` | Image preview + drag & drop upload + URL input. Supports `required` (red border when empty) |
-| `FileField` | File preview + drag & drop upload + URL input. Supports `required` (red border when empty) |
+| `ToggleField` | Styled toggle switch with label + description |
+| `CheckboxField` | Simple checkbox |
+| `ColorField` | Color preset swatches + native color picker |
+| `ImageField` | Image preview + drag & drop upload + URL input |
+| `FileField` | File preview + drag & drop upload + URL input |
 | `TextareaField` | Multiline text |
 | `EventSelect` | Event dropdown (wraps SelectField) |
+
+RHF Controller wrappers in `components/admin/RHFFields.tsx` — accept `control` + `name` instead of `value`/`onChange`, auto-pass validation errors:
+
+`RHFInput`, `RHFSelect`, `RHFToggle`, `RHFCheckbox`, `RHFColor`, `RHFImage`, `RHFFile`, `RHFTextarea`, `RHFEventSelect`, `RHFMarkdown`
 
 ### File Upload Pattern
 

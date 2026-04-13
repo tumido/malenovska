@@ -7,6 +7,7 @@ interface InputFieldProps {
   label: string;
   value: string | number;
   onChange: (value: string) => void;
+  onBlur?: () => void;
   type?: string;
   required?: boolean;
   disabled?: boolean;
@@ -15,12 +16,14 @@ interface InputFieldProps {
   max?: number;
   suffix?: string;
   maxLength?: number;
+  error?: string;
 }
 
 export const InputField = ({
   label,
   value,
   onChange,
+  onBlur,
   type = "text",
   required,
   disabled,
@@ -29,6 +32,7 @@ export const InputField = ({
   max,
   suffix,
   maxLength,
+  error,
 }: InputFieldProps) => {
   return (
     <div>
@@ -48,13 +52,14 @@ export const InputField = ({
           type={type}
           value={value}
           onChange={(e) => onChange(e.target.value)}
+          onBlur={onBlur}
           required={required}
           disabled={disabled}
           placeholder={placeholder}
           min={min}
           max={max}
           maxLength={maxLength}
-          className={`w-full rounded border border-gray-600 bg-neutral-900 px-3 py-2 text-sm text-primary-light focus:border-secondary focus:outline-none focus:ring-1 focus:ring-secondary disabled:bg-gray-800 disabled:text-gray-500 ${suffix ? "pr-12" : ""}`}
+          className={`w-full rounded border bg-neutral-900 px-3 py-2 text-sm text-primary-light focus:border-secondary focus:outline-none focus:ring-1 focus:ring-secondary disabled:bg-gray-800 disabled:text-gray-500 ${error ? "border-red-500" : "border-gray-600"} ${suffix ? "pr-12" : ""}`}
         />
         {suffix && (
           <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-gray-400 pointer-events-none">
@@ -62,6 +67,7 @@ export const InputField = ({
           </span>
         )}
       </div>
+      {error && <p className="mt-1 text-xs text-red-400">{error}</p>}
     </div>
   );
 };
@@ -73,6 +79,7 @@ interface SelectFieldProps {
   options: { value: string; label: string }[];
   required?: boolean;
   placeholder?: string;
+  error?: string;
 }
 
 export const SelectField = ({
@@ -82,6 +89,7 @@ export const SelectField = ({
   options,
   required,
   placeholder,
+  error,
 }: SelectFieldProps) => {
   return (
     <div>
@@ -93,7 +101,7 @@ export const SelectField = ({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         required={required}
-        className="w-full rounded border border-gray-600 bg-neutral-900 px-3 py-2 text-sm text-primary-light focus:border-secondary focus:outline-none focus:ring-1 focus:ring-secondary"
+        className={`w-full rounded border bg-neutral-900 px-3 py-2 text-sm text-primary-light focus:border-secondary focus:outline-none focus:ring-1 focus:ring-secondary ${error ? "border-red-500" : "border-gray-600"}`}
       >
         {placeholder && <option value="">{placeholder}</option>}
         {options.map((opt) => (
@@ -102,6 +110,7 @@ export const SelectField = ({
           </option>
         ))}
       </select>
+      {error && <p className="mt-1 text-xs text-red-400">{error}</p>}
     </div>
   );
 };
@@ -110,19 +119,23 @@ interface CheckboxFieldProps {
   label: string;
   checked: boolean;
   onChange: (checked: boolean) => void;
+  error?: string;
 }
 
-export const CheckboxField = ({ label, checked, onChange }: CheckboxFieldProps) => {
+export const CheckboxField = ({ label, checked, onChange, error }: CheckboxFieldProps) => {
   return (
-    <label className="flex items-center gap-2 cursor-pointer">
-      <input
-        type="checkbox"
-        checked={checked}
-        onChange={(e) => onChange(e.target.checked)}
-        className="h-4 w-4 rounded border-gray-600 text-secondary focus:ring-secondary"
-      />
-      <span className="text-sm text-gray-300">{label}</span>
-    </label>
+    <div>
+      <label className="flex items-center gap-2 cursor-pointer">
+        <input
+          type="checkbox"
+          checked={checked}
+          onChange={(e) => onChange(e.target.checked)}
+          className="h-4 w-4 rounded border-gray-600 text-secondary focus:ring-secondary"
+        />
+        <span className="text-sm text-gray-300">{label}</span>
+      </label>
+      {error && <p className="mt-1 text-xs text-red-400">{error}</p>}
+    </div>
   );
 };
 
@@ -131,29 +144,33 @@ interface ToggleFieldProps {
   description?: string;
   checked: boolean;
   onChange: (checked: boolean) => void;
+  error?: string;
 }
 
-export const ToggleField = ({ label, description, checked, onChange }: ToggleFieldProps) => {
+export const ToggleField = ({ label, description, checked, onChange, error }: ToggleFieldProps) => {
   return (
-    <label className="flex items-center justify-between gap-4 cursor-pointer rounded border border-gray-700 bg-neutral-900 px-4 py-3">
-      <div>
-        <span className="text-sm font-medium text-primary-light">{label}</span>
-        {description && (
-          <p className="text-xs text-gray-400 mt-0.5">{description}</p>
-        )}
-      </div>
-      <button
-        type="button"
-        role="switch"
-        aria-checked={checked}
-        onClick={() => onChange(!checked)}
-        className={`relative inline-flex h-6 w-11 shrink-0 items-center rounded-full transition-colors ${checked ? "bg-secondary" : "bg-gray-600"}`}
-      >
-        <span
-          className={`inline-block h-4 w-4 rounded-full bg-white transition-transform ${checked ? "translate-x-6" : "translate-x-1"}`}
-        />
-      </button>
-    </label>
+    <div>
+      <label className={`flex items-center justify-between gap-4 cursor-pointer rounded border bg-neutral-900 px-4 py-3 ${error ? "border-red-500" : "border-gray-700"}`}>
+        <div>
+          <span className="text-sm font-medium text-primary-light">{label}</span>
+          {description && (
+            <p className="text-xs text-gray-400 mt-0.5">{description}</p>
+          )}
+        </div>
+        <button
+          type="button"
+          role="switch"
+          aria-checked={checked}
+          onClick={() => onChange(!checked)}
+          className={`relative inline-flex h-6 w-11 shrink-0 items-center rounded-full transition-colors ${checked ? "bg-secondary" : "bg-gray-600"}`}
+        >
+          <span
+            className={`inline-block h-4 w-4 rounded-full bg-white transition-transform ${checked ? "translate-x-6" : "translate-x-1"}`}
+          />
+        </button>
+      </label>
+      {error && <p className="mt-1 text-xs text-red-400">{error}</p>}
+    </div>
   );
 };
 
@@ -163,6 +180,7 @@ interface TextareaFieldProps {
   onChange: (value: string) => void;
   rows?: number;
   required?: boolean;
+  error?: string;
 }
 
 export const TextareaField = ({
@@ -171,6 +189,7 @@ export const TextareaField = ({
   onChange,
   rows = 4,
   required,
+  error,
 }: TextareaFieldProps) => {
   return (
     <div>
@@ -183,8 +202,9 @@ export const TextareaField = ({
         onChange={(e) => onChange(e.target.value)}
         rows={rows}
         required={required}
-        className="w-full rounded border border-gray-600 bg-neutral-900 px-3 py-2 text-sm text-primary-light focus:border-secondary focus:outline-none focus:ring-1 focus:ring-secondary resize-y"
+        className={`w-full rounded border bg-neutral-900 px-3 py-2 text-sm text-primary-light focus:border-secondary focus:outline-none focus:ring-1 focus:ring-secondary resize-y ${error ? "border-red-500" : "border-gray-600"}`}
       />
+      {error && <p className="mt-1 text-xs text-red-400">{error}</p>}
     </div>
   );
 };
@@ -220,9 +240,10 @@ interface ImageFieldProps {
   value: { src: string };
   onChange: (value: { src: string }) => void;
   required?: boolean;
+  error?: string;
 }
 
-export const ImageField = ({ label, value, onChange, required }: ImageFieldProps) => {
+export const ImageField = ({ label, value, onChange, required, error }: ImageFieldProps) => {
   const { dragging, setDragging, inputRef, onDrop, onFileChange } =
     useFileDropZone(onChange);
 
@@ -243,7 +264,7 @@ export const ImageField = ({ label, value, onChange, required }: ImageFieldProps
             ? "border-secondary bg-secondary/10"
             : value.src
               ? "border-gray-700 hover:border-gray-500"
-              : required
+              : error || required
                 ? "border-red-500/50 hover:border-red-400"
                 : "border-gray-600 hover:border-gray-400"
         }`}
@@ -278,6 +299,7 @@ export const ImageField = ({ label, value, onChange, required }: ImageFieldProps
         placeholder="URL obrázku"
         className="w-full rounded border border-gray-600 bg-neutral-900 px-3 py-2 text-sm text-primary-light focus:border-secondary focus:outline-none focus:ring-1 focus:ring-secondary"
       />
+      {error && <p className="mt-1 text-xs text-red-400">{error}</p>}
     </div>
   );
 };
@@ -288,9 +310,10 @@ interface FileFieldProps {
   onChange: (value: { src: string }) => void;
   accept?: string;
   required?: boolean;
+  error?: string;
 }
 
-export const FileField = ({ label, value, onChange, accept, required }: FileFieldProps) => {
+export const FileField = ({ label, value, onChange, accept, required, error }: FileFieldProps) => {
   const filename = value.src.split("/").pop()?.split("?")[0] || "";
   const isBlobUrl = value.src.startsWith("blob:");
   const { dragging, setDragging, inputRef, onDrop, onFileChange } =
@@ -312,7 +335,7 @@ export const FileField = ({ label, value, onChange, accept, required }: FileFiel
             ? "border-secondary bg-secondary/10"
             : value.src
               ? "border-gray-700"
-              : required
+              : error || required
                 ? "border-red-500/50 hover:border-red-400"
                 : "border-gray-600 hover:border-gray-400"
         }`}
@@ -370,6 +393,7 @@ export const FileField = ({ label, value, onChange, accept, required }: FileFiel
           className="w-full rounded border border-gray-600 bg-neutral-900 px-3 py-2 text-sm text-primary-light focus:border-secondary focus:outline-none focus:ring-1 focus:ring-secondary"
         />
       )}
+      {error && <p className="mt-1 text-xs text-red-400">{error}</p>}
     </div>
   );
 };
@@ -380,6 +404,7 @@ interface ColorFieldProps {
   onChange: (value: string) => void;
   presets?: string[];
   required?: boolean;
+  error?: string;
 }
 
 const DEFAULT_COLOR_PRESETS = [
@@ -398,6 +423,7 @@ export const ColorField = ({
   onChange,
   presets = DEFAULT_COLOR_PRESETS,
   required,
+  error,
 }: ColorFieldProps) => {
   return (
     <div>
@@ -430,6 +456,7 @@ export const ColorField = ({
           title="Vlastní barva"
         />
       </div>
+      {error && <p className="mt-1 text-xs text-red-400">{error}</p>}
     </div>
   );
 };
@@ -441,6 +468,7 @@ interface EventSelectProps {
   events: { id: string; name: string; year: number }[];
   required?: boolean;
   disabled?: boolean;
+  error?: string;
 }
 
 export const EventSelect = ({
@@ -449,6 +477,7 @@ export const EventSelect = ({
   onChange,
   events,
   required,
+  error,
 }: EventSelectProps) => {
   return (
     <SelectField
@@ -456,6 +485,7 @@ export const EventSelect = ({
       value={value}
       onChange={onChange}
       required={required}
+      error={error}
       placeholder="Vyberte událost"
       options={events.map((e) => ({
         value: e.id,

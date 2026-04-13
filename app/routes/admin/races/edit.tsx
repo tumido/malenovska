@@ -1,13 +1,16 @@
 import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router";
+import { useParams, useNavigate, Link } from "react-router";
 import { doc, type DocumentReference } from "firebase/firestore";
 import { useDocumentData } from "react-firebase-hooks/firestore";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { db } from "@/lib/firebase";
 import { updateDocument, removeDocument, processPendingUploads } from "@/lib/admin-firestore";
 import FormLayout from "@/components/admin/FormLayout";
-import { InputField, ImageField, ColorField } from "@/components/admin/FormFields";
+import { InputField } from "@/components/admin/FormFields";
+import { RHFInput, RHFEventSelect, RHFColor, RHFMarkdown, RHFImage } from "@/components/admin/RHFFields";
 import { useEventFilter } from "@/components/admin/EventFilter";
-import MarkdownEditor from "@/components/admin/MarkdownEditor";
+import { raceSchema, type RaceFormValues } from "@/lib/schemas";
 import type { Race } from "@/lib/types";
 
 const RaceEditPage = () => {
@@ -16,28 +19,25 @@ const RaceEditPage = () => {
   const [race, loading] = useDocumentData<Race>(
     doc(db, "races", id!) as DocumentReference<Race>,
   );
-  const [form, setForm] = useState<Partial<Race>>({});
   const [saving, setSaving] = useState(false);
   const { events } = useEventFilter([]);
 
+  const { control, handleSubmit, reset, watch } = useForm<RaceFormValues>({
+    resolver: zodResolver(raceSchema),
+    shouldUnregister: false,
+  });
+
   useEffect(() => {
-    if (race && Object.keys(form).length === 0) {
-      setForm({ ...race, id });
-    }
-  }, [race, id, form]);
+    if (race) reset(race as RaceFormValues);
+  }, [race, reset]);
 
-  const set = (patch: Partial<Race>) => setForm((p) => ({ ...p, ...patch }));
+  const name = watch("name");
 
-  const handleSave = async () => {
-    if (!form.name || !form.event || !form.color || !form.colorName || !form.legend || !form.requirements || !form.image?.src) {
-      alert("Vyplňte všechna povinná pole");
-      return;
-    }
+  const onValid = async (data: RaceFormValues) => {
     setSaving(true);
     try {
-      const raw = Object.fromEntries(Object.entries(form).filter(([k]) => k !== "id"));
-      const data = await processPendingUploads(raw);
-      await updateDocument("races", id!, data);
+      const processed = await processPendingUploads(data);
+      await updateDocument("races", id!, processed);
       navigate("/admin/races");
     } catch (err) {
       alert("Chyba při ukládání");
@@ -48,7 +48,7 @@ const RaceEditPage = () => {
   };
 
   const handleDelete = async () => {
-    if (!confirm(`Opravdu smazat stranu „${form.name ?? id}"?`)) return;
+    if (!confirm(`Opravdu smazat stranu „${name ?? id}"?`)) return;
     try {
       await removeDocument("races", id!);
       navigate("/admin/races");
@@ -59,6 +59,16 @@ const RaceEditPage = () => {
   };
 
   if (loading) return <div className="text-gray-500">Načítání…</div>;
+  if (!race) {
+    return (
+      <div className="flex min-h-[60vh] flex-col items-center justify-center gap-3 text-gray-500">
+        <p>Strana nenalezena</p>
+        <Link to="/admin/races" className="text-sm text-secondary hover:text-secondary-dark transition-colors">
+          Zpět na seznam stran
+        </Link>
+      </div>
+    );
+  }
 
   const tabs = [
     {
@@ -67,28 +77,17 @@ const RaceEditPage = () => {
       content: (
         <div className="space-y-4">
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <InputField label="Název" value={form.name ?? ""} onChange={(v) => set({ name: v })} required />
-            <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1">Událost<span className="text-red-500 ml-0.5">*</span></label>
-              <select
-                value={form.event ?? ""}
-                onChange={(e) => set({ event: e.target.value })}
-                className="w-full rounded border border-gray-600 bg-neutral-900 px-3 py-2 text-sm text-primary-light focus:border-secondary focus:outline-none focus:ring-1 focus:ring-secondary"
-              >
-                <option value="">Vyberte</option>
-                {events.map((ev) => (
-                  <option key={ev.id} value={ev.id}>{ev.name} ({ev.year})</option>
-                ))}
-              </select>
-            </div>
-            <InputField label="Limit" value={form.limit ?? 0} onChange={(v) => set({ limit: Number(v) })} type="number" required />
-            <InputField label="Priorita" value={form.priority ?? 1} onChange={(v) => set({ priority: Number(v) })} type="number" required />
-            <ColorField label="Barva" value={form.color ?? ""} onChange={(v) => set({ color: v })} required />
-            <InputField label="Název barvy" value={form.colorName ?? ""} onChange={(v) => set({ colorName: v })} required />
+            <InputField label="ID" value={id ?? ""} onChange={() => {}} disabled />
+            <RHFInput control={control} name="name" label="Název" required />
+            <RHFEventSelect control={control} name="event" label="Událost" events={events} required />
+            <RHFInput control={control} name="limit" label="Limit" type="number" required />
+            <RHFInput control={control} name="priority" label="Priorita" type="number" required />
+            <RHFColor control={control} name="color" label="Barva" required />
+            <RHFInput control={control} name="colorName" label="Název barvy" required />
           </div>
-          <MarkdownEditor label="Legenda" value={form.legend ?? ""} onChange={(v) => set({ legend: v })} required />
-          <MarkdownEditor label="Požadavky" value={form.requirements ?? ""} onChange={(v) => set({ requirements: v })} required />
-          <ImageField label="Obrázek" value={form.image ?? { src: "" }} onChange={(v) => set({ image: v })} required />
+          <RHFMarkdown control={control} name="legend" label="Legenda" required />
+          <RHFMarkdown control={control} name="requirements" label="Požadavky" required />
+          <RHFImage control={control} name="image" label="Obrázek" required />
         </div>
       ),
     },
@@ -96,9 +95,9 @@ const RaceEditPage = () => {
 
   return (
     <FormLayout
-      title={`Upravit: ${form.name ?? id}`}
+      title={`Upravit: ${name ?? id}`}
       tabs={tabs}
-      onSubmit={handleSave}
+      onSubmit={handleSubmit(onValid)}
       onCancel={() => navigate("/admin/races")}
       onDelete={handleDelete}
       saving={saving}

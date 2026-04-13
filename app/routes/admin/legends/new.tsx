@@ -1,13 +1,15 @@
 import { useCallback, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Timestamp } from "firebase/firestore";
 import { createDocument, processPendingUploads } from "@/lib/admin-firestore";
 import FormLayout from "@/components/admin/FormLayout";
-import { InputField, ImageField } from "@/components/admin/FormFields";
+import { RHFInput, RHFEventSelect, RHFMarkdown, RHFImage } from "@/components/admin/RHFFields";
 import { useEventFilter } from "@/components/admin/EventFilter";
-import MarkdownEditor from "@/components/admin/MarkdownEditor";
 import { useCloneData } from "@/lib/useCloneData";
+import { legendSchema, type LegendFormValues } from "@/lib/schemas";
 import type { Legend } from "@/lib/types";
-import { Timestamp } from "firebase/firestore";
 
 const slugify = (title: string): string => {
   return title.replace(/ /g, "_").toLowerCase().replace(/\W/g, "");
@@ -16,28 +18,33 @@ const slugify = (title: string): string => {
 const LegendCreatePage = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const [form, setForm] = useState<Partial<Legend>>(() => {
-    const event = searchParams.get("event");
-    return event ? { event } : {};
-  });
   const [saving, setSaving] = useState(false);
   const { events } = useEventFilter([]);
-  const setFormStable = useCallback((data: Partial<Legend>) => setForm(data), []);
-  const { isClone } = useCloneData<Legend>("legends", setFormStable);
 
-  const handleSave = async () => {
-    if (!form.title || !form.event || !form.perex || !form.content || !form.image?.src) {
-      alert("Vyplňte všechna povinná pole");
-      return;
-    }
+  const { control, handleSubmit, reset } = useForm<LegendFormValues>({
+    resolver: zodResolver(legendSchema),
+    shouldUnregister: false,
+    defaultValues: {
+      title: "",
+      event: searchParams.get("event") ?? "",
+      perex: "",
+      content: "",
+      image: { src: "" },
+    },
+  });
+
+  const resetStable = useCallback((data: Partial<Legend>) => reset(data as LegendFormValues), [reset]);
+  const { isClone } = useCloneData<Legend>("legends", resetStable);
+
+  const onValid = async (data: LegendFormValues) => {
     setSaving(true);
     try {
-      const id = slugify(form.title);
-      const data = await processPendingUploads({
-        ...form,
+      const id = slugify(data.title);
+      const processed = await processPendingUploads({
+        ...data,
         publishedAt: Timestamp.now(),
       });
-      await createDocument("legends", id, data);
+      await createDocument("legends", id, processed);
       navigate("/admin/legends");
     } catch (err) {
       alert("Chyba při vytváření");
@@ -54,46 +61,12 @@ const LegendCreatePage = () => {
       content: (
         <div className="space-y-4">
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <InputField
-              label="Název"
-              value={form.title ?? ""}
-              onChange={(v) => setForm((p) => ({ ...p, title: v }))}
-              required
-            />
-            <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1">Událost<span className="text-red-500 ml-0.5">*</span></label>
-              <select
-                value={form.event ?? ""}
-                onChange={(e) => setForm((p) => ({ ...p, event: e.target.value }))}
-                required
-                className="w-full rounded border border-gray-600 bg-neutral-900 px-3 py-2 text-sm text-primary-light focus:border-secondary focus:outline-none focus:ring-1 focus:ring-secondary"
-              >
-                <option value="">Vyberte</option>
-                {events.map((ev) => (
-                  <option key={ev.id} value={ev.id}>{ev.name} ({ev.year})</option>
-                ))}
-              </select>
-            </div>
+            <RHFInput control={control} name="title" label="Název" required />
+            <RHFEventSelect control={control} name="event" label="Událost" events={events} required />
           </div>
-          <InputField
-            label="Perex"
-            value={form.perex ?? ""}
-            onChange={(v) => setForm((p) => ({ ...p, perex: v }))}
-            required
-            maxLength={200}
-          />
-          <MarkdownEditor
-            label="Obsah"
-            value={form.content ?? ""}
-            onChange={(v) => setForm((p) => ({ ...p, content: v }))}
-            required
-          />
-          <ImageField
-            label="Obrázek"
-            value={form.image ?? { src: "" }}
-            onChange={(v) => setForm((p) => ({ ...p, image: v }))}
-            required
-          />
+          <RHFInput control={control} name="perex" label="Perex" required maxLength={200} />
+          <RHFMarkdown control={control} name="content" label="Obsah" required />
+          <RHFImage control={control} name="image" label="Obrázek" required />
         </div>
       ),
     },
@@ -103,7 +76,7 @@ const LegendCreatePage = () => {
     <FormLayout
       title={isClone ? "Klonovat legendu" : "Nová legenda"}
       tabs={tabs}
-      onSubmit={handleSave}
+      onSubmit={handleSubmit(onValid)}
       onCancel={() => navigate("/admin/legends")}
       saving={saving}
     />

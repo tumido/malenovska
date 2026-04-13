@@ -25,6 +25,10 @@ if (useEmulators && !g._storageEmulatorConnected) {
   g._storageEmulatorConnected = true;
 }
 
+/** Strip undefined values — Firestore rejects them */
+const stripUndefined = (obj: DocumentData): DocumentData =>
+  Object.fromEntries(Object.entries(obj).filter(([, v]) => v !== undefined));
+
 /** Create a document with auto-timestamp */
 export const createDocument = async <T extends DocumentData>(
   collectionName: string,
@@ -33,7 +37,7 @@ export const createDocument = async <T extends DocumentData>(
 ) => {
   const docRef = doc(db, collectionName, id);
   await setDoc(docRef, {
-    ...data,
+    ...stripUndefined(data),
     createdate: serverTimestamp(),
     lastupdate: serverTimestamp(),
   });
@@ -49,7 +53,7 @@ export const updateDocument = async <T extends DocumentData>(
 ) => {
   const docRef = doc(db, collectionName, id);
   await updateDoc(docRef, {
-    ...data,
+    ...stripUndefined(data),
     lastupdate: serverTimestamp(),
   });
   await updateImageMetadata(data);

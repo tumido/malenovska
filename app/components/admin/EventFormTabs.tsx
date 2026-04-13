@@ -1,26 +1,34 @@
 import FormLayout from "@/components/admin/FormLayout";
+import { InputField, SelectField, ColorField } from "@/components/admin/FormFields";
 import {
-  InputField,
-  SelectField,
-  ToggleField,
-  ColorField,
-  ImageField,
-  FileField,
-} from "@/components/admin/FormFields";
-import MarkdownEditor, {
-  type Insertable,
-} from "@/components/admin/MarkdownEditor";
-import type { Event, POI, RegistrationExtra } from "@/lib/types";
+  RHFInput,
+  RHFToggle,
+  RHFMarkdown,
+  RHFImage,
+  RHFFile,
+} from "@/components/admin/RHFFields";
+import type { RegistrationExtra } from "@/lib/types";
+import type { EventFormValues } from "@/lib/schemas";
 import { toTimeStr } from "@/lib/date";
 import { Trash2, Plus, CircleHelp, Type, Hash, CheckSquare, FileText, ChevronDown } from "lucide-react";
-import { lazy, Suspense, useRef, useState, useCallback } from "react";
+import { lazy, Suspense, useRef, useState, useCallback, useEffect } from "react";
+import {
+  useFieldArray,
+  useWatch,
+  Controller,
+  type Control,
+  type UseFormSetValue,
+  type UseFormWatch,
+} from "react-hook-form";
 import type { AdminMapHandle } from "@/components/admin/AdminMapInner";
+import MarkdownEditor, { type Insertable } from "@/components/admin/MarkdownEditor";
 
 const AdminMapInner = lazy(() => import("@/components/admin/AdminMapInner"));
 
 interface EventFormTabsProps {
-  form: Partial<Event>;
-  update: (key: keyof Event, value: unknown) => void;
+  control: Control<EventFormValues>;
+  setValue: UseFormSetValue<EventFormValues>;
+  watch: UseFormWatch<EventFormValues>;
   onSave: () => void;
   onCancel: () => void;
   onDelete?: () => void;
@@ -30,8 +38,9 @@ interface EventFormTabsProps {
 }
 
 const EventFormTabs = ({
-  form,
-  update,
+  control,
+  setValue,
+  watch,
   onSave,
   onCancel,
   onDelete,
@@ -39,6 +48,15 @@ const EventFormTabs = ({
   title,
   isEdit,
 }: EventFormTabsProps) => {
+  // Auto-derive year from date
+  const dateValue = useWatch({ control, name: "date" });
+  useEffect(() => {
+    if (dateValue) {
+      const d = dateValue instanceof Date ? dateValue : typeof dateValue === "object" && "toDate" in (dateValue as Record<string, unknown>) ? (dateValue as { toDate: () => Date }).toDate() : null;
+      if (d) setValue("year", d.getFullYear());
+    }
+  }, [dateValue, setValue]);
+
   const tabs = [
     {
       key: "general",
@@ -46,89 +64,89 @@ const EventFormTabs = ({
       content: (
         <div className="space-y-4">
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-            <ToggleField
+            <RHFToggle
+              control={control}
+              name="display"
               label="Zobrazit"
               description="Událost je viditelná na webu"
-              checked={form.display ?? false}
-              onChange={(v) => update("display", v)}
             />
-            <ToggleField
+            <RHFToggle
+              control={control}
+              name="registrationAvailable"
               label="Registrace otevřena"
               description="Návštěvníci se mohou registrovat"
-              checked={form.registrationAvailable ?? false}
-              onChange={(v) => update("registrationAvailable", v)}
             />
           </div>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            <InputField
-              label="ID"
-              value={form.id ?? ""}
-              onChange={(v) => update("id", v)}
-              disabled={isEdit}
+            <Controller
+              control={control}
+              name="id"
+              render={({ field, fieldState }) => (
+                <InputField
+                  label="ID"
+                  value={field.value ?? ""}
+                  onChange={field.onChange}
+                  disabled={isEdit}
+                  required={!isEdit}
+                  error={fieldState.error?.message}
+                />
+              )}
             />
             <div className="sm:col-span-1 lg:col-span-3">
-              <InputField
-                label="Název"
-                value={form.name ?? ""}
-                onChange={(v) => update("name", v)}
-                required
-              />
+              <RHFInput control={control} name="name" label="Název" required />
             </div>
-            <InputField
-              label="Datum"
-              value={form.date ? formatDate(form.date) : ""}
-              onChange={(v) => {
-                const d = toTimestamp(v) as Date;
-                update("date", d);
-                update("year", d.getFullYear());
-              }}
-              type="date"
-              required
+            <Controller
+              control={control}
+              name="date"
+              render={({ field, fieldState }) => (
+                <InputField
+                  label="Datum"
+                  value={field.value ? formatDate(field.value) : ""}
+                  onChange={(v) => {
+                    const d = new Date(v + "T00:00:00");
+                    field.onChange(d);
+                  }}
+                  type="date"
+                  required
+                  error={fieldState.error?.message}
+                />
+              )}
             />
-            <InputField
-              label="Rok"
-              value={form.year ?? new Date().getFullYear()}
-              onChange={() => {}}
-              type="number"
-              disabled
+            <Controller
+              control={control}
+              name="year"
+              render={({ field }) => (
+                <InputField
+                  label="Rok"
+                  value={field.value ?? new Date().getFullYear()}
+                  onChange={() => {}}
+                  type="number"
+                  disabled
+                />
+              )}
             />
-            <InputField
-              label="Cena"
-              value={form.price ?? 0}
-              onChange={(v) => update("price", Number(v))}
-              type="number"
-              suffix="Kč"
-              required
-            />
-            <SelectField
-              label="Typ"
-              value={
-                form.type === true ? "true" : form.type === false ? "false" : ""
-              }
-              onChange={(v) => update("type", v === "true")}
-              options={[
-                { value: "true", label: "Bitva" },
-                { value: "false", label: "Šarvátka" },
-              ]}
-              required
+            <RHFInput control={control} name="price" label="Cena" type="number" suffix="Kč" required />
+            <Controller
+              control={control}
+              name="type"
+              render={({ field, fieldState }) => (
+                <SelectField
+                  label="Typ"
+                  value={field.value === true ? "true" : field.value === false ? "false" : ""}
+                  onChange={(v) => field.onChange(v === "true")}
+                  options={[
+                    { value: "true", label: "Bitva" },
+                    { value: "false", label: "Šarvátka" },
+                  ]}
+                  required
+                  error={fieldState.error?.message}
+                />
+              )}
             />
           </div>
-          <MarkdownEditor
-            label="Popis"
-            value={form.description ?? ""}
-            onChange={(v) => update("description", v)}
-            maxLength={200}
-          />
-          <FileField
-            label="Prohlášení (PDF)"
-            value={form.declaration ?? { src: "" }}
-            onChange={(v) => update("declaration", v)}
-          />
-          <ImageField
-            label="Hero obrázek (pozadí stránek)"
-            value={form.heroImage ?? { src: "" }}
-            onChange={(v) => update("heroImage", v)}
-          />
+          <RHFMarkdown control={control} name="description" label="Popis" maxLength={200} />
+          <RHFFile control={control} name="declaration" label="Prohlášení (PDF)" />
+          <RHFImage control={control} name="heroImage" label="Hero obrázek (pozadí stránek)" />
         </div>
       ),
     },
@@ -137,16 +155,8 @@ const EventFormTabs = ({
       label: "Pravidla",
       content: (
         <div className="space-y-4">
-          <MarkdownEditor
-            label="Text pravidel"
-            value={form.rules ?? ""}
-            onChange={(v) => update("rules", v)}
-          />
-          <ImageField
-            label="Obrázek pravidel"
-            value={form.rulesImage ?? { src: "" }}
-            onChange={(v) => update("rulesImage", v)}
-          />
+          <RHFMarkdown control={control} name="rules" label="Text pravidel" />
+          <RHFImage control={control} name="rulesImage" label="Obrázek pravidel" />
         </div>
       ),
     },
@@ -155,34 +165,11 @@ const EventFormTabs = ({
       label: "Registrace",
       content: (
         <div className="space-y-4">
-          <MarkdownEditor
-            label="Text nad formulářem"
-            value={form.registrationBeforeAbove ?? ""}
-            onChange={(v) => update("registrationBeforeAbove", v)}
-            rows={6}
-          />
-          <MarkdownEditor
-            label="Text pod formulářem"
-            value={form.registrationBeforeBelow ?? ""}
-            onChange={(v) => update("registrationBeforeBelow", v)}
-            rows={6}
-          />
-          <MarkdownEditor
-            label="Text po registraci"
-            value={form.registrationAfter ?? ""}
-            onChange={(v) => update("registrationAfter", v)}
-            rows={6}
-          />
-          <MarkdownEditor
-            label="Text u seznamu registrovaných"
-            value={form.registrationList ?? ""}
-            onChange={(v) => update("registrationList", v)}
-            rows={6}
-          />
-          <RegistrationExtrasEditor
-            extras={form.registrationExtras ?? []}
-            onChange={(v) => update("registrationExtras", v)}
-          />
+          <RHFMarkdown control={control} name="registrationBeforeAbove" label="Text nad formulářem" rows={6} />
+          <RHFMarkdown control={control} name="registrationBeforeBelow" label="Text pod formulářem" rows={6} />
+          <RHFMarkdown control={control} name="registrationAfter" label="Text po registraci" rows={6} />
+          <RHFMarkdown control={control} name="registrationList" label="Text u seznamu registrovaných" rows={6} />
+          <RegistrationExtrasEditor control={control} />
         </div>
       ),
     },
@@ -192,67 +179,30 @@ const EventFormTabs = ({
       content: (
         <div className="space-y-4">
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            <InputField
-              label="Facebook"
-              value={form.contact?.facebook ?? ""}
-              onChange={(v) =>
-                update("contact", { ...form.contact, facebook: v })
-              }
-              type="url"
-            />
-            <InputField
-              label="Larpová databáze"
-              value={form.contact?.larpovadatabaze ?? ""}
-              onChange={(v) =>
-                update("contact", { ...form.contact, larpovadatabaze: v })
-              }
-              type="url"
-            />
-            <InputField
-              label="Larp.cz"
-              value={form.contact?.larpcz ?? ""}
-              onChange={(v) =>
-                update("contact", { ...form.contact, larpcz: v })
-              }
-              type="url"
-            />
-            <InputField
-              label="E-mail"
-              value={form.contact?.email ?? ""}
-              onChange={(v) => update("contact", { ...form.contact, email: v })}
-              type="url"
-            />
+            <RHFInput control={control} name="contact.facebook" label="Facebook" type="url" />
+            <RHFInput control={control} name="contact.larpovadatabaze" label="Larpová databáze" type="url" />
+            <RHFInput control={control} name="contact.larpcz" label="Larp.cz" type="url" />
+            <RHFInput control={control} name="contact.email" label="E-mail" type="url" />
           </div>
-          <ImageField
-            label="Kontaktní obrázek"
-            value={form.contactImage ?? { src: "" }}
-            onChange={(v) => update("contactImage", v)}
-          />
-          <MarkdownEditor
-            label="Kontaktní text"
-            value={form.contactText ?? ""}
-            onChange={(v) => update("contactText", v)}
-            rows={6}
-          />
+          <RHFImage control={control} name="contactImage" label="Kontaktní obrázek" />
+          <RHFMarkdown control={control} name="contactText" label="Kontaktní text" rows={6} />
         </div>
       ),
     },
     {
       key: "schedule",
       label: "Harmonogram",
-      content: <ScheduleTimeline form={form} update={update} />,
+      content: <ScheduleTimeline control={control} />,
     },
     {
       key: "email",
       label: "E-mail",
-      content: <EmailTab form={form} update={update} />,
+      content: <EmailTab control={control} watch={watch} />,
     },
     {
       key: "map",
       label: "Mapa",
-      content: (
-        <POIEditor pois={form.poi ?? []} onChange={(v) => update("poi", v)} />
-      ),
+      content: <POIEditor control={control} />,
     },
   ];
 
@@ -272,23 +222,24 @@ export default EventFormTabs;
 
 /** POI array editor with interactive map */
 const POIEditor = ({
-  pois,
-  onChange,
+  control,
 }: {
-  pois: POI[];
-  onChange: (pois: POI[]) => void;
+  control: Control<EventFormValues>;
 }) => {
   const mapRef = useRef<AdminMapHandle>(null);
   const DEFAULT_COLORS = ["#fd2600", "#f1ee10", "#ff9100"];
+
+  const { fields, append, remove, update: updateField } = useFieldArray({
+    control,
+    name: "poi",
+  });
+
   const addAt = (lat: number, lng: number) =>
-    onChange([...pois, { name: "", description: "", latitude: lat, longitude: lng, color: DEFAULT_COLORS[pois.length % 3] }]);
+    append({ name: "", description: "", latitude: lat, longitude: lng, color: DEFAULT_COLORS[fields.length % 3] });
   const addAtCenter = () => {
     const center = mapRef.current?.getCenter() ?? [49.75, 15.75];
     addAt(center[0], center[1]);
   };
-  const remove = (i: number) => onChange(pois.filter((_, idx) => idx !== i));
-  const update = (i: number, key: keyof POI, value: string | number) =>
-    onChange(pois.map((p, idx) => (idx === i ? { ...p, [key]: value } : p)));
 
   return (
     <div className="space-y-4">
@@ -303,9 +254,9 @@ const POIEditor = ({
         >
           <AdminMapInner
             ref={mapRef}
-            pois={pois}
+            pois={fields}
             onMarkerDrag={(i, lat, lng) => {
-              onChange(pois.map((p, idx) => (idx === i ? { ...p, latitude: lat, longitude: lng } : p)));
+              updateField(i, { ...fields[i], latitude: lat, longitude: lng });
             }}
             onMapDoubleClick={(lat, lng) => addAt(lat, lng)}
           />
@@ -326,39 +277,37 @@ const POIEditor = ({
 
       {/* POI list */}
       <div className="space-y-3">
-        {pois.map((poi, i) => (
+        {fields.map((poi, i) => (
           <div
-            key={i}
+            key={poi.id}
             className="flex items-start gap-3 rounded border border-gray-700 p-3"
           >
             <div className="flex-1 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
-              <InputField
-                label="Název"
-                value={poi.name}
-                onChange={(v) => update(i, "name", v)}
-              />
+              <RHFInput control={control} name={`poi.${i}.name`} label="Název" />
               <div className="sm:col-span-1 lg:col-span-3">
-                <InputField
-                  label="Popis"
-                  value={poi.description}
-                  onChange={(v) => update(i, "description", v)}
-                />
+                <RHFInput control={control} name={`poi.${i}.description`} label="Popis" />
               </div>
-              <ColorField
-                label="Barva markeru"
-                value={poi.color ?? DEFAULT_COLORS[i % 3]}
-                onChange={(v) => update(i, "color", v)}
+              <Controller
+                control={control}
+                name={`poi.${i}.color`}
+                render={({ field }) => (
+                  <ColorField
+                    label="Barva markeru"
+                    value={field.value ?? DEFAULT_COLORS[i % 3]}
+                    onChange={field.onChange}
+                  />
+                )}
               />
-              <InputField
+              <RHFInput
+                control={control}
+                name={`poi.${i}.latitude`}
                 label="Zeměpisná šířka (N)"
-                value={Math.round(poi.latitude * 1e6) / 1e6}
-                onChange={(v) => update(i, "latitude", Number(v))}
                 type="number"
               />
-              <InputField
+              <RHFInput
+                control={control}
+                name={`poi.${i}.longitude`}
                 label="Zeměpisná délka (E)"
-                value={Math.round(poi.longitude * 1e6) / 1e6}
-                onChange={(v) => update(i, "longitude", Number(v))}
                 type="number"
               />
             </div>
@@ -467,11 +416,9 @@ const TypeBadge = ({
 
 /** Registration extras editor with resizable grid cards and drag-to-reorder */
 const RegistrationExtrasEditor = ({
-  extras,
-  onChange,
+  control,
 }: {
-  extras: RegistrationExtra[];
-  onChange: (extras: RegistrationExtra[]) => void;
+  control: Control<EventFormValues>;
 }) => {
   const gridRef = useRef<HTMLDivElement>(null);
   const [resizingIndex, setResizingIndex] = useState<number | null>(null);
@@ -480,24 +427,19 @@ const RegistrationExtrasEditor = ({
     index: number;
     side: "before" | "after";
   } | null>(null);
-  const extrasRef = useRef(extras);
-  extrasRef.current = extras;
   const dragIndexRef = useRef<number | null>(null);
   const dropTargetRef = useRef<{
     index: number;
     side: "before" | "after";
   } | null>(null);
 
+  const { fields, append, remove, move, update: updateField } = useFieldArray({
+    control,
+    name: "registrationExtras",
+  });
+
   const add = () =>
-    onChange([
-      ...extras,
-      { type: "text", size: 12, props: { id: "", label: "" } },
-    ]);
-  const remove = (i: number) => onChange(extras.filter((_, idx) => idx !== i));
-  const updateExtra = (i: number, patch: Partial<RegistrationExtra>) =>
-    onChange(
-      extrasRef.current.map((e, idx) => (idx === i ? { ...e, ...patch } : e)),
-    );
+    append({ type: "text", size: 12, props: { id: "", label: "" } });
 
   // --- Resize handlers ---
   const handleResizeStart = (e: React.MouseEvent, index: number) => {
@@ -520,7 +462,7 @@ const RegistrationExtrasEditor = ({
         2,
         Math.min(12, Math.round(relativeX / colWidth)),
       );
-      updateExtra(index, { size: newSize });
+      updateField(index, { ...fields[index], size: newSize });
     };
 
     const handleMouseUp = () => {
@@ -537,7 +479,7 @@ const RegistrationExtrasEditor = ({
     document.addEventListener("mouseup", handleMouseUp);
   };
 
-  // --- Drag-and-drop reorder handlers (refs avoid stale closures between dragover→drop) ---
+  // --- Drag-and-drop reorder handlers ---
   const handleDragStart = (e: React.DragEvent, index: number) => {
     const cardEl = (e.target as HTMLElement).closest(
       "[data-extra-card]",
@@ -553,7 +495,6 @@ const RegistrationExtrasEditor = ({
     e.dataTransfer.effectAllowed = "move";
     e.dataTransfer.setData("text/plain", String(index));
     dragIndexRef.current = index;
-    // Defer state update so the browser finishes drag initialization before React re-renders
     requestAnimationFrame(() => setDragIndex(index));
   };
 
@@ -578,15 +519,11 @@ const RegistrationExtrasEditor = ({
     const dt = dropTargetRef.current;
     if (di === null || !dt) return;
 
-    const newExtras = [...extrasRef.current];
-    const [dragged] = newExtras.splice(di, 1);
-
     let insertAt = dt.index;
     if (dt.side === "after") insertAt++;
     if (di < insertAt) insertAt--;
 
-    newExtras.splice(insertAt, 0, dragged);
-    onChange(newExtras);
+    move(di, insertAt);
 
     dragIndexRef.current = null;
     dropTargetRef.current = null;
@@ -624,9 +561,9 @@ const RegistrationExtrasEditor = ({
           ref={gridRef}
           className="relative z-10 grid grid-cols-12 gap-3 auto-rows-auto"
         >
-          {extras.map((extra, i) => (
+          {fields.map((extra, i) => (
             <div
-              key={i}
+              key={extra.id}
               data-extra-card
               draggable
               onDragStart={(e) => {
@@ -658,7 +595,7 @@ const RegistrationExtrasEditor = ({
                 />
               )}
 
-              {/* Drag indicator — visual only, events pass through to card */}
+              {/* Drag indicator */}
               <div className="absolute top-0 inset-x-0 h-3 flex items-center justify-center pointer-events-none">
                 <div
                   className={`h-1 w-8 rounded-full transition-all ${
@@ -671,12 +608,16 @@ const RegistrationExtrasEditor = ({
 
               {/* Card content */}
               <div className="p-3 pr-5">
-                {/* Header: type select + size indicator + delete */}
                 <div className="flex items-center gap-2 mb-3">
-                  {/* Type chip selector */}
-                  <TypeBadge
-                    type={extra.type}
-                    onChange={(t) => updateExtra(i, { type: t })}
+                  <Controller
+                    control={control}
+                    name={`registrationExtras.${i}.type`}
+                    render={({ field }) => (
+                      <TypeBadge
+                        type={field.value ?? "text"}
+                        onChange={field.onChange}
+                      />
+                    )}
                   />
 
                   <div className="flex-1" />
@@ -697,35 +638,17 @@ const RegistrationExtrasEditor = ({
                   </button>
                 </div>
 
-                {/* Body: type-specific fields */}
                 {extra.type !== "markdown" ? (
                   <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-                    <InputField
-                      label="ID pole"
-                      value={extra.props?.id ?? ""}
-                      onChange={(v) =>
-                        updateExtra(i, { props: { ...extra.props, id: v } })
-                      }
-                    />
-                    <InputField
-                      label="Popisek"
-                      value={extra.props?.label ?? ""}
-                      onChange={(v) =>
-                        updateExtra(i, { props: { ...extra.props, label: v } })
-                      }
-                    />
+                    <RHFInput control={control} name={`registrationExtras.${i}.props.id`} label="ID pole" />
+                    <RHFInput control={control} name={`registrationExtras.${i}.props.label`} label="Popisek" />
                   </div>
                 ) : (
-                  <MarkdownEditor
-                    label="Obsah"
-                    value={extra.content ?? ""}
-                    onChange={(v) => updateExtra(i, { content: v })}
-                    rows={4}
-                  />
+                  <RHFMarkdown control={control} name={`registrationExtras.${i}.content`} label="Obsah" rows={4} />
                 )}
               </div>
 
-              {/* Resize handle — right edge */}
+              {/* Resize handle */}
               <div
                 className="absolute right-0 top-0 bottom-0 w-3 cursor-ew-resize flex items-center justify-center"
                 onMouseDown={(e) => handleResizeStart(e, i)}
@@ -741,10 +664,10 @@ const RegistrationExtrasEditor = ({
             </div>
           ))}
 
-          {/* Add / drop-at-end placeholder card */}
+          {/* Add / drop-at-end placeholder */}
           <div
             className={`col-span-12 flex items-center justify-center rounded-lg border border-dashed cursor-pointer transition-colors ${
-              dragIndex !== null && dropTarget?.index === extras.length
+              dragIndex !== null && dropTarget?.index === fields.length
                 ? "border-secondary bg-secondary/5 text-secondary py-4"
                 : dragIndex !== null
                   ? "border-gray-600/30 text-gray-500 py-4"
@@ -755,8 +678,8 @@ const RegistrationExtrasEditor = ({
               if (dragIndexRef.current === null) return;
               e.preventDefault();
               e.dataTransfer.dropEffect = "move";
-              dropTargetRef.current = { index: extras.length, side: "before" };
-              setDropTarget({ index: extras.length, side: "before" });
+              dropTargetRef.current = { index: fields.length, side: "before" };
+              setDropTarget({ index: fields.length, side: "before" });
             }}
             onDrop={handleDrop}
           >
@@ -776,7 +699,7 @@ const RegistrationExtrasEditor = ({
 
 /** Schedule timeline component */
 const SCHEDULE_ITEMS: {
-  key: keyof Event;
+  key: keyof EventFormValues;
   label: string;
 }[] = [
   { key: "onsiteStart", label: "Začátek akce" },
@@ -789,47 +712,45 @@ const SCHEDULE_ITEMS: {
 ];
 
 const ScheduleTimeline = ({
-  form,
-  update,
+  control,
 }: {
-  form: Partial<Event>;
-  update: (key: keyof Event, value: unknown) => void;
+  control: Control<EventFormValues>;
 }) => (
   <div className="relative max-w-xl">
-    {/* Vertical timeline line */}
     <div className="absolute left-3.75 top-5 bottom-5 w-0.5 bg-gray-700" />
 
     <div className="space-y-1">
-      {SCHEDULE_ITEMS.map(({ key, label }) => {
-        const value = form[key];
-        const timeStr = value ? toTimeStr(value as string) : "";
-        const hasValue = !!timeStr;
+      {SCHEDULE_ITEMS.map(({ key, label }) => (
+        <Controller
+          key={key}
+          control={control}
+          name={key}
+          render={({ field }) => {
+            const timeStr = field.value ? toTimeStr(field.value as string) : "";
+            const hasValue = !!timeStr;
 
-        return (
-          <div key={key} className="relative flex items-center gap-4 py-1.5">
-            {/* Timeline dot */}
-            <div
-              className={`relative z-10 h-3 w-3 shrink-0 rounded-full border-2 ${
-                hasValue
-                  ? "border-secondary bg-secondary"
-                  : "border-gray-500 bg-neutral-800"
-              }`}
-              style={{ marginLeft: "9.5px" }}
-            />
-
-            {/* Label */}
-            <span className="w-44 shrink-0 text-sm text-gray-300">{label}</span>
-
-            {/* Time input */}
-            <input
-              type="time"
-              value={timeStr}
-              onChange={(e) => update(key, e.target.value)}
-              className="w-32 rounded border border-gray-600 bg-neutral-900 px-3 py-1.5 text-sm text-primary-light focus:border-secondary focus:outline-none focus:ring-1 focus:ring-secondary"
-            />
-          </div>
-        );
-      })}
+            return (
+              <div className="relative flex items-center gap-4 py-1.5">
+                <div
+                  className={`relative z-10 h-3 w-3 shrink-0 rounded-full border-2 ${
+                    hasValue
+                      ? "border-secondary bg-secondary"
+                      : "border-gray-500 bg-neutral-800"
+                  }`}
+                  style={{ marginLeft: "9.5px" }}
+                />
+                <span className="w-44 shrink-0 text-sm text-gray-300">{label}</span>
+                <input
+                  type="time"
+                  value={timeStr}
+                  onChange={(e) => field.onChange(e.target.value)}
+                  className="w-32 rounded border border-gray-600 bg-neutral-900 px-3 py-1.5 text-sm text-primary-light focus:border-secondary focus:outline-none focus:ring-1 focus:ring-secondary"
+                />
+              </div>
+            );
+          }}
+        />
+      ))}
     </div>
   </div>
 );
@@ -848,11 +769,6 @@ const formatDate = (date: unknown): string => {
   }
   if (date instanceof Date) return date.toISOString().split("T")[0];
   return String(date);
-};
-
-/** Convert date string to Firestore-compatible value */
-const toTimestamp = (dateStr: string): unknown => {
-  return new Date(dateStr + "T00:00:00");
 };
 
 /** Email template variables reference */
@@ -883,29 +799,33 @@ const substitutePreview = (
 
 /** Email template editing tab */
 const EmailTab = ({
-  form,
-  update,
+  control,
+  watch,
 }: {
-  form: Partial<Event>;
-  update: (key: keyof Event, value: unknown) => void;
+  control: Control<EventFormValues>;
+  watch: UseFormWatch<EventFormValues>;
 }) => {
   const [helpOpen, setHelpOpen] = useState(false);
+
+  const formName = watch("name");
+  const formYear = watch("year");
+  const formId = watch("id");
 
   const sampleData: Record<string, string> = {
     name: "Mirek (Mirek) Dušín",
     group: "Rychlé Šípy",
     race: "Lidé",
     age: "15",
-    event: form.name ?? "Malenovská",
-    year: String(form.year ?? new Date().getFullYear()),
+    event: formName ?? "Malenovská",
+    year: String(formYear ?? new Date().getFullYear()),
     date: "1. 6. 2026",
-    event_email: `${form.id ?? "malenovska"}@malenovska.cz`,
-    confirmation_url: `https://www.malenovska.cz/${form.id ?? "malenovska"}/confirmation`,
+    event_email: `${formId ?? "malenovska"}@malenovska.cz`,
+    confirmation_url: `https://www.malenovska.cz/${formId ?? "malenovska"}/confirmation`,
   };
 
   const previewTransform = useCallback(
     (value: string) => substitutePreview(value, sampleData),
-    [form.name, form.year, form.id], // intentionally partial deps — only re-create when event identity changes
+    [formName, formYear, formId],
   );
 
   const emailInsertables: Insertable[] = EMAIL_VARIABLES.map(
@@ -960,32 +880,50 @@ const EmailTab = ({
         </div>
       </div>
 
-      <MarkdownEditor
-        label="Předmět"
-        value={form.emailSubject ?? ""}
-        onChange={(v) => update("emailSubject", v)}
-        placeholder="{{event}}: Registrace byla úspěšná"
-        previewTransform={previewTransform}
-        insertables={emailInsertables}
-        singleLine
+      <Controller
+        control={control}
+        name="emailSubject"
+        render={({ field }) => (
+          <MarkdownEditor
+            label="Předmět"
+            value={field.value ?? ""}
+            onChange={field.onChange}
+            placeholder="{{event}}: Registrace byla úspěšná"
+            previewTransform={previewTransform}
+            insertables={emailInsertables}
+            singleLine
+          />
+        )}
       />
 
-      <MarkdownEditor
-        label="Tělo e-mailu"
-        value={form.emailBody ?? ""}
-        onChange={(v) => update("emailBody", v)}
-        rows={15}
-        previewTransform={previewTransform}
-        insertables={emailInsertables}
+      <Controller
+        control={control}
+        name="emailBody"
+        render={({ field }) => (
+          <MarkdownEditor
+            label="Tělo e-mailu"
+            value={field.value ?? ""}
+            onChange={field.onChange}
+            rows={15}
+            previewTransform={previewTransform}
+            insertables={emailInsertables}
+          />
+        )}
       />
 
-      <MarkdownEditor
-        label="Doplněk pro nezletilé (připojí se pokud je věk < 18)"
-        value={form.emailUnder18 ?? ""}
-        onChange={(v) => update("emailUnder18", v)}
-        rows={6}
-        previewTransform={previewTransform}
-        insertables={emailInsertables}
+      <Controller
+        control={control}
+        name="emailUnder18"
+        render={({ field }) => (
+          <MarkdownEditor
+            label="Doplněk pro nezletilé (připojí se pokud je věk < 18)"
+            value={field.value ?? ""}
+            onChange={field.onChange}
+            rows={6}
+            previewTransform={previewTransform}
+            insertables={emailInsertables}
+          />
+        )}
       />
     </div>
   );

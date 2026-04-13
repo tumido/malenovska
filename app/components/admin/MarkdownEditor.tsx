@@ -37,6 +37,7 @@ interface MarkdownEditorProps {
   singleLine?: boolean;
   required?: boolean;
   maxLength?: number;
+  error?: string;
 }
 
 interface ToolbarAction {
@@ -161,6 +162,7 @@ const MarkdownEditor = ({
   singleLine,
   required,
   maxLength,
+  error,
 }: MarkdownEditorProps) => {
   const [preview, setPreview] = useState(false);
   const [insertMenuOpen, setInsertMenuOpen] = useState(false);
@@ -230,7 +232,7 @@ const MarkdownEditor = ({
           )}
         </div>
       )}
-      <div className="rounded border border-gray-600 bg-neutral-900 overflow-hidden focus-within:border-secondary focus-within:ring-1 focus-within:ring-secondary">
+      <div className={`rounded border bg-neutral-900 overflow-hidden focus-within:border-secondary focus-within:ring-1 focus-within:ring-secondary ${error ? "border-red-500" : "border-gray-600"}`}>
         <div className="flex flex-wrap items-center border-b border-gray-600">
           <button
             type="button"
@@ -338,6 +340,7 @@ const MarkdownEditor = ({
           />
         )}
       </div>
+      {error && <p className="mt-1 text-xs text-red-400">{error}</p>}
     </div>
   );
 };

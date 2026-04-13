@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router";
+import { useParams, useNavigate, Link } from "react-router";
 import { doc, type DocumentReference } from "firebase/firestore";
 import { useDocumentData } from "react-firebase-hooks/firestore";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { db } from "@/lib/firebase";
 import { updateDocument, removeDocument, processPendingUploads } from "@/lib/admin-firestore";
 import EventFormTabs from "@/components/admin/EventFormTabs";
+import { eventSchema, type EventFormValues } from "@/lib/schemas";
 import type { Event } from "@/lib/types";
 
 const EventEditPage = () => {
@@ -13,25 +16,25 @@ const EventEditPage = () => {
   const [event, loading] = useDocumentData<Event>(
     doc(db, "events", id!) as DocumentReference<Event>,
   );
-  const [form, setForm] = useState<Partial<Event>>({});
   const [saving, setSaving] = useState(false);
 
+  const { control, handleSubmit, reset, setValue, watch } = useForm<EventFormValues>({
+    resolver: zodResolver(eventSchema),
+    shouldUnregister: false,
+  });
+
   useEffect(() => {
-    if (event && Object.keys(form).length === 0) {
-      setForm({ ...event, id });
-    }
-  }, [event, id, form]);
+    if (event) reset({ ...event, id } as EventFormValues);
+  }, [event, id, reset]);
 
-  const update = (key: keyof Event, value: unknown) => {
-    setForm((prev) => ({ ...prev, [key]: value }));
-  };
+  const name = watch("name");
 
-  const handleSave = async () => {
+  const onValid = async (data: EventFormValues) => {
     setSaving(true);
     try {
-      const raw = Object.fromEntries(Object.entries(form).filter(([k]) => k !== "id"));
-      const data = await processPendingUploads(raw);
-      await updateDocument("events", id!, data);
+      const { id: _id, ...raw } = data;
+      const processed = await processPendingUploads(raw);
+      await updateDocument("events", id!, processed);
       navigate("/admin/events");
     } catch (err) {
       alert("Chyba při ukládání");
@@ -42,7 +45,7 @@ const EventEditPage = () => {
   };
 
   const handleDelete = async () => {
-    if (!confirm(`Opravdu smazat událost „${form.name ?? id}"?`)) return;
+    if (!confirm(`Opravdu smazat událost „${name ?? id}"?`)) return;
     try {
       await removeDocument("events", id!);
       navigate("/admin/events");
@@ -56,15 +59,27 @@ const EventEditPage = () => {
     return <div className="text-gray-500">Načítání…</div>;
   }
 
+  if (!event) {
+    return (
+      <div className="flex min-h-[60vh] flex-col items-center justify-center gap-3 text-gray-500">
+        <p>Událost nenalezena</p>
+        <Link to="/admin/events" className="text-sm text-secondary hover:text-secondary-dark transition-colors">
+          Zpět na seznam událostí
+        </Link>
+      </div>
+    );
+  }
+
   return (
     <EventFormTabs
-      form={form}
-      update={update}
-      onSave={handleSave}
+      control={control}
+      setValue={setValue}
+      watch={watch}
+      onSave={handleSubmit(onValid)}
       onCancel={() => navigate("/admin/events")}
       onDelete={handleDelete}
       saving={saving}
-      title={`Upravit: ${form.name ?? id}`}
+      title={`Upravit: ${name ?? id}`}
       isEdit
     />
   );

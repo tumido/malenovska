@@ -1,38 +1,50 @@
 import { useCallback, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { createDocument, processPendingUploads } from "@/lib/admin-firestore";
 import FormLayout from "@/components/admin/FormLayout";
-import { InputField, ImageField, ColorField } from "@/components/admin/FormFields";
+import { RHFInput, RHFEventSelect, RHFColor, RHFMarkdown, RHFImage } from "@/components/admin/RHFFields";
 import { useEventFilter } from "@/components/admin/EventFilter";
-import MarkdownEditor from "@/components/admin/MarkdownEditor";
 import { useCloneData } from "@/lib/useCloneData";
+import { raceSchema, type RaceFormValues } from "@/lib/schemas";
 import type { Race } from "@/lib/types";
+
+const slugify = (name: string): string => {
+  return name.replace(/ /g, "_").toLowerCase().replace(/\W/g, "");
+};
 
 const RaceCreatePage = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const [form, setForm] = useState<Partial<Race>>(() => {
-    const event = searchParams.get("event");
-    return { priority: 1, ...(event ? { event } : {}) };
-  });
   const [saving, setSaving] = useState(false);
   const { events } = useEventFilter([]);
-  const setFormStable = useCallback((data: Partial<Race>) => setForm(data), []);
-  const { isClone } = useCloneData<Race>("races", setFormStable);
 
-  const set = (patch: Partial<Race>) => setForm((p) => ({ ...p, ...patch }));
+  const { control, handleSubmit, reset } = useForm<RaceFormValues>({
+    resolver: zodResolver(raceSchema),
+    shouldUnregister: false,
+    defaultValues: {
+      name: "",
+      event: searchParams.get("event") ?? "",
+      limit: 0,
+      priority: 1,
+      color: "",
+      colorName: "",
+      legend: "",
+      requirements: "",
+      image: { src: "" },
+    },
+  });
 
-  const handleSave = async () => {
-    if (!form.name || !form.event || !form.color || !form.colorName || !form.legend || !form.requirements || !form.image?.src) {
-      alert("Vyplňte všechna povinná pole");
-      return;
-    }
+  const resetStable = useCallback((data: Partial<Race>) => reset(data as RaceFormValues), [reset]);
+  const { isClone } = useCloneData<Race>("races", resetStable);
+
+  const onValid = async (data: RaceFormValues) => {
     setSaving(true);
     try {
-      const id = form.name.replace(/ /g, "_").toLowerCase().replace(/\W/g, "");
-      const raw = Object.fromEntries(Object.entries(form).filter(([k]) => k !== "id"));
-      const data = await processPendingUploads(raw);
-      await createDocument("races", id, data);
+      const id = slugify(data.name);
+      const processed = await processPendingUploads(data);
+      await createDocument("races", id, processed);
       navigate("/admin/races");
     } catch (err) {
       alert("Chyba při vytváření");
@@ -49,29 +61,16 @@ const RaceCreatePage = () => {
       content: (
         <div className="space-y-4">
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <InputField label="Název" value={form.name ?? ""} onChange={(v) => set({ name: v })} required />
-            <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1">Událost<span className="text-red-500 ml-0.5">*</span></label>
-              <select
-                value={form.event ?? ""}
-                onChange={(e) => set({ event: e.target.value })}
-                required
-                className="w-full rounded border border-gray-600 bg-neutral-900 px-3 py-2 text-sm text-primary-light focus:border-secondary focus:outline-none focus:ring-1 focus:ring-secondary"
-              >
-                <option value="">Vyberte</option>
-                {events.map((ev) => (
-                  <option key={ev.id} value={ev.id}>{ev.name} ({ev.year})</option>
-                ))}
-              </select>
-            </div>
-            <InputField label="Limit" value={form.limit ?? 0} onChange={(v) => set({ limit: Number(v) })} type="number" required />
-            <InputField label="Priorita" value={form.priority ?? 1} onChange={(v) => set({ priority: Number(v) })} type="number" required />
-            <ColorField label="Barva" value={form.color ?? ""} onChange={(v) => set({ color: v })} required />
-            <InputField label="Název barvy" value={form.colorName ?? ""} onChange={(v) => set({ colorName: v })} required />
+            <RHFInput control={control} name="name" label="Název" required />
+            <RHFEventSelect control={control} name="event" label="Událost" events={events} required />
+            <RHFInput control={control} name="limit" label="Limit" type="number" required />
+            <RHFInput control={control} name="priority" label="Priorita" type="number" required />
+            <RHFColor control={control} name="color" label="Barva" required />
+            <RHFInput control={control} name="colorName" label="Název barvy" required />
           </div>
-          <MarkdownEditor label="Legenda" value={form.legend ?? ""} onChange={(v) => set({ legend: v })} required />
-          <MarkdownEditor label="Požadavky" value={form.requirements ?? ""} onChange={(v) => set({ requirements: v })} required />
-          <ImageField label="Obrázek" value={form.image ?? { src: "" }} onChange={(v) => set({ image: v })} required />
+          <RHFMarkdown control={control} name="legend" label="Legenda" required />
+          <RHFMarkdown control={control} name="requirements" label="Požadavky" required />
+          <RHFImage control={control} name="image" label="Obrázek" required />
         </div>
       ),
     },
@@ -81,7 +80,7 @@ const RaceCreatePage = () => {
     <FormLayout
       title={isClone ? "Klonovat stranu" : "Nová strana"}
       tabs={tabs}
-      onSubmit={handleSave}
+      onSubmit={handleSubmit(onValid)}
       onCancel={() => navigate("/admin/races")}
       saving={saving}
     />
