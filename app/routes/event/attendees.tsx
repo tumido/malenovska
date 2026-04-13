@@ -5,6 +5,7 @@ import { useCollectionData } from "react-firebase-hooks/firestore";
 import { typedCollection } from "@/lib/firebase";
 import { useEvent } from "@/contexts/EventContext";
 import { PageHero } from "@/components/PageHero";
+import { Loading } from "@/components/Loading";
 import { Markdown } from "@/components/Markdown";
 import { stableSort, getSorting } from "@/lib/sorting";
 import {
@@ -76,13 +77,10 @@ const AttendeesPage = () => {
     setPage(0);
   }, []);
 
-  const handleRaceFilter = useCallback(
-    (raceId: string) => {
-      setRaceFilter((prev) => (prev === raceId ? null : raceId));
-      setPage(0);
-    },
-    [],
-  );
+  const handleRaceFilter = useCallback((raceId: string) => {
+    setRaceFilter((prev) => (prev === raceId ? null : raceId));
+    setPage(0);
+  }, []);
 
   // Race mapping and counts
   const { raceMapping, raceCounts, raceColors } = useMemo(() => {
@@ -105,30 +103,11 @@ const AttendeesPage = () => {
     return (
       <>
         <PageHero title="Účastníci" compact />
-        <div className="-mx-4 min-h-screen bg-black/80 px-4 pt-8">
-          <div className="mx-auto max-w-6xl">
-            {/* Skeleton race cards */}
-            <div className="mb-6 flex gap-3 overflow-x-auto pb-2">
-              {Array.from({ length: 4 }).map((_, i) => (
-                <div
-                  key={i}
-                  className="h-16 w-36 shrink-0 animate-pulse rounded-lg bg-white/5"
-                />
-              ))}
-            </div>
-            {/* Skeleton search bar */}
-            <div className="mb-4 h-12 animate-pulse rounded-lg bg-white/5" />
-            {/* Skeleton rows */}
-            <div className="space-y-2">
-              {Array.from({ length: 10 }).map((_, i) => (
-                <div
-                  key={i}
-                  className="h-12 animate-pulse rounded-lg bg-white/5"
-                />
-              ))}
-            </div>
+        <section className="-mx-4 min-h-screen bg-primary-light text-primary">
+          <div className="mx-auto max-w-5xl px-6 py-10 lg:px-8 lg:py-14">
+            <Loading />
           </div>
-        </div>
+        </section>
       </>
     );
   }
@@ -144,8 +123,7 @@ const AttendeesPage = () => {
     }))
     .filter((p) => filterBySearch(p, search))
     .filter(
-      (p) =>
-        !raceFilter || p.race === (raceMapping[raceFilter] ?? raceFilter),
+      (p) => !raceFilter || p.race === (raceMapping[raceFilter] ?? raceFilter),
     );
 
   const sorted = stableSort(
@@ -158,17 +136,18 @@ const AttendeesPage = () => {
   return (
     <>
       <PageHero title="Účastníci" compact />
-      <div className="-mx-4 min-h-screen bg-black/80 px-4 pt-8 pb-12">
-        <div className="mx-auto max-w-6xl">
+
+      <section className="-mx-4 min-h-screen bg-primary-light text-primary">
+        <div className="mx-auto max-w-5xl px-6 py-10 lg:px-8 lg:py-14">
           {/* Optional markdown intro */}
           {event.registrationList && (
-            <div className="mx-auto mb-8 max-w-3xl text-primary-light/80">
+            <div className="mx-auto mb-8 max-w-3xl">
               <Markdown content={event.registrationList} />
             </div>
           )}
 
           {/* Race summary cards */}
-          <div className="mb-6 flex gap-3 overflow-x-auto pb-2">
+          <div className="mb-8 flex gap-3 overflow-x-auto pb-2">
             {races
               .slice()
               .sort((a, b) => a.priority - b.priority)
@@ -179,10 +158,10 @@ const AttendeesPage = () => {
                   <button
                     key={race.id}
                     onClick={() => handleRaceFilter(race.id)}
-                    className={`flex shrink-0 items-center gap-3 rounded-lg px-4 py-3 transition-all ${
+                    className={`flex shrink-0 cursor-pointer items-center gap-3 rounded-lg border-2 px-4 py-3 transition-all ${
                       isActive
-                        ? "bg-white/15 ring-2 ring-secondary shadow-lg"
-                        : "bg-white/5 hover:bg-white/10"
+                        ? "border-secondary bg-secondary/5 shadow-md"
+                        : "border-primary/10 hover:border-primary/20 hover:bg-primary/5"
                     }`}
                   >
                     <span
@@ -190,10 +169,8 @@ const AttendeesPage = () => {
                       style={{ backgroundColor: race.color }}
                     />
                     <div className="text-left">
-                      <div className="text-sm font-medium text-primary-light">
-                        {race.name}
-                      </div>
-                      <div className="text-xs text-grey-400">
+                      <div className="text-sm font-medium">{race.name}</div>
+                      <div className="text-xs text-primary/50">
                         {count} / {race.limit}
                       </div>
                     </div>
@@ -203,13 +180,13 @@ const AttendeesPage = () => {
           </div>
 
           {/* Search bar + count */}
-          <div className="mb-4 flex items-center gap-4 rounded-lg bg-white/5 px-4 py-3 backdrop-blur-sm">
-            <Search size={18} className="shrink-0 text-grey-400" />
+          <div className="mb-6 flex items-center gap-4 rounded-lg border border-primary/10 px-4 py-3">
+            <Search size={18} className="shrink-0 text-primary/40" />
             <input
               type="text"
               placeholder="Hledat účastníka…"
               aria-label="Hledat účastníka"
-              className="min-w-0 flex-1 bg-transparent text-sm text-white placeholder-grey-400 focus:outline-none"
+              className="min-w-0 flex-1 bg-transparent text-sm text-primary placeholder-primary/40 focus:outline-none"
               onChange={(e) => handleSearch(e.target.value)}
               onKeyDown={(e) => {
                 if (e.key === "Escape") {
@@ -218,7 +195,7 @@ const AttendeesPage = () => {
                 }
               }}
             />
-            <span className="shrink-0 text-sm text-grey-400">
+            <span className="shrink-0 text-sm text-primary/50">
               {rows.length}{" "}
               {rows.length === 1
                 ? "účastník"
@@ -230,7 +207,7 @@ const AttendeesPage = () => {
 
           {/* Participant list */}
           {rows.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-20 text-grey-400">
+            <div className="flex flex-col items-center justify-center py-20 text-primary/40">
               <Users size={48} className="mb-4 opacity-50" />
               {search || raceFilter ? (
                 <p className="text-lg">Žádní účastníci nenalezeni</p>
@@ -239,7 +216,7 @@ const AttendeesPage = () => {
                   <p className="mb-2 text-lg">Zatím se nikdo nezaregistroval</p>
                   <Link
                     to={`/${eventId}/signup`}
-                    className="text-secondary hover:text-secondary-dark transition-colors"
+                    className="text-secondary transition-colors hover:text-secondary-dark"
                   >
                     Buď první!
                   </Link>
@@ -249,12 +226,12 @@ const AttendeesPage = () => {
           ) : (
             <>
               {/* Table header row */}
-              <div className="mb-2 hidden items-center gap-2 px-4 text-xs font-bold uppercase tracking-wider text-grey-500 md:flex">
+              <div className="mb-1 hidden items-center gap-2 border-b border-primary/10 px-4 pb-2 text-xs font-bold uppercase tracking-wider text-primary/40 md:flex">
                 {headers.map((h) => (
                   <button
                     key={h.id}
                     onClick={() => handleSort(h.id)}
-                    className={`flex items-center gap-1 transition-colors hover:text-grey-400 ${
+                    className={`flex items-center gap-1 transition-colors hover:text-primary/70 ${
                       h.id === "race" ? "w-48" : "flex-1"
                     }`}
                   >
@@ -273,37 +250,68 @@ const AttendeesPage = () => {
               </div>
 
               {/* Rows */}
-              <div className="space-y-1">
+              <div>
                 {paged.map((row, i) => (
                   <div
                     key={i}
-                    className="rounded-lg bg-white/5 px-4 py-3 transition-colors hover:bg-white/10 md:flex md:items-center md:gap-2"
+                    className="border-b border-primary/5 px-4 py-3 text-center transition-colors hover:bg-primary/5 md:flex md:items-center md:gap-2 md:text-left"
                   >
-                    {/* Race with color dot */}
-                    <div className="mb-1 flex w-48 shrink-0 items-center gap-2 md:mb-0">
+                    {/* Race with color dot — hidden on mobile, shown in desktop column */}
+                    <div className="hidden w-48 shrink-0 items-center gap-2 md:flex">
                       <span
                         className="block h-2.5 w-2.5 shrink-0 rounded-full"
                         style={{ backgroundColor: row.raceColor }}
                       />
-                      <span className="text-sm text-grey-400">{row.race}</span>
+                      <span className="text-sm text-primary/60">
+                        {row.race}
+                      </span>
                     </div>
-                    {/* Mobile: nickname + name on one line */}
-                    <div className="flex items-baseline gap-2 md:contents">
-                      <div className="text-sm font-medium text-primary-light md:flex-1">
-                        {row.nickName || (
-                          <span className="text-grey-500">—</span>
-                        )}
-                      </div>
-                      <div className="text-sm text-primary-light/80 md:flex-1">
-                        {row.firstName}
-                      </div>
-                      <div className="text-sm text-primary-light/80 md:flex-1">
-                        {row.lastName}
-                      </div>
+                    {/* Mobile: nickname bold, name in parentheses */}
+                    <div className="text-sm md:hidden">
+                      {row.nickName ? (
+                        <>
+                          <span className="font-bold">{row.nickName}</span>{" "}
+                          <span className="text-primary/50">
+                            ({row.firstName} {row.lastName})
+                          </span>
+                        </>
+                      ) : (
+                        <span className="font-bold">
+                          {row.firstName} {row.lastName}
+                        </span>
+                      )}
                     </div>
-                    {/* Group */}
-                    <div className="mt-1 text-xs text-grey-500 md:mt-0 md:flex-1 md:text-sm md:text-grey-400">
-                      {row.group || <span className="text-grey-500">—</span>}
+                    {/* Desktop: three columns */}
+                    <div className="hidden text-sm font-bold md:block md:flex-1">
+                      {row.nickName}
+                    </div>
+                    <div className="hidden text-sm text-primary/80 md:block md:flex-1">
+                      {row.firstName}
+                    </div>
+                    <div className="hidden text-sm text-primary/80 md:block md:flex-1">
+                      {row.lastName}
+                    </div>
+                    {/* Mobile: race + group on one line below name */}
+                    <div className="mt-1 flex items-center justify-center gap-3 text-xs text-primary/40 md:hidden">
+                      <span className="flex items-center gap-1.5">
+                        <span
+                          className="block h-2 w-2 shrink-0 rounded-full"
+                          style={{ backgroundColor: row.raceColor }}
+                        />
+                        {row.race}
+                      </span>
+                      {row.group && (
+                        <>
+                          <span className="text-primary/20">|</span>
+                          <span>{row.group}</span>
+                        </>
+                      )}
+                    </div>
+                    {/* Desktop: group column */}
+                    <div className="hidden md:block md:flex-1 md:text-sm md:text-primary/40">
+                      {row.group || (
+                        <span className="text-primary/30">—</span>
+                      )}
                     </div>
                   </div>
                 ))}
@@ -311,11 +319,11 @@ const AttendeesPage = () => {
 
               {/* Pagination */}
               {totalPages > 1 && (
-                <div className="mt-6 flex items-center justify-center gap-2">
+                <div className="mt-8 flex items-center justify-center gap-2">
                   <button
                     onClick={() => setPage((p) => Math.max(0, p - 1))}
                     disabled={page === 0}
-                    className="rounded-lg bg-white/5 px-4 py-2 text-sm text-primary-light transition-colors hover:bg-white/10 disabled:opacity-30 disabled:hover:bg-white/5"
+                    className="cursor-pointer rounded-lg border border-primary/10 px-4 py-2 text-sm transition-colors hover:bg-primary/5 disabled:cursor-default disabled:opacity-30"
                   >
                     Předchozí
                   </button>
@@ -324,10 +332,10 @@ const AttendeesPage = () => {
                       <button
                         key={i}
                         onClick={() => setPage(i)}
-                        className={`h-8 w-8 rounded-lg text-sm transition-colors ${
+                        className={`h-8 w-8 cursor-pointer rounded-lg text-sm transition-colors ${
                           page === i
                             ? "bg-secondary text-white"
-                            : "bg-white/5 text-grey-400 hover:bg-white/10"
+                            : "text-primary/50 hover:bg-primary/5"
                         }`}
                       >
                         {i + 1}
@@ -339,7 +347,7 @@ const AttendeesPage = () => {
                       setPage((p) => Math.min(totalPages - 1, p + 1))
                     }
                     disabled={page >= totalPages - 1}
-                    className="rounded-lg bg-white/5 px-4 py-2 text-sm text-primary-light transition-colors hover:bg-white/10 disabled:opacity-30 disabled:hover:bg-white/5"
+                    className="cursor-pointer rounded-lg border border-primary/10 px-4 py-2 text-sm transition-colors hover:bg-primary/5 disabled:cursor-default disabled:opacity-30"
                   >
                     Další
                   </button>
@@ -348,7 +356,7 @@ const AttendeesPage = () => {
             </>
           )}
         </div>
-      </div>
+      </section>
     </>
   );
 };
