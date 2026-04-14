@@ -18,7 +18,7 @@ const GalleriesListPage = () => {
   const [galleries, loading] = useCollectionData(
     query(typedCollection<Gallery>("galleries"), orderBy("name")),
   );
-  const { filtered, toolbar } = useEventFilter(galleries ?? []);
+  const { filtered, toolbar, activeFilters } = useEventFilter(galleries ?? []);
 
   const handleDelete = async (gallery: Gallery) => {
     if (!confirm(`Smazat galerii "${gallery.name}"?`)) return;
@@ -36,12 +36,14 @@ const GalleriesListPage = () => {
       searchField="name"
       searchPlaceholder="Hledat galerii…"
       toolbar={toolbar}
+      activeFilters={activeFilters}
       headerAction={
         <Link
           to="/admin/galleries/new"
-          className="inline-flex items-center gap-2 rounded bg-secondary px-4 py-2 text-sm font-medium text-white hover:bg-secondary-dark transition-colors"
+          className="inline-flex items-center gap-2 rounded bg-secondary px-2.5 py-2 text-sm font-medium text-white transition-colors hover:bg-secondary-dark lg:px-4"
         >
-          <Plus className="h-4 w-4" /> Nová galerie
+          <Plus className="h-4 w-4" />
+          <span className="hidden lg:inline">Nová galerie</span>
         </Link>
       }
     />

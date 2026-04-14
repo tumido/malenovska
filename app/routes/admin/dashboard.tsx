@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { query, where, doc, type DocumentReference } from "firebase/firestore";
 import {
   useCollectionData,
@@ -17,6 +18,7 @@ import {
   Image,
   Download,
   ExternalLink,
+  X,
 } from "lucide-react";
 import { exportParticipantsCsv } from "@/lib/export-csv";
 import { useAuth } from "@/contexts/AuthContext";
@@ -109,8 +111,18 @@ const DashboardPage = () => {
     exportParticipantsCsv(participants, races, fieldExtras);
   };
 
-  const quickActions: Array<{ to: string; label: string; icon: typeof Plus; roles?: UserRole[] }> = [
-    { to: "/admin/events/new", label: "Nová událost", icon: Plus, roles: ["admin"] },
+  const quickActions: Array<{
+    to: string;
+    label: string;
+    icon: typeof Plus;
+    roles?: UserRole[];
+  }> = [
+    {
+      to: "/admin/events/new",
+      label: "Nová událost",
+      icon: Plus,
+      roles: ["admin"],
+    },
     {
       to: `/admin/legends/new${eventId ? `?event=${eventId}` : ""}`,
       label: "Nová legenda",
@@ -131,18 +143,38 @@ const DashboardPage = () => {
     },
   ];
 
-  const filteredActions = quickActions.filter((a) => !a.roles || (role && a.roles.includes(role)));
+  const filteredActions = quickActions.filter(
+    (a) => !a.roles || (role && a.roles.includes(role)),
+  );
   const canExport = role === "admin" || role === "staff";
   const canSeeParticipants = role === "admin" || role === "staff";
   const canSeeContent = role === "admin" || role === "writer";
 
+  const [fabOpen, setFabOpen] = useState(false);
+
+  const fabActions = [
+    ...filteredActions.map((a) => ({
+      type: "link" as const,
+      to: a.to,
+      label: a.label,
+      icon: a.icon,
+    })),
+    ...(canExport && eventId && participants
+      ? [
+          {
+            type: "button" as const,
+            label: "Export registrace",
+            icon: Download,
+            onClick: handleExport,
+          },
+        ]
+      : []),
+  ];
+
   return (
     <div className="space-y-6">
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <h1 className="text-2xl font-bold text-primary-light font-display">
-          Dashboard
-        </h1>
-        <div className="flex flex-wrap gap-2">
+      <div className="flex items-center justify-between">
+        <div className="hidden sm:flex sm:flex-wrap sm:gap-2">
           {filteredActions.map(({ to, label, icon: Icon }) => (
             <Link
               key={to}
@@ -165,34 +197,98 @@ const DashboardPage = () => {
         </div>
       </div>
 
+      {/* Mobile FAB */}
+      {fabActions.length > 0 && (
+        <div className="fixed bottom-16 right-4 z-50 sm:hidden">
+          {fabOpen && (
+            <>
+              <div
+                className="fixed inset-0 z-40 bg-black/40"
+                onClick={() => setFabOpen(false)}
+              />
+              <div className="relative z-50 mb-3 flex flex-col items-end gap-2">
+                {fabActions.map((action) => {
+                  const Icon = action.icon;
+                  const className =
+                    "flex items-center gap-3 rounded-full bg-neutral-800 border border-gray-700 pl-4 pr-3 py-2.5 text-sm text-primary-light shadow-lg transition-colors active:bg-neutral-700";
+                  return action.type === "link" ? (
+                    <Link
+                      key={action.label}
+                      to={action.to!}
+                      onClick={() => setFabOpen(false)}
+                      className={className}
+                    >
+                      {action.label}
+                      <Icon className="h-5 w-5" />
+                    </Link>
+                  ) : (
+                    <button
+                      key={action.label}
+                      onClick={() => {
+                        action.onClick?.();
+                        setFabOpen(false);
+                      }}
+                      className={`${className} cursor-pointer`}
+                    >
+                      {action.label}
+                      <Icon className="h-5 w-5" />
+                    </button>
+                  );
+                })}
+              </div>
+            </>
+          )}
+          <button
+            onClick={() => setFabOpen((v) => !v)}
+            className={`ml-auto flex h-14 w-14 items-center justify-center rounded-full bg-secondary shadow-lg transition-transform cursor-pointer active:scale-95 ${fabOpen ? "rotate-0" : ""}`}
+          >
+            {fabOpen ? (
+              <X className="h-6 w-6 text-white" />
+            ) : (
+              <Plus className="h-6 w-6 text-white" />
+            )}
+          </button>
+        </div>
+      )}
+
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
         <StatsCard
           label="Aktivní událost"
           value={event ? `${event.name} ${event.year}` : null}
-          href={role === "admin" && eventId ? `/admin/events/${eventId}` : undefined}
+          href={
+            role === "admin" && eventId ? `/admin/events/${eventId}` : undefined
+          }
           loading={!config}
           className="col-span-2"
-          actions={role === "admin" ? [
-            ...(eventId
+          actions={
+            role === "admin"
               ? [
+                  ...(eventId
+                    ? [
+                        {
+                          href: `/admin/events/${eventId}`,
+                          icon: <Pencil className="h-4 w-4" />,
+                          title: "Upravit událost",
+                        },
+                      ]
+                    : []),
                   {
-                    href: `/admin/events/${eventId}`,
-                    icon: <Pencil className="h-4 w-4" />,
-                    title: "Upravit událost",
+                    href: "/admin/config",
+                    icon: <Settings className="h-4 w-4" />,
+                    title: "Změnit aktivní událost",
                   },
                 ]
-              : []),
-            {
-              href: "/admin/config",
-              icon: <Settings className="h-4 w-4" />,
-              title: "Změnit aktivní událost",
-            },
-          ] : []}
+              : []
+          }
         />
         <StatsCard
-          label="Přihlášených účastníků"
+          label="Přihlášeno"
           value={capacity > 0 ? `${total} / ${capacity}` : total}
-          href={canSeeParticipants && eventId ? `/admin/participants?event=${eventId}` : undefined}
+          href={
+            canSeeParticipants && eventId
+              ? `/admin/participants?event=${eventId}`
+              : undefined
+          }
           loading={participantsLoading}
         />
         <StatsCard
@@ -258,8 +354,9 @@ const DashboardPage = () => {
                         {extra.props!.label ?? extra.props!.id!}
                       </span>
                       <span className="text-lg font-bold text-primary-light">
-                        {participants?.filter((p) => p[extra.props!.id!] === true)
-                          .length ?? 0}
+                        {participants?.filter(
+                          (p) => p[extra.props!.id!] === true,
+                        ).length ?? 0}
                       </span>
                     </>
                   );
@@ -272,7 +369,10 @@ const DashboardPage = () => {
                       {content}
                     </Link>
                   ) : (
-                    <div key={extra.props!.id} className="flex items-center justify-between px-2 py-1 -mx-2">
+                    <div
+                      key={extra.props!.id}
+                      className="flex items-center justify-between px-2 py-1 -mx-2"
+                    >
                       {content}
                     </div>
                   );
@@ -375,7 +475,10 @@ const DashboardPage = () => {
                       {content}
                     </Link>
                   ) : (
-                    <div key={p.id} className="flex items-center justify-between px-2 py-1 -mx-2">
+                    <div
+                      key={p.id}
+                      className="flex items-center justify-between px-2 py-1 -mx-2"
+                    >
                       {content}
                     </div>
                   );

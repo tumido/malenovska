@@ -14,7 +14,7 @@ const ParticipantsListPage = () => {
   const [participants, loading] = useCollectionData(
     query(typedCollection<Participant>("participants")),
   );
-  const { filtered, toolbar, eventId } = useEventFilter(participants ?? []);
+  const { filtered, toolbar, eventId, activeFilters: eventActiveFilters } = useEventFilter(participants ?? []);
   const [searchParams, setSearchParams] = useSearchParams();
   const [raceFilter, setRaceFilter] = useState("");
   const fieldFilter = searchParams.get("field") ?? "";
@@ -94,7 +94,7 @@ const ParticipantsListPage = () => {
     filtered.map((p) => (p.group as string) ?? "").filter(Boolean),
   )].sort();
 
-  const extraToolbar = (
+  const filterToolbar = (
     <>
       {toolbar}
       {eventId && checkboxExtras.length > 0 && (
@@ -133,14 +133,27 @@ const ParticipantsListPage = () => {
           ))}
         </select>
       )}
-      <button
-        onClick={handleExport}
-        className="inline-flex items-center gap-1 rounded border border-gray-600 px-3 py-1.5 text-sm text-gray-300 hover:bg-gray-700 transition-colors"
-      >
-        <Download className="h-4 w-4" /> CSV
-      </button>
     </>
   );
+
+  const activeFilters = [
+    ...eventActiveFilters,
+    ...(fieldFilter
+      ? [{
+          label: checkboxExtras.find((e) => e.props?.id === fieldFilter)?.props?.label ?? fieldFilter,
+          onRemove: () => setFilter("field", ""),
+        }]
+      : []),
+    ...(groupFilter
+      ? [{ label: groupFilter, onRemove: () => setFilter("group", "") }]
+      : []),
+    ...(raceFilter
+      ? [{
+          label: raceMap.get(raceFilter)?.name ?? raceFilter,
+          onRemove: () => setRaceFilter(""),
+        }]
+      : []),
+  ];
 
   return (
     <div className="space-y-4">
@@ -153,7 +166,17 @@ const ParticipantsListPage = () => {
         actions={["edit", "delete"]}
         searchField="nickName"
         searchPlaceholder="Hledat přezdívku…"
-        toolbar={extraToolbar}
+        toolbar={filterToolbar}
+        activeFilters={activeFilters}
+        headerAction={
+          <button
+            onClick={handleExport}
+            className="inline-flex items-center gap-2 rounded border border-gray-600 px-2.5 py-2 text-sm text-gray-300 transition-colors hover:bg-gray-700 lg:px-3 lg:py-1.5"
+          >
+            <Download className="h-4 w-4" />
+            <span className="hidden lg:inline">CSV</span>
+          </button>
+        }
       />
     </div>
   );

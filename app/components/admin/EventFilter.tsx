@@ -37,7 +37,12 @@ export const useEventFilter = <T extends HasEvent>(data: T[]) => {
     />
   );
 
-  return { filtered, toolbar, eventId, events: events ?? [] };
+  const selectedEvent = (events ?? []).find((e) => e.id === eventId);
+  const activeFilters = selectedEvent
+    ? [{ label: `${selectedEvent.name} (${selectedEvent.year})`, onRemove: () => setEventId("") }]
+    : [];
+
+  return { filtered, toolbar, eventId, setEventId, events: events ?? [], activeFilters };
 };
 
 export const EventFilterToolbar = ({
@@ -54,7 +59,7 @@ export const EventFilterToolbar = ({
       name="event-filter"
       value={value}
       onChange={(e) => onChange(e.target.value)}
-      className="rounded border border-gray-600 bg-neutral-800 px-3 py-1.5 text-sm text-primary-light focus:border-secondary focus:outline-none focus:ring-1 focus:ring-secondary"
+      className="w-full rounded border border-gray-600 bg-neutral-800 px-3 py-1.5 text-sm text-primary-light focus:border-secondary focus:outline-none focus:ring-1 focus:ring-secondary lg:w-auto"
     >
       <option value="">Všechny události</option>
       {events.map((e) => (

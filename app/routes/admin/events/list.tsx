@@ -59,9 +59,10 @@ const EventsListPage = () => {
       headerAction={
         <Link
           to="/admin/events/new"
-          className="inline-flex items-center gap-2 rounded bg-secondary px-4 py-2 text-sm font-medium text-white hover:bg-secondary-dark transition-colors"
+          className="inline-flex items-center gap-2 rounded bg-secondary px-2.5 py-2 text-sm font-medium text-white transition-colors hover:bg-secondary-dark lg:px-4"
         >
-          <Plus className="h-4 w-4" /> Nová událost
+          <Plus className="h-4 w-4" />
+          <span className="hidden lg:inline">Nová událost</span>
         </Link>
       }
     />

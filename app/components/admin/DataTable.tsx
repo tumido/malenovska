@@ -8,7 +8,14 @@ import {
   Eye,
   Search,
   Copy,
+  SlidersHorizontal,
+  X,
 } from "lucide-react";
+
+export interface ActiveFilter {
+  label: string;
+  onRemove: () => void;
+}
 
 interface Column<T> {
   key: string;
@@ -28,6 +35,7 @@ interface DataTableProps<T extends { id: string }> {
   searchPlaceholder?: string;
   toolbar?: React.ReactNode;
   headerAction?: React.ReactNode;
+  activeFilters?: ActiveFilter[];
 }
 
 const DataTable = <T extends { id: string }>({
@@ -41,10 +49,12 @@ const DataTable = <T extends { id: string }>({
   searchPlaceholder = "Hledat…",
   toolbar,
   headerAction,
+  activeFilters,
 }: DataTableProps<T>) => {
   const [sortKey, setSortKey] = useState<string | null>(null);
   const [sortDir, setSortDir] = useState<"asc" | "desc">("asc");
   const [search, setSearch] = useState("");
+  const [filtersOpen, setFiltersOpen] = useState(false);
 
   const handleSort = (key: string) => {
     if (sortKey === key) {
@@ -79,7 +89,8 @@ const DataTable = <T extends { id: string }>({
 
   return (
     <div className="space-y-4">
-      <div className="flex flex-wrap items-center gap-3">
+      {/* Desktop toolbar */}
+      <div className="hidden lg:flex lg:flex-wrap lg:items-center lg:gap-3">
         {searchField && (
           <div className="relative">
             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-500" />
@@ -96,6 +107,63 @@ const DataTable = <T extends { id: string }>({
         {toolbar}
         {headerAction && <div className="ml-auto">{headerAction}</div>}
       </div>
+
+      {/* Mobile toolbar */}
+      <div className="space-y-2 lg:hidden">
+        <div className="flex items-center gap-2">
+          {searchField && (
+            <div className="relative min-w-0 flex-1">
+              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-500" />
+              <input
+                type="text"
+                name="search"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder={searchPlaceholder}
+                className="w-full rounded border border-gray-600 bg-neutral-800 py-1.5 pl-9 pr-3 text-sm text-primary-light focus:border-secondary focus:outline-none focus:ring-1 focus:ring-secondary"
+              />
+            </div>
+          )}
+          {toolbar && (
+            <button
+              onClick={() => setFiltersOpen((v) => !v)}
+              className={`shrink-0 rounded border p-2 transition-colors ${
+                filtersOpen || (activeFilters && activeFilters.length > 0)
+                  ? "border-secondary text-secondary"
+                  : "border-gray-600 text-gray-400 hover:text-primary-light"
+              }`}
+              aria-label="Filtry"
+            >
+              <SlidersHorizontal className="h-4 w-4" />
+            </button>
+          )}
+          {headerAction}
+        </div>
+
+        {filtersOpen && (
+          <div className="flex flex-col gap-3 rounded-lg border border-gray-700 bg-neutral-800 p-3 [&>select]:w-full">
+            {toolbar}
+          </div>
+        )}
+
+        {!filtersOpen && activeFilters && activeFilters.length > 0 && (
+          <div className="flex flex-wrap gap-1.5">
+            {activeFilters.map((f, i) => (
+              <span
+                key={i}
+                className="inline-flex items-center gap-1 rounded-full bg-neutral-700 px-2.5 py-1 text-xs text-primary-light"
+              >
+                {f.label}
+                <button
+                  onClick={f.onRemove}
+                  className="rounded-full p-0.5 hover:bg-neutral-600 hover:text-white"
+                >
+                  <X className="h-3 w-3" />
+                </button>
+              </span>
+            ))}
+          </div>
+        )}</div>
 
       <div className="overflow-x-auto rounded-lg border border-gray-700 bg-neutral-800">
         <table className="w-full text-sm">
