@@ -28,11 +28,16 @@ const app =
 // Initialize Firestore with persistent cache (skip in emulator mode — no need for offline cache)
 if (getApps().length <= 1) {
   try {
-    initializeFirestore(app, useEmulators ? {} : {
-      localCache: persistentLocalCache({
-        tabManager: persistentMultipleTabManager(),
-      }),
-    });
+    initializeFirestore(
+      app,
+      useEmulators
+        ? {}
+        : {
+            localCache: persistentLocalCache({
+              tabManager: persistentMultipleTabManager(),
+            }),
+          },
+    );
   } catch {
     // Firestore already initialized
   }
@@ -62,7 +67,9 @@ const idConverter: FirestoreDataConverter<any> = {
 };
 
 export const typedCollection = <T extends { id: string }>(path: string) =>
-  firestoreCollection(db, path).withConverter(idConverter as FirestoreDataConverter<T>);
+  firestoreCollection(db, path).withConverter(
+    idConverter as FirestoreDataConverter<T>,
+  );
 
 // Cloud Functions client
 export const functions = getFunctions(app);

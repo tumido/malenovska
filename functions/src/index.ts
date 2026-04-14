@@ -1,6 +1,6 @@
 import { onDocumentCreated, onDocumentUpdated, onDocumentWritten } from "firebase-functions/v2/firestore";
 import { onCall } from "firebase-functions/v2/https";
-import { defineSecret, defineString } from "firebase-functions/params";
+import { defineSecret } from "firebase-functions/params";
 import { logger } from "firebase-functions";
 import { initializeApp } from "firebase-admin/app";
 import { getAuth } from "firebase-admin/auth";
@@ -13,8 +13,8 @@ import { renderEmail } from "./templates.js";
 initializeApp();
 const db = getFirestore();
 
-const DISCORD_URL = defineString("DISCORD_WEBHOOK");
-const GMAIL_CLIENT_ID = defineString("GMAIL_CLIENT_ID");
+const DISCORD_URL = defineSecret("DISCORD_WEBHOOK");
+const GMAIL_CLIENT_ID = defineSecret("GMAIL_CLIENT_ID");
 const GMAIL_CLIENT_SECRET = defineSecret("GMAIL_CLIENT_SECRET");
 const GMAIL_REFRESH_TOKEN = defineSecret("GMAIL_REFRESH_TOKEN");
 
@@ -128,7 +128,7 @@ const sendRegistrationNotification = async ({
 export const emailAttendee = onDocumentCreated(
   {
     document: "participants/{id}/private/_",
-    secrets: [GMAIL_CLIENT_SECRET, GMAIL_REFRESH_TOKEN],
+    secrets: [DISCORD_URL, GMAIL_CLIENT_ID, GMAIL_CLIENT_SECRET, GMAIL_REFRESH_TOKEN],
   },
   async (event) => {
     const snapshot = event.data;
@@ -168,7 +168,7 @@ export const emailAttendee = onDocumentCreated(
 export const emailAttendeeOnUpdate = onDocumentUpdated(
   {
     document: "participants/{id}/private/_",
-    secrets: [GMAIL_CLIENT_SECRET, GMAIL_REFRESH_TOKEN],
+    secrets: [DISCORD_URL, GMAIL_CLIENT_ID, GMAIL_CLIENT_SECRET, GMAIL_REFRESH_TOKEN],
   },
   async (event) => {
     const change = event.data;
@@ -198,21 +198,27 @@ export const emailAttendeeOnUpdate = onDocumentUpdated(
   },
 );
 
-export const notifyRegistrationToggle = onDocumentUpdated("events/{id}", async (event) => {
-  const change = event.data;
-  if (!change) return;
+export const notifyRegistrationToggle = onDocumentUpdated(
+  {
+    document: "events/{id}",
+    secrets: [DISCORD_URL],
+  },
+  async (event) => {
+    const change = event.data;
+    if (!change) return;
 
-  const newValue = change.after.data() as { name: string; registrationAvailable: boolean };
-  const previousValue = change.before.data() as { name: string; registrationAvailable: boolean };
+    const newValue = change.after.data() as { name: string; registrationAvailable: boolean };
+    const previousValue = change.before.data() as { name: string; registrationAvailable: boolean };
 
-  if (newValue.registrationAvailable && !previousValue.registrationAvailable) {
-    await sendDiscordNotification(DISCORD_URL.value(), `**${newValue.name}**: Otevírám registraci`);
-  }
+    if (newValue.registrationAvailable && !previousValue.registrationAvailable) {
+      await sendDiscordNotification(DISCORD_URL.value(), `**${newValue.name}**: Otevírám registraci`);
+    }
 
-  if (!newValue.registrationAvailable && previousValue.registrationAvailable) {
-    await sendDiscordNotification(DISCORD_URL.value(), `**${newValue.name}**: Zavírám registraci`);
-  }
-});
+    if (!newValue.registrationAvailable && previousValue.registrationAvailable) {
+      await sendDiscordNotification(DISCORD_URL.value(), `**${newValue.name}**: Zavírám registraci`);
+    }
+  },
+);
 
 // --- Admin RBAC ---
 

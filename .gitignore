@@ -24,6 +24,7 @@ firestore-debug.log
 
 # Environment
 .env*.local
+.secret*.local
 
 # Cruft
 .DS_Store
