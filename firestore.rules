@@ -1,33 +1,44 @@
 service cloud.firestore {
   match /databases/{database}/documents {
+    function isAdmin() {
+      return request.auth != null && request.auth.token.role == "admin";
+    }
+    function hasRole(role) {
+      return request.auth != null && request.auth.token.role == role;
+    }
+
     match /legends/{document=**} {
       allow read;
-      allow create, update, delete: if request.auth.uid != null;
+      allow create, update, delete: if isAdmin() || hasRole("writer");
     }
     match /races/{document=**} {
       allow read;
-      allow create, update, delete: if request.auth.uid != null;
+      allow create, update, delete: if isAdmin();
     }
     match /participants/{participant} {
     	allow read, create;
-      allow update, delete: if request.auth.uid != null;
+      allow update, delete: if isAdmin();
 
       match /private/{private} {
         allow create;
-      	allow read, update, delete: if request.auth.uid != null;
+      	allow read: if isAdmin() || hasRole("staff");
+        allow update, delete: if isAdmin();
       }
     }
     match /events/{document=**} {
       allow read;
-      allow create, update, delete: if request.auth.uid != null;
+      allow create, update, delete: if isAdmin();
     }
     match /galleries/{document=**} {
       allow read;
-      allow create, update, delete: if request.auth.uid != null;
+      allow create, update, delete: if isAdmin();
     }
     match /config/config {
     	allow read;
-      allow create, update, delete: if request.auth.uid != null;
+      allow create, update, delete: if isAdmin();
+    }
+    match /config/admins {
+      allow read, write: if isAdmin();
     }
   }
 }

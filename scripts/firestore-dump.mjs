@@ -5,7 +5,7 @@
  * Uses Firebase Admin SDK with a service account to bypass security rules.
  *
  * Usage:
- *   node scripts/firestore-dump.mjs                     # dump to emulator-data/seed.json
+ *   node scripts/firestore-dump.mjs                     # dump to seed.json
  *   node scripts/firestore-dump.mjs ./custom-path.json  # dump to custom path
  *
  * Requires: malenovska-service-account.json in project root
@@ -18,7 +18,7 @@ import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
 import { dirname } from "node:path";
 
 const serviceAccount = JSON.parse(
-  readFileSync("malenovska-service-account.json", "utf-8")
+  readFileSync("malenovska-service-account.json", "utf-8"),
 );
 
 const app = initializeApp({ credential: cert(serviceAccount) });
@@ -33,21 +33,42 @@ const statusLine = (label, success, failed, total, done) => {
   const progress = total ? ` ${success + failed}/${total}` : "";
   const failStr = failed > 0 ? ` ✗ ${failed}` : "";
   const marker = done ? (failed > 0 ? "✗" : "✓") : "…";
-  process.stdout.write(`\r  ${marker} ${label}${progress} — ✓ ${success}${failStr}${done ? "\n" : ""}`);
+  process.stdout.write(
+    `\r  ${marker} ${label}${progress} — ✓ ${success}${failStr}${done ? "\n" : ""}`,
+  );
+};
+
+// Normalize storage URLs to canonical bucket name at dump time
+const normalizeStorageUrl = (url) => {
+  if (typeof url !== "string") return url;
+  return url.replace("malenovska-305f8.appspot.com", "malenovska-305f8");
 };
 
 const serializeValue = (val) => {
   if (val === null || val === undefined) return val;
+  if (typeof val === "string") return normalizeStorageUrl(val);
   if (val?.toDate && typeof val.toDate === "function") {
-    return { __type: "timestamp", seconds: val._seconds ?? val.seconds, nanoseconds: val._nanoseconds ?? val.nanoseconds };
+    return {
+      __type: "timestamp",
+      seconds: val._seconds ?? val.seconds,
+      nanoseconds: val._nanoseconds ?? val.nanoseconds,
+    };
   }
-  if (val?.latitude !== undefined && val?.longitude !== undefined && val.constructor?.name === "GeoPoint") {
-    return { __type: "geopoint", latitude: val.latitude, longitude: val.longitude };
+  if (
+    val?.latitude !== undefined &&
+    val?.longitude !== undefined &&
+    val.constructor?.name === "GeoPoint"
+  ) {
+    return {
+      __type: "geopoint",
+      latitude: val.latitude,
+      longitude: val.longitude,
+    };
   }
   if (Array.isArray(val)) return val.map(serializeValue);
   if (typeof val === "object") {
     return Object.fromEntries(
-      Object.entries(val).map(([k, v]) => [k, serializeValue(v)])
+      Object.entries(val).map(([k, v]) => [k, serializeValue(v)]),
     );
   }
   return val;
@@ -84,7 +105,11 @@ const dumpParticipantPrivate = async (participantIds) => {
   const subs = {};
   for (const pid of participantIds) {
     try {
-      const snap = await db.collection("participants").doc(pid).collection("private").get();
+      const snap = await db
+        .collection("participants")
+        .doc(pid)
+        .collection("private")
+        .get();
       if (!snap.empty) {
         subs[pid] = {};
         for (const d of snap.docs) {
@@ -123,7 +148,7 @@ const dumpConfig = async () => {
 };
 
 const main = async () => {
-  const outPath = process.argv[2] || "emulator-data/seed.json";
+  const outPath = process.argv[2] || "seed.json";
 
   console.log("Dumping production Firestore data (Admin SDK)...\n");
 
@@ -143,7 +168,10 @@ const main = async () => {
   mkdirSync(dirname(outPath), { recursive: true });
   writeFileSync(outPath, JSON.stringify(dump, null, 2));
 
-  console.log(`\n  Total: ✓ ${totalSuccess} succeeded` + (totalFailed > 0 ? `, ✗ ${totalFailed} failed` : ""));
+  console.log(
+    `\n  Total: ✓ ${totalSuccess} succeeded` +
+      (totalFailed > 0 ? `, ✗ ${totalFailed} failed` : ""),
+  );
   console.log(`  Written to ${outPath}`);
   process.exit(totalFailed > 0 ? 1 : 0);
 };

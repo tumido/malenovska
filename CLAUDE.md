@@ -36,8 +36,8 @@ npm run deploy            # Deploy everything
 - **Backend**: Firebase 12 (Firestore, Auth, Storage) — modular v9+ API
 - **Data fetching**: `react-firebase-hooks` — all client-side, no SSR
 - **Routing**: File-based route config in `app/routes.ts` using `route()`, `layout()`, `index()` helpers; `app/routes/` directory for route components
-- **Admin**: `app/routes/admin/` — auth-gated via Firebase Auth, same build/deploy as public app
-- **Cloud Functions**: `functions/` directory — TypeScript, Node 22, Firebase Functions v7 (gen 2). Firestore-triggered functions for email confirmations and Discord notifications
+- **Admin**: `app/routes/admin/` — auth-gated via Firebase Auth + Google Sign-In, role-based access (admin/writer/staff) via Custom Claims
+- **Cloud Functions**: `functions/` directory — TypeScript, Node 22, Firebase Functions v7 (gen 2). Firestore triggers for email/Discord + admin RBAC (claims sync + eligibility check)
 - **Czech only** — no i18n, hardcoded Czech labels
 
 ## Key Files
@@ -52,20 +52,20 @@ npm run deploy            # Deploy everything
 | `vite.config.ts`              | Vite config with React Router + tsconfig paths plugins                  |
 | `react-router.config.ts`      | React Router config (`ssr: false`)                                      |
 | `app/components/PageHero.tsx`  | Full-page hero section with background image, compact mode, gradient overlays |
-| `app/lib/firebase.ts`         | Firebase init, Firestore instance                                       |
-| `app/lib/types.ts`            | TypeScript interfaces for Firestore documents                           |
+| `app/lib/firebase.ts`         | Firebase init (Firestore, Functions), emulator connections               |
+| `app/lib/types.ts`            | TypeScript interfaces for Firestore documents + `UserRole`, `AdminConfig` |
 | `app/lib/admin-firestore.ts`  | Admin CRUD helpers, deferred file upload (`registerPendingUpload` → `processPendingUploads` on save) |
 | `app/lib/schemas.ts`          | Zod validation schemas + declarative publishing requirements (`displayRequirements`, `registrationRequirements`, `checkMissing`) |
 | `app/lib/export-csv.ts`       | Shared CSV export for participants (used by dashboard + participants list)                            |
-| `app/contexts/AuthContext.tsx` | Firebase Auth context for admin                                         |
+| `app/contexts/AuthContext.tsx` | Firebase Auth context — Google Sign-In, role from Custom Claims          |
 | `app/components/admin/`       | Admin components (DataTable, FormLayout, FormFields, RHFFields, AdminMapInner, etc.) |
 | `firebase.json`               | Hosting, functions, emulators config                                    |
-| `functions/src/index.ts`      | Cloud Functions entry — 3 Firestore-triggered functions                 |
+| `functions/src/index.ts`      | Cloud Functions entry — 5 functions (3 Firestore triggers + RBAC)       |
 | `functions/src/templates.ts`  | Email template rendering with `{{variable}}` substitution               |
 | `functions/src/email.ts`      | Gmail OAuth2 email sending via nodemailer                               |
 | `functions/src/discord.ts`    | Discord webhook notifications                                           |
 | `scripts/firestore-dump.mjs`  | Dump production Firestore to JSON                                       |
-| `scripts/firestore-seed.mjs`  | Seed Firestore emulator (rewrites Storage URLs)                         |
+| `scripts/firestore-seed.mjs`  | Seed Firestore emulator (rewrites Storage URLs, creates 3 RBAC test users) |
 | `scripts/storage-dump.mjs`    | Download production Storage files                                       |
 | `scripts/storage-seed.mjs`    | Upload files to Storage emulator                                        |
 

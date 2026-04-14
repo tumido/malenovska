@@ -76,7 +76,7 @@ To dump production Firestore data and seed it into the emulator:
 3. Run the dump and seed:
 
    ```bash
-   # Dump production data to emulator-data/seed.json
+   # Dump production data to seed.json
    npm run emulators:dump
 
    # Start emulators (fresh, no persisted state)
@@ -99,18 +99,18 @@ Emulator state is persisted to `emulator-data/` between restarts when using `npm
 
 ## Scripts
 
-| Script                    | Description                                            |
-| ------------------------- | ------------------------------------------------------ |
-| `npm run dev`             | Next.js dev server (uses production Firebase)          |
-| `npm run dev:local`       | Next.js dev server (uses local emulators)              |
-| `npm run build`           | Production build (static export)                       |
-| `npm run lint`            | ESLint                                                 |
-| `npm run emulators`       | Start emulators with persistent state                  |
-| `npm run emulators:fresh` | Start emulators with empty state                       |
-| `npm run emulators:dump`  | Dump production Firestore to `emulator-data/seed.json` |
-| `npm run emulators:seed`  | Seed running emulator from dump file                   |
-| `npm run deploy`          | Deploy to Firebase Hosting                             |
-| `npm run deploy:rules`    | Deploy Firestore security rules                        |
+| Script                    | Description                                   |
+| ------------------------- | --------------------------------------------- |
+| `npm run dev`             | Next.js dev server (uses production Firebase) |
+| `npm run dev:local`       | Next.js dev server (uses local emulators)     |
+| `npm run build`           | Production build (static export)              |
+| `npm run lint`            | ESLint                                        |
+| `npm run emulators`       | Start emulators with persistent state         |
+| `npm run emulators:fresh` | Start emulators with empty state              |
+| `npm run emulators:dump`  | Dump production Firestore to `seed.json`      |
+| `npm run emulators:seed`  | Seed running emulator from dump file          |
+| `npm run deploy`          | Deploy to Firebase Hosting                    |
+| `npm run deploy:rules`    | Deploy Firestore security rules               |
 
 ## Deployment
 

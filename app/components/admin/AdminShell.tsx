@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router";
 import { useAuth } from "@/contexts/AuthContext";
+import type { UserRole } from "@/lib/types";
 import {
   LayoutDashboard,
   CalendarDays,
@@ -14,20 +15,22 @@ import {
   ChevronLeft,
 } from "lucide-react";
 
-const navItems = [
+const allNavItems: Array<{ href: string; label: string; icon: typeof LayoutDashboard; roles?: UserRole[] }> = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
-  { href: "/admin/events", label: "Události", icon: CalendarDays },
-  { href: "/admin/legends", label: "Legendy", icon: ScrollText },
-  { href: "/admin/races", label: "Strany", icon: Users },
-  { href: "/admin/participants", label: "Účastníci", icon: UserCheck },
-  { href: "/admin/galleries", label: "Galerie", icon: Image },
-  { href: "/admin/config", label: "Nastavení", icon: Settings },
+  { href: "/admin/events", label: "Události", icon: CalendarDays, roles: ["admin"] },
+  { href: "/admin/legends", label: "Legendy", icon: ScrollText, roles: ["admin", "writer"] },
+  { href: "/admin/races", label: "Strany", icon: Users, roles: ["admin"] },
+  { href: "/admin/participants", label: "Účastníci", icon: UserCheck, roles: ["admin", "staff"] },
+  { href: "/admin/galleries", label: "Galerie", icon: Image, roles: ["admin"] },
+  { href: "/admin/config", label: "Nastavení", icon: Settings, roles: ["admin"] },
 ];
 
 const AdminShell = ({ children }: { children: React.ReactNode }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { pathname } = useLocation();
-  const { signOut } = useAuth();
+  const { signOut, role } = useAuth();
+
+  const navItems = allNavItems.filter((item) => !item.roles || (role && item.roles.includes(role)));
 
   const isActive = (href: string) => {
     if (href === "/admin") return pathname === "/admin";

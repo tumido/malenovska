@@ -5,7 +5,7 @@
  * Uses Firebase Admin SDK to bypass security rules.
  *
  * Usage:
- *   node scripts/firestore-seed.mjs                     # seed from emulator-data/seed.json
+ *   node scripts/firestore-seed.mjs                     # seed from seed.json
  *   node scripts/firestore-seed.mjs ./custom-path.json  # seed from custom path
  *
  * Prerequisites: Firestore emulator must be running on localhost:8080
@@ -32,16 +32,15 @@ const STORAGE_EMULATOR_HOST = "http://localhost:9199";
 
 const rewriteStorageUrl = (url) => {
   if (typeof url !== "string") return url;
+  let rewritten = url;
   for (const host of STORAGE_PROD_HOSTS) {
-    if (url.includes(host.replace("https://", ""))) {
-      return url.replace(host, STORAGE_EMULATOR_HOST);
+    if (rewritten.includes(host.replace("https://", ""))) {
+      rewritten = rewritten.replace(host, STORAGE_EMULATOR_HOST);
     }
   }
-  // Also handle old bucket name in URLs (in case dump predates migration)
-  if (url.includes("malenovska-305f8.appspot.com")) {
-    return url.replace("malenovska-305f8.appspot.com", "malenovska-305f8");
-  }
-  return url;
+  // Normalize bucket name in path (emulator uses "malenovska-305f8", not ".appspot.com")
+  rewritten = rewritten.replace("malenovska-305f8.appspot.com", "malenovska-305f8");
+  return rewritten;
 };
 
 const deserializeValue = (val) => {
@@ -53,7 +52,7 @@ const deserializeValue = (val) => {
   if (Array.isArray(val)) return val.map(deserializeValue);
   if (typeof val === "object") {
     return Object.fromEntries(
-      Object.entries(val).map(([k, v]) => [k, deserializeValue(v)])
+      Object.entries(val).map(([k, v]) => [k, deserializeValue(v)]),
     );
   }
   return val;
@@ -99,25 +98,28 @@ const seedParticipantPrivate = async (subs) => {
   }
 };
 
-const EMULATOR_HOST = "localhost:8080";
-const PROJECT_ID = "malenovska-305f8";
+const EMULATOR_HUB = "localhost:4400";
 
 const setBackgroundTriggers = async (enabled) => {
-  const action = enabled ? "enableBackgroundTriggers" : "disableBackgroundTriggers";
+  const action = enabled
+    ? "enableBackgroundTriggers"
+    : "disableBackgroundTriggers";
   try {
     const res = await fetch(
-      `http://${EMULATOR_HOST}/emulator/v1/projects/${PROJECT_ID}/databases/(default)/${action}`,
+      `http://${EMULATOR_HUB}/functions/${action}`,
       { method: "PUT" },
     );
     if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
     console.log(`  Background triggers ${enabled ? "enabled" : "disabled"}.`);
   } catch {
-    console.warn(`  Could not ${action} (functions emulator may not be running).`);
+    console.warn(
+      `  Could not ${action} (functions emulator may not be running).`,
+    );
   }
 };
 
 const main = async () => {
-  const seedPath = process.argv[2] || "emulator-data/seed.json";
+  const seedPath = process.argv[2] || "seed.json";
 
   let data;
   try {
@@ -128,7 +130,9 @@ const main = async () => {
     process.exit(1);
   }
 
-  console.log(`Seeding emulator from ${seedPath} (exported ${data.__exportedAt})...\n`);
+  console.log(
+    `Seeding emulator from ${seedPath} (exported ${data.__exportedAt})...\n`,
+  );
 
   await setBackgroundTriggers(false);
 
@@ -147,20 +151,48 @@ const main = async () => {
     await seedParticipantPrivate(data._participantPrivate);
   }
 
-  // Create test admin user
-  const email = "admin@malenovska.cz";
-  const password = "admin123";
+  // Create test users with role-based custom claims
+  const testUsers = [
+    { email: "admin@malenovska.cz", role: "admin", displayName: "Test Admin" },
+    {
+      email: "writer@malenovska.cz",
+      role: "writer",
+      displayName: "Test Písař",
+    },
+    { email: "staff@malenovska.cz", role: "staff", displayName: "Test Štáb" },
+  ];
+
   const auth = getAuth(app);
-  try {
-    await auth.createUser({ email, password, displayName: "Test Admin" });
-    console.log(`\n  Admin user created: ${email} / ${password}`);
-  } catch (err) {
-    if (err.code === "auth/email-already-exists") {
-      console.log(`\n  Admin user already exists: ${email}`);
-    } else {
-      throw err;
+
+  for (const { email, role, displayName } of testUsers) {
+    try {
+      const user = await auth.createUser({
+        email,
+        password: "test1234",
+        displayName,
+        providerToLink: { providerId: "google.com", uid: email },
+      });
+      await auth.setCustomUserClaims(user.uid, { role });
+      console.log(`  Created ${role} user: ${email} (pwd: test1234)`);
+    } catch (err) {
+      if (err.code === "auth/email-already-exists") {
+        const existing = await auth.getUserByEmail(email);
+        await auth.updateUser(existing.uid, { password: "test1234", displayName });
+        await auth.setCustomUserClaims(existing.uid, { role });
+        console.log(
+          `  User already exists, updated: ${email} → ${role}`,
+        );
+      } else {
+        throw err;
+      }
     }
   }
+
+  // Seed config/admins with the test users
+  console.log("  Seeding config/admins...");
+  await db.doc("config/admins").set({
+    users: testUsers.map(({ email, role }) => ({ email, role })),
+  });
 
   await setBackgroundTriggers(true);
 

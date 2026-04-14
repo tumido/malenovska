@@ -1,7 +1,9 @@
-import { onDocumentCreated, onDocumentUpdated } from "firebase-functions/v2/firestore";
+import { onDocumentCreated, onDocumentUpdated, onDocumentWritten } from "firebase-functions/v2/firestore";
+import { onCall } from "firebase-functions/v2/https";
 import { defineSecret, defineString } from "firebase-functions/params";
 import { logger } from "firebase-functions";
 import { initializeApp } from "firebase-admin/app";
+import { getAuth } from "firebase-admin/auth";
 import { getFirestore, Timestamp, FieldValue } from "firebase-admin/firestore";
 
 import { sendDiscordNotification } from "./discord.js";
@@ -192,4 +194,64 @@ export const notifyRegistrationToggle = onDocumentUpdated("events/{id}", async (
   if (!newValue.registrationAvailable && previousValue.registrationAvailable) {
     await sendDiscordNotification(DISCORD_URL.value(), `**${newValue.name}**: Zavírám registraci`);
   }
+});
+
+// --- Admin RBAC ---
+
+interface AdminUser {
+  email: string;
+  role: "admin" | "writer" | "staff";
+}
+
+export const syncAdminClaims = onDocumentWritten("config/admins", async (event) => {
+  const beforeUsers: AdminUser[] = event.data?.before?.data()?.users ?? [];
+  const afterUsers: AdminUser[] = event.data?.after?.data()?.users ?? [];
+
+  const beforeMap = new Map(beforeUsers.map((u) => [u.email.toLowerCase(), u.role]));
+  const afterMap = new Map(afterUsers.map((u) => [u.email.toLowerCase(), u.role]));
+
+  const auth = getAuth();
+
+  // Users added or role changed
+  for (const [email, role] of afterMap) {
+    if (beforeMap.get(email) !== role) {
+      try {
+        const user = await auth.getUserByEmail(email);
+        await auth.setCustomUserClaims(user.uid, { role });
+        logger.info("Set admin claim", { email, role });
+      } catch {
+        logger.warn("Auth user not found, skipping claim sync", { email });
+      }
+    }
+  }
+
+  // Users removed
+  for (const [email] of beforeMap) {
+    if (!afterMap.has(email)) {
+      try {
+        const user = await auth.getUserByEmail(email);
+        await auth.setCustomUserClaims(user.uid, {});
+        logger.info("Cleared admin claim", { email });
+      } catch {
+        logger.warn("Auth user not found, skipping claim clear", { email });
+      }
+    }
+  }
+});
+
+export const checkAdminEligibility = onCall(async (request) => {
+  const email = request.auth?.token?.email;
+  if (!email) return { role: null };
+
+  const snap = await db.collection("config").doc("admins").get();
+  const users: AdminUser[] = (snap.data()?.users as AdminUser[]) ?? [];
+
+  const match = users.find((u) => u.email.toLowerCase() === email.toLowerCase());
+  if (!match) return { role: null };
+
+  const auth = getAuth();
+  await auth.setCustomUserClaims(request.auth!.uid, { role: match.role });
+  logger.info("Assigned admin claim via eligibility check", { email, role: match.role });
+
+  return { role: match.role };
 });

@@ -1,5 +1,11 @@
 import { Timestamp } from "firebase/firestore";
 
+export type UserRole = "admin" | "writer" | "staff";
+
+export interface AdminConfig {
+  users: Array<{ email: string; role: UserRole }>;
+}
+
 export interface FirestoreImage {
   src: string;
   title?: string;

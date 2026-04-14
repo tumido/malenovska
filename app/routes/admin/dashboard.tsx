@@ -19,6 +19,7 @@ import {
   ExternalLink,
 } from "lucide-react";
 import { exportParticipantsCsv } from "@/lib/export-csv";
+import { useAuth } from "@/contexts/AuthContext";
 import { Link } from "react-router";
 import type {
   Config,
@@ -27,6 +28,7 @@ import type {
   Legend,
   Participant,
   Race,
+  UserRole,
 } from "@/lib/types";
 
 const relativeTime = (date: Date): string => {
@@ -38,6 +40,7 @@ const relativeTime = (date: Date): string => {
 };
 
 const DashboardPage = () => {
+  const { role } = useAuth();
   const [config] = useDocumentData<Config>(
     doc(db, "config", "config") as DocumentReference<Config>,
   );
@@ -106,24 +109,32 @@ const DashboardPage = () => {
     exportParticipantsCsv(participants, races, fieldExtras);
   };
 
-  const quickActions = [
-    { to: "/admin/events/new", label: "Nová událost", icon: Plus },
+  const quickActions: Array<{ to: string; label: string; icon: typeof Plus; roles?: UserRole[] }> = [
+    { to: "/admin/events/new", label: "Nová událost", icon: Plus, roles: ["admin"] },
     {
       to: `/admin/legends/new${eventId ? `?event=${eventId}` : ""}`,
       label: "Nová legenda",
       icon: ScrollText,
+      roles: ["admin", "writer"],
     },
     {
       to: `/admin/races/new${eventId ? `?event=${eventId}` : ""}`,
       label: "Nová strana",
       icon: Users,
+      roles: ["admin"],
     },
     {
       to: `/admin/galleries/new${eventId ? `?event=${eventId}` : ""}`,
       label: "Nová galerie",
       icon: Image,
+      roles: ["admin"],
     },
   ];
+
+  const filteredActions = quickActions.filter((a) => !a.roles || (role && a.roles.includes(role)));
+  const canExport = role === "admin" || role === "staff";
+  const canSeeParticipants = role === "admin" || role === "staff";
+  const canSeeContent = role === "admin" || role === "writer";
 
   return (
     <div className="space-y-6">
@@ -132,7 +143,7 @@ const DashboardPage = () => {
           Dashboard
         </h1>
         <div className="flex flex-wrap gap-2">
-          {quickActions.map(({ to, label, icon: Icon }) => (
+          {filteredActions.map(({ to, label, icon: Icon }) => (
             <Link
               key={to}
               to={to}
@@ -142,7 +153,7 @@ const DashboardPage = () => {
               {label}
             </Link>
           ))}
-          {eventId && participants && (
+          {canExport && eventId && participants && (
             <button
               onClick={handleExport}
               className="flex items-center gap-2 rounded-lg border border-gray-700 bg-neutral-800 px-3 py-1.5 text-sm text-primary-light transition-colors hover:border-secondary hover:text-secondary cursor-pointer"
@@ -158,10 +169,10 @@ const DashboardPage = () => {
         <StatsCard
           label="Aktivní událost"
           value={event ? `${event.name} ${event.year}` : null}
-          href={eventId ? `/admin/events/${eventId}` : undefined}
+          href={role === "admin" && eventId ? `/admin/events/${eventId}` : undefined}
           loading={!config}
           className="col-span-2"
-          actions={[
+          actions={role === "admin" ? [
             ...(eventId
               ? [
                   {
@@ -176,12 +187,12 @@ const DashboardPage = () => {
               icon: <Settings className="h-4 w-4" />,
               title: "Změnit aktivní událost",
             },
-          ]}
+          ] : []}
         />
         <StatsCard
           label="Přihlášených účastníků"
           value={capacity > 0 ? `${total} / ${capacity}` : total}
-          href={eventId ? `/admin/participants?event=${eventId}` : undefined}
+          href={canSeeParticipants && eventId ? `/admin/participants?event=${eventId}` : undefined}
           loading={participantsLoading}
         />
         <StatsCard
@@ -240,21 +251,32 @@ const DashboardPage = () => {
               <div className="h-8 w-16 animate-pulse rounded bg-gray-700" />
             ) : (
               <div className="space-y-2">
-                {checkboxExtras.map((extra) => (
-                  <Link
-                    key={extra.props!.id}
-                    to={`/admin/participants?event=${eventId}&field=${extra.props!.id}`}
-                    className="flex items-center justify-between rounded px-2 py-1 -mx-2 transition-colors hover:bg-white/5"
-                  >
-                    <span className="text-sm text-gray-400">
-                      {extra.props!.label ?? extra.props!.id!}
-                    </span>
-                    <span className="text-lg font-bold text-primary-light">
-                      {participants?.filter((p) => p[extra.props!.id!] === true)
-                        .length ?? 0}
-                    </span>
-                  </Link>
-                ))}
+                {checkboxExtras.map((extra) => {
+                  const content = (
+                    <>
+                      <span className="text-sm text-gray-400">
+                        {extra.props!.label ?? extra.props!.id!}
+                      </span>
+                      <span className="text-lg font-bold text-primary-light">
+                        {participants?.filter((p) => p[extra.props!.id!] === true)
+                          .length ?? 0}
+                      </span>
+                    </>
+                  );
+                  return canSeeParticipants ? (
+                    <Link
+                      key={extra.props!.id}
+                      to={`/admin/participants?event=${eventId}&field=${extra.props!.id}`}
+                      className="flex items-center justify-between rounded px-2 py-1 -mx-2 transition-colors hover:bg-white/5"
+                    >
+                      {content}
+                    </Link>
+                  ) : (
+                    <div key={extra.props!.id} className="flex items-center justify-between px-2 py-1 -mx-2">
+                      {content}
+                    </div>
+                  );
+                })}
               </div>
             )}
           </div>
@@ -267,24 +289,42 @@ const DashboardPage = () => {
             <div className="h-8 w-16 animate-pulse rounded bg-gray-700" />
           ) : (
             <div className="space-y-2">
-              <Link
-                to={`/admin/legends?event=${eventId}`}
-                className="flex items-center justify-between rounded px-2 py-1 -mx-2 transition-colors hover:bg-white/5"
-              >
-                <span className="text-sm text-gray-400">Legendy</span>
-                <span className="text-lg font-bold text-primary-light">
-                  {legends?.length ?? 0}
-                </span>
-              </Link>
-              <Link
-                to={`/admin/galleries?event=${eventId}`}
-                className="flex items-center justify-between rounded px-2 py-1 -mx-2 transition-colors hover:bg-white/5"
-              >
-                <span className="text-sm text-gray-400">Galerie</span>
-                <span className="text-lg font-bold text-primary-light">
-                  {galleries?.length ?? 0}
-                </span>
-              </Link>
+              {canSeeContent ? (
+                <Link
+                  to={`/admin/legends?event=${eventId}`}
+                  className="flex items-center justify-between rounded px-2 py-1 -mx-2 transition-colors hover:bg-white/5"
+                >
+                  <span className="text-sm text-gray-400">Legendy</span>
+                  <span className="text-lg font-bold text-primary-light">
+                    {legends?.length ?? 0}
+                  </span>
+                </Link>
+              ) : (
+                <div className="flex items-center justify-between px-2 py-1 -mx-2">
+                  <span className="text-sm text-gray-400">Legendy</span>
+                  <span className="text-lg font-bold text-primary-light">
+                    {legends?.length ?? 0}
+                  </span>
+                </div>
+              )}
+              {role === "admin" ? (
+                <Link
+                  to={`/admin/galleries?event=${eventId}`}
+                  className="flex items-center justify-between rounded px-2 py-1 -mx-2 transition-colors hover:bg-white/5"
+                >
+                  <span className="text-sm text-gray-400">Galerie</span>
+                  <span className="text-lg font-bold text-primary-light">
+                    {galleries?.length ?? 0}
+                  </span>
+                </Link>
+              ) : (
+                <div className="flex items-center justify-between px-2 py-1 -mx-2">
+                  <span className="text-sm text-gray-400">Galerie</span>
+                  <span className="text-lg font-bold text-primary-light">
+                    {galleries?.length ?? 0}
+                  </span>
+                </div>
+              )}
             </div>
           )}
         </div>
@@ -309,26 +349,37 @@ const DashboardPage = () => {
                   return bTime - aTime;
                 })
                 .slice(0, 5)
-                .map((p) => (
-                  <Link
-                    key={p.id}
-                    to={`/admin/participants/${p.id}`}
-                    className="flex items-center justify-between rounded px-2 py-1 -mx-2 transition-colors hover:bg-white/5"
-                  >
-                    <span className="text-sm text-primary-light">
-                      {p.nickName
-                        ? `${p.firstName} „${p.nickName}" ${p.lastName}`
-                        : `${p.firstName} ${p.lastName}`}
-                    </span>
-                    <span className="text-xs text-gray-500">
-                      {p.createdate
-                        ? relativeTime(
-                            (p.createdate as { toDate: () => Date }).toDate(),
-                          )
-                        : ""}
-                    </span>
-                  </Link>
-                ))}
+                .map((p) => {
+                  const content = (
+                    <>
+                      <span className="text-sm text-primary-light">
+                        {p.nickName
+                          ? `${p.firstName} „${p.nickName}" ${p.lastName}`
+                          : `${p.firstName} ${p.lastName}`}
+                      </span>
+                      <span className="text-xs text-gray-500">
+                        {p.createdate
+                          ? relativeTime(
+                              (p.createdate as { toDate: () => Date }).toDate(),
+                            )
+                          : ""}
+                      </span>
+                    </>
+                  );
+                  return canSeeParticipants ? (
+                    <Link
+                      key={p.id}
+                      to={`/admin/participants/${p.id}`}
+                      className="flex items-center justify-between rounded px-2 py-1 -mx-2 transition-colors hover:bg-white/5"
+                    >
+                      {content}
+                    </Link>
+                  ) : (
+                    <div key={p.id} className="flex items-center justify-between px-2 py-1 -mx-2">
+                      {content}
+                    </div>
+                  );
+                })}
             </div>
           </div>
         )}
@@ -422,12 +473,8 @@ const DashboardPage = () => {
                   for (const m of members) {
                     byRace.set(m.race, [...(byRace.get(m.race) ?? []), m]);
                   }
-                  return (
-                    <Link
-                      key={name}
-                      to={`/admin/participants?event=${eventId}&group=${encodeURIComponent(name)}`}
-                      className="rounded-lg border border-gray-700 p-4 transition-colors hover:border-gray-600 hover:bg-white/5"
-                    >
+                  const cardContent = (
+                    <>
                       <div className="flex items-center justify-between mb-3">
                         <span className="text-sm font-medium text-gray-400">
                           {name}
@@ -466,11 +513,27 @@ const DashboardPage = () => {
                           );
                         })}
                       </div>
+                    </>
+                  );
+                  return canSeeParticipants ? (
+                    <Link
+                      key={name}
+                      to={`/admin/participants?event=${eventId}&group=${encodeURIComponent(name)}`}
+                      className="rounded-lg border border-gray-700 p-4 transition-colors hover:border-gray-600 hover:bg-white/5"
+                    >
+                      {cardContent}
                     </Link>
+                  ) : (
+                    <div
+                      key={name}
+                      className="rounded-lg border border-gray-700 p-4"
+                    >
+                      {cardContent}
+                    </div>
                   );
                 })}
               </div>
-              {sorted.length > 9 && (
+              {canSeeParticipants && sorted.length > 9 && (
                 <Link
                   to={`/admin/participants?event=${eventId}`}
                   className="mt-4 block text-center text-xs text-gray-500 transition-colors hover:text-secondary"

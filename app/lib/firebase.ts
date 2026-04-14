@@ -9,6 +9,7 @@ import {
   type FirestoreDataConverter,
   type QueryDocumentSnapshot,
 } from "firebase/firestore";
+import { getFunctions, connectFunctionsEmulator } from "firebase/functions";
 
 const firebaseConfig = {
   apiKey: "AIzaSyA2tOrkBzA0YcYT63KFtmtHFnwp6tAuuFI",
@@ -62,5 +63,14 @@ const idConverter: FirestoreDataConverter<any> = {
 
 export const typedCollection = <T extends { id: string }>(path: string) =>
   firestoreCollection(db, path).withConverter(idConverter as FirestoreDataConverter<T>);
+
+// Cloud Functions client
+export const functions = getFunctions(app);
+
+const gf = globalThis as unknown as { _functionsEmulatorConnected?: boolean };
+if (useEmulators && !gf._functionsEmulatorConnected) {
+  connectFunctionsEmulator(functions, "localhost", 5001);
+  gf._functionsEmulatorConnected = true;
+}
 
 export default app;
