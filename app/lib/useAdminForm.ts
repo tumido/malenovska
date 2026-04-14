@@ -3,7 +3,6 @@ import { useNavigate } from "react-router";
 import { doc, type DocumentReference, type DocumentData } from "firebase/firestore";
 import { useDocumentData } from "@/lib/firestore-hooks";
 import { useForm, type DefaultValues, type FieldValues, type Resolver } from "react-hook-form";
-import { enqueueSnackbar } from "notistack";
 import { db } from "@/lib/firebase";
 import {
   createDocument,
@@ -87,9 +86,9 @@ export const useAdminForm = <T extends FieldValues>(options: UseAdminFormOptions
       navigate(basePath);
     } catch (err) {
       if (!isEdit && err instanceof DocumentExistsError) {
-        enqueueSnackbar(`Záznam s ID "${err.documentId}" již existuje.`, { variant: "error" });
+        alert(`Záznam s ID "${err.documentId}" již existuje.`);
       } else {
-        enqueueSnackbar(isEdit ? "Chyba při ukládání" : "Chyba při vytváření", { variant: "error" });
+        alert(isEdit ? "Chyba při ukládání" : "Chyba při vytváření");
         console.error(err);
       }
     } finally {
@@ -105,7 +104,7 @@ export const useAdminForm = <T extends FieldValues>(options: UseAdminFormOptions
           await removeDocument(collectionName, id);
           navigate(basePath);
         } catch (err) {
-          enqueueSnackbar("Chyba při mazání", { variant: "error" });
+          alert("Chyba při mazání");
           console.error(err);
         }
       }

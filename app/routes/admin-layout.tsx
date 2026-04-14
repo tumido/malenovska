@@ -1,5 +1,4 @@
 import { Outlet, useLocation, Navigate } from "react-router";
-import { SnackbarProvider } from "notistack";
 import { AuthProvider, useAuth } from "@/contexts/AuthContext";
 import AdminShell from "@/components/admin/AdminShell";
 import LoginPage from "./admin/login";
@@ -66,11 +65,9 @@ const AuthGate = () => {
 
 const AdminLayout = () => {
   return (
-    <SnackbarProvider maxSnack={3} anchorOrigin={{ vertical: "bottom", horizontal: "center" }}>
-      <AuthProvider>
-        <AuthGate />
-      </AuthProvider>
-    </SnackbarProvider>
+    <AuthProvider>
+      <AuthGate />
+    </AuthProvider>
   );
 };
 
