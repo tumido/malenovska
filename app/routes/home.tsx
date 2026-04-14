@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
 import { doc, DocumentReference } from "firebase/firestore";
-import { useDocumentData } from "react-firebase-hooks/firestore";
+import { useDocumentData } from "@/lib/firestore-hooks";
 import { db } from "@/lib/firebase";
 import type { Config } from "@/lib/types";
 import { Loading } from "@/components/Loading";

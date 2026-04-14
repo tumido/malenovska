@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { query, where } from "firebase/firestore";
-import { useCollectionData } from "react-firebase-hooks/firestore";
+import { useCollectionData } from "@/lib/firestore-hooks";
 import { typedCollection } from "@/lib/firebase";
 import { useEvent } from "@/contexts/EventContext";
 import { usePastEvents } from "@/lib/usePastEvents";

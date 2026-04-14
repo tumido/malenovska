@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { doc, type DocumentReference, type DocumentData } from "firebase/firestore";
-import { useDocumentData } from "react-firebase-hooks/firestore";
+import { useDocumentData } from "@/lib/firestore-hooks";
 import { useForm, type DefaultValues, type FieldValues, type Resolver } from "react-hook-form";
 import { enqueueSnackbar } from "notistack";
 import { db } from "@/lib/firebase";

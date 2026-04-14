@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { doc, orderBy, query, setDoc, type DocumentReference } from "firebase/firestore";
-import { useDocumentData, useCollectionData } from "react-firebase-hooks/firestore";
+import { useDocumentData, useCollectionData } from "@/lib/firestore-hooks";
 import { db, typedCollection } from "@/lib/firebase";
 import { useAuth } from "@/contexts/AuthContext";
 import { Trash2, UserPlus, Info } from "lucide-react";

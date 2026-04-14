@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { query, where, orderBy } from "firebase/firestore";
-import { useCollectionData } from "react-firebase-hooks/firestore";
+import { useCollectionData } from "@/lib/firestore-hooks";
 import { Share2, X } from "lucide-react";
 import { typedCollection } from "@/lib/firebase";
 import { useEvent } from "@/contexts/EventContext";

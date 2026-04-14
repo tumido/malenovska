@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { useParams } from "react-router";
 import { doc } from "firebase/firestore";
-import { useDocumentData } from "react-firebase-hooks/firestore";
+import { useDocumentData } from "@/lib/firestore-hooks";
 import { typedCollection } from "@/lib/firebase";
 import type { Event } from "@/lib/types";
 import { EventProvider } from "@/contexts/EventContext";

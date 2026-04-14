@@ -1,7 +1,7 @@
 import { useState, useCallback } from "react";
 import { Link } from "react-router";
 import { doc, query, where, writeBatch, type DocumentReference } from "firebase/firestore";
-import { useCollectionData, useDocumentData } from "react-firebase-hooks/firestore";
+import { useCollectionData, useDocumentData } from "@/lib/firestore-hooks";
 import { db, typedCollection } from "@/lib/firebase";
 import { useEvent } from "@/contexts/EventContext";
 import { PageHero } from "@/components/PageHero";

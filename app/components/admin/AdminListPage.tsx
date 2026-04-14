@@ -1,5 +1,5 @@
 import { orderBy, query, type OrderByDirection } from "firebase/firestore";
-import { useCollectionData } from "react-firebase-hooks/firestore";
+import { useCollectionData } from "@/lib/firestore-hooks";
 import { typedCollection } from "@/lib/firebase";
 import { removeDocument } from "@/lib/admin-firestore";
 import DataTable from "@/components/admin/DataTable";

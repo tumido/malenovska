@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router";
 import { doc, query, where, type DocumentReference } from "firebase/firestore";
-import { useDocumentData, useCollectionData } from "react-firebase-hooks/firestore";
+import { useDocumentData, useCollectionData } from "@/lib/firestore-hooks";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { db, typedCollection } from "@/lib/firebase";

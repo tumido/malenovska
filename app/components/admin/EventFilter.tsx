@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router";
 import { doc, orderBy, query, type DocumentReference } from "firebase/firestore";
-import { useCollectionData, useDocumentData } from "react-firebase-hooks/firestore";
+import { useCollectionData, useDocumentData } from "@/lib/firestore-hooks";
 import { db, typedCollection } from "@/lib/firebase";
 import type { Config, Event } from "@/lib/types";
 

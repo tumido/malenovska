@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useSearchParams } from "react-router";
 import { doc, query, where, type DocumentReference } from "firebase/firestore";
-import { useCollectionData, useDocumentData } from "react-firebase-hooks/firestore";
+import { useCollectionData, useDocumentData } from "@/lib/firestore-hooks";
 import { db, typedCollection } from "@/lib/firebase";
 import { removeParticipant } from "@/lib/admin-firestore";
 import { exportParticipantsCsv } from "@/lib/export-csv";

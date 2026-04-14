@@ -1,6 +1,6 @@
 import { useParams } from "react-router";
 import { doc, DocumentReference } from "firebase/firestore";
-import { useDocumentData } from "react-firebase-hooks/firestore";
+import { useDocumentData } from "@/lib/firestore-hooks";
 import { db } from "@/lib/firebase";
 import { DetailPageShell } from "@/components/DetailPageShell";
 import { Markdown } from "@/components/Markdown";

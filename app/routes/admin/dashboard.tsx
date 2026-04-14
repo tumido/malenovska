@@ -1,9 +1,6 @@
 import { useState } from "react";
 import { query, where, doc, type DocumentReference } from "firebase/firestore";
-import {
-  useCollectionData,
-  useDocumentData,
-} from "react-firebase-hooks/firestore";
+import { useCollectionData, useDocumentData } from "@/lib/firestore-hooks";
 import { db, typedCollection } from "@/lib/firebase";
 import StatsCard from "@/components/admin/StatsCard";
 import RacePieChart from "@/components/admin/RacePieChart";

@@ -1,6 +1,6 @@
 import { Link } from "react-router";
 import { query, where } from "firebase/firestore";
-import { useCollectionData } from "react-firebase-hooks/firestore";
+import { useCollectionData } from "@/lib/firestore-hooks";
 import { Sword, Swords } from "lucide-react";
 import { typedCollection } from "@/lib/firebase";
 import { PageHero } from "@/components/PageHero";

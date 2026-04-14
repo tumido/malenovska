@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useSearchParams } from "react-router";
 import { doc, type DocumentReference } from "firebase/firestore";
-import { useDocumentData } from "react-firebase-hooks/firestore";
+import { useDocumentData } from "@/lib/firestore-hooks";
 import { db } from "@/lib/firebase";
 
 const METADATA_KEYS = new Set(["id", "createdate", "lastupdate", "createdby"]);

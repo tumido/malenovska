@@ -52,7 +52,7 @@ if (useEmulators && !g._firestoreEmulatorConnected) {
   g._firestoreEmulatorConnected = true;
 }
 
-// Singleton converter — must be a stable reference so react-firebase-hooks'
+// Singleton converter — must be a stable reference so our hooks'
 // queryEqual check doesn't see a "new" query on every render.
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const idConverter: FirestoreDataConverter<any> = {

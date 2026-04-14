@@ -1,5 +1,5 @@
 import { query, where, orderBy } from "firebase/firestore";
-import { useCollectionData } from "react-firebase-hooks/firestore";
+import { useCollectionData } from "@/lib/firestore-hooks";
 import { typedCollection } from "@/lib/firebase";
 import { useEvent } from "@/contexts/EventContext";
 import { PageHero } from "@/components/PageHero";
