@@ -5,7 +5,7 @@
  * Uses Firebase Admin SDK with a service account.
  *
  * Usage:
- *   node scripts/storage-dump.mjs                          # dump to emulator-data/storage-seed/
+ *   node scripts/storage-dump.mjs                          # dump to emulator-seed/storage/
  *   node scripts/storage-dump.mjs ./custom-dir/             # dump to custom directory
  *
  * Requires: malenovska-service-account.json in project root
@@ -28,7 +28,7 @@ const app = initializeApp({
 const bucket = getStorage(app).bucket();
 
 const main = async () => {
-  const outDir = process.argv[2] || "emulator-data/storage-seed";
+  const outDir = process.argv[2] || "emulator-seed/storage";
 
   console.log("Downloading production Storage files...\n");
 
@@ -58,7 +58,10 @@ const main = async () => {
     }
   }
 
-  console.log(`\n\n  Total: ✓ ${success} downloaded` + (failed > 0 ? `, ✗ ${failed} failed` : ""));
+  console.log(
+    `\n\n  Total: ✓ ${success} downloaded` +
+      (failed > 0 ? `, ✗ ${failed} failed` : ""),
+  );
   console.log(`  Saved to ${outDir}/`);
   process.exit(failed > 0 ? 1 : 0);
 };

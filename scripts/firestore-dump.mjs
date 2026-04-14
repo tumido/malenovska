@@ -5,7 +5,7 @@
  * Uses Firebase Admin SDK with a service account to bypass security rules.
  *
  * Usage:
- *   node scripts/firestore-dump.mjs                     # dump to seed.json
+ *   node scripts/firestore-dump.mjs                     # dump to emulator-seed/firestore.json
  *   node scripts/firestore-dump.mjs ./custom-path.json  # dump to custom path
  *
  * Requires: malenovska-service-account.json in project root
@@ -148,7 +148,7 @@ const dumpConfig = async () => {
 };
 
 const main = async () => {
-  const outPath = process.argv[2] || "seed.json";
+  const outPath = process.argv[2] || "emulator-seed/firestore.json";
 
   console.log("Dumping production Firestore data (Admin SDK)...\n");
 

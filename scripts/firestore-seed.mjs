@@ -5,7 +5,7 @@
  * Uses Firebase Admin SDK to bypass security rules.
  *
  * Usage:
- *   node scripts/firestore-seed.mjs                     # seed from seed.json
+ *   node scripts/firestore-seed.mjs                     # seed from emulator-seed/firestore.json
  *   node scripts/firestore-seed.mjs ./custom-path.json  # seed from custom path
  *
  * Prerequisites: Firestore emulator must be running on localhost:8080
@@ -39,7 +39,10 @@ const rewriteStorageUrl = (url) => {
     }
   }
   // Normalize bucket name in path (emulator uses "malenovska-305f8", not ".appspot.com")
-  rewritten = rewritten.replace("malenovska-305f8.appspot.com", "malenovska-305f8");
+  rewritten = rewritten.replace(
+    "malenovska-305f8.appspot.com",
+    "malenovska-305f8",
+  );
   return rewritten;
 };
 
@@ -105,10 +108,9 @@ const setBackgroundTriggers = async (enabled) => {
     ? "enableBackgroundTriggers"
     : "disableBackgroundTriggers";
   try {
-    const res = await fetch(
-      `http://${EMULATOR_HUB}/functions/${action}`,
-      { method: "PUT" },
-    );
+    const res = await fetch(`http://${EMULATOR_HUB}/functions/${action}`, {
+      method: "PUT",
+    });
     if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
     console.log(`  Background triggers ${enabled ? "enabled" : "disabled"}.`);
   } catch {
@@ -119,7 +121,7 @@ const setBackgroundTriggers = async (enabled) => {
 };
 
 const main = async () => {
-  const seedPath = process.argv[2] || "seed.json";
+  const seedPath = process.argv[2] || "emulator-seed/firestore.json";
 
   let data;
   try {
@@ -177,11 +179,12 @@ const main = async () => {
     } catch (err) {
       if (err.code === "auth/email-already-exists") {
         const existing = await auth.getUserByEmail(email);
-        await auth.updateUser(existing.uid, { password: "test1234", displayName });
+        await auth.updateUser(existing.uid, {
+          password: "test1234",
+          displayName,
+        });
         await auth.setCustomUserClaims(existing.uid, { role });
-        console.log(
-          `  User already exists, updated: ${email} → ${role}`,
-        );
+        console.log(`  User already exists, updated: ${email} → ${role}`);
       } else {
         throw err;
       }

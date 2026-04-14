@@ -17,7 +17,7 @@ functions/lib
 malenovska-service-account.json
 firebase-export.json
 emulator-data
-seed.json
+emulator-seed
 backup
 firebase-debug.log
 firestore-debug.log

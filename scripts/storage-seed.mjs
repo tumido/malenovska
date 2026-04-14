@@ -4,7 +4,7 @@
  * Seeds the Firebase Storage emulator from previously dumped files.
  *
  * Usage:
- *   node scripts/storage-seed.mjs                          # seed from emulator-data/storage-seed/
+ *   node scripts/storage-seed.mjs                          # seed from emulator-seed/storage/
  *   node scripts/storage-seed.mjs ./custom-dir/             # seed from custom directory
  *
  * Prerequisites: Storage emulator must be running on localhost:9199
@@ -38,11 +38,13 @@ const walkDir = (dir) => {
 };
 
 const main = async () => {
-  const seedDir = process.argv[2] || "emulator-data/storage-seed";
+  const seedDir = process.argv[2] || "emulator-seed/storage";
 
   if (!existsSync(seedDir)) {
     console.error(`Directory not found: ${seedDir}`);
-    console.error("Run 'npm run emulators:dump' first to download production files.");
+    console.error(
+      "Run 'npm run emulators:dump' first to download production files.",
+    );
     process.exit(1);
   }
 
@@ -53,7 +55,9 @@ const main = async () => {
     process.exit(0);
   }
 
-  console.log(`Seeding Storage emulator from ${seedDir} (${files.length} files)...\n`);
+  console.log(
+    `Seeding Storage emulator from ${seedDir} (${files.length} files)...\n`,
+  );
 
   let success = 0;
   let failed = 0;
@@ -70,7 +74,10 @@ const main = async () => {
     }
   }
 
-  console.log(`\n\n  Total: ✓ ${success} uploaded` + (failed > 0 ? `, ✗ ${failed} failed` : ""));
+  console.log(
+    `\n\n  Total: ✓ ${success} uploaded` +
+      (failed > 0 ? `, ✗ ${failed} failed` : ""),
+  );
   process.exit(failed > 0 ? 1 : 0);
 };
 

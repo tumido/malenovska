@@ -18,7 +18,7 @@ cd functions && npx tsc --noEmit  # TypeScript (functions)
 # Firebase Emulators
 npm run emulators         # Start with persistent data (import/export)
 npm run emulators:fresh   # Start with clean state
-npm run emulators:dump    # Dump production Firestore + Storage to emulator-data/
+npm run emulators:dump    # Dump production Firestore + Storage to emulator-seed/
 npm run emulators:seed    # Seed emulators from dump (rewrites Storage URLs to localhost)
 
 # Deploy
@@ -42,34 +42,34 @@ npm run deploy            # Deploy everything
 
 ## Key Files
 
-| File                          | Purpose                                                                 |
-| ----------------------------- | ----------------------------------------------------------------------- |
-| `app/root.tsx`                | HTML shell (fonts, meta, scripts, `<Outlet />`)                         |
-| `app/routes.ts`               | Route config (layouts, routes, catch-all 404)                           |
-| `app/app.css`                 | Tailwind v4 theme, custom utilities, design tokens                      |
-| `app/routes/admin-layout.tsx` | Admin auth gate + shell                                                 |
-| `app/routes/event-layout.tsx` | Event shell (nav, header, footer)                                       |
-| `vite.config.ts`              | Vite config with React Router + tsconfig paths plugins                  |
-| `react-router.config.ts`      | React Router config (`ssr: false`)                                      |
-| `app/components/PageHero.tsx`  | Full-page hero section with background image, compact mode, gradient overlays |
-| `app/lib/firebase.ts`         | Firebase init (Firestore, Functions), emulator connections               |
-| `app/lib/types.ts`            | TypeScript interfaces for Firestore documents + `UserRole`, `AdminConfig` |
-| `app/lib/admin-firestore.ts`  | Admin CRUD helpers, deferred file upload (`registerPendingUpload` → `processPendingUploads` on save) |
-| `app/lib/useAdminForm.ts`     | Shared hook for admin new/edit pages — form lifecycle, CRUD, clone, slugify, error handling |
-| `app/lib/schemas.ts`          | Zod validation schemas + declarative publishing requirements (`displayRequirements`, `registrationRequirements`, `checkMissing`) |
-| `app/lib/export-csv.ts`       | Shared CSV export for participants (used by dashboard + participants list)                            |
-| `app/contexts/AuthContext.tsx` | Firebase Auth context — Google Sign-In, role from Custom Claims          |
-| `app/components/DetailPageShell.tsx` | Shared shell for entity detail pages (loading, not-found, layout, share dialog)             |
-| `app/components/admin/`       | Admin components (DataTable, FormLayout, FormFields, RHFFields, AdminListPage, AdminMapInner, etc.) |
-| `firebase.json`               | Hosting, functions, emulators config                                    |
-| `functions/src/index.ts`      | Cloud Functions entry — 5 functions (3 Firestore triggers + RBAC)       |
-| `functions/src/templates.ts`  | Email template rendering with `{{variable}}` substitution               |
-| `functions/src/email.ts`      | Gmail OAuth2 email sending via nodemailer                               |
-| `functions/src/discord.ts`    | Discord webhook notifications                                           |
-| `scripts/firestore-dump.mjs`  | Dump production Firestore to JSON                                       |
-| `scripts/firestore-seed.mjs`  | Seed Firestore emulator (rewrites Storage URLs, creates 3 RBAC test users) |
-| `scripts/storage-dump.mjs`    | Download production Storage files                                       |
-| `scripts/storage-seed.mjs`    | Upload files to Storage emulator                                        |
+| File                                 | Purpose                                                                                                                          |
+| ------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------- |
+| `app/root.tsx`                       | HTML shell (fonts, meta, scripts, `<Outlet />`)                                                                                  |
+| `app/routes.ts`                      | Route config (layouts, routes, catch-all 404)                                                                                    |
+| `app/app.css`                        | Tailwind v4 theme, custom utilities, design tokens                                                                               |
+| `app/routes/admin-layout.tsx`        | Admin auth gate + shell                                                                                                          |
+| `app/routes/event-layout.tsx`        | Event shell (nav, header, footer)                                                                                                |
+| `vite.config.ts`                     | Vite config with React Router + tsconfig paths plugins                                                                           |
+| `react-router.config.ts`             | React Router config (`ssr: false`)                                                                                               |
+| `app/components/PageHero.tsx`        | Full-page hero section with background image, compact mode, gradient overlays                                                    |
+| `app/lib/firebase.ts`                | Firebase init (Firestore, Functions), emulator connections                                                                       |
+| `app/lib/types.ts`                   | TypeScript interfaces for Firestore documents + `UserRole`, `AdminConfig`                                                        |
+| `app/lib/admin-firestore.ts`         | Admin CRUD helpers, deferred file upload (`registerPendingUpload` → `processPendingUploads` on save)                             |
+| `app/lib/useAdminForm.ts`            | Shared hook for admin new/edit pages — form lifecycle, CRUD, clone, slugify, error handling                                      |
+| `app/lib/schemas.ts`                 | Zod validation schemas + declarative publishing requirements (`displayRequirements`, `registrationRequirements`, `checkMissing`) |
+| `app/lib/export-csv.ts`              | Shared CSV export for participants (used by dashboard + participants list)                                                       |
+| `app/contexts/AuthContext.tsx`       | Firebase Auth context — Google Sign-In, role from Custom Claims                                                                  |
+| `app/components/DetailPageShell.tsx` | Shared shell for entity detail pages (loading, not-found, layout, share dialog)                                                  |
+| `app/components/admin/`              | Admin components (DataTable, FormLayout, FormFields, RHFFields, AdminListPage, AdminMapInner, etc.)                              |
+| `firebase.json`                      | Hosting, functions, emulators config                                                                                             |
+| `functions/src/index.ts`             | Cloud Functions entry — 5 functions (3 Firestore triggers + RBAC)                                                                |
+| `functions/src/templates.ts`         | Email template rendering with `{{variable}}` substitution                                                                        |
+| `functions/src/email.ts`             | Gmail OAuth2 email sending via nodemailer                                                                                        |
+| `functions/src/discord.ts`           | Discord webhook notifications                                                                                                    |
+| `scripts/firestore-dump.mjs`         | Dump production Firestore to JSON                                                                                                |
+| `scripts/firestore-seed.mjs`         | Seed Firestore emulator (rewrites Storage URLs, creates 3 RBAC test users)                                                       |
+| `scripts/storage-dump.mjs`           | Download production Storage files                                                                                                |
+| `scripts/storage-seed.mjs`           | Upload files to Storage emulator                                                                                                 |
 
 ## Rules
 
