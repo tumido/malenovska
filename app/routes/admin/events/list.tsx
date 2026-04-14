@@ -1,11 +1,6 @@
-import { orderBy, query } from "firebase/firestore";
-import { useCollectionData } from "react-firebase-hooks/firestore";
-import { typedCollection } from "@/lib/firebase";
-import { removeDocument } from "@/lib/admin-firestore";
-import DataTable from "@/components/admin/DataTable";
+import { AdminListPage } from "@/components/admin/AdminListPage";
 import type { Event } from "@/lib/types";
-import { Link } from "react-router";
-import { Plus, Check, X } from "lucide-react";
+import { Check, X } from "lucide-react";
 
 const columns = [
   { key: "name", label: "Název", sortable: true },
@@ -37,36 +32,19 @@ const columns = [
   },
 ];
 
-const EventsListPage = () => {
-  const [events, loading] = useCollectionData(
-    query(typedCollection<Event>("events"), orderBy("year", "desc")),
-  );
-
-  const handleDelete = async (event: Event) => {
-    if (!confirm(`Opravdu smazat událost "${event.name}"?`)) return;
-    await removeDocument("events", event.id);
-  };
-
-  return (
-    <DataTable
-      columns={columns}
-      data={events ?? []}
-      loading={loading}
-      basePath="/admin/events"
-      onDelete={handleDelete}
-      searchField="name"
-      searchPlaceholder="Hledat událost…"
-      headerAction={
-        <Link
-          to="/admin/events/new"
-          className="inline-flex items-center gap-2 rounded bg-secondary px-2.5 py-2 text-sm font-medium text-white transition-colors hover:bg-secondary-dark lg:px-4"
-        >
-          <Plus className="h-4 w-4" />
-          <span className="hidden lg:inline">Nová událost</span>
-        </Link>
-      }
-    />
-  );
-};
+const EventsListPage = () => (
+  <AdminListPage<Event>
+    collection="events"
+    columns={columns}
+    orderByField="year"
+    orderByDirection="desc"
+    searchField="name"
+    searchPlaceholder="Hledat událost…"
+    newPath="/admin/events/new"
+    newLabel="Nová událost"
+    useFilter={false}
+    confirmMessage={(e) => `Opravdu smazat událost "${e.name}"?`}
+  />
+);
 
 export default EventsListPage;

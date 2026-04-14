@@ -7,7 +7,7 @@ import { useEvent } from "@/contexts/EventContext";
 import { PageHero } from "@/components/PageHero";
 import { Loading } from "@/components/Loading";
 import { Markdown } from "@/components/Markdown";
-import { stableSort, getSorting } from "@/lib/sorting";
+import { getSorting } from "@/lib/sorting";
 import {
   Search,
   ChevronUp,
@@ -126,8 +126,7 @@ const AttendeesPage = () => {
       (p) => !raceFilter || p.race === (raceMapping[raceFilter] ?? raceFilter),
     );
 
-  const sorted = stableSort(
-    rows,
+  const sorted = [...rows].sort(
     getSorting<RowData>(order, orderBy as keyof RowData),
   );
   const paged = sorted.slice(page * PAGE_SIZE, page * PAGE_SIZE + PAGE_SIZE);

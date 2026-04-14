@@ -1,65 +1,29 @@
-import { useEffect, useState } from "react";
-import { useParams, useNavigate, Link } from "react-router";
-import { doc, type DocumentReference } from "firebase/firestore";
-import { useDocumentData } from "react-firebase-hooks/firestore";
-import { useForm } from "react-hook-form";
+import { useParams, Link } from "react-router";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { db } from "@/lib/firebase";
-import { updateDocument, removeDocument, processPendingUploads } from "@/lib/admin-firestore";
 import FormLayout from "@/components/admin/FormLayout";
 import { InputField } from "@/components/admin/FormFields";
 import { RHFInput, RHFEventSelect, RHFColor, RHFMarkdown, RHFImage } from "@/components/admin/RHFFields";
 import { useEventFilter } from "@/components/admin/EventFilter";
+import { useAdminForm } from "@/lib/useAdminForm";
 import { raceSchema, type RaceFormValues } from "@/lib/schemas";
-import type { Race } from "@/lib/types";
 
 const RaceEditPage = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
-  const [race, loading] = useDocumentData<Race>(
-    doc(db, "races", id!) as DocumentReference<Race>,
-  );
-  const [saving, setSaving] = useState(false);
   const { events } = useEventFilter([]);
 
-  const { control, handleSubmit, reset, watch } = useForm<RaceFormValues>({
-    resolver: zodResolver(raceSchema),
-    shouldUnregister: false,
-  });
-
-  useEffect(() => {
-    if (race) reset(race as RaceFormValues);
-  }, [race, reset]);
+  const { control, watch, onSubmit, onCancel, onDelete, loading, notFound, saving } =
+    useAdminForm<RaceFormValues>({
+      resolver: zodResolver(raceSchema),
+      collection: "races",
+      basePath: "/admin/races",
+      defaultValues: {},
+      id,
+    });
 
   const name = watch("name");
 
-  const onValid = async (data: RaceFormValues) => {
-    setSaving(true);
-    try {
-      const processed = await processPendingUploads(data);
-      await updateDocument("races", id!, processed);
-      navigate("/admin/races");
-    } catch (err) {
-      alert("Chyba při ukládání");
-      console.error(err);
-    } finally {
-      setSaving(false);
-    }
-  };
-
-  const handleDelete = async () => {
-    if (!confirm(`Opravdu smazat stranu „${name ?? id}"?`)) return;
-    try {
-      await removeDocument("races", id!);
-      navigate("/admin/races");
-    } catch (err) {
-      alert("Chyba při mazání");
-      console.error(err);
-    }
-  };
-
   if (loading) return <div className="text-gray-500">Načítání…</div>;
-  if (!race) {
+  if (notFound) {
     return (
       <div className="flex min-h-[60vh] flex-col items-center justify-center gap-3 text-gray-500">
         <p>Strana nenalezena</p>
@@ -97,9 +61,9 @@ const RaceEditPage = () => {
     <FormLayout
       title={`Upravit: ${name ?? id}`}
       tabs={tabs}
-      onSubmit={handleSubmit(onValid)}
-      onCancel={() => navigate("/admin/races")}
-      onDelete={handleDelete}
+      onSubmit={onSubmit}
+      onCancel={onCancel}
+      onDelete={() => onDelete?.(name ?? id)}
       saving={saving}
     />
   );

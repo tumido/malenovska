@@ -3,6 +3,7 @@ import { query, where } from "firebase/firestore";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import { typedCollection } from "@/lib/firebase";
 import { useEvent } from "@/contexts/EventContext";
+import { usePastEvents } from "@/lib/usePastEvents";
 import { PageHero } from "@/components/PageHero";
 import type { Event, Gallery } from "@/lib/types";
 
@@ -42,22 +43,18 @@ const GalleryPage = () => {
     query(typedCollection<Gallery>("galleries"))
   );
 
+  const pastEventsArr = usePastEvents(events, event);
+
   const pastGalleries = useMemo(() => {
-    if (!events || !allGalleries) return [];
+    if (!allGalleries || pastEventsArr.length === 0) return [];
 
-    const now = new Date();
-    const pastEventIds = new Set(
-      events
-        .filter((e) => e.id !== event.id && e.type === event.type && e.date?.toDate() <= now)
-        .map((e) => e.id)
-    );
-
-    const eventNames = new Map(events.map((e) => [e.id, e.name]));
+    const pastEventIds = new Set(pastEventsArr.map((e) => e.id));
+    const eventNames = new Map(pastEventsArr.map((e) => [e.id, e.name]));
 
     return allGalleries
       .filter((g) => pastEventIds.has(g.event))
       .map((g) => ({ gallery: g, eventName: eventNames.get(g.event) ?? "" }));
-  }, [events, allGalleries, event.id, event.type]);
+  }, [pastEventsArr, allGalleries]);
 
   if (loading || !galleries) return null;
 

@@ -119,7 +119,7 @@ const AdminShell = ({ children }: { children: React.ReactNode }) => {
 
         {/* Mobile bottom app bar */}
         <nav
-          className={`fixed bottom-0 left-0 right-0 rounded-t-2xl bg-primary-dark pb-[env(safe-area-inset-bottom)] shadow-[0_-2px_12px_rgba(0,0,0,0.4)] lg:hidden ${moreOpen ? "z-[60]" : "z-40"}`}
+          className={`fixed bottom-0 left-0 right-0 rounded-t-2xl bg-primary-dark pb-[env(safe-area-inset-bottom)] shadow-[0_-2px_12px_rgba(0,0,0,0.4)] lg:hidden ${moreOpen ? "z-60" : "z-40"}`}
         >
           <div className="flex items-stretch justify-around px-2 pt-3 pb-2">
             {bottomItems.map(({ href, label, icon: Icon }) => {
@@ -179,10 +179,10 @@ const AdminShell = ({ children }: { children: React.ReactNode }) => {
                 {moreOpen && (
                   <>
                     <div
-                      className="fixed inset-0 z-[60]"
+                      className="fixed inset-0 z-60"
                       onClick={() => setMoreOpen(false)}
                     />
-                    <div className="absolute bottom-full right-0 z-[70] mb-2 mr-1 min-w-48 rounded-lg border border-white/10 bg-primary-dark py-1 shadow-xl">
+                    <div className="absolute bottom-full right-0 z-70 mb-2 mr-1 min-w-48 rounded-lg border border-white/10 bg-primary-dark py-1 shadow-xl">
                       {overflowItems.map(({ href, label, icon: Icon }) => (
                         <Link
                           key={href}

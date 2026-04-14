@@ -1,31 +1,21 @@
-import { useCallback, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router";
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { createDocument, processPendingUploads, DocumentExistsError } from "@/lib/admin-firestore";
 import FormLayout from "@/components/admin/FormLayout";
 import { RHFInput, RHFEventSelect, RHFColor, RHFMarkdown, RHFImage } from "@/components/admin/RHFFields";
 import { useEventFilter } from "@/components/admin/EventFilter";
-import { useCloneData } from "@/lib/useCloneData";
+import { useAdminForm } from "@/lib/useAdminForm";
 import { raceSchema, type RaceFormValues } from "@/lib/schemas";
-import type { Race } from "@/lib/types";
-
-const slugify = (name: string): string => {
-  return name.replace(/ /g, "_").toLowerCase().replace(/\W/g, "");
-};
 
 const RaceCreatePage = () => {
-  const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
-  const [saving, setSaving] = useState(false);
   const { events } = useEventFilter([]);
 
-  const { control, handleSubmit, reset } = useForm<RaceFormValues>({
+  const { control, onSubmit, onCancel, isClone, saving } = useAdminForm<RaceFormValues>({
     resolver: zodResolver(raceSchema),
-    shouldUnregister: false,
+    collection: "races",
+    basePath: "/admin/races",
+    slugField: "name",
     defaultValues: {
       name: "",
-      event: searchParams.get("event") ?? "",
+      event: new URLSearchParams(window.location.search).get("event") ?? "",
       limit: 0,
       priority: 1,
       color: "",
@@ -35,28 +25,6 @@ const RaceCreatePage = () => {
       image: { src: "" },
     },
   });
-
-  const resetStable = useCallback((data: Partial<Race>) => reset(data as RaceFormValues), [reset]);
-  const { isClone } = useCloneData<Race>("races", resetStable);
-
-  const onValid = async (data: RaceFormValues) => {
-    setSaving(true);
-    try {
-      const id = slugify(data.name);
-      const processed = await processPendingUploads(data);
-      await createDocument("races", id, processed);
-      navigate("/admin/races");
-    } catch (err) {
-      if (err instanceof DocumentExistsError) {
-        alert(`Strana s ID "${err.documentId}" již existuje.`);
-      } else {
-        alert("Chyba při vytváření");
-        console.error(err);
-      }
-    } finally {
-      setSaving(false);
-    }
-  };
 
   const tabs = [
     {
@@ -84,8 +52,8 @@ const RaceCreatePage = () => {
     <FormLayout
       title={isClone ? "Klonovat stranu" : "Nová strana"}
       tabs={tabs}
-      onSubmit={handleSubmit(onValid)}
-      onCancel={() => navigate("/admin/races")}
+      onSubmit={onSubmit}
+      onCancel={onCancel}
       saving={saving}
     />
   );

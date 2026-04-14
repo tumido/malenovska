@@ -1,16 +1,10 @@
 import {
-  collection,
   doc,
   getDoc,
-  getDocs,
   setDoc,
   updateDoc,
   deleteDoc,
-  query,
-  where,
-  orderBy,
   serverTimestamp,
-  type QueryConstraint,
   type DocumentData,
 } from "firebase/firestore";
 import { getStorage, connectStorageEmulator, ref, updateMetadata, uploadBytesResumable, getDownloadURL } from "firebase/storage";
@@ -87,16 +81,6 @@ export const removeParticipant = async (id: string) => {
   ]);
 };
 
-/** Fetch a single document by ID */
-export const fetchDocument = async <T>(
-  collectionName: string,
-  id: string,
-): Promise<(T & { id: string }) | null> => {
-  const snap = await getDoc(doc(db, collectionName, id));
-  if (!snap.exists()) return null;
-  return { id: snap.id, ...snap.data() } as T & { id: string };
-};
-
 /** Fetch participant private subcollection data */
 export const fetchParticipantPrivate = async (
   participantId: string,
@@ -104,25 +88,6 @@ export const fetchParticipantPrivate = async (
   const snap = await getDoc(doc(db, "participants", participantId, "private", "_"));
   if (!snap.exists()) return null;
   return snap.data() as { age?: number; email?: string };
-};
-
-/** Query a collection with optional constraints */
-export const queryCollection = async <T>(
-  collectionName: string,
-  ...constraints: QueryConstraint[]
-): Promise<(T & { id: string })[]> => {
-  const q = query(collection(db, collectionName), ...constraints);
-  const snap = await getDocs(q);
-  return snap.docs.map((d) => ({ id: d.id, ...d.data() }) as T & { id: string });
-};
-
-/** Helper query builders */
-export const byEvent = (eventId: string) => {
-  return where("event", "==", eventId);
-};
-
-export const orderedBy = (field: string, dir: "asc" | "desc" = "asc") => {
-  return orderBy(field, dir);
 };
 
 /** Upload a file to Firebase Storage, returns download URL */

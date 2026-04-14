@@ -4,7 +4,7 @@ const required = (text = "Vyplňte"): ValidatorFn => (value) =>
   value ? undefined : text;
 
 const isEmail = (): ValidatorFn => (value) =>
-  /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$/i.test(String(value ?? ""))
+  /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/i.test(String(value ?? ""))
     ? undefined
     : "Toto není e-mailová adresa";
 

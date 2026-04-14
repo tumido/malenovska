@@ -4,7 +4,7 @@ export const timestampToDateStr = (timestamp: Timestamp): string => {
   return timestamp.toDate().toLocaleDateString("cs-CZ");
 };
 
-export const timestampToTimeStr = (timestamp: Timestamp): string => {
+const timestampToTimeStr = (timestamp: Timestamp): string => {
   return timestamp.toDate().toLocaleTimeString([], {
     hour: "2-digit",
     minute: "2-digit",

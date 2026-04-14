@@ -1,58 +1,26 @@
-import { useCallback, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router";
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { createDocument, processPendingUploads, DocumentExistsError } from "@/lib/admin-firestore";
 import FormLayout from "@/components/admin/FormLayout";
 import { RHFInput, RHFEventSelect, RHFImage } from "@/components/admin/RHFFields";
 import { useEventFilter } from "@/components/admin/EventFilter";
-import { useCloneData } from "@/lib/useCloneData";
+import { useAdminForm } from "@/lib/useAdminForm";
 import { gallerySchema, type GalleryFormValues } from "@/lib/schemas";
-import type { Gallery } from "@/lib/types";
-
-const slugify = (name: string): string => {
-  return name.replace(/ /g, "_").toLowerCase().replace(/\W/g, "");
-};
 
 const GalleryCreatePage = () => {
-  const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
-  const [saving, setSaving] = useState(false);
   const { events } = useEventFilter([]);
 
-  const { control, handleSubmit, reset } = useForm<GalleryFormValues>({
+  const { control, onSubmit, onCancel, isClone, saving } = useAdminForm<GalleryFormValues>({
     resolver: zodResolver(gallerySchema),
-    shouldUnregister: false,
+    collection: "galleries",
+    basePath: "/admin/galleries",
+    slugField: "name",
     defaultValues: {
       name: "",
-      event: searchParams.get("event") ?? "",
+      event: new URLSearchParams(window.location.search).get("event") ?? "",
       author: "",
       url: "",
       cover: { src: "" },
     },
   });
-
-  const resetStable = useCallback((data: Partial<Gallery>) => reset(data as GalleryFormValues), [reset]);
-  const { isClone } = useCloneData<Gallery>("galleries", resetStable);
-
-  const onValid = async (data: GalleryFormValues) => {
-    setSaving(true);
-    try {
-      const id = slugify(data.name);
-      const processed = await processPendingUploads(data);
-      await createDocument("galleries", id, processed);
-      navigate("/admin/galleries");
-    } catch (err) {
-      if (err instanceof DocumentExistsError) {
-        alert(`Galerie s ID "${err.documentId}" již existuje.`);
-      } else {
-        alert("Chyba při vytváření");
-        console.error(err);
-      }
-    } finally {
-      setSaving(false);
-    }
-  };
 
   const tabs = [
     {
@@ -76,8 +44,8 @@ const GalleryCreatePage = () => {
     <FormLayout
       title={isClone ? "Klonovat galerii" : "Nová galerie"}
       tabs={tabs}
-      onSubmit={handleSubmit(onValid)}
-      onCancel={() => navigate("/admin/galleries")}
+      onSubmit={onSubmit}
+      onCancel={onCancel}
       saving={saving}
     />
   );

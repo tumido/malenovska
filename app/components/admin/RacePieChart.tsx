@@ -1,12 +1,10 @@
 import type { Race, Participant } from "@/lib/types";
+import { fixColor } from "@/lib/chart-utils";
 
 interface RacePieChartProps {
   races: Race[];
   participants: Participant[];
 }
-
-const fixColor = (color: string): string =>
-  color === "#ffffff" || color === "#fff" ? "#d1d5db" : color;
 
 const RacePieChart = ({ races, participants }: RacePieChartProps) => {
   const data = races.map((race) => ({

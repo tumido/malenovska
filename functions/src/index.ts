@@ -79,6 +79,52 @@ const formatRegistrationNotification = (
   );
 };
 
+interface RegistrationNotificationOptions {
+  data: Awaited<ReturnType<typeof fetchParticipantData>>;
+  eventData: Awaited<ReturnType<typeof fetchEvent>>;
+  email: string;
+  discordAction: string;
+  secrets: {
+    clientId: string;
+    clientSecret: string;
+    refreshToken: string;
+  };
+}
+
+const sendRegistrationNotification = async ({
+  data,
+  eventData,
+  email,
+  discordAction,
+  secrets,
+}: RegistrationNotificationOptions) => {
+  const rendered = renderEmail(eventData, data, {
+    subject: eventData.emailSubject,
+    body: eventData.emailBody,
+    under18: eventData.emailUnder18,
+  });
+
+  if (!rendered) {
+    logger.warn("Email templates not configured, skipping email", { event: eventData.name });
+    return;
+  }
+
+  const notification = formatRegistrationNotification(data, discordAction);
+  await sendDiscordNotification(DISCORD_URL.value(), notification);
+
+  await sendMail({
+    clientId: secrets.clientId,
+    clientSecret: secrets.clientSecret,
+    refreshToken: secrets.refreshToken,
+    from: "Malenovský krmelec <krmelec@malenovska.cz>",
+    to: email,
+    replyTo: `${eventData.name} <${eventData.email}>`,
+    subject: rendered.subject,
+    text: rendered.text,
+    html: rendered.html,
+  });
+};
+
 export const emailAttendee = onDocumentCreated(
   {
     document: "participants/{id}/private/_",
@@ -105,30 +151,16 @@ export const emailAttendee = onDocumentCreated(
 
     logger.info("New registration", { participant: data.fullName, event: eventData.name });
 
-    const rendered = renderEmail(eventData, data, {
-      subject: eventData.emailSubject,
-      body: eventData.emailBody,
-      under18: eventData.emailUnder18,
-    });
-
-    if (!rendered) {
-      logger.warn("Email templates not configured, skipping email", { event: eventData.name });
-      return;
-    }
-
-    const notification = formatRegistrationNotification(data, "se právě registroval");
-    await sendDiscordNotification(DISCORD_URL.value(), notification);
-
-    await sendMail({
-      clientId: GMAIL_CLIENT_ID.value(),
-      clientSecret: GMAIL_CLIENT_SECRET.value(),
-      refreshToken: GMAIL_REFRESH_TOKEN.value(),
-      from: "Malenovský krmelec <krmelec@malenovska.cz>",
-      to: email,
-      replyTo: `${eventData.name} <${eventData.email}>`,
-      subject: rendered.subject,
-      text: rendered.text,
-      html: rendered.html,
+    await sendRegistrationNotification({
+      data,
+      eventData,
+      email,
+      discordAction: "se právě registroval",
+      secrets: {
+        clientId: GMAIL_CLIENT_ID.value(),
+        clientSecret: GMAIL_CLIENT_SECRET.value(),
+        refreshToken: GMAIL_REFRESH_TOKEN.value(),
+      },
     });
   },
 );
@@ -152,30 +184,16 @@ export const emailAttendeeOnUpdate = onDocumentUpdated(
 
     logger.info("Registration updated", { participant: data.fullName, event: eventData.name });
 
-    const rendered = renderEmail(eventData, data, {
-      subject: eventData.emailSubject,
-      body: eventData.emailBody,
-      under18: eventData.emailUnder18,
-    });
-
-    if (!rendered) {
-      logger.warn("Email templates not configured, skipping email", { event: eventData.name });
-      return;
-    }
-
-    const notification = formatRegistrationNotification(data, "- updatována registrace");
-    await sendDiscordNotification(DISCORD_URL.value(), notification);
-
-    await sendMail({
-      clientId: GMAIL_CLIENT_ID.value(),
-      clientSecret: GMAIL_CLIENT_SECRET.value(),
-      refreshToken: GMAIL_REFRESH_TOKEN.value(),
-      from: "Malenovský krmelec <krmelec@malenovska.cz>",
-      to: newValue.email,
-      replyTo: `${eventData.name} <${eventData.email}>`,
-      subject: rendered.subject,
-      text: rendered.text,
-      html: rendered.html,
+    await sendRegistrationNotification({
+      data,
+      eventData,
+      email: newValue.email,
+      discordAction: "- updatována registrace",
+      secrets: {
+        clientId: GMAIL_CLIENT_ID.value(),
+        clientSecret: GMAIL_CLIENT_SECRET.value(),
+        refreshToken: GMAIL_REFRESH_TOKEN.value(),
+      },
     });
   },
 );
@@ -203,6 +221,23 @@ interface AdminUser {
   role: "admin" | "writer" | "staff";
 }
 
+const updateUserClaims = async (
+  auth: ReturnType<typeof getAuth>,
+  email: string,
+  claims: Record<string, string>,
+) => {
+  try {
+    const user = await auth.getUserByEmail(email);
+    await auth.setCustomUserClaims(user.uid, claims);
+    logger.info(Object.keys(claims).length ? "Set admin claim" : "Cleared admin claim", {
+      email,
+      ...claims,
+    });
+  } catch {
+    logger.warn("Auth user not found, skipping claim update", { email });
+  }
+};
+
 export const syncAdminClaims = onDocumentWritten("config/admins", async (event) => {
   const beforeUsers: AdminUser[] = event.data?.before?.data()?.users ?? [];
   const afterUsers: AdminUser[] = event.data?.after?.data()?.users ?? [];
@@ -215,26 +250,14 @@ export const syncAdminClaims = onDocumentWritten("config/admins", async (event) 
   // Users added or role changed
   for (const [email, role] of afterMap) {
     if (beforeMap.get(email) !== role) {
-      try {
-        const user = await auth.getUserByEmail(email);
-        await auth.setCustomUserClaims(user.uid, { role });
-        logger.info("Set admin claim", { email, role });
-      } catch {
-        logger.warn("Auth user not found, skipping claim sync", { email });
-      }
+      await updateUserClaims(auth, email, { role });
     }
   }
 
   // Users removed
   for (const [email] of beforeMap) {
     if (!afterMap.has(email)) {
-      try {
-        const user = await auth.getUserByEmail(email);
-        await auth.setCustomUserClaims(user.uid, {});
-        logger.info("Cleared admin claim", { email });
-      } catch {
-        logger.warn("Auth user not found, skipping claim clear", { email });
-      }
+      await updateUserClaims(auth, email, {});
     }
   }
 });

@@ -55,10 +55,12 @@ npm run deploy            # Deploy everything
 | `app/lib/firebase.ts`         | Firebase init (Firestore, Functions), emulator connections               |
 | `app/lib/types.ts`            | TypeScript interfaces for Firestore documents + `UserRole`, `AdminConfig` |
 | `app/lib/admin-firestore.ts`  | Admin CRUD helpers, deferred file upload (`registerPendingUpload` → `processPendingUploads` on save) |
+| `app/lib/useAdminForm.ts`     | Shared hook for admin new/edit pages — form lifecycle, CRUD, clone, slugify, error handling |
 | `app/lib/schemas.ts`          | Zod validation schemas + declarative publishing requirements (`displayRequirements`, `registrationRequirements`, `checkMissing`) |
 | `app/lib/export-csv.ts`       | Shared CSV export for participants (used by dashboard + participants list)                            |
 | `app/contexts/AuthContext.tsx` | Firebase Auth context — Google Sign-In, role from Custom Claims          |
-| `app/components/admin/`       | Admin components (DataTable, FormLayout, FormFields, RHFFields, AdminMapInner, etc.) |
+| `app/components/DetailPageShell.tsx` | Shared shell for entity detail pages (loading, not-found, layout, share dialog)             |
+| `app/components/admin/`       | Admin components (DataTable, FormLayout, FormFields, RHFFields, AdminListPage, AdminMapInner, etc.) |
 | `firebase.json`               | Hosting, functions, emulators config                                    |
 | `functions/src/index.ts`      | Cloud Functions entry — 5 functions (3 Firestore triggers + RBAC)       |
 | `functions/src/templates.ts`  | Email template rendering with `{{variable}}` substitution               |

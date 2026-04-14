@@ -4,6 +4,7 @@ import { useCollectionData } from "react-firebase-hooks/firestore";
 import { Share2, X } from "lucide-react";
 import { typedCollection } from "@/lib/firebase";
 import { useEvent } from "@/contexts/EventContext";
+import { usePastEvents } from "@/lib/usePastEvents";
 import { PageHero } from "@/components/PageHero";
 import { Markdown } from "@/components/Markdown";
 import { SmallArticleCard } from "@/components/SmallArticleCard";
@@ -116,13 +117,10 @@ const LegendsPage = () => {
     query(typedCollection<Legend>("legends"), orderBy("publishedAt"))
   );
 
-  const pastEventLegends = useMemo(() => {
-    if (!events || !allLegends) return [];
+  const pastEvents = usePastEvents(events, event);
 
-    const now = new Date();
-    const pastEvents = events
-      .filter((e) => e.id !== event.id && e.type === event.type && e.date?.toDate() <= now)
-      .sort((a, b) => (a.date > b.date ? -1 : 1));
+  const pastEventLegends = useMemo(() => {
+    if (!allLegends || pastEvents.length === 0) return [];
 
     const legendsByEvent = new Map<string, Legend[]>();
     for (const l of allLegends) {
@@ -134,7 +132,7 @@ const LegendsPage = () => {
     return pastEvents
       .map((e) => ({ event: e, legends: legendsByEvent.get(e.id) ?? [] }))
       .filter((group) => group.legends.length > 0);
-  }, [events, allLegends, event.id]);
+  }, [pastEvents, allLegends]);
 
   const handleClose = useCallback(() => setSelectedLegend(null), []);
 

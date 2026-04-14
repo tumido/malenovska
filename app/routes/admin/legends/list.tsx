@@ -1,12 +1,5 @@
-import { orderBy, query } from "firebase/firestore";
-import { useCollectionData } from "react-firebase-hooks/firestore";
-import { typedCollection } from "@/lib/firebase";
-import { removeDocument } from "@/lib/admin-firestore";
-import DataTable from "@/components/admin/DataTable";
+import { AdminListPage } from "@/components/admin/AdminListPage";
 import type { Legend } from "@/lib/types";
-import { Link } from "react-router";
-import { Plus } from "lucide-react";
-import { useEventFilter } from "@/components/admin/EventFilter";
 
 const columns = [
   { key: "title", label: "Název", sortable: true },
@@ -18,39 +11,17 @@ const columns = [
   },
 ];
 
-const LegendsListPage = () => {
-  const [legends, loading] = useCollectionData(
-    query(typedCollection<Legend>("legends"), orderBy("title")),
-  );
-  const { filtered, toolbar, activeFilters } = useEventFilter(legends ?? []);
-
-  const handleDelete = async (legend: Legend) => {
-    if (!confirm(`Smazat legendu "${legend.title}"?`)) return;
-    await removeDocument("legends", legend.id);
-  };
-
-  return (
-    <DataTable
-      columns={columns}
-      data={filtered}
-      loading={loading}
-      basePath="/admin/legends"
-      onDelete={handleDelete}
-      searchField="title"
-      searchPlaceholder="Hledat legendu…"
-      toolbar={toolbar}
-      activeFilters={activeFilters}
-      headerAction={
-        <Link
-          to="/admin/legends/new"
-          className="inline-flex items-center gap-2 rounded bg-secondary px-2.5 py-2 text-sm font-medium text-white transition-colors hover:bg-secondary-dark lg:px-4"
-        >
-          <Plus className="h-4 w-4" />
-          <span className="hidden lg:inline">Nová legenda</span>
-        </Link>
-      }
-    />
-  );
-};
+const LegendsListPage = () => (
+  <AdminListPage<Legend>
+    collection="legends"
+    columns={columns}
+    orderByField="title"
+    searchField="title"
+    searchPlaceholder="Hledat legendu…"
+    newPath="/admin/legends/new"
+    newLabel="Nová legenda"
+    confirmMessage={(l) => `Smazat legendu "${l.title}"?`}
+  />
+);
 
 export default LegendsListPage;

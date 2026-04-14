@@ -6,6 +6,7 @@
     "allow": [
       "mcp__next-devtools-mcp",
       "mcp__chrome-devtools",
+      "Read(//tmp/chrome-devtools-mcp/**)",
       "mcp__eslint",
       "Bash(npm run dev)",
       "Bash(find:*)",
@@ -15,7 +16,16 @@
       "Bash(npm run lint:*)",
       "Bash(npx tsc:*)",
       "Bash(ls:*)",
-      "Bash(git log:*)"
+      "Bash(git log:*)",
+      "Bash(npm view:*)",
+      "Bash(npm install:*)",
+      "Bash(npx eslint:*)",
+      "Bash(npx next:*)",
+      "Bash(npm list:*)",
+      "Bash(echo \"EXIT: $?\")",
+      "WebSearch",
+      "WebFetch(domain:github.com)",
+      "mcp__ide__getDiagnostics"
     ]
   },
   "enabledMcpjsonServers": [

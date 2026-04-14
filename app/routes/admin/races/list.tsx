@@ -1,12 +1,5 @@
-import { orderBy, query } from "firebase/firestore";
-import { useCollectionData } from "react-firebase-hooks/firestore";
-import { typedCollection } from "@/lib/firebase";
-import { removeDocument } from "@/lib/admin-firestore";
-import DataTable from "@/components/admin/DataTable";
+import { AdminListPage } from "@/components/admin/AdminListPage";
 import type { Race } from "@/lib/types";
-import { Link } from "react-router";
-import { Plus } from "lucide-react";
-import { useEventFilter } from "@/components/admin/EventFilter";
 
 const columns = [
   { key: "name", label: "Název", sortable: true },
@@ -28,39 +21,17 @@ const columns = [
   },
 ];
 
-const RacesListPage = () => {
-  const [races, loading] = useCollectionData(
-    query(typedCollection<Race>("races"), orderBy("name")),
-  );
-  const { filtered, toolbar, activeFilters } = useEventFilter(races ?? []);
-
-  const handleDelete = async (race: Race) => {
-    if (!confirm(`Smazat stranu "${race.name}"?`)) return;
-    await removeDocument("races", race.id);
-  };
-
-  return (
-    <DataTable
-      columns={columns}
-      data={filtered}
-      loading={loading}
-      basePath="/admin/races"
-      onDelete={handleDelete}
-      searchField="name"
-      searchPlaceholder="Hledat stranu…"
-      toolbar={toolbar}
-      activeFilters={activeFilters}
-      headerAction={
-        <Link
-          to="/admin/races/new"
-          className="inline-flex items-center gap-2 rounded bg-secondary px-2.5 py-2 text-sm font-medium text-white transition-colors hover:bg-secondary-dark lg:px-4"
-        >
-          <Plus className="h-4 w-4" />
-          <span className="hidden lg:inline">Nová strana</span>
-        </Link>
-      }
-    />
-  );
-};
+const RacesListPage = () => (
+  <AdminListPage<Race>
+    collection="races"
+    columns={columns}
+    orderByField="name"
+    searchField="name"
+    searchPlaceholder="Hledat stranu…"
+    newPath="/admin/races/new"
+    newLabel="Nová strana"
+    confirmMessage={(r) => `Smazat stranu "${r.name}"?`}
+  />
+);
 
 export default RacesListPage;

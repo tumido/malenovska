@@ -1,62 +1,28 @@
-import { useCallback, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { Timestamp } from "firebase/firestore";
-import { createDocument, processPendingUploads, DocumentExistsError } from "@/lib/admin-firestore";
+import { zodResolver } from "@hookform/resolvers/zod";
 import FormLayout from "@/components/admin/FormLayout";
 import { RHFInput, RHFEventSelect, RHFMarkdown, RHFImage } from "@/components/admin/RHFFields";
 import { useEventFilter } from "@/components/admin/EventFilter";
-import { useCloneData } from "@/lib/useCloneData";
+import { useAdminForm } from "@/lib/useAdminForm";
 import { legendSchema, type LegendFormValues } from "@/lib/schemas";
-import type { Legend } from "@/lib/types";
-
-const slugify = (title: string): string => {
-  return title.replace(/ /g, "_").toLowerCase().replace(/\W/g, "");
-};
 
 const LegendCreatePage = () => {
-  const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
-  const [saving, setSaving] = useState(false);
   const { events } = useEventFilter([]);
 
-  const { control, handleSubmit, reset } = useForm<LegendFormValues>({
+  const { control, onSubmit, onCancel, isClone, saving } = useAdminForm<LegendFormValues>({
     resolver: zodResolver(legendSchema),
-    shouldUnregister: false,
+    collection: "legends",
+    basePath: "/admin/legends",
+    slugField: "title",
     defaultValues: {
       title: "",
-      event: searchParams.get("event") ?? "",
+      event: new URLSearchParams(window.location.search).get("event") ?? "",
       perex: "",
       content: "",
       image: { src: "" },
     },
+    extraCreateData: () => ({ publishedAt: Timestamp.now() }),
   });
-
-  const resetStable = useCallback((data: Partial<Legend>) => reset(data as LegendFormValues), [reset]);
-  const { isClone } = useCloneData<Legend>("legends", resetStable);
-
-  const onValid = async (data: LegendFormValues) => {
-    setSaving(true);
-    try {
-      const id = slugify(data.title);
-      const processed = await processPendingUploads({
-        ...data,
-        publishedAt: Timestamp.now(),
-      });
-      await createDocument("legends", id, processed);
-      navigate("/admin/legends");
-    } catch (err) {
-      if (err instanceof DocumentExistsError) {
-        alert(`Legenda s ID "${err.documentId}" již existuje.`);
-      } else {
-        alert("Chyba při vytváření");
-        console.error(err);
-      }
-    } finally {
-      setSaving(false);
-    }
-  };
 
   const tabs = [
     {
@@ -80,8 +46,8 @@ const LegendCreatePage = () => {
     <FormLayout
       title={isClone ? "Klonovat legendu" : "Nová legenda"}
       tabs={tabs}
-      onSubmit={handleSubmit(onValid)}
-      onCancel={() => navigate("/admin/legends")}
+      onSubmit={onSubmit}
+      onCancel={onCancel}
       saving={saving}
     />
   );

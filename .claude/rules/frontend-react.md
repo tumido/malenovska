@@ -82,8 +82,10 @@ app/
     ├── firebase.ts       # Firebase init + typed helpers
     ├── types.ts          # Firestore document interfaces
     ├── admin-firestore.ts # Admin CRUD helpers
-    ├── filters.ts        # Data filtering helpers
-    ├── sorting.ts        # Table sorting helpers
+    ├── useAdminForm.ts   # Shared admin form lifecycle hook
+    ├── usePastEvents.ts  # Past-event filtering hook
+    ├── schemas.ts        # Zod schemas + publishing requirements
+    ├── sorting.ts        # Table sorting comparator
     ├── navigation.ts     # Navigation helpers
     └── date.ts           # Timestamp formatters
 public/                   # Static assets (images, favicons)
@@ -142,7 +144,34 @@ export default [
    className = "bg-(--primary) text-(--white)";
    ```
 
-6. **Use Tailwind tokens, not raw hex**:
+6. **Use Tailwind v4 canonical class names** — non-canonical forms cause diagnostic warnings:
+
+   **Use native values, not bracket syntax** — Tailwind v4 supports arbitrary numeric values directly:
+   ```tsx
+   // Correct — native v4 syntax
+   className="z-70 w-18 opacity-80 top-15"
+
+   // Wrong — unnecessary bracket syntax
+   className="z-[70] w-[4.5rem] opacity-[0.8] top-[3.75rem]"
+   ```
+
+   **Renamed utilities** — v4 changed several default names:
+
+   | Old (pre-v4) | Canonical (v4) |
+   |---|---|
+   | `bg-gradient-to-*` | `bg-linear-to-*` |
+   | `shadow` | `shadow-sm` |
+   | `shadow-sm` | `shadow-xs` |
+   | `rounded` | `rounded-sm` |
+   | `rounded-sm` | `rounded-xs` |
+   | `blur` | `blur-xs` |
+   | `ring` | `ring-3` |
+   | `drop-shadow` | `drop-shadow-sm` |
+   | `inset-shadow` | `inset-shadow-xs` |
+
+   Only use bracket syntax `[...]` when there is genuinely no Tailwind utility for the value (e.g. `min-h-[50vh]`, `bg-[lightgray]`, `text-[0.625rem]`).
+
+7. **Use Tailwind tokens, not raw hex**:
 
    ```tsx
    // Correct
@@ -196,38 +225,46 @@ export default LegendsPage;
 
 ### Form System (react-hook-form + zod)
 
-**Admin forms** use `useForm()` with `zodResolver()` and Controller-based wrappers (`RHFFields.tsx`). Schemas live in `app/lib/schemas.ts` with Czech error messages.
+**Admin CRUD forms** for races, legends, and galleries use the `useAdminForm` hook (`app/lib/useAdminForm.ts`), which handles the full new/edit lifecycle:
 
 ```tsx
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { RHFInput, RHFToggle } from "@/components/admin/RHFFields";
-import { eventSchema, type EventFormValues } from "@/lib/schemas";
+import { useAdminForm } from "@/lib/useAdminForm";
+import { raceSchema, type RaceFormValues } from "@/lib/schemas";
 
-const { control, handleSubmit, reset, setValue, watch } = useForm<EventFormValues>({
-  resolver: zodResolver(eventSchema),
-  shouldUnregister: false, // required — FormLayout unmounts inactive tabs
+// New page: no id → creates document with slugified name
+const { control, onSubmit, onCancel, isClone } = useAdminForm<RaceFormValues>({
+  resolver: zodResolver(raceSchema),
+  collection: "races",
+  defaultValues: { name: "", event: "", ... },
+  slugField: "name",
+  basePath: "/admin/races",
 });
 
-// Edit page: load Firestore data into form
-useEffect(() => { if (data) reset({ ...data, id }); }, [data, id, reset]);
-
-// Save: strip id, process uploads, write
-const onValid = async (data: EventFormValues) => {
-  const { id, ...raw } = data;
-  const processed = await processPendingUploads(raw);
-  await createDocument("events", id, processed);
-};
-
-// FormLayout onSubmit={handleSubmit(onValid)}
+// Edit page: id from URL → fetches document, populates form
+const { id: raceId } = useParams();
+const { control, onSubmit, onDelete, onCancel, loading, notFound } = useAdminForm<RaceFormValues>({
+  resolver: zodResolver(raceSchema),
+  collection: "races",
+  defaultValues: {},
+  basePath: "/admin/races",
+  id: raceId,
+});
 ```
+
+The hook handles: `processPendingUploads`, `createDocument`/`updateDocument`, `DocumentExistsError`, clone-from-existing, delete confirmation, notistack error toasts, and navigation.
+
+**Events** use a different pattern with `EventFormTabs` component and inline `useForm()` (more complex form structure).
 
 Key patterns:
 - **Controller wrappers** (`RHFFields.tsx`): `RHFInput`, `RHFSelect`, `RHFToggle`, `RHFCheckbox`, `RHFColor`, `RHFImage`, `RHFFile`, `RHFTextarea`, `RHFEventSelect`, `RHFMarkdown` — needed because FormFields have non-standard `onChange` signatures
 - **`shouldUnregister: false`**: required because `FormLayout` unmounts inactive tab content
 - **`useFieldArray`**: used for POI and RegistrationExtras arrays in EventFormTabs
 - **Number fields**: `NumericInput` helper stores raw string locally while editing, commits number on blur — allows clearing the `0`
-- **Not-found guard**: all edit pages check `if (!entity)` after loading and show a centered message with a link back to the list
+
+**Admin list pages** use `AdminListPage` component (`app/components/admin/AdminListPage.tsx`) — handles Firestore query, event filtering, delete confirmation, DataTable rendering, and "New" button. Each list page only defines its column array.
+
+**Public detail pages** (legend, race) use `DetailPageShell` component (`app/components/DetailPageShell.tsx`) — handles loading skeleton, not-found/event-mismatch guards, page layout, and share dialog.
 
 **Public signup** uses `FormProvider` across wizard steps (different pattern — `register()` instead of Controller).
 

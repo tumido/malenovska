@@ -13,7 +13,9 @@
         "chrome-devtools-mcp@latest",
         "--browser-url=http://127.0.0.1:9222"
       ],
-      "env": {}
+      "env": {
+        "TMPDIR": "/tmp/chrome-devtools-mcp"
+      }
     },
     "eslint": {
       "type": "stdio",
