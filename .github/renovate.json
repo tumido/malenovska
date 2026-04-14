@@ -1,19 +1,21 @@
 {
     "extends": [
-        "config:js-app",
+        "config:best-practices",
         ":gitSignOff",
-        "group:allNonMajor",
-        "group:linters",
-        "group:semantic-releaseMonorepo"
+        ":preserveSemverRanges",
+        "group:allNonMajor"
     ],
-    "npm": {
-        "stabilityDays": 1
-    },
     "packageRules": [
         {
-            "matchManagers": [
-                "github-actions"
-            ],
+            "matchManagers": ["npm"],
+            "minimumReleaseAge": "1 day"
+        },
+        {
+            "matchCategories": ["linting"],
+            "groupName": "linters"
+        },
+        {
+            "matchManagers": ["github-actions"],
             "groupName": "GitHub Actions"
         }
     ]
