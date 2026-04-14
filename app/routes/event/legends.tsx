@@ -1,4 +1,4 @@
-import { lazy, Suspense, useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { query, where, orderBy } from "firebase/firestore";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import { Share2, X } from "lucide-react";
@@ -12,8 +12,6 @@ import { ArticleCardHeader } from "@/components/ArticleCardHeader";
 import { timestampToDateStr } from "@/lib/date";
 import type { Event, Legend } from "@/lib/types";
 
-const ShareDialog = lazy(() => import("@/components/ShareDialog"));
-
 const LegendDialog = ({
   legend,
   eventId,
@@ -25,8 +23,6 @@ const LegendDialog = ({
   eventName: string;
   onClose: () => void;
 }) => {
-  const [shareOpen, setShareOpen] = useState(false);
-
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
@@ -72,22 +68,13 @@ const LegendDialog = ({
         </div>
         <div className="border-t border-primary/40 px-6 py-3">
           <button
-            onClick={() => setShareOpen(true)}
+            onClick={() => navigator.share({ title: `${eventName}: ${legend.title}`, url: shareUrl })}
             className="flex items-center gap-2 text-sm text-primary hover:text-primary/60"
           >
             <Share2 size={16} />
             Sdílet
           </button>
         </div>
-        <Suspense fallback={null}>
-          <ShareDialog
-            open={shareOpen}
-            onClose={() => setShareOpen(false)}
-            title={legend.title}
-            eventName={eventName}
-            url={shareUrl}
-          />
-        </Suspense>
       </div>
     </>
   );

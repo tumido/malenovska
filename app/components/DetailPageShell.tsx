@@ -1,11 +1,9 @@
-import { lazy, Suspense, useState, type ReactNode } from "react";
+import { type ReactNode } from "react";
 import { Link } from "react-router";
 import { useEvent } from "@/contexts/EventContext";
 import { PageHero } from "@/components/PageHero";
 import { Loading } from "@/components/Loading";
 import { Share2, ArrowLeft } from "lucide-react";
-
-const ShareDialog = lazy(() => import("@/components/ShareDialog"));
 
 interface DetailPageShellProps {
   title: string;
@@ -29,7 +27,6 @@ export const DetailPageShell = ({
   children,
 }: DetailPageShellProps) => {
   const event = useEvent();
-  const [shareOpen, setShareOpen] = useState(false);
 
   if (loading) {
     return (
@@ -72,7 +69,7 @@ export const DetailPageShell = ({
             {children()}
             <div className="mt-8 border-t border-primary/20 pt-4">
               <button
-                onClick={() => setShareOpen(true)}
+                onClick={() => navigator.share({ title: `${event.name}: ${shareTitle}`, url: window.location.href })}
                 className="flex items-center gap-2 text-sm text-primary hover:text-primary/60"
               >
                 <Share2 size={16} />
@@ -83,14 +80,6 @@ export const DetailPageShell = ({
         </div>
       </section>
 
-      <Suspense fallback={null}>
-        <ShareDialog
-          open={shareOpen}
-          onClose={() => setShareOpen(false)}
-          title={shareTitle}
-          eventName={event.name}
-        />
-      </Suspense>
     </>
   );
 };
