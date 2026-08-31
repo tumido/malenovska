@@ -26,6 +26,9 @@ approval_mode = "approve"
 [mcp_servers.playwright.tools.browser_click]
 approval_mode = "approve"
 
+[mcp_servers.playwright.tools.browser_fill_form]
+approval_mode = "approve"
+
 [mcp_servers.eslint]
 command = "npx"
 args = ["@eslint/mcp@latest"]

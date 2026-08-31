@@ -815,6 +815,29 @@ const formatDate = (date: unknown): string => {
   return String(date);
 };
 
+/** Format the event date for the email template preview. */
+const formatPreviewDate = (value: unknown): string => {
+  let date: Date | null = null;
+
+  if (value instanceof Date) {
+    date = value;
+  } else if (
+    typeof value === "object" &&
+    value !== null &&
+    "toDate" in value &&
+    typeof (value as { toDate?: unknown }).toDate === "function"
+  ) {
+    date = (value as { toDate: () => Date }).toDate();
+  } else if (typeof value === "string") {
+    const parsed = new Date(`${value}T00:00:00`);
+    if (!Number.isNaN(parsed.getTime())) date = parsed;
+  }
+
+  return date && !Number.isNaN(date.getTime())
+    ? date.toLocaleDateString("cs-CZ")
+    : "1. 6. 2026";
+};
+
 /** Email template variables reference */
 const EMAIL_VARIABLES = [
   { variable: "{{name}}", description: "Celé jméno účastníka" },
@@ -854,6 +877,7 @@ const EmailTab = ({
   const formName = watch("name");
   const formYear = watch("year");
   const formId = watch("id");
+  const formDate = watch("date");
 
   const sampleData: Record<string, string> = {
     name: "Mirek (Mirek) Dušín",
@@ -862,14 +886,14 @@ const EmailTab = ({
     age: "15",
     event: formName ?? "Malenovská",
     year: String(formYear ?? new Date().getFullYear()),
-    date: "1. 6. 2026",
+    date: formatPreviewDate(formDate),
     event_email: `${formId ?? "malenovska"}@malenovska.cz`,
     confirmation_url: `https://www.malenovska.cz/${formId ?? "malenovska"}/confirmation`,
   };
 
   const previewTransform = useCallback(
     (value: string) => substitutePreview(value, sampleData),
-    [formName, formYear, formId],
+    [formName, formYear, formId, formDate],
   );
 
   const emailInsertables: Insertable[] = EMAIL_VARIABLES.map(
