@@ -1,5 +1,5 @@
 import { onDocumentCreated, onDocumentUpdated, onDocumentWritten } from "firebase-functions/v2/firestore";
-import { onCall } from "firebase-functions/v2/https";
+import { HttpsError, onCall } from "firebase-functions/v2/https";
 import { defineSecret } from "firebase-functions/params";
 import { logger } from "firebase-functions";
 import { initializeApp } from "firebase-admin/app";
@@ -50,6 +50,10 @@ const fetchParticipantData = async (participantId: string, email: string, age: n
 
 const fetchEvent = async (eventId: string) => {
   const snap = await db.collection("events").doc(eventId).get();
+  if (!snap.exists) {
+    throw new HttpsError("not-found", "Událost nebyla nalezena.");
+  }
+
   const event = snap.data() as {
     name: string;
     year: number;
@@ -124,6 +128,87 @@ const sendRegistrationNotification = async ({
     html: rendered.html,
   });
 };
+
+export const sendTestEmail = onCall(
+  {
+    secrets: [GMAIL_CLIENT_ID, GMAIL_CLIENT_SECRET, GMAIL_REFRESH_TOKEN],
+  },
+  async (request) => {
+    if (!request.auth) {
+      throw new HttpsError("unauthenticated", "Pro odeslání testovacího e-mailu se přihlaste.");
+    }
+
+    if (request.auth.token.role !== "admin") {
+      throw new HttpsError("permission-denied", "Testovací e-mail mohou odesílat pouze administrátoři.");
+    }
+
+    const recipient = request.auth.token.email;
+    if (typeof recipient !== "string" || !recipient.trim()) {
+      throw new HttpsError("failed-precondition", "Přihlášený účet nemá e-mailovou adresu.");
+    }
+
+    const data = (request.data ?? {}) as Record<string, unknown>;
+    const eventId = data.eventId;
+    if (typeof eventId !== "string" || !eventId.trim()) {
+      throw new HttpsError("invalid-argument", "Chybí ID události.");
+    }
+
+    const eventData = await fetchEvent(eventId);
+    const testEvent = {
+      ...eventData,
+      name: typeof data.eventName === "string" ? data.eventName : eventData.name,
+      year:
+        typeof data.eventYear === "number" && Number.isFinite(data.eventYear)
+          ? data.eventYear
+          : eventData.year,
+      date: typeof data.eventDate === "string" ? data.eventDate : eventData.date,
+    };
+
+    const rendered = renderEmail(
+      testEvent,
+      {
+        fullName: "Mirek (Mirek) Dušín",
+        group: "Rychlé Šípy",
+        race: "Lidé",
+        age: 15,
+      },
+      {
+        subject:
+          typeof data.emailSubject === "string"
+            ? data.emailSubject
+            : eventData.emailSubject,
+        body: typeof data.emailBody === "string" ? data.emailBody : eventData.emailBody,
+        under18:
+          typeof data.emailUnder18 === "string"
+            ? data.emailUnder18
+            : eventData.emailUnder18,
+      },
+    );
+
+    if (!rendered) {
+      throw new HttpsError(
+        "failed-precondition",
+        "Před odesláním vyplňte předmět a tělo e-mailu.",
+      );
+    }
+
+    const recipientEmail = recipient.trim();
+    await sendMail({
+      clientId: GMAIL_CLIENT_ID.value(),
+      clientSecret: GMAIL_CLIENT_SECRET.value(),
+      refreshToken: GMAIL_REFRESH_TOKEN.value(),
+      from: "Malenovský krmelec <krmelec@malenovska.cz>",
+      to: recipientEmail,
+      replyTo: `${testEvent.name} <${testEvent.email}>`,
+      subject: rendered.subject,
+      text: rendered.text,
+      html: rendered.html,
+    });
+
+    logger.info("Test email sent", { event: testEvent.name, to: recipientEmail });
+    return { recipient: recipientEmail };
+  },
+);
 
 export const emailAttendee = onDocumentCreated(
   {

@@ -36,7 +36,9 @@ interface EventFormTabsProps {
   onSave: () => void;
   onCancel: () => void;
   onDelete?: () => void;
+  onTestEmail?: () => void | Promise<void>;
   saving?: boolean;
+  testingEmail?: boolean;
   title: string;
   isEdit?: boolean;
 }
@@ -48,7 +50,9 @@ const EventFormTabs = ({
   onSave,
   onCancel,
   onDelete,
+  onTestEmail,
   saving,
+  testingEmail,
   title,
   isEdit,
 }: EventFormTabsProps) => {
@@ -241,7 +245,9 @@ const EventFormTabs = ({
       onSubmit={onSave}
       onCancel={onCancel}
       onDelete={onDelete}
+      onTestEmail={onTestEmail}
       saving={saving}
+      testingEmail={testingEmail}
     />
   );
 };

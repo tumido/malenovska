@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { Trash2 } from "lucide-react";
+import { Mail, Trash2 } from "lucide-react";
 
 interface Tab {
   key: string;
@@ -14,10 +14,21 @@ interface FormLayoutProps {
   onSubmit: () => void;
   onCancel: () => void;
   onDelete?: () => void;
+  onTestEmail?: () => void | Promise<void>;
   saving?: boolean;
+  testingEmail?: boolean;
 }
 
-const FormLayout = ({ title, tabs, onSubmit, onCancel, onDelete, saving }: FormLayoutProps) => {
+const FormLayout = ({
+  title,
+  tabs,
+  onSubmit,
+  onCancel,
+  onDelete,
+  onTestEmail,
+  saving,
+  testingEmail,
+}: FormLayoutProps) => {
   const [activeTab, setActiveTab] = useState(tabs[0]?.key ?? "");
 
   return (
@@ -58,6 +69,17 @@ const FormLayout = ({ title, tabs, onSubmit, onCancel, onDelete, saving }: FormL
         >
           {saving ? "Ukládání…" : "Uložit"}
         </button>
+        {onTestEmail && (
+          <button
+            type="button"
+            onClick={onTestEmail}
+            disabled={saving || testingEmail}
+            className="inline-flex items-center gap-1.5 rounded border border-secondary px-4 py-2 text-sm font-medium text-secondary hover:bg-secondary/10 disabled:opacity-50 transition-colors"
+          >
+            <Mail className="h-4 w-4" />
+            {testingEmail ? "Odesílání…" : "Odeslat testovací e-mail"}
+          </button>
+        )}
         <button
           type="button"
           onClick={onCancel}

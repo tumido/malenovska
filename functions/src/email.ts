@@ -56,5 +56,6 @@ export const sendMail = async (options: SendMailOptions): Promise<void> => {
     logger.info("Email sent", { to: options.to, subject: options.subject });
   } catch (error) {
     logger.error("Failed to send email", { to: options.to, error });
+    throw error;
   }
 };
