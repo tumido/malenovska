@@ -22,7 +22,10 @@ service cloud.firestore {
       allow update, delete: if isAdmin();
 
       match /private/{private} {
-        allow create;
+        // Registration creates the parent and private document in one batch.
+        // Require the parent to exist after that batch so orphan private
+        // documents cannot trigger the notification function.
+        allow create: if existsAfter(/databases/$(database)/documents/participants/$(participant));
       	allow read: if isAdmin() || hasRole("staff");
         allow update, delete: if isAdmin();
       }

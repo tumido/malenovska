@@ -1,16 +1,71 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router";
+import { httpsCallable } from "firebase/functions";
 import { doc, query, where, type DocumentReference } from "firebase/firestore";
 import { useDocumentData, useCollectionData } from "@/lib/firestore-hooks";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { db, typedCollection } from "@/lib/firebase";
+import { db, functions, typedCollection } from "@/lib/firebase";
 import { updateDocument, fetchParticipantPrivate, removeParticipant } from "@/lib/admin-firestore";
 import FormLayout from "@/components/admin/FormLayout";
 import { InputField, ToggleField } from "@/components/admin/FormFields";
 import { RHFInput, RHFSelect } from "@/components/admin/RHFFields";
 import { participantSchema, type ParticipantFormValues } from "@/lib/schemas";
-import type { Event, Participant, Race } from "@/lib/types";
+import type {
+  Event,
+  Participant,
+  ParticipantNotification,
+  ParticipantPrivate,
+  Race,
+} from "@/lib/types";
+
+type RetryNotificationResponse = Pick<
+  ParticipantNotification,
+  "status" | "email" | "discord" | "error"
+>;
+
+const retryAttendeeNotification = httpsCallable<
+  { participantId: string },
+  RetryNotificationResponse
+>(functions, "retryAttendeeNotification");
+
+const notificationStatusLabels: Record<ParticipantNotification["status"], string> = {
+  pending: "Čeká na odeslání",
+  sent: "Odesláno",
+  partial: "Částečně odesláno",
+  failed: "Selhalo",
+  skipped: "Přeskočeno",
+};
+
+const channelStatusLabels: Record<ParticipantNotification["email"], string> = {
+  pending: "čeká",
+  sent: "odesláno",
+  failed: "selhalo",
+  skipped: "přeskočeno",
+};
+
+const notificationStatusClass = (status: ParticipantNotification["status"]) => {
+  if (status === "sent") return "text-green-400";
+  if (status === "partial") return "text-yellow-400";
+  if (status === "failed") return "text-red-400";
+  if (status === "skipped") return "text-gray-400";
+  return "text-yellow-400";
+};
+
+const formatDateTime = (value: unknown): string => {
+  if (
+    typeof value === "object" &&
+    value !== null &&
+    "toDate" in value &&
+    typeof (value as { toDate?: unknown }).toDate === "function"
+  ) {
+    const date = (value as { toDate: () => unknown }).toDate();
+    if (date instanceof Date && !Number.isNaN(date.getTime())) {
+      return date.toLocaleString("cs-CZ");
+    }
+  }
+  return "–";
+};
 
 const ParticipantEditPage = () => {
   const { id } = useParams();
@@ -18,8 +73,10 @@ const ParticipantEditPage = () => {
   const [participant, loading] = useDocumentData<Participant>(
     doc(db, "participants", id!) as DocumentReference<Participant>,
   );
-  const [privateData, setPrivateData] = useState<{ age?: number; email?: string } | null>(null);
+  const [privateData, setPrivateData] = useState<ParticipantPrivate | null>(null);
+  const [privateLoading, setPrivateLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [retryingNotification, setRetryingNotification] = useState(false);
 
   const { control, handleSubmit, reset, watch, setValue } = useForm<ParticipantFormValues>({
     resolver: zodResolver(participantSchema),
@@ -47,9 +104,25 @@ const ParticipantEditPage = () => {
   }, [participant, reset]);
 
   useEffect(() => {
-    if (id) {
-      fetchParticipantPrivate(id).then(setPrivateData);
-    }
+    if (!id) return;
+
+    let active = true;
+    setPrivateLoading(true);
+    fetchParticipantPrivate(id)
+      .then((data) => {
+        if (active) setPrivateData(data);
+      })
+      .catch((err) => {
+        console.error(err);
+        if (active) setPrivateData(null);
+      })
+      .finally(() => {
+        if (active) setPrivateLoading(false);
+      });
+
+    return () => {
+      active = false;
+    };
   }, [id]);
 
   const onValid = async (data: ParticipantFormValues) => {
@@ -75,6 +148,30 @@ const ParticipantEditPage = () => {
     } catch (err) {
       alert("Chyba při mazání");
       console.error(err);
+    }
+  };
+
+  const handleRetryNotification = async () => {
+    if (!id || !privateData?.email) return;
+    const firstName = watch("firstName");
+    const lastName = watch("lastName");
+    if (!confirm(`Znovu odeslat e-mail a oznámení pro „${firstName ?? ""} ${lastName ?? ""}"?`)) return;
+
+    setRetryingNotification(true);
+    try {
+      const response = await retryAttendeeNotification({ participantId: id });
+      const refreshed = await fetchParticipantPrivate(id);
+      setPrivateData(refreshed);
+
+      const result = response.data;
+      const details = result.error ? `\n${result.error}` : "";
+      alert(`Oznámení: ${notificationStatusLabels[result.status]}.${details}`);
+    } catch (err) {
+      const message = err instanceof Error && err.message ? `: ${err.message}` : "";
+      alert(`Chyba při opakovaném odesílání oznámení${message}`);
+      console.error(err);
+    } finally {
+      setRetryingNotification(false);
     }
   };
 
@@ -162,7 +259,9 @@ const ParticipantEditPage = () => {
           {/* Private data — read-only */}
           <div className="mt-6 rounded-lg border border-gray-700 bg-neutral-900 p-4">
             <h3 className="mb-3 text-sm font-semibold text-gray-400 uppercase tracking-wide">Soukromé údaje</h3>
-            {privateData ? (
+            {privateLoading ? (
+              <p className="text-sm text-gray-500">Načítání…</p>
+            ) : privateData ? (
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div>
                   <label className="block text-xs text-gray-500 mb-0.5">Věk</label>
@@ -175,6 +274,58 @@ const ParticipantEditPage = () => {
               </div>
             ) : (
               <p className="text-sm text-gray-500">Žádná soukromá data</p>
+            )}
+          </div>
+
+          <div className="mt-6 rounded-lg border border-gray-700 bg-neutral-900 p-4">
+            <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
+              <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wide">
+                Oznámení registrace
+              </h3>
+              <button
+                type="button"
+                onClick={handleRetryNotification}
+                disabled={privateLoading || !privateData?.email || retryingNotification}
+                className="rounded border border-secondary px-3 py-1.5 text-xs font-medium text-secondary hover:bg-secondary/10 disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                {retryingNotification ? "Odesílání…" : "Znovu odeslat oznámení"}
+              </button>
+            </div>
+
+            {privateData?.notification ? (
+              <div className="space-y-2 text-sm">
+                <div className="flex items-center justify-between gap-4">
+                  <span className="text-gray-500">Celkový stav</span>
+                  <span className={`font-medium ${notificationStatusClass(privateData.notification.status)}`}>
+                    {notificationStatusLabels[privateData.notification.status]}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between gap-4">
+                  <span className="text-gray-500">E-mail</span>
+                  <span className="text-primary-light">
+                    {channelStatusLabels[privateData.notification.email]}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between gap-4">
+                  <span className="text-gray-500">Discord</span>
+                  <span className="text-primary-light">
+                    {channelStatusLabels[privateData.notification.discord]}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between gap-4">
+                  <span className="text-gray-500">Poslední pokus</span>
+                  <span className="text-primary-light">
+                    {formatDateTime(privateData.notification.attemptedAt)}
+                  </span>
+                </div>
+                {privateData.notification.error && (
+                  <p className="rounded border border-red-900/50 bg-red-950/30 p-2 text-xs text-red-300">
+                    {privateData.notification.error}
+                  </p>
+                )}
+              </div>
+            ) : (
+              <p className="text-sm text-gray-500">Stav odeslání zatím není zaznamenán.</p>
             )}
           </div>
         </div>

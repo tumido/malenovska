@@ -9,7 +9,7 @@ import {
 } from "firebase/firestore";
 import { getStorage, connectStorageEmulator, ref, updateMetadata, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import app, { db, useEmulators } from "@/lib/firebase";
-import type { FirestoreImage } from "@/lib/types";
+import type { FirestoreImage, ParticipantPrivate } from "@/lib/types";
 
 const storage = getStorage(app);
 
@@ -84,10 +84,10 @@ export const removeParticipant = async (id: string) => {
 /** Fetch participant private subcollection data */
 export const fetchParticipantPrivate = async (
   participantId: string,
-): Promise<{ age?: number; email?: string } | null> => {
+): Promise<ParticipantPrivate | null> => {
   const snap = await getDoc(doc(db, "participants", participantId, "private", "_"));
   if (!snap.exists()) return null;
-  return snap.data() as { age?: number; email?: string };
+  return snap.data() as ParticipantPrivate;
 };
 
 /** Upload a file to Firebase Storage, returns download URL */

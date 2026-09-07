@@ -1,6 +1,12 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef } from "react";
 import { Link } from "react-router";
-import { doc, query, where, writeBatch, type DocumentReference } from "firebase/firestore";
+import {
+  doc,
+  query,
+  where,
+  writeBatch,
+  type DocumentReference,
+} from "firebase/firestore";
 import { useCollectionData, useDocumentData } from "@/lib/firestore-hooks";
 import { db, typedCollection } from "@/lib/firebase";
 import { useEvent } from "@/contexts/EventContext";
@@ -11,7 +17,14 @@ import { ArticleCardHeader } from "@/components/ArticleCardHeader";
 import { ColorBadge } from "@/components/ColorBadge";
 import { participantsForRace, getRaceById } from "@/lib/filters";
 import { validate } from "@/lib/validators";
-import { CheckCircle, XCircle, Check, ChevronRight, Users } from "lucide-react";
+import {
+  AlertTriangle,
+  CheckCircle,
+  XCircle,
+  Check,
+  ChevronRight,
+  Users,
+} from "lucide-react";
 import type { Config, Participant, Race } from "@/lib/types";
 
 interface FormData {
@@ -27,7 +40,59 @@ interface FormData {
   [key: string]: string | boolean;
 }
 
-type SubmitResult = { message: string; variant: "success" | "error" } | null;
+type SubmitResult = {
+  message: string;
+  variant: "success" | "error" | "warning";
+  uncertain?: boolean;
+} | null;
+
+const REGISTRATION_COMMIT_TIMEOUT_MS = 15_000;
+
+class RegistrationCommitTimeoutError extends Error {
+  constructor() {
+    super("The registration result could not be verified in time");
+    this.name = "RegistrationCommitTimeoutError";
+  }
+}
+
+const commitWithTimeout = async (commit: Promise<void>): Promise<void> => {
+  let timer: ReturnType<typeof setTimeout> | undefined;
+
+  try {
+    await Promise.race([
+      commit,
+      new Promise<never>((_, reject) => {
+        timer = setTimeout(
+          () => reject(new RegistrationCommitTimeoutError()),
+          REGISTRATION_COMMIT_TIMEOUT_MS,
+        );
+      }),
+    ]);
+  } finally {
+    if (timer) clearTimeout(timer);
+  }
+};
+
+const extraGridSpanClasses = [
+  "",
+  "md:col-span-1",
+  "md:col-span-2",
+  "md:col-span-3",
+  "md:col-span-4",
+  "md:col-span-5",
+  "md:col-span-6",
+  "md:col-span-7",
+  "md:col-span-8",
+  "md:col-span-9",
+  "md:col-span-10",
+  "md:col-span-11",
+  "md:col-span-12",
+] as const;
+
+const extraGridSpanClass = (size?: number): string => {
+  const span = Number.isFinite(size) ? Math.round(size as number) : 12;
+  return extraGridSpanClasses[Math.min(12, Math.max(1, span))];
+};
 
 const SignupPage = () => {
   const event = useEvent();
@@ -46,6 +111,8 @@ const SignupPage = () => {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitted, setSubmitted] = useState(false);
   const [result, setResult] = useState<SubmitResult>(null);
+  const [submitting, setSubmitting] = useState(false);
+  const submittingRef = useRef(false);
 
   const [participants, pLoading] = useCollectionData(
     query(
@@ -93,48 +160,86 @@ const SignupPage = () => {
   };
 
   const handleSubmit = async () => {
+    if (submittingRef.current) return;
     if (!validateStep() || !races || !participants) return;
+
+    submittingRef.current = true;
+    setSubmitting(true);
     setSubmitted(true);
-    const race = getRaceById(races, formData.race);
-    if (race && participantsForRace(participants, race) >= race.limit) {
-      setResult({
-        message: "Někdo tě předběhl, limit pro stranu dosažen.",
-        variant: "error",
-      });
-      return;
-    }
-    const pk = `${event.id}:${formData.firstName}-${formData.nickName || ""}-${formData.lastName}`;
-    const batch = writeBatch(db);
-    batch.set(doc(db, "participants", pk), {
-      event: event.id,
-      race: formData.race,
-      firstName: formData.firstName,
-      lastName: formData.lastName,
-      nickName: formData.nickName,
-      group: formData.group,
-      note: formData.note,
-      createdate: new Date(),
-    });
-    batch.set(doc(db, "participants", pk, "private", "_"), {
-      age: parseInt(formData.age, 10),
-      email: formData.email,
-    });
     try {
-      await batch.commit();
+      const race = getRaceById(races, formData.race);
+      if (race && participantsForRace(participants, race) >= race.limit) {
+        setResult({
+          message: "Někdo tě předběhl, limit pro stranu dosažen.",
+          variant: "error",
+        });
+        return;
+      }
+
+      const pk = `${event.id}:${formData.firstName}-${formData.nickName || ""}-${formData.lastName}`;
+      const extraValues: Record<string, string | number | boolean | null> = {};
+      for (const extra of event.registrationExtras ?? []) {
+        const fieldId = extra.props?.id;
+        if (!fieldId || extra.type === "markdown") continue;
+
+        const value = formData[fieldId];
+        if (extra.type === "checkbox") {
+          extraValues[fieldId] = Boolean(value);
+        } else if (extra.type === "number") {
+          const numberValue = Number(value);
+          extraValues[fieldId] =
+            value === "" || !Number.isFinite(numberValue) ? null : numberValue;
+        } else {
+          extraValues[fieldId] = String(value ?? "");
+        }
+      }
+
+      const batch = writeBatch(db);
+      batch.set(doc(db, "participants", pk), {
+        ...extraValues,
+        event: event.id,
+        race: formData.race,
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        nickName: formData.nickName,
+        group: formData.group,
+        note: formData.note,
+        createdate: new Date(),
+      });
+      batch.set(doc(db, "participants", pk, "private", "_"), {
+        age: parseInt(formData.age, 10),
+        email: formData.email,
+      });
+
+      await commitWithTimeout(batch.commit());
       setResult({ message: "Registrace proběhla úspěšně", variant: "success" });
     } catch (e: unknown) {
+      console.error("Registration commit failed", e);
       const code = (e as { code?: string }).code;
-      setResult({
-        message:
-          code === "permission-denied"
-            ? "Tento účastník je již registrován"
-            : "Něco se nepovedlo, kontaktujte nás prosím",
-        variant: "error",
-      });
+      if (e instanceof RegistrationCommitTimeoutError) {
+        setResult({
+          message:
+            "Zkontroluj prosím seznam přihlášených účastníků, než registraci zkusíš odeslat znovu.",
+          variant: "warning",
+          uncertain: true,
+        });
+      } else {
+        setResult({
+          message:
+            code === "permission-denied"
+              ? "Tento účastník je již registrován"
+              : "Něco se nepovedlo, kontaktujte nás prosím",
+          variant: "error",
+        });
+      }
+    } finally {
+      setSubmitting(false);
     }
   };
 
   const handleReset = () => {
+    submittingRef.current = false;
+    setSubmitting(false);
     setSubmitted(false);
     setResult(null);
     setStep(0);
@@ -196,25 +301,56 @@ const SignupPage = () => {
                     </p>
                   </div>
                 </>
+              ) : result.variant === "warning" ? (
+                <>
+                  <div className="flex h-24 w-24 items-center justify-center rounded-full bg-yellow-50">
+                    <AlertTriangle size={64} className="text-yellow-600" />
+                  </div>
+                  <div className="mx-auto max-w-md rounded-lg border border-yellow-300 bg-yellow-50 p-4 text-center text-yellow-800">
+                    <h2 className="mb-2 font-display text-xl font-bold">
+                      Registraci se nepodařilo ověřit
+                    </h2>
+                    <p>
+                      V případě, že problém přetrvává, zkus jiný prohlížeč nebo
+                      vypnout AdBlock (může chybně blokovat odpovědi ze
+                      serveru).
+                    </p>
+                    <p>{result.message}</p>
+                  </div>
+                </>
               ) : (
                 <>
                   <div className="flex h-24 w-24 items-center justify-center rounded-full bg-red-50">
                     <XCircle size={64} className="text-red-500" />
                   </div>
+                  <p>
+                    V případě, že problém přetrvává, zkus jiný prohlížeč nebo
+                    vypnout AdBlock (může chybně blokovat odpovědi ze serveru).
+                  </p>
                   <div className="mx-auto max-w-md rounded-lg border border-red-200 bg-red-50 p-4 text-center text-red-700">
-                    Registrace nebyla provedena: {result.message}
+                    <h2 className="mb-2 font-display text-xl font-bold">
+                      Registrace nebyla provedena
+                    </h2>
+                    <p>
+                      V případě, že problém přetrvává, zkus jiný prohlížeč nebo
+                      vypnout AdBlock (může chybně blokovat odpovědi ze
+                      serveru).
+                    </p>
+                    <p>{result.message}</p>
                   </div>
                 </>
               )}
 
               {result && (
                 <div className="flex flex-wrap justify-center gap-3">
-                  <button
-                    onClick={handleReset}
-                    className="cursor-pointer rounded-lg border border-primary/10 px-6 py-3 text-sm transition-colors hover:bg-primary/5"
-                  >
-                    Nová registrace
-                  </button>
+                  {!result.uncertain && (
+                    <button
+                      onClick={handleReset}
+                      className="cursor-pointer rounded-lg border border-primary/10 px-6 py-3 text-sm transition-colors hover:bg-primary/5"
+                    >
+                      Nová registrace
+                    </button>
+                  )}
                   <Link
                     to={`/${event.id}/attendees`}
                     className="flex items-center gap-2 rounded-lg border border-primary/10 px-6 py-3 text-sm transition-colors hover:bg-primary/5"
@@ -222,16 +358,18 @@ const SignupPage = () => {
                     <Users size={16} />
                     Zobrazit přihlášené účastníky
                   </Link>
-                  {parseInt(formData.age, 10) < 18 && event.declaration && (
-                    <a
-                      href={event.declaration.src}
-                      target="_blank"
-                      rel="external"
-                      className="rounded-lg bg-secondary px-6 py-3 text-sm text-white transition-colors hover:bg-secondary-dark"
-                    >
-                      Potvrzení pro nezletilé
-                    </a>
-                  )}
+                  {result.variant === "success" &&
+                    parseInt(formData.age, 10) < 18 &&
+                    event.declaration && (
+                      <a
+                        href={event.declaration.src}
+                        target="_blank"
+                        rel="external"
+                        className="rounded-lg bg-secondary px-6 py-3 text-sm text-white transition-colors hover:bg-secondary-dark"
+                      >
+                        Potvrzení pro nezletilé
+                      </a>
+                    )}
                 </div>
               )}
 
@@ -502,29 +640,56 @@ const SignupPage = () => {
                   {event.registrationExtras &&
                     event.registrationExtras.length > 0 && (
                       <div className="mt-8 border-t border-primary/10 pt-8">
-                        {event.registrationExtras.map((extra, i) => {
-                          if (extra.type === "markdown")
-                            return (
-                              <div key={i} className="mb-4">
-                                <Markdown content={extra.content} />
-                              </div>
-                            );
-                          if (extra.type === "text" && extra.props)
-                            return (
-                              <div key={i} className="mb-4">
-                                <Input
-                                  label={extra.props.label ?? ""}
-                                  value={String(
-                                    formData[extra.props.id ?? ""] ?? "",
-                                  )}
-                                  onChange={(v) =>
-                                    updateField(extra.props!.id ?? "", v)
-                                  }
-                                />
-                              </div>
-                            );
-                          return null;
-                        })}
+                        <div className="grid grid-cols-1 gap-4 md:grid-cols-12">
+                          {event.registrationExtras.map((extra, i) => {
+                            const gridClass = extraGridSpanClass(extra.size);
+                            if (extra.type === "markdown")
+                              return (
+                                <div key={i} className={gridClass}>
+                                  <Markdown content={extra.content} />
+                                </div>
+                              );
+                            if (
+                              (extra.type === "text" ||
+                                extra.type === "number") &&
+                              extra.props?.id
+                            ) {
+                              const fieldId = extra.props.id;
+                              return (
+                                <div key={i} className={gridClass}>
+                                  <Input
+                                    label={extra.props.label ?? fieldId}
+                                    value={String(formData[fieldId] ?? "")}
+                                    onChange={(v) => updateField(fieldId, v)}
+                                    type={extra.type}
+                                  />
+                                </div>
+                              );
+                            }
+                            if (extra.type === "checkbox" && extra.props?.id) {
+                              const fieldId = extra.props.id;
+                              return (
+                                <label
+                                  key={i}
+                                  className={`${gridClass} flex cursor-pointer items-center gap-3`}
+                                >
+                                  <input
+                                    type="checkbox"
+                                    checked={Boolean(formData[fieldId])}
+                                    onChange={(e) =>
+                                      updateField(fieldId, e.target.checked)
+                                    }
+                                    className="h-5 w-5 accent-secondary"
+                                  />
+                                  <span className="text-sm font-medium">
+                                    {extra.props.label ?? fieldId}
+                                  </span>
+                                </label>
+                              );
+                            }
+                            return null;
+                          })}
+                        </div>
                       </div>
                     )}
 
@@ -586,9 +751,10 @@ const SignupPage = () => {
               ) : (
                 <button
                   onClick={handleSubmit}
-                  className="cursor-pointer rounded-lg bg-secondary px-8 py-2.5 text-sm font-medium text-white transition-colors hover:bg-secondary-dark"
+                  disabled={submitting}
+                  className="cursor-pointer rounded-lg bg-secondary px-8 py-2.5 text-sm font-medium text-white transition-colors hover:bg-secondary-dark disabled:cursor-wait disabled:opacity-60"
                 >
-                  Odeslat
+                  {submitting ? "Odesílání…" : "Odeslat"}
                 </button>
               )}
             </div>

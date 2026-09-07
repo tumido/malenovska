@@ -128,9 +128,22 @@ export interface Participant {
   [key: string]: unknown;
 }
 
+export type NotificationChannelStatus = "pending" | "sent" | "failed" | "skipped";
+export type NotificationStatus = "pending" | "sent" | "partial" | "failed" | "skipped";
+
+export interface ParticipantNotification {
+  status: NotificationStatus;
+  email: NotificationChannelStatus;
+  discord: NotificationChannelStatus;
+  attemptedAt?: Timestamp;
+  completedAt?: Timestamp;
+  error?: string;
+}
+
 export interface ParticipantPrivate {
-  age: number;
-  email: string;
+  age?: number;
+  email?: string;
+  notification?: ParticipantNotification;
 }
 
 export interface Gallery {
