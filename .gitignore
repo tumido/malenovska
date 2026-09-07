@@ -37,3 +37,5 @@ assets/images/background_backup.jpg
 
 
 .playwright-mcp/
+
+firebase-export-*/
